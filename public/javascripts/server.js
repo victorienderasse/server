@@ -9,8 +9,10 @@ module.exports = function(socket, io, connection) {
     //Client connected
     socket.on('client', function (data) {
         console.log('client connecté');
-        client = socket.id;
-        console.log(client);
+        var sendCamera = 'SELECT * FROM camera WHERE enable = 1';
+        connection.query(sendCamera, function (err,rows) {
+           socket.emit('sendCamera', rows);
+        });
     });
 
 
@@ -54,6 +56,7 @@ module.exports = function(socket, io, connection) {
 
     socket.on('disconnect', function(){
         console.log('disconnected');
+        //check client or camera disconnected
         var disconnection = 'SELECT cameraID FROM camera WHERE socketID = "'+ socket.id+'"';
         connection.query(disconnection, function(err, rows){
            if(rows.length > 0){
