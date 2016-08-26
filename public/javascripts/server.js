@@ -54,6 +54,10 @@ module.exports = function(socket, io, connection) {
 
     });
 
+    socket.on('disconnect', function(){
+       console.log('disconnected');
+    });
+
 
     socket.on('setTimer', function(data) {
         //update database
