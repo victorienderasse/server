@@ -48,14 +48,23 @@ module.exports = function(socket, io, connection) {
                         console.log(err);
                     }
                 });
-
             }
         });
-
     });
 
     socket.on('disconnect', function(){
-       console.log('disconnected');
+        console.log('disconnected');
+        var disconnection = 'SELECT cameraID FROM camera WHERE socketID = "'+ socket.id+'"';
+        connection.query(disconnection, function(err, rows){
+           if(rows.length > 0){
+               var disable = 'UPDATE camera SET enable = 0, state = 0 WHERE socketID = "'+socket.id+'"';
+               connection.query(disable, function (err) {
+                  if(err){
+                      console.log('disable error : '+err);
+                  }
+               });
+           }
+        });
     });
 
 
