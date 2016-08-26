@@ -32,7 +32,7 @@ module.exports = function(socket, io, connection) {
             console.log('rows.length : '+rows.length);
             if(rows.length > 0){
                 console.log('camera exist');
-                var alter = 'UPDATE camera SET socketID="'+socket.id+'" WHERE cameraID = '+rows[0].cameraI$
+                var alter = 'UPDATE camera SET socketID="'+socket.id+'" , enable = 1 WHERE cameraID = '+rows[0].cameraID;
                 console.log(alter);
                 connection.query(alter, function(err){
                     if(err){
