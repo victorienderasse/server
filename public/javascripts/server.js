@@ -79,6 +79,16 @@ module.exports = function(socket, io, connection) {
     });
 
 
+    socket.on('changeCameraName', function(data){
+        const changeName = 'UPDATE camera SET name = "'data.name'" WHERE cameraID = "'data.cameraID'"';
+        connection.query(changeName, function(err){
+            if(err){
+                console.log('error : '+err);
+            }
+        })
+    });
+
+
 //Functions-------------------------------------------------
     /*
     function addUser(data) {
