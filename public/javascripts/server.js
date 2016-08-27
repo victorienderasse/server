@@ -73,7 +73,7 @@ module.exports = function(socket, io, connection) {
 
     socket.on('setTimer', function(data) {
         //update database
-        console.log(data.cameraID);
+        console.log('camera id :'+data.cameraID);
         //send camera
         //io.emit('timer',data);
     });
