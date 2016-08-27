@@ -15,23 +15,12 @@ module.exports = function(socket, io, connection) {
         });
     });
 
-
-    //Reception from sign in form
-    /*
-    socket.on('sendSignin', function (data) {
-        console.log('data received');
-        addUser(data);
-    });
-    */
-
-
     //Camera connected
     socket.on('camera', function (serial) {
-        console.log('camera connecté : '+ serial);
+        console.log('camera connecté');
 
         //check camera exist
         connection.query('SELECT * FROM camera WHERE serial = ?', serial , function(err, rows, fields){
-            console.log('rows.length : '+rows.length);
             if(rows.length > 0){
                 console.log('camera exist');
                 var alter = 'UPDATE camera SET socketID="'+socket.id+'" , enable = 1 WHERE cameraID = '+rows[0].cameraID;
@@ -43,6 +32,7 @@ module.exports = function(socket, io, connection) {
                 });
 
             }else{
+                console.log('New camera');
                 var cameraName = "camera_"+serial;
                 var camera = {serial: serial, name: cameraName, socketID: socket.id};
                 connection.query('INSERT INTO camera SET ?', camera, function(err){
@@ -54,12 +44,14 @@ module.exports = function(socket, io, connection) {
         });
     });
 
+    //camera or client disconnected
     socket.on('disconnect', function(){
         console.log('disconnected');
         //check client or camera disconnected
         var disconnection = 'SELECT cameraID FROM camera WHERE socketID = "'+ socket.id+'"';
         connection.query(disconnection, function(err, rows){
            if(rows.length > 0){
+               //camera disconnected -> set enable to false and state to unused
                var disable = 'UPDATE camera SET enable = 0, state = 0 WHERE socketID = "'+socket.id+'"';
                connection.query(disable, function (err) {
                   if(err){
@@ -73,12 +65,23 @@ module.exports = function(socket, io, connection) {
 
     socket.on('setTimer', function(data) {
         //update database
-        console.log('camera id :'+data.cameraID);
-        //send camera
-        //io.emit('timer',data);
+        console.log('Set timer record');
+        const begin = (data.begin_hour*60)+data.begin_minute;
+        const end = (data.end_hour*60)+data.end_minute;
+        const addRecord = 'INSERT INTO record SET cameraID = '+data.cameraID+', begin = '+begin+', end = '+end+', frequency = "'+data.frequency+'", state = '+0;
+        connection.query(addRecord, function(err){
+            if(err){
+                console.log('error : '+err);
+            }else{
+                //send to camera
+                console.log('Send timer to camera');
+                //io.emit('timer',data);
+            }
+
+        });
     });
 
-
+    //change the camera's name
     socket.on('changeCameraName', function(data){
         const changeName = 'UPDATE camera SET name = "'+data.name+'" WHERE cameraID = "'+data.cameraID+'"';
         connection.query(changeName, function(err){
