@@ -82,7 +82,7 @@ module.exports = function(socket, io, connection) {
                         const socketID = rows[0].socketID;
                         io.to(socketID).emit('test', data.cameraID);
                     }
-                })
+                });
                 //io.emit('timer',data);
             }
 
