@@ -83,30 +83,15 @@ module.exports = function(socket, io, connection) {
                     connection.query(updateRecord, function (err) {
                         if (err) {
                             console.log(err);
+                        }else{
+                            addRecord({begin: begin, end: end, frequency: data.frequency, cameraID: data.cameraID});
                         }
                     });
+                }else{
+                    addRecord({begin: begin, end: end, frequency: data.frequency, cameraID: data.cameraID});
                 }
             }
         });
-        //add new record
-        const addRecord = 'INSERT INTO record SET cameraID = '+data.cameraID+', begin = '+begin+', end = '+end+', frequency = "'+data.frequency+'", state = 1';
-        connection.query(addRecord, function(err){
-            if(err){
-                console.log('error : '+err);
-            }else{
-                //get socketID of the camera
-                const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+data.cameraID;
-                connection.query(getSocketID, function(err, rows){
-                    if(err){
-                        console.log('error : '+err);
-                    }else{
-                        const socketID = rows[0].socketID;
-                        io.to(socketID).emit('timer', data);
-                    }
-                });
-            }
-        });
-
     });
 
 
@@ -123,41 +108,26 @@ module.exports = function(socket, io, connection) {
 
 
 //Functions-------------------------------------------------
-    /*
-    function addUser(data) {
-        const user = {name: data.name, surname: data.surname, email: data.email, password: data.password};
-        connection.connect(function (err) {
-            if (!err) {
-                //check Data
-                connection.query("SELECT email FROM user WHERE email = ?", data.email, function(err, rows, fields){
-                    if (rows.length > 0){
-                        //connection.end();
-                        socket.emit('msgError', 'Error - Email already in use');
+
+    function addRecord(data){
+        //add new record
+        const addRecord = 'INSERT INTO record SET cameraID = '+data.cameraID+', begin = '+data.begin+', end = '+data.end+', frequency = "'+data.frequency+'", state = 1';
+        connection.query(addRecord, function(err){
+            if(err){
+                console.log('error : '+err);
+            }else{
+                //get socketID of the camera
+                const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+data.cameraID;
+                connection.query(getSocketID, function(err, rows){
+                    if(err){
+                        console.log('error : '+err);
                     }else{
-                        if (data.password != data.passwordCheck) {
-                            //connection.end();
-                            socket.emit('msgError', 'Your passwords seems to be differents');
-                        }else {
-                            //Add Data
-                            console.log('connect to database');
-                            connection.query("INSERT INTO user SET ?", user, function (err) {
-                                //connection.end();
-                                if (!err) {
-                                    console.log('responde : OK');
-                                    socket.emit('redirect', 'http://localhost:8080/display');
-                                }else {
-                                    console.log('Error', err);
-                                    socket.emit('msgError', 'Error - ')
-                                }
-                            });
-                        }
+                        const socketID = rows[0].socketID;
+                        io.to(socketID).emit('timer', data);
                     }
                 });
-            } else {
-                console.log('error connecting database..', err);
             }
         });
-    };
-    */
+    }
 
 }
