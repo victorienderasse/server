@@ -73,9 +73,9 @@ module.exports = function(socket, io, connection) {
 
     socket.on('setTimer', function(data) {
         //update database
-        console.log(data.frequency)
+        console.log(data.cameraID);
         //send camera
-        io.emit('timer',data);
+        //io.emit('timer',data);
     });
 
 
@@ -85,6 +85,7 @@ module.exports = function(socket, io, connection) {
             if(err){
                 console.log('error : '+err);
             }
+            console.log('CameraName changed successfully');
         })
     });
 
