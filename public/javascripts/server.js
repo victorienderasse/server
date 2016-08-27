@@ -24,7 +24,6 @@ module.exports = function(socket, io, connection) {
             if(rows.length > 0){
                 console.log('camera exist');
                 var alter = 'UPDATE camera SET socketID="'+socket.id+'" , enable = 1 WHERE cameraID = '+rows[0].cameraID;
-                console.log(alter);
                 connection.query(alter, function(err){
                     if(err){
                         console.log(err);
@@ -75,6 +74,15 @@ module.exports = function(socket, io, connection) {
             }else{
                 //send to camera
                 console.log('Send timer to camera');
+                const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+data.cameraID;
+                connection.query(getSocketID, function (err, rows){
+                    if(err){
+                        console.log('error : '+err);
+                    }else{
+                        const socketID = rows[0].socketID;
+                        io.to(socketID).emit('test', data.cameraID);
+                    }
+                })
                 //io.emit('timer',data);
             }
 
