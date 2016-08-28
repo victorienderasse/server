@@ -109,11 +109,13 @@ module.exports = function(socket, io, connection) {
 
     //Send Record to client
     socket.on('getRecords', function(cameraID){
-       const getRecords = 'SELECT * FROM record WHERE cameraID = '+cameraID;
+        console.log('get record');
+        const getRecords = 'SELECT * FROM record WHERE cameraID = '+cameraID;
         connection.query(getRecords, function(err, rows){
             if(err){
                 console.log(err);
             }
+            console.log('send records');
             socket.emit('sendRecords', rows);
         });
     });
