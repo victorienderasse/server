@@ -67,8 +67,8 @@ module.exports = function(socket, io, connection) {
     //save record to db and send record to camera to process
     socket.on('setTimer', function(data) {
         console.log('Set timer record');
-        const begin = (data.begin_hour*60)+data.begin_minute;
-        const end = (data.end_hour*60)+data.end_minute;
+        const begin = parseInt(data.begin_hour*60)+parseInt(data.begin_minute);
+        const end = parseInt(data.end_hour*60)+parseInt(data.end_minute);
         //check if this camera has already a record
         console.log('check record exist');
         const checkRecordExist = 'SELECT * FROM record WHERE cameraID = '+data.cameraID+' AND state = 1';
