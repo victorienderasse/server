@@ -107,6 +107,18 @@ module.exports = function(socket, io, connection) {
     });
 
 
+    //Send Record to client
+    socket.on('getRecords', function(cameraID){
+       const getRecords = 'SELECT * FROM record WHERE cameraID = '+cameraID;
+        connection.query(getRecords, function(err, rows){
+            if(err){
+                console.log(err);
+            }
+            socket.emit('sendRecords', rows);
+        });
+    });
+
+
 //Functions-------------------------------------------------
 
     function addRecord(data){
@@ -123,6 +135,7 @@ module.exports = function(socket, io, connection) {
                         console.log('error : '+err);
                     }else{
                         const socketID = rows[0].socketID;
+                        io.to(socketID).emit('timer', data);
                         io.to(socketID).emit('timer', data);
                     }
                 });
