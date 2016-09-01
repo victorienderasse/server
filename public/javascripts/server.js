@@ -66,6 +66,7 @@ module.exports = function(socket, io, connection) {
 
     //save record to db and send record to camera to process
     socket.on('setTimer', function(data) {
+        console.log('begin hour = '+data.begin_hour);
         console.log('Set timer record');
         const begin = parseInt(data.begin_hour*60)+parseInt(data.begin_minute);
         const end = parseInt(data.end_hour*60)+parseInt(data.end_minute);
@@ -96,7 +97,7 @@ module.exports = function(socket, io, connection) {
                         console.log('get socket id MYSQL error : '+err);
                     }else{
                         const socketID = rows[0].socketID;
-                        io.to(socketID).emit('timer',{});
+                        io.to(socketID).emit('timer',{begin_Hour: data.begin_hour, begin_minute: data.begin_minute, end_hour: data.end_hour, end_minute: data.end_minute, frequency: data.frequency});
                     }
                 });
             }
