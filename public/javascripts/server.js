@@ -97,7 +97,7 @@ module.exports = function(socket, io, connection) {
                         console.log('get socket id MYSQL error : '+err);
                     }else{
                         const socketID = rows[0].socketID;
-                        io.to(socketID).emit('timer',{begin_Hour: data.begin_hour, begin_minute: data.begin_minute, end_hour: data.end_hour, end_minute: data.end_minute, frequency: data.frequency});
+                        io.to(socketID).emit('timer',data);
                     }
                 });
             }
