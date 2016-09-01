@@ -120,7 +120,42 @@ module.exports = function(socket, io, connection) {
     });
 
 
+    socket.on('deleteRecord', function(recordID){
+        const checkState = 'SELECT * FROM record WHERE recordID = '+recordID;
+        connection.query(checkState, function(err,rows){
+            if(err){
+                console.log('check state MYSQL error :'+err);
+            }else{
+                const deleteRecord = 'DELETE FROM record WHERE recordID = '+recordID;
+                connection.query(deleteRecord, function(err){
+                    if(err){
+                        console.log('delete record MYSQL error : '+err);
+                    }
+                });
+                if(rows[0].state == 1) {
+                    var socketID = getSocketID(rows[0].cameraID);
+                    io.to(socketID).emit('deleteRecord');
+                }
+            }
+        });
+    });
+
+
 //Functions-------------------------------------------------
+
+    function getSocketID(cameraID){
+        const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
+        connection.query(getSocketID, function(err,rows){
+            if(err){
+                console.log('get socket id mYSQL error : '+err);
+                return 0;
+            }else{
+                return rows[0].socketID;
+            }
+        });
+    }
+
+
 
     function addRecord(data){
         const begin = parseInt(data.begin_hour*60)+parseInt(data.begin_minute);
@@ -132,17 +167,13 @@ module.exports = function(socket, io, connection) {
                 console.log('error : '+err);
             }else{
                 //get socketID of the camera
-                const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+data.cameraID;
-                connection.query(getSocketID, function(err, rows){
-                    if(err){
-                        console.log('error : '+err);
-                    }else{
-                        const socketID = rows[0].socketID;
-                        io.to(socketID).emit('timer', data);
-                    }
-                });
+                var socketID = getSocketID(data.cameraID);
+                io.to(socketID).emit('timer', data);
             }
         });
     }
+
+
+
 
 };
