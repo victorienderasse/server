@@ -68,8 +68,6 @@ module.exports = function(socket, io, connection) {
     socket.on('setTimer', function(data) {
         console.log('begin hour = '+data.begin_hour);
         console.log('Set timer record');
-        const begin = parseInt(data.begin_hour*60)+parseInt(data.begin_minute);
-        const end = parseInt(data.end_hour*60)+parseInt(data.end_minute);
         //check if this camera has already a record
         console.log('check record exist');
         const checkRecordExist = 'SELECT * FROM record WHERE cameraID = '+data.cameraID+' AND state = 1';
@@ -85,21 +83,12 @@ module.exports = function(socket, io, connection) {
                         if (err) {
                             console.log(err);
                         }else{
-                            addRecord({begin: begin, end: end, frequency: data.frequency, cameraID: data.cameraID});
+                            addRecord(data);
                         }
                     });
                 }else{
-                    addRecord({begin: begin, end: end, frequency: data.frequency, cameraID: data.cameraID});
+                    addRecord(data);
                 }
-                const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+data.cameraID;
-                connection.query(getSocketID, function(err,rows){
-                    if(err){
-                        console.log('get socket id MYSQL error : '+err);
-                    }else{
-                        const socketID = rows[0].socketID;
-                        io.to(socketID).emit('timer',data);
-                    }
-                });
             }
         });
     });
@@ -134,8 +123,10 @@ module.exports = function(socket, io, connection) {
 //Functions-------------------------------------------------
 
     function addRecord(data){
+        const begin = parseInt(data.begin_hour*60)+parseInt(data.begin_minute);
+        const end = parseInt(data.end_hour*60)+parseInt(data.end_minute);
         //add new record
-        const addRecord = 'INSERT INTO record SET cameraID = '+data.cameraID+', begin = '+data.begin+', end = '+data.end+', frequency = "'+data.frequency+'", state = 1';
+        const addRecord = 'INSERT INTO record SET cameraID = '+data.cameraID+', begin = '+begin+', end = '+end+', frequency = "'+data.frequency+'", state = 1';
         connection.query(addRecord, function(err){
             if(err){
                 console.log('error : '+err);
@@ -147,7 +138,6 @@ module.exports = function(socket, io, connection) {
                         console.log('error : '+err);
                     }else{
                         const socketID = rows[0].socketID;
-                        io.to(socketID).emit('timer', data);
                         io.to(socketID).emit('timer', data);
                     }
                 });
