@@ -90,6 +90,15 @@ module.exports = function(socket, io, connection) {
                 }else{
                     addRecord({begin: begin, end: end, frequency: data.frequency, cameraID: data.cameraID});
                 }
+                const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+data.cameraID;
+                connection.query(getSocketID, function(err,rows){
+                    if(err){
+                        console.log('get socket id MYSQL error : '+err);
+                    }else{
+                        const socketID = rows[0].socketID;
+                        io.to(socketID).emit('timer',{});
+                    }
+                });
             }
         });
     });
@@ -145,4 +154,4 @@ module.exports = function(socket, io, connection) {
         });
     }
 
-}
+};
