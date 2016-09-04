@@ -149,9 +149,10 @@ module.exports = function(socket, io, connection) {
         const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
         connection.query(getSocketID, function(err,rows){
             if(err){
-                console.log('get socket id mYSQL error : '+err);
+                console.log('get socket id MYSQL error : '+err);
                 return 0;
             }else{
+                console.log('socketID = '+rows[0].socketID);
                 return rows[0].socketID;
             }
         });
