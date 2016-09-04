@@ -69,17 +69,15 @@ module.exports = function(socket, io, connection) {
         console.log('SetTimer function');
         //check if this camera has already a record
         console.log('check record exist');
-        console.log('cameraID : '+data.cameraID);
         const checkRecordExist = 'SELECT * FROM record WHERE cameraID = '+data.cameraID+' AND state = 1';
         connection.query(checkRecordExist, function(err, rows){
-            console.log('cameraID2 : '+data.cameraID);
             if(err){
                 console.log('error :'+err);
             }else{
                 if(rows.length>0) {
                     //update record
                     console.log('update record');
-                    const updateRecord = 'UPDATE record SET state = 0 WHERE cameraID = ' + data.cameraID + ' AND state = 1';
+                    const updateRecord = 'UPDATE record SET state = 0 WHERE cameraID = ' + rows[0].cameraID + ' AND state = 1';
                     connection.query(updateRecord, function (err) {
                         if (err) {
                             console.log(err);
