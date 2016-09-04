@@ -139,7 +139,6 @@ module.exports = function(socket, io, connection) {
                         if(err){
                             console.log('get socket id MYSQL error : '+err);
                         }else{
-                            console.log('socketID :'+socketID);
                             io.to(rows[0].socketID).emit('deleteRecord');
                         }
                     });
