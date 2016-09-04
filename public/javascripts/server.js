@@ -162,7 +162,7 @@ module.exports = function(socket, io, connection) {
             if(err){
                 console.log('error : '+err);
             }else{
-                //get socketID of the camera
+                //get socketID and name of the camera
                 console.log('get socket ID');
                 const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+data.cameraID;
                 connection.query(getSocketID, function(err,rows){
@@ -170,7 +170,7 @@ module.exports = function(socket, io, connection) {
                         console.log('get socket id MYSQL error : '+err);
                     }else{
                         console.log('send timer event to camera');
-                        io.to(rows[0].socketID).emit('timer', data);
+                        io.to(rows[0].socketID).emit('timer', {begin_hour: data.begin_hour, begin_minute: data.begin_minute, end_hour: data.end_hour, end_minute: data.end_minute, frequency: data.frequency, cameraName: rows[0].name});
                     }
                 });
             }
