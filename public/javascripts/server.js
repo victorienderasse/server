@@ -82,10 +82,12 @@ module.exports = function(socket, io, connection) {
                         if (err) {
                             console.log(err);
                         }else{
+                            console.log('update done');
                             addRecord(data);
                         }
                     });
                 }else{
+                    console.log('no update needed');
                     addRecord(data);
                 }
             }
@@ -152,20 +154,24 @@ module.exports = function(socket, io, connection) {
 
 
     function addRecord(data){
+        console.log('addRecord function');
         const begin = parseInt(data.begin_hour*60)+parseInt(data.begin_minute);
         const end = parseInt(data.end_hour*60)+parseInt(data.end_minute);
         //add new record
+        console.log('add record mysql');
         const addRecord = 'INSERT INTO record SET cameraID = '+data.cameraID+', begin = '+begin+', end = '+end+', frequency = "'+data.frequency+'", state = 1';
         connection.query(addRecord, function(err){
             if(err){
                 console.log('error : '+err);
             }else{
                 //get socketID of the camera
+                console.log('get socket ID');
                 const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
                 connection.query(getSocketID, function(err,rows){
                     if(err){
                         console.log('get socket id MYSQL error : '+err);
                     }else{
+                        console.log('send timer event to camera');
                         io.to(rows[0].socketID).emit('timer', data);
                     }
                 });
