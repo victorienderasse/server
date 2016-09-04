@@ -157,7 +157,7 @@ module.exports = function(socket, io, connection) {
             if(err){
                 console.log('get old record MYSQL error : '+err);
             }else{
-                if(rows[0].length>0){
+                if(rows.length>0){
                     socket.emit('setOldRecord',rows[0].recordID);
                     //set old main record state to 0
                     console.log('set old main record state to 0');
