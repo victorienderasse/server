@@ -166,7 +166,7 @@ module.exports = function(socket, io, connection) {
             }else{
                 //get socketID of the camera
                 console.log('get socket ID');
-                const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
+                const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+data.cameraID;
                 connection.query(getSocketID, function(err,rows){
                     if(err){
                         console.log('get socket id MYSQL error : '+err);
