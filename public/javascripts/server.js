@@ -66,9 +66,8 @@ module.exports = function(socket, io, connection) {
 
     //save record to db and send record to camera to process
     socket.on('setTimer', function(data) {
-        console.log('SetTimer function');
+        console.log('SetTimer event');
         //check if this camera has already a record
-        console.log('check record exist');
         const checkRecordExist = 'SELECT * FROM record WHERE cameraID = '+data.cameraID+' AND state = 1';
         connection.query(checkRecordExist, function(err, rows){
             if(err){
@@ -76,18 +75,15 @@ module.exports = function(socket, io, connection) {
             }else{
                 if(rows.length>0) {
                     //update record
-                    console.log('update record');
                     const updateRecord = 'UPDATE record SET state = 0 WHERE recordID = ' + rows[0].recordID;
                     connection.query(updateRecord, function (err) {
                         if (err) {
                             console.log(err);
                         }else{
-                            console.log('update done');
                             addRecord(data);
                         }
                     });
                 }else{
-                    console.log('no update needed');
                     addRecord(data);
                 }
             }
@@ -97,31 +93,31 @@ module.exports = function(socket, io, connection) {
 
     //change the camera's name
     socket.on('changeCameraName', function(data){
+        console.log('changeCameraName event');
         const changeName = 'UPDATE camera SET name = "'+data.name+'" WHERE cameraID = "'+data.cameraID+'"';
         connection.query(changeName, function(err){
             if(err){
                 console.log('error : '+err);
             }
-            console.log('CameraName changed successfully');
         })
     });
 
 
     //Send Record to client
     socket.on('getRecords', function(cameraID){
-        console.log('get record');
+        console.log('getRecords event');
         const getRecords = 'SELECT * FROM record WHERE cameraID = '+cameraID;
         connection.query(getRecords, function(err, rows){
             if(err){
                 console.log(err);
             }
-            console.log('send records');
             socket.emit('sendRecords', rows);
         });
     });
 
 
     socket.on('deleteRecord', function(recordID){
+        console.log('deleteRecord event');
         const checkState = 'SELECT * FROM record WHERE recordID = '+recordID;
         connection.query(checkState, function(err,rows){
             if(err){
@@ -151,7 +147,6 @@ module.exports = function(socket, io, connection) {
     socket.on('applyRecord', function(recordID){
         console.log('applyRecord event');
         //set old record to client
-        console.log('set old record to client');
         const getOldRecord = 'SELECT * FROM record WHERE state = 1 AND cameraID = (SELECT cameraID FROM (SELECT cameraID FROM record WHERE recordID ='+recordID+') AS tpm)';
         connection.query(getOldRecord, function(err,rows){
             if(err){
@@ -161,21 +156,18 @@ module.exports = function(socket, io, connection) {
                     socket.emit('setOldRecord', rows[0].recordID);
                 }
                 //set old main record state to 0
-                console.log('set old main record state to 0');
                 const oldRecord = 'UPDATE record SET state =0 WHERE state =1 AND cameraID = ( SELECT cameraID FROM (SELECT cameraID FROM record WHERE recordID ='+recordID+') AS tmp )';
                 connection.query(oldRecord, function (err) {
                     if(err){
                         console.log('update old record MYSQL error : '+err);
                     }else{
                         //set new main record state to 1
-                        console.log('set new main record state to 1');
                         const newRecord = 'UPDATE record SET state = 1 WHERE recordID = '+recordID;
                         connection.query(newRecord, function(err){
                             if(err){
                                 console.log('apply new record MYSQL error : '+err);
                             }else{
                                 //set record to camera
-                                console.log('set record to camera');
                                 const getDataRecord = 'SELECT * FROM record INNER JOIN camera ON record.cameraID = camera.cameraID WHERE recordID = '+recordID;
                                 connection.query(getDataRecord, function(err, rows){
                                     if(err){
@@ -205,20 +197,17 @@ module.exports = function(socket, io, connection) {
         const begin = parseInt(data.begin_hour*60)+parseInt(data.begin_minute);
         const end = parseInt(data.end_hour*60)+parseInt(data.end_minute);
         //add new record
-        console.log('add record mysql');
         const addRecord = 'INSERT INTO record SET cameraID = '+data.cameraID+', begin = '+begin+', end = '+end+', frequency = "'+data.frequency+'", state = 1';
         connection.query(addRecord, function(err){
             if(err){
                 console.log('error : '+err);
             }else{
                 //get socketID and name of the camera
-                console.log('get socket ID');
                 const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+data.cameraID;
                 connection.query(getSocketID, function(err,rows){
                     if(err){
                         console.log('get socket id MYSQL error : '+err);
                     }else{
-                        console.log('send timer event to camera');
                         io.to(rows[0].socketID).emit('timer', {begin_hour: data.begin_hour, begin_minute: data.begin_minute, end_hour: data.end_hour, end_minute: data.end_minute, frequency: data.frequency, cameraName: rows[0].name});
                     }
                 });
