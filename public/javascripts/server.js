@@ -171,6 +171,7 @@ module.exports = function(socket, io, connection) {
             }else{
                 //get socketID of the camera
                 var socketID = getSocketID(data.cameraID);
+                console.log('socketID : '+socketID);
                 io.to(socketID).emit('timer', data);
             }
         });
