@@ -134,9 +134,15 @@ module.exports = function(socket, io, connection) {
                     }
                 });
                 if(rows[0].state == 1) {
-                    var socketID = getSocketID(rows[0].cameraID);
-                    console.log('socketID :'+socketID);
-                    io.to(socketID).emit('deleteRecord');
+                    const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
+                    connection.query(getSocketID, function(err,rows){
+                        if(err){
+                            console.log('get socket id MYSQL error : '+err);
+                        }else{
+                            console.log('socketID :'+socketID);
+                            io.to(rows[0].socketID).emit('deleteRecord');
+                        }
+                    });
                 }
             }
         });
@@ -144,20 +150,6 @@ module.exports = function(socket, io, connection) {
 
 
 //Functions-------------------------------------------------
-
-    function getSocketID(cameraID){
-        const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
-        connection.query(getSocketID, function(err,rows){
-            if(err){
-                console.log('get socket id MYSQL error : '+err);
-                return 0;
-            }else{
-                console.log('socketID = '+rows[0].socketID);
-                return rows[0].socketID;
-            }
-        });
-    }
-
 
 
     function addRecord(data){
@@ -170,9 +162,14 @@ module.exports = function(socket, io, connection) {
                 console.log('error : '+err);
             }else{
                 //get socketID of the camera
-                var socketID = getSocketID(data.cameraID);
-                console.log('socketID : '+socketID);
-                io.to(socketID).emit('timer', data);
+                const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
+                connection.query(getSocketID, function(err,rows){
+                    if(err){
+                        console.log('get socket id MYSQL error : '+err);
+                    }else{
+                        io.to(rows[0].socketID).emit('timer', data);
+                    }
+                });
             }
         });
     }
