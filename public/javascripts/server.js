@@ -124,7 +124,6 @@ module.exports = function(socket, io, connection) {
     socket.on('deleteRecord', function(recordID){
         const checkState = 'SELECT * FROM record WHERE recordID = '+recordID;
         connection.query(checkState, function(err,rows){
-            console.log('record ID :'+rows[0].recordID);
             if(err){
                 console.log('check state MYSQL error :'+err);
             }else{
@@ -135,7 +134,7 @@ module.exports = function(socket, io, connection) {
                     }
                 });
                 if(rows[0].state == 1) {
-                    const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
+                    const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+rows[0].cameraID;
                     connection.query(getSocketID, function(err,rows){
                         if(err){
                             console.log('get socket id MYSQL error : '+err);
