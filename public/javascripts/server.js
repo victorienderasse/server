@@ -200,7 +200,7 @@ module.exports = function(socket, io, connection, fs) {
                 console.log('getReplays error : '+err);
                 throw err;
             }
-            console.log('Nom fichier 1 : '+files[0]);
+            socket.emit('setReplays',files);
         })
     });
 
