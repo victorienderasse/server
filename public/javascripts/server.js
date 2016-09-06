@@ -2,7 +2,7 @@
  * Created by Victorien on 06-06-16.
  */
 
-module.exports = function(socket, io, connection) {
+module.exports = function(socket, io, connection, fs) {
 
 //Event-------------------------------------------
 
@@ -187,6 +187,20 @@ module.exports = function(socket, io, connection) {
             }
         });
     });
+
+
+    socket.on('getReplays', function(){
+        console.log('getReplays event');
+        fs.readdir('/home/TFE/replays', function(err, files){
+            if(err){
+                console.log('getReplays error : '+err);
+                throw err;
+            }
+            console.log('Nom fichier 1 : '+files[0]);
+        })
+    });
+
+
 
 
 //Functions-------------------------------------------------

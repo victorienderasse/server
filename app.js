@@ -4,6 +4,7 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const fs = require('fs');
 
 const http = require('http');
 const mysql = require('mysql');
@@ -92,6 +93,6 @@ const connection = mysql.createConnection({
 //Receive data from client
 io.sockets.on('connection', function(socket){
   
-  require('./public/javascripts/server.js')(socket, io, connection);
+  require('./public/javascripts/server.js')(socket, io, connection, fs);
 
 });
