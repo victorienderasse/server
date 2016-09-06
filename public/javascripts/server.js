@@ -195,7 +195,7 @@ module.exports = function(socket, io, connection, fs) {
 
     socket.on('getReplays', function(){
         console.log('getReplays event');
-        fs.readdir('/home/TFE/replays', function(err, files){
+        fs.readdir('/home/pi/TFE/replays', function(err, files){
             if(err){
                 console.log('getReplays error : '+err);
                 throw err;
