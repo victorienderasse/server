@@ -24,7 +24,7 @@ const server = http.createServer(app);
 
 
 server.listen(port, function(){
-  console.log('Server running');
+  console.log('Server running !');
 });
 
 const io = require('socket.io').listen(server);
