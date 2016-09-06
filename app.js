@@ -82,7 +82,7 @@ app.use(function(err, req, res, next) {
 //connection database
 
 const connection = mysql.createConnection({
-  host : '192.168.1.100',
+  host : 'localhost',
   user : 'root',
   password : 'tfepassword',
   database : 'TFE'
