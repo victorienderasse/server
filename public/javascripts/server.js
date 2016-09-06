@@ -22,6 +22,10 @@ module.exports = function(socket, io, connection, fs) {
 
         //check camera exist
         connection.query('SELECT * FROM camera WHERE serial = ?', serial , function(err, rows, fields){
+            if(err){
+                console.log('camera exist MYSQL error : '+err);
+                throw err;
+            }
             if(rows.length > 0){
                 console.log('camera exist');
                 var alter = 'UPDATE camera SET socketID="'+socket.id+'" , enable = 1 WHERE cameraID = '+rows[0].cameraID;
