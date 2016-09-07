@@ -220,16 +220,29 @@ module.exports = function(socket, io, connection, fs) {
                 console.log('get socket id MYSQL error : '+err);
                 throw err;
             }
-            //io.to(rows[0].socketID).emit('startDetection', rows[0].name);
+            io.to(rows[0].socketID).emit('startDetection', rows[0].name);
         });
     });
 
 
     socket.on('stopDetection', function(cameraID){
         console.log('stopDetection event');
+
         var event = 'stopDetection';
         var data = {cameraID: cameraID, processPID: 1218};
         sendToCamera(cameraID,event,data);
+    });
+
+
+    socket.on('setProcessPID', function(pid, name){
+        console.log('setProcessPID event');
+        const setPID = 'UPDATE camera SET process = '+pid+'WHERE name = '+name;
+        connection.query(setPID,function(err){
+            if(err){
+                console.log('setPID MYSQL error : '+err);
+                throw err;
+            }
+        });
     });
 
 
