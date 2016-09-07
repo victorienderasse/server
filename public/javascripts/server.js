@@ -205,6 +205,31 @@ module.exports = function(socket, io, connection, fs) {
     });
 
 
+    socket.on('startDetection', function(cameraID){
+        console.log('startDetection event');
+        const setStateRecord = 'UPDATE record SET state = 0 WHERE cameraID = '+cameraID+" AND state = 1";
+        connection.query(setStateRecord, function(err){
+            if(err){
+                console.log('set state record MYSQL error : '+err);
+                throw err;
+            }
+        });
+        const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
+        connection.query(getSocketID, function(err,rows){
+            if(err){
+                console.log('get socket id MYSQL error : '+err);
+                throw err;
+            }
+            io.to(rows[0].socketID).emit('startDetection', rows[0].name);
+        });
+    });
+
+
+    socket.on('stopDetection', function(cameraID){
+        console.log('stopDetection event');
+    });
+
+
 
 
 //Functions-------------------------------------------------
