@@ -220,13 +220,16 @@ module.exports = function(socket, io, connection, fs) {
                 console.log('get socket id MYSQL error : '+err);
                 throw err;
             }
-            io.to(rows[0].socketID).emit('startDetection', rows[0].name);
+            //io.to(rows[0].socketID).emit('startDetection', rows[0].name);
         });
     });
 
 
     socket.on('stopDetection', function(cameraID){
         console.log('stopDetection event');
+        var event = 'stopDetection';
+        var data = {cameraID: cameraID, processPID: 1218};
+        sendToCamera(cameraID,event,data);
     });
 
 
@@ -255,6 +258,14 @@ module.exports = function(socket, io, connection, fs) {
                     }
                 });
             }
+        });
+    }
+
+
+    function sendToCamera(cameraID, event, data){
+        const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
+        connection.query(getSocketID, function(err,rows){
+            io.to(rows[0].socketID).emit(event, data);
         });
     }
 
