@@ -235,7 +235,7 @@ module.exports = function(socket, io, connection, fs) {
             const event = 'stopDetection';
             const data = {cameraID: cameraID, processPID: rows[0].process};
             sendToCamera(cameraID,event,data);
-            const setProcessTo0 = 'UPDATE camera SET process = 0 WHERE camera = '+cameraID;
+            const setProcessTo0 = 'UPDATE camera SET process = 0 WHERE cameraID = '+cameraID;
             connection.query(setProcessTo0, function(err){
                 if(err){
                     throw err;
