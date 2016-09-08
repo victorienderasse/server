@@ -227,10 +227,21 @@ module.exports = function(socket, io, connection, fs) {
 
     socket.on('stopDetection', function(cameraID){
         console.log('stopDetection event');
-
-        var event = 'stopDetection';
-        var data = {cameraID: cameraID, processPID: 1218};
-        sendToCamera(cameraID,event,data);
+        const getPID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
+        connection.query(getPID, function(err,rows){
+            if(err){
+                throw err;
+            }
+            const event = 'stopDetection';
+            const data = {cameraID: cameraID, processPID: rows[0].process};
+            sendToCamera(cameraID,event,data);
+            const setProcessTo0 = 'UPDATE camera SET process = 0 WHERE camera = '+cameraID;
+            connection.query(setProcessTo0, function(err){
+                if(err){
+                    throw err;
+                }
+            });
+        });
     });
 
 
