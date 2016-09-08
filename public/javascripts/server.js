@@ -247,6 +247,7 @@ module.exports = function(socket, io, connection, fs) {
 
     socket.on('setProcessPID', function(data){
         console.log('setProcessPID event');
+        console.log('pid = '+data.pid+' et cameraName = '+data.cameraName);
         const setPID = 'UPDATE camera SET process = '+data.pid+' WHERE name = "'+data.cameraName+'"';
         connection.query(setPID,function(err){
             if(err){
