@@ -57,7 +57,7 @@ module.exports = function(socket, io, connection, fs) {
         connection.query(disconnection, function(err, rows){
            if(rows.length > 0){
                //camera disconnected -> set enable to false and state to unused
-               var disable = 'UPDATE camera SET enable = 0, state = 0 WHERE socketID = "'+socket.id+'"';
+               var disable = 'UPDATE camera SET enable = 0 WHERE socketID = "'+socket.id+'"';
                connection.query(disable, function (err) {
                   if(err){
                       console.log('disable error : '+err);
