@@ -207,6 +207,7 @@ module.exports = function(socket, io, connection, fs) {
 
     socket.on('startDetection', function(cameraID){
         console.log('startDetection event');
+        //update db
         const setStateRecord = 'UPDATE record SET state = 0 WHERE cameraID = '+cameraID+" AND state = 1";
         connection.query(setStateRecord, function(err){
             if(err){
@@ -214,6 +215,7 @@ module.exports = function(socket, io, connection, fs) {
                 throw err;
             }
         });
+        //send to camera
         const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
         connection.query(getSocketID, function(err,rows){
             if(err){
