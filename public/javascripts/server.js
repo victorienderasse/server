@@ -237,12 +237,7 @@ module.exports = function(socket, io, connection, fs) {
             const event = 'stopDetection';
             const data = {cameraID: cameraID, processPID: rows[0].process};
             sendToCamera(cameraID,event,data);
-            const setProcessTo0 = 'UPDATE camera SET process = 0 WHERE cameraID = '+cameraID;
-            connection.query(setProcessTo0, function(err){
-                if(err){
-                    throw err;
-                }
-            });
+            setProcessTo0(cameraID);
         });
     });
 
@@ -262,6 +257,19 @@ module.exports = function(socket, io, connection, fs) {
     socket.on('startStream', function(cameraID){
         console.log('startStream event');
         sendToCamera(cameraID, 'startStream', cameraID);
+    });
+
+
+    socket.on('stopStream', function(cameraID){
+        console.log('stopStream event');
+        const getPID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
+        connection.query(getPID, function(err, rows){
+            if(err){
+                throw err;
+            }
+            sendToCamera(cameraID, 'stopStream', {cameraID: cameraID, processPID: rows[0].process);
+            setProcessTo0(cameraID);
+        });
     });
 
 
@@ -298,6 +306,17 @@ module.exports = function(socket, io, connection, fs) {
         const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
         connection.query(getSocketID, function(err,rows){
             io.to(rows[0].socketID).emit(event, data);
+        });
+    }
+
+
+    function setProcessTo0(cameraID){
+        console.log('setProcessTo0 function');
+        const setProcessTo0 = 'UPDATE camera SET process = 0 WHERE cameraID = '+cameraID;
+        connection.query(setProcessTo0, function(err){
+            if(err){
+                throw err;
+            }
         });
     }
 
