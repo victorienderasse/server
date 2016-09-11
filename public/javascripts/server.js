@@ -260,6 +260,7 @@ module.exports = function(socket, io, connection, fs) {
 
 
     socket.on('startStream', function(cameraID){
+        console.log('startStream event');
         sendToCamera(cameraID, 'startStream', cameraID);
     });
 
@@ -293,6 +294,7 @@ module.exports = function(socket, io, connection, fs) {
 
 
     function sendToCamera(cameraID, event, data){
+        console.log('sendToCamera function');
         const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
         connection.query(getSocketID, function(err,rows){
             io.to(rows[0].socketID).emit(event, data);
