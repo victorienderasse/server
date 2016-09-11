@@ -222,7 +222,7 @@ module.exports = function(socket, io, connection, fs) {
                 console.log('get socket id MYSQL error : '+err);
                 throw err;
             }
-            io.to(rows[0].socketID).emit('startDetection', rows[0].name);
+            io.to(rows[0].socketID).emit('startDetection', {cameraName: rows[0].name, cameraID: cameraID});
         });
     });
 
@@ -249,8 +249,8 @@ module.exports = function(socket, io, connection, fs) {
 
     socket.on('setProcessPID', function(data){
         console.log('setProcessPID event');
-        console.log('pid = '+data.pid+' et cameraName = '+data.cameraName);
-        const setPID = 'UPDATE camera SET process = '+data.pid+' WHERE name = "'+data.cameraName+'"';
+        console.log('pid = '+data.pid+' et cameraID = '+data.cameraID);
+        const setPID = 'UPDATE camera SET process = '+data.pid+' WHERE cameraID = "'+data.cameraID+'"';
         connection.query(setPID,function(err){
             if(err){
                 throw err;
@@ -258,6 +258,10 @@ module.exports = function(socket, io, connection, fs) {
         });
     });
 
+
+    socket.on('startStream', function(cameraID){
+        sendToCamera(cameraID, 'startStream', cameraID);
+    });
 
 
 
