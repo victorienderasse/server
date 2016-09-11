@@ -267,7 +267,7 @@ module.exports = function(socket, io, connection, fs) {
             if(err){
                 throw err;
             }
-            sendToCamera(cameraID, 'stopStream', {cameraID: cameraID, processPID: rows[0].process);
+            sendToCamera(cameraID, 'stopStream', {cameraID: cameraID, processPID: rows[0].process});
             setProcessTo0(cameraID);
         });
     });
