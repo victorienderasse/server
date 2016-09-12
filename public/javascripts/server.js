@@ -218,6 +218,14 @@ module.exports = function(socket, io, connection, fs) {
         //send to camera
         setState(cameraID, 1);
         sendToCamera(cameraID, 'startDetection', {cameraName: rows[0].name, cameraID: cameraID});
+        const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
+        connection.query(getSocketID, function(err,rows){
+            if(err){
+                console.log('get socket id MYSQL error : '+err);
+                throw err;
+            }
+            io.to(rows[0].socketID).emit('startDetection', {cameraName: rows[0].name, cameraID: cameraID});
+        });
     });
 
 
@@ -230,7 +238,6 @@ module.exports = function(socket, io, connection, fs) {
             }
             const event = 'stopDetection';
             const data = {cameraID: cameraID, processPID: rows[0].process};
-            setState(cameraID, 0);
             sendToCamera(cameraID,event,data);
             setProcessTo0(cameraID);
         });
@@ -319,7 +326,6 @@ module.exports = function(socket, io, connection, fs) {
 
 
     function setState(cameraID, state){
-        console.log('setState function');
         const setState = 'UPDATE camera SET state = '+state+' WHERE cameraID = '+cameraID;
         connection.query(setState, function(err){
             if(err){
