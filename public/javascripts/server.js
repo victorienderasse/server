@@ -217,7 +217,6 @@ module.exports = function(socket, io, connection, fs) {
         });
         //send to camera
         setState(cameraID, 1);
-        sendToCamera(cameraID, 'startDetection', {cameraName: rows[0].name, cameraID: cameraID});
         const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
         connection.query(getSocketID, function(err,rows){
             if(err){
