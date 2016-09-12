@@ -239,6 +239,7 @@ module.exports = function(socket, io, connection, fs) {
             const data = {cameraID: cameraID, processPID: rows[0].process};
             sendToCamera(cameraID,event,data);
             setProcessTo0(cameraID);
+            setState(cameraID, 0);
         });
     });
 
@@ -325,6 +326,7 @@ module.exports = function(socket, io, connection, fs) {
 
 
     function setState(cameraID, state){
+        console.log('setState function');
         const setState = 'UPDATE camera SET state = '+state+' WHERE cameraID = '+cameraID;
         connection.query(setState, function(err){
             if(err){
