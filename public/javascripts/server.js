@@ -74,7 +74,7 @@ module.exports = function(socket, io, connection, fs) {
     socket.on('setTimer', function(data) {
         console.log('SetTimer event');
         //update record
-        const updateRecord = 'UPDATE record SET state = 0 WHERE recordID = ' + data.cameraID+' AND state = 1';
+        const updateRecord = 'UPDATE record SET state = 0 WHERE cameraID = ' + data.cameraID+' AND state = 1';
         connection.query(updateRecord, function (err) {
             if (err) {
                 throw err;
@@ -266,17 +266,6 @@ module.exports = function(socket, io, connection, fs) {
         const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
         connection.query(getSocketID, function(err,rows){
             io.to(rows[0].socketID).emit(event, data);
-        });
-    }
-
-
-    function setProcessTo0(cameraID){
-        console.log('setProcessTo0 function');
-        const setProcessTo0 = 'UPDATE camera SET process = 0 WHERE cameraID = '+cameraID;
-        connection.query(setProcessTo0, function(err){
-            if(err){
-                throw err;
-            }
         });
     }
 
