@@ -114,23 +114,19 @@ module.exports = function(socket, io, connection, fs) {
         const checkState = 'SELECT * FROM record WHERE recordID = '+recordID;
         connection.query(checkState, function(err,rows){
             if(err){
-                console.log('check state MYSQL error :'+err);
-            }else{
-                const deleteRecord = 'DELETE FROM record WHERE recordID = '+recordID;
-                connection.query(deleteRecord, function(err){
-                    if(err){
-                        console.log('delete record MYSQL error : '+err);
-                    }
-                });
-                if(rows[0].state == 1) {
-                    const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+rows[0].cameraID;
-                    connection.query(getSocketID, function(err,rows){
-                        if(err){
-                            console.log('get socket id MYSQL error : '+err);
-                        }else{
-                            io.to(rows[0].socketID).emit('deleteRecord');
-                        }
-                    });
+                throw err;
+            }
+            const deleteRecord = 'DELETE FROM record WHERE recordID = '+recordID;
+            connection.query(deleteRecord, function(err){
+                if(err){
+                    throw err;
+                }
+            });
+            if(rows[0].state == 1) {
+                if(rows[0].type == 'record'){
+                    sendToCamera(rows[0].cameraID, 'deleteRecord', null);
+                }else{
+                    sendToCamera(rows[0].cameraID, 'deleteDetection', null);
                 }
             }
         });
