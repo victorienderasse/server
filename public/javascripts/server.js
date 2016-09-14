@@ -238,6 +238,7 @@ module.exports = function(socket, io, connection, fs) {
 
 
     function changeRecord(recordID){
+        console.log('changeRecord function');
         const oldRecord = 'UPDATE record SET state =0 WHERE state =1 AND cameraID = ( SELECT cameraID FROM (SELECT cameraID FROM record WHERE recordID ='+recordID+') AS tmp )';
         connection.query(oldRecord, function (err) {
             if(err){
@@ -267,6 +268,7 @@ module.exports = function(socket, io, connection, fs) {
 
 
     function disableRecord(recordID){
+        console.log('disableRecord function');
         const setStateTo0 = 'UPDATE record SET state = 0 WHERE recordID = '+recordID;
         connection.query(setStateTo0, function(err){
             if(err){
