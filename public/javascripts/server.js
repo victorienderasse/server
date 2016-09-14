@@ -211,7 +211,6 @@ module.exports = function(socket, io, connection, fs) {
         const setStateRecord = 'UPDATE record SET state = 0 WHERE cameraID = '+cameraID+" AND state = 1";
         connection.query(setStateRecord, function(err){
             if(err){
-                console.log('set state record MYSQL error : '+err);
                 throw err;
             }
         });
@@ -228,33 +227,6 @@ module.exports = function(socket, io, connection, fs) {
     });
 
 
-    socket.on('stopDetection', function(cameraID){
-        console.log('stopDetection event');
-        const getPID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
-        connection.query(getPID, function(err,rows){
-            if(err){
-                throw err;
-            }
-            const event = 'stopDetection';
-            const data = {cameraID: cameraID, processPID: rows[0].process};
-            sendToCamera(cameraID,event,data);
-            setProcessTo0(cameraID);
-            setState(cameraID, 0);
-        });
-    });
-
-
-    socket.on('setProcessPID', function(data){
-        console.log('setProcessPID event');
-        console.log('pid = '+data.pid+' et cameraID = '+data.cameraID);
-        const setPID = 'UPDATE camera SET process = '+data.pid+' WHERE cameraID = "'+data.cameraID+'"';
-        connection.query(setPID,function(err){
-            if(err){
-                throw err;
-            }
-        });
-    });
-
 
     socket.on('startStream', function(cameraID){
         console.log('startStream event');
@@ -263,17 +235,10 @@ module.exports = function(socket, io, connection, fs) {
     });
 
 
-    socket.on('stopStream', function(cameraID){
-        console.log('stopStream event');
-        const getPID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
-        connection.query(getPID, function(err, rows){
-            if(err){
-                throw err;
-            }
-            setState(cameraID, 0);
-            sendToCamera(cameraID, 'stopStream', {cameraID: cameraID, processPID: rows[0].process});
-            setProcessTo0(cameraID);
-        });
+    socket.on('killProcess', function(cameraID){
+        console.log('killProcess event');
+        setState(cameraID, 0);
+        sendToCamera(cameraID, 'killProcess', null);
     });
 
 
