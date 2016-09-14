@@ -2,7 +2,9 @@
  * Created by Victorien on 06-06-16.
  */
 
-module.exports = function(socket, io, connection, fs) {
+module.exports = function(socket, io, connection, fs, schedule) {
+
+    var sch;
 
 //Event-------------------------------------------
 
@@ -75,21 +77,19 @@ module.exports = function(socket, io, connection, fs) {
         const checkRecordExist = 'SELECT * FROM record WHERE cameraID = '+data.cameraID+' AND state = 1';
         connection.query(checkRecordExist, function(err, rows){
             if(err){
-                console.log('error :'+err);
-            }else{
-                if(rows.length>0) {
-                    //update record
-                    const updateRecord = 'UPDATE record SET state = 0 WHERE recordID = ' + rows[0].recordID;
-                    connection.query(updateRecord, function (err) {
-                        if (err) {
-                            console.log(err);
-                        }else{
-                            addRecord(data);
-                        }
-                    });
-                }else{
+                throw err;
+            }
+            if(rows.length>0) {
+                //update record
+                const updateRecord = 'UPDATE record SET state = 0 WHERE recordID = ' + rows[0].recordID;
+                connection.query(updateRecord, function (err) {
+                    if (err) {
+                        throw err;
+                    }
                     addRecord(data);
-                }
+                });
+            }else{
+                addRecord(data);
             }
         });
     });
@@ -286,7 +286,7 @@ module.exports = function(socket, io, connection, fs) {
         const begin = parseInt(data.begin_hour*60)+parseInt(data.begin_minute);
         const end = parseInt(data.end_hour*60)+parseInt(data.end_minute);
         //add new record
-        const addRecord = 'INSERT INTO record SET cameraID = '+data.cameraID+', begin = '+begin+', end = '+end+', frequency = "'+data.frequency+'", state = 1';
+        const addRecord = 'INSERT INTO record SET cameraID = '+data.cameraID+', begin = '+begin+', end = '+end+', frequency = "'+data.frequency+'", state = 1, type = '+data.type;
         connection.query(addRecord, function(err){
             if(err){
                 console.log('error : '+err);
@@ -297,7 +297,15 @@ module.exports = function(socket, io, connection, fs) {
                     if(err){
                         console.log('get socket id MYSQL error : '+err);
                     }else{
-                        io.to(rows[0].socketID).emit('timer', {begin_hour: data.begin_hour, begin_minute: data.begin_minute, end_hour: data.end_hour, end_minute: data.end_minute, frequency: data.frequency, cameraName: rows[0].name});
+                        io.to(rows[0].socketID).emit('timer', {
+                            begin_hour: data.begin_hour,
+                            begin_minute: data.begin_minute,
+                            end_hour: data.end_hour,
+                            end_minute: data.end_minute,
+                            frequency: data.frequency,
+                            cameraName: rows[0].name,
+                            cameraID: data.cameraID,
+                            type: data.type});
                     }
                 });
             }
