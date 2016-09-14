@@ -139,40 +139,57 @@ module.exports = function(socket, io, connection, fs) {
         const getOldRecord = 'SELECT * FROM record WHERE state = 1 AND cameraID = (SELECT cameraID FROM (SELECT cameraID FROM record WHERE recordID ='+recordID+') AS tpm)';
         connection.query(getOldRecord, function(err,rows){
             if(err){
-                console.log('get old record MYSQL error : '+err);
-            }else{
-                if(rows.length>0) {
-                    socket.emit('setOldRecord', rows[0].recordID);
+                throw err;
+            }
+            if(rows.length>0) {
+                socket.emit('setOldRecord', rows[0].recordID);
+            }
+            //set old main record state to 0
+            const oldRecord = 'UPDATE record SET state =0 WHERE state =1 AND cameraID = ( SELECT cameraID FROM (SELECT cameraID FROM record WHERE recordID ='+recordID+') AS tmp )';
+            connection.query(oldRecord, function (err) {
+                if(err){
+                    throw err;
                 }
-                //set old main record state to 0
-                const oldRecord = 'UPDATE record SET state =0 WHERE state =1 AND cameraID = ( SELECT cameraID FROM (SELECT cameraID FROM record WHERE recordID ='+recordID+') AS tmp )';
-                connection.query(oldRecord, function (err) {
+                //set new main record state to 1
+                const newRecord = 'UPDATE record SET state = 1 WHERE recordID = '+recordID;
+                connection.query(newRecord, function(err){
                     if(err){
-                        console.log('update old record MYSQL error : '+err);
-                    }else{
-                        //set new main record state to 1
-                        const newRecord = 'UPDATE record SET state = 1 WHERE recordID = '+recordID;
-                        connection.query(newRecord, function(err){
-                            if(err){
-                                console.log('apply new record MYSQL error : '+err);
-                            }else{
-                                //set record to camera
-                                const getDataRecord = 'SELECT * FROM record INNER JOIN camera ON record.cameraID = camera.cameraID WHERE recordID = '+recordID;
-                                connection.query(getDataRecord, function(err, rows){
-                                    if(err){
-                                        console.log('set record to camera MYSQL error : '+err);
-                                    }else{
-                                        var begin_minute = rows[0].begin % 60;
-                                        var begin_hour = (rows[0].begin - begin_minute) / 60;
-                                        var end_minute = rows[0].end % 60;
-                                        var end_hour = (rows[0].end - end_minute) / 60;
-                                        io.to(rows[0].socketID).emit('timer', {begin_hour: begin_hour, begin_minute: begin_minute, end_hour: end_hour, end_minute: end_minute, frequency: rows[0].frequency, cameraName: rows[0].name});
-                                    }
-                                });
-                            }
-                        });
+                        throw err;
                     }
+                    //set record to camera
+                    const getDataRecord = 'SELECT * FROM record INNER JOIN camera ON record.cameraID = camera.cameraID WHERE recordID = '+recordID;
+                    connection.query(getDataRecord, function(err, rows){
+                        if(err){
+                            throw err;
+                        }
+                        var begin_minute = rows[0].begin % 60;
+                        var begin_hour = (rows[0].begin - begin_minute) / 60;
+                        var end_minute = rows[0].end % 60;
+                        var end_hour = (rows[0].end - end_minute) / 60;
+                        io.to(rows[0].socketID).emit('timer', {begin_hour: begin_hour, begin_minute: begin_minute, end_hour: end_hour, end_minute: end_minute, frequency: rows[0].frequency, cameraName: rows[0].name});
+                    });
                 });
+            });
+        });
+    });
+
+
+    socket.on('disableRecord', function(recordID){
+        const setStateTo0 = 'UPDATE record SET state = 0 WHERE recordID = '+recordID;
+        connection.query(setStateTo0, function(err){
+            if(err){
+                throw err;
+            }
+        });
+        const getRecordType = 'SELECT * FROM record WHERE recordID = '+recordID;
+        connection.query(getRecordType, function(err){
+            if(err){
+                throw err;
+            }
+            if(rows[0].type == 'record'){
+                sendToCamera(rows[0].cameraID, 'deleteRecord', null);
+            }else{
+                sendToCamera(rows[0].cameraID, 'deleteDetection', null);
             }
         });
     });
