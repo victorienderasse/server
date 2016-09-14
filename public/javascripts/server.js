@@ -150,6 +150,8 @@ module.exports = function(socket, io, connection, fs) {
                     console.log('pas le mm');
                     changeRecord(recordID);
                 }
+            }else{
+                changeRecord(recordID);
             }
         });
     });
