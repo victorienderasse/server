@@ -74,7 +74,7 @@ module.exports = function(socket, io, connection, fs) {
     socket.on('setTimer', function(data) {
         console.log('SetTimer event');
         //update record
-        const updateRecord = 'UPDATE record SET state = 0 WHERE recordID = ' + rows[0].recordID+' AND state = 1';
+        const updateRecord = 'UPDATE record SET state = 0 WHERE recordID = ' + data.cameraID+' AND state = 1';
         connection.query(updateRecord, function (err) {
             if (err) {
                 throw err;
