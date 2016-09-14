@@ -2,7 +2,7 @@
  * Created by Victorien on 06-06-16.
  */
 
-module.exports = function(socket, io, connection, fs, schedule) {
+module.exports = function(socket, io, connection, fs) {
 
     var sch;
 

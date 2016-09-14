@@ -8,7 +8,6 @@ const fs = require('fs');
 
 const http = require('http');
 const mysql = require('mysql');
-const schedule = require('node-schedule');
 
 
 const port = 3000;
@@ -94,6 +93,6 @@ const connection = mysql.createConnection({
 //Receive data from client
 io.sockets.on('connection', function(socket){
   
-  require('./public/javascripts/server.js')(socket, io, connection, fs, schedule);
+  require('./public/javascripts/server.js')(socket, io, connection, fs);
 
 });
