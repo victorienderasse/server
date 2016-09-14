@@ -73,24 +73,13 @@ module.exports = function(socket, io, connection, fs) {
     //save record to db and send record to camera to process
     socket.on('setTimer', function(data) {
         console.log('SetTimer event');
-        //check if this camera has already a record
-        const checkRecordExist = 'SELECT * FROM record WHERE cameraID = '+data.cameraID+' AND state = 1';
-        connection.query(checkRecordExist, function(err, rows){
-            if(err){
+        //update record
+        const updateRecord = 'UPDATE record SET state = 0 WHERE recordID = ' + rows[0].recordID+' AND state = 1';
+        connection.query(updateRecord, function (err) {
+            if (err) {
                 throw err;
             }
-            if(rows.length>0) {
-                //update record
-                const updateRecord = 'UPDATE record SET state = 0 WHERE recordID = ' + rows[0].recordID;
-                connection.query(updateRecord, function (err) {
-                    if (err) {
-                        throw err;
-                    }
-                    addRecord(data);
-                });
-            }else{
-                addRecord(data);
-            }
+            addRecord(data);
         });
     });
 
@@ -227,7 +216,6 @@ module.exports = function(socket, io, connection, fs) {
     });
 
 
-
     socket.on('startStream', function(cameraID){
         console.log('startStream event');
         setState(cameraID, 2);
@@ -254,26 +242,25 @@ module.exports = function(socket, io, connection, fs) {
         const addRecord = 'INSERT INTO record SET cameraID = '+data.cameraID+', begin = '+begin+', end = '+end+', frequency = "'+data.frequency+'", state = 1, type = '+data.type;
         connection.query(addRecord, function(err){
             if(err){
-                console.log('error : '+err);
-            }else{
-                //get socketID and name of the camera
-                const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+data.cameraID;
-                connection.query(getSocketID, function(err,rows){
-                    if(err){
-                        console.log('get socket id MYSQL error : '+err);
-                    }else{
-                        io.to(rows[0].socketID).emit('timer', {
-                            begin_hour: data.begin_hour,
-                            begin_minute: data.begin_minute,
-                            end_hour: data.end_hour,
-                            end_minute: data.end_minute,
-                            frequency: data.frequency,
-                            cameraName: rows[0].name,
-                            cameraID: data.cameraID,
-                            type: data.type});
-                    }
-                });
+                throw err;
             }
+            //get socketID and name of the camera
+            const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+data.cameraID;
+            connection.query(getSocketID, function(err,rows){
+                if(err){
+                    throw err;
+                }
+                io.to(rows[0].socketID).emit('timer', {
+                    begin_hour: data.begin_hour,
+                    begin_minute: data.begin_minute,
+                    end_hour: data.end_hour,
+                    end_minute: data.end_minute,
+                    frequency: data.frequency,
+                    cameraName: rows[0].name,
+                    cameraID: data.cameraID,
+                    type: data.type
+                });
+            });
         });
     }
 
