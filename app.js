@@ -9,7 +9,6 @@ const passHash = require('password-hash');
 const http = require('http');
 const mysql = require('mysql');
 
-
 const port = 3000;
 const routes = require('./routes/index');
 const app = express();
@@ -319,12 +318,13 @@ io.sockets.on('connection', function(socket){
       }
       if (rows.length>0){
         if (passHash.verify(data.password, rows[0].password)){
-          socket.emit('msgError','Login successfull');
+            socket.emit('redirect','http://localhost:8080/');
+
         }else{
-          socket.emit('msgError', 'Error wronf password');
+            socket.emit('msgError', 'Error wrong password');
         }
       }else{
-        socket.emit('msgError','Error email doesn\'t exist');
+          socket.emit('msgError','Error email doesn\'t exist');
       }
     })
   });
