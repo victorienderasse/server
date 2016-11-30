@@ -216,7 +216,7 @@ module.exports = function(socket, io, connection, fs, passHash) {
             console.log('no error chack email');
             if (rows.length>0){
                 console.log('email exist');
-                socket.emit('error', 'Error Email already exist');
+                socket.emit('msgError', 'Error Email already exist');
             }else{
                 console.log('email don\'t exist');
                 const signin = 'INSERT INTO user SET name = "'+data.name+'", email = "'+data.email+'", password = "'+password+'"';
