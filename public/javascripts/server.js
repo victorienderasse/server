@@ -108,7 +108,7 @@ module.exports = function(socket, io, connection, fs) {
         });
     });
 
-
+    //Delete recorded record
     socket.on('deleteRecord', function(recordID){
         console.log('deleteRecord event');
         const checkState = 'SELECT * FROM record WHERE recordID = '+recordID;
@@ -132,7 +132,7 @@ module.exports = function(socket, io, connection, fs) {
         });
     });
 
-
+    //enable recorded record
     socket.on('applyRecord', function(recordID){
         console.log('applyRecord event');
         //set old record to client
@@ -156,7 +156,7 @@ module.exports = function(socket, io, connection, fs) {
         });
     });
 
-
+    //Get all the replay
     socket.on('getReplays', function(){
         console.log('getReplays event');
         fs.readdir('../client/public/videos', function(err, files){
@@ -168,7 +168,7 @@ module.exports = function(socket, io, connection, fs) {
         })
     });
 
-
+    //Start the motion detection
     socket.on('startDetection', function(cameraID){
         console.log('startDetection event');
         //update db
@@ -190,20 +190,30 @@ module.exports = function(socket, io, connection, fs) {
         });
     });
 
-
+    //Start live stream
     socket.on('startStream', function(cameraID){
         console.log('startStream event');
         setState(cameraID, 2);
         sendToCamera(cameraID, 'startStream', cameraID);
     });
 
-
+    //Kill all python process
     socket.on('killProcess', function(cameraID){
         console.log('killProcess event');
         setState(cameraID, 0);
         sendToCamera(cameraID, 'killProcess', null);
     });
 
+    //Signin user
+    socket.on('signin', function(data){
+        console.log('signin event');
+        const signin = 'INSER INTO user SET name = "'+data.name+'", email = "'+data.email+'", password = "'+data.password+'"';
+        connection.query(signin, function(err){
+            if (err){
+                throw err;
+            }
+        });
+    });
 
 
 //Functions-------------------------------------------------
