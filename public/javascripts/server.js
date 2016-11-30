@@ -207,7 +207,7 @@ module.exports = function(socket, io, connection, fs) {
     //Signin user
     socket.on('signin', function(data){
         console.log('signin event');
-        const signin = 'INSER INTO user SET name = "'+data.name+'", email = "'+data.email+'", password = "'+data.password+'"';
+        const signin = 'INSERT INTO user SET name = "'+data.name+'", email = "'+data.email+'", password = "'+data.password+'"';
         connection.query(signin, function(err){
             if (err){
                 throw err;
