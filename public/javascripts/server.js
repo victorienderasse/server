@@ -215,7 +215,7 @@ module.exports = function(socket, io, connection, fs, passHash) {
             }
             console.log('no error chack email');
             if (rows.length>0){
-                console/log('email exist');
+                console.log('email exist');
                 socket.emit('error', 'Error Email already exist');
             }else{
                 console.log('email don\'t exist');
