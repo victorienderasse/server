@@ -208,13 +208,27 @@ module.exports = function(socket, io, connection, fs, passHash) {
     socket.on('signin', function(data){
         console.log('signin event');
         var password = passHash.generate(data.password);
-        console.log(password);
-        const signin = 'INSERT INTO user SET name = "'+data.name+'", email = "'+data.email+'", password = "'+password+'"';
-        connection.query(signin, function(err){
+        const checkEmail = 'SELECT email FROM user WHERE email = "'+data.email+'"';
+        connection.query(checkEmail, function(err, rows){
             if (err){
                 throw err;
             }
+            if (rows.length>0){
+                socket.emit('error', 'Error Email already exist');
+            }else{
+                const signin = 'INSERT INTO user SET name = "'+data.name+'", email = "'+data.email+'", password = "'+password+'"';
+                connection.query(signin, function(err){
+                    if (err){
+                        throw err;
+                    }
+                });
+            }
         });
+    });
+
+    //Login user
+    socket.on('login', function(data){
+        console.log('login event');
     });
 
 
