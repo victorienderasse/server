@@ -2,7 +2,7 @@
  * Created by Victorien on 06-06-16.
  */
 
-module.exports = function(socket, io, connection, fs) {
+module.exports = function(socket, io, connection, fs, passHash) {
 
     var sch;
 
@@ -207,7 +207,9 @@ module.exports = function(socket, io, connection, fs) {
     //Signin user
     socket.on('signin', function(data){
         console.log('signin event');
-        const signin = 'INSERT INTO user SET name = "'+data.name+'", email = "'+data.email+'", password = "'+data.password+'"';
+        var password = passHash.generate(data.password);
+        console.log(password);
+        const signin = 'INSERT INTO user SET name = "'+data.name+'", email = "'+data.email+'", password = "'+password+'"';
         connection.query(signin, function(err){
             if (err){
                 throw err;

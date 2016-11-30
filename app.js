@@ -5,6 +5,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const fs = require('fs');
+const passHash = require('password-hash');
 
 const http = require('http');
 const mysql = require('mysql');
@@ -93,6 +94,6 @@ const connection = mysql.createConnection({
 //Receive data from client
 io.sockets.on('connection', function(socket){
   
-  require('./public/javascripts/server.js')(socket, io, connection, fs);
+  require('./public/javascripts/server.js')(socket, io, connection, fs, passHash);
 
 });
