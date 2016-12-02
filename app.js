@@ -311,14 +311,14 @@ io.sockets.on('connection', function(socket){
   //Login user
   socket.on('login', function(data){
     console.log('login event');
-    const getPassword = 'SELECT password FROM user WHERE email = "'+data.email+'"';
+    const getPassword = 'SELECT * FROM user WHERE email = "'+data.email+'"';
     connection.query(getPassword,function(err,rows){
       if (err){
         throw err;
       }
       if (rows.length>0){
         if (passHash.verify(data.password, rows[0].password)){
-            socket.emit('redirect','http://192.168.1.50:8080/');
+            socket.emit('loginSuccess',rows[0].userID);
 
         }else{
             socket.emit('msgError', 'Error wrong password');
