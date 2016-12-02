@@ -1,9 +1,169 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Display</title>
+    <title>titre</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
-<body>
-    <p><h1>DISPLAY</h1></p>
+<body style="background-color:#cccccc;">
+
+<%#-USER-%>
+<section id="user-section">
+    <div id="user-div">
+        <button id="connection-btn" type="button" class="btn btn-primary">Connection</button>
+    </div>
+</section>
+
+<%#-TITLE-%>
+<section id="title-section" class="row">
+    <div>
+
+    </div>
+    <h1>display</h1>
+</section>
+
+<%#-SCREENS-%>
+<section id="screen-section" class="row col-lg-offset-2 col-lg-8 ">
+    <div id="msg"></div>
+    <div id="replay" class="col-lg-2">
+        <button id="replay-btn" type="button" class="btn form-control btn-success" onclick="runReplay();" data-toggle="modal" data-target="#modal-replay">replays</button>
+    </div>
+    <div id="screen-div">
+        <div id="table-screen-div"></div>
+    </div>
+</section>
+
+<%#Modals Timer%>
+<div id="modal-timer" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="emptyTimerForm();">&times;</button>
+                <h4 id="timer-title-camera" class="modal-header">Manage your timers</h4>
+            </div>
+            <div class="modal-body">
+                <p><b>Add new timer </b></p>
+                <form id="timer-form">
+                    <section class="row form-group">
+                        <div id="begin" class="col-lg-offset-2 col-lg-4">
+                            <label for="begin" class="control-label">Begin :</label>
+                            <div class="form-group">
+                                <input type="text" name="beginHour"  maxlength="2" size="1" placeholder="12"/>
+                                :
+                                <input type="text" name="beginMinute"  maxlength="2" size="1" placeholder="30"/>
+                            </div>
+                        </div>
+                        <div id="end" class="col-lg-offset-2 col-lg-4">
+                            <label for="end" class="control-label">End :</label>
+                            <div class="form-group">
+                                <input type="text" name="endHour" maxlength="2" size="1" placeholder="18"/>
+                                :
+                                <input type="text" name="endMinute" maxlength="2" size="1" placeholder="00"/>
+                            </div>
+                        </div>
+                        <div id="timer-camera-id-div">
+                            <input id="timer-camera-id-input" type="hidden" name="cameraID">
+                        </div>
+                    </section>
+                    <section class="row">
+                        <div id="frequency" class="col-lg-offset-2 col-lg-3 form-group">
+                            <label for="frequency" class="control-label">
+                                Frequency :
+                                <select name="frequency" class="form-control">
+                                    <option value="Mon">Monday</option>
+                                    <option value="Tue">Tuesday</option>
+                                    <option value="Wed">Wednesday</option>
+                                    <option value="Thu">Thursday</option>
+                                    <option value="Fri">Friday</option>
+                                    <option value="Sat">Saturday</option>
+                                    <option value="Sun">Sunday</option>
+                                    <option value="*">Every Day</option>
+                                </select>
+                            </label>
+                        </div>
+                    </section>
+                    <div class="form-group col-lg-offset-2">
+                        <label for="timer-detection" class="control-label"> Motion detection : </label>
+                        <input id="timer-detection" name="detection" type="checkbox">
+                    </div>
+                </form>
+                <div id="timer-records-div">
+                    <hr>
+                    <p><b>Your timers</b></p>
+                    <table id="timer-records-table" class="table table-hover table-striped table-responsive">
+                        <thead>
+                        <tr>
+                            <th><b>Begin</b></th>
+                            <th><b>End</b></th>
+                            <th><b>Frequency</b></th>
+                            <th><b>Type</b></th>
+                        </tr>
+                        </thead>
+                        <tbody id="timer-records-tbody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="timer-confirm-btn" type="button" class="btn btn-success" data-dismiss="modal">Accept</button>
+                <button id="timer-close-btn" type="button" class="btn btn-default" data-dismiss="modal" onclick="emptyTimerForm();">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%#Modals Replay%>
+<div id="modal-replay" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-header">Replay</h4>
+            </div>
+            <div class="modal-body form-group" style="text-align:center;">
+                <div id="name-camera-replay"><h3 id="h3-name-camera-replay"></h3></div>
+                <div id="select-replay-div" class="col-lg-offset-3 col-lg-6 form-group">
+                    <select id='select-replay' name="select-replay" class="form-control" onchange="playReplay();"></select>
+                </div>
+                <div id="display-replay-div">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%#Modals live%>
+<div id="modal-live" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="text-align: center;">
+            <div class="modal-header" id="modal-header-live">
+                <button type="button" id="modal-live-x" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-header" id="modal-header-live-h4"></h4>
+            </div>
+            <div class="modal-body">
+                <div id="live-stream">
+                    <img src="" id="live-stream-img">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="modal-live-close" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<%#-GET SCRIPTS-%>
+<script src="/public/javascripts/hostconfig.js"></script>
+<script src="/public/javascripts/socket.io.js"></script>
+<script src="/public/javascripts/display.js"></script>
+
 </body>
 </html>
