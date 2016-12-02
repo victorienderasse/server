@@ -86,7 +86,6 @@ const connection = mysql.createConnection({
 //Receive data from client
 io.sockets.on('connection', function(socket){
   
-  //require('./public/javascripts/server.js')(socket, io, connection, fs, passHash);
   //Client connected
   socket.on('client', function (data) {
     console.log('client connecté');

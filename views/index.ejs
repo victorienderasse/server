@@ -2,15 +2,113 @@
 <html>
 <head>
     <title> <%= name %> </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <h1><%= name %></h1>
-    <p>Server !</p>
 
 
-    <script src="/public/javascripts/hostconfig.js"></script>
-    <script src="/public/javascripts/socket.io.js"></script>
-    <script src="/public/javascripts/client.js"></script>
+<%#-TITLE & MOTD-%>
+<section id="titre-section">
+    <div id="titre-div">
+        <p><h1 id="titre">TFE</h1></p>
+    </div>
+    <div id="welcome-div">
+        <p id="welcome">Welcome to my project</p>
+    </div>
+</section>
+
+
+<section>
+    <div>
+        <button id="login-btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-login">Login</button>
+        <button id="signin-btn" type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-signin">Signin</button>
+    </div>
+</section>
+
+
+<%#Modals Login%>
+<div id="modal-login" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-header">Login</h4>
+            </div>
+            <div class="modal-body form-group" style="text-align:center;">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="email" class="control-label">Email : <input id="email" name="email" type="text"></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="control-label">Password : <input id="password" name="password" type="password"></label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="login-confirm-btn" type="button" class="btn btn-primary">Login</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<%#Modals signin%>
+<div id="modal-signin" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-header">Signin</h4>
+            </div>
+            <div class="modal-body form-group" style="text-align:center;">
+                <form id="signin-form" class="form">
+                    <div class="form-group">
+                        <label for="name" class="control-label">Name : <input id="name" name="name" type="text"></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="control-label">Email : <input id="email" name="email" type="text"></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="control-label">Password : <input id="password" name="password" type="password"></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="confPassword" class="control-label">Confirm Password : <input id="confPassword" name="confPassword" type="password"></label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="signin-confirm-btn" type="button" class="btn btn-primary">Signin</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<%#-PROJECT DESCRIPTION-%>
+<section id="description-section">
+    <div id="description-div">
+        <p>Ici un descriptif du produit</p>
+    </div>
+</section>
+
+<%#-PROJECT ADVANTAGES-%>
+<section id="adventages-section">
+    <div id="advantages-div">
+        <p>Ici les avantages</p>
+    </div>
+</section>
+
+
+<script src="/public/javascripts/hostconfig.js"></script>
+<script src="/public/javascripts/socket.io.js"></script>
+<script src="/public/javascripts/client.js"></script>
+<script src="/public/javascripts/index.js"></script>
 
 </body>
 </html>
