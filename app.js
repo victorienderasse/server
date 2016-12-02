@@ -317,7 +317,7 @@ io.sockets.on('connection', function(socket){
       }
       if (rows.length>0){
         if (passHash.verify(data.password, rows[0].password)){
-            socket.emit('redirect','http://serverURL:3000/display?userID='+rows[0].userID);
+            socket.emit('redirect','http://serverURL/display?userID='+rows[0].userID);
         }else{
             socket.emit('msgError', 'Error wrong password');
         }
