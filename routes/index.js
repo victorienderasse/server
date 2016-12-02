@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/display', function(req,res,next){
-  res.render('display',{userID: req.params.userID});
+  res.render('display');
 });
 
 module.exports = router;
