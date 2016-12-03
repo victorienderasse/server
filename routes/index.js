@@ -6,7 +6,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { name: 'Index' });
 });
 
-router.get('/display', function(req,res,next){
+router.post('/display', function(req,res,next){
   console.log(req.query.userID)
   res.render('display',{userID: req.query.userID});
 });
