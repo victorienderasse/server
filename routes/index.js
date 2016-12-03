@@ -7,8 +7,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/display', function(req,res){
- var userID = req.query.userID;
-  res.render('display',{userID: userID});
+  res.render('display',{userID: req.query.userID});
 });
 
 module.exports = router;
