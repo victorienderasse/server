@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/display', function(req,res,next){
-  userID = req.query.userID;
+ var userID = req.query.userID;
   res.render('display',{userID: userID});
 });
 
