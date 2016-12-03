@@ -10,7 +10,7 @@
 </head>
 <body style="background-color:#cccccc;">
 
-<p id="userID" ><%= userID %> </p>
+<p id="userID" hidden><%= userID %> </p>
 
 <%#-TITLE-%>
 <section id="title-section" class="row">
@@ -22,12 +22,14 @@
 
 
 <%#-ADD SCREEN-%>
-<section id="addScreen-section">
-    <div id="addScreen-div">
-        <form id="addScreen-form">
-            <label for="code" class="control-label">Code : <input type="text" id="code" name="code" placeholder="Code de la camera"></label>
-        </form>
+<section id="addScreen-section" class="row">
+    <div id="addScreen-div" class="col-lg-offset-2">
         <button id="addScreen" type="button" class="btn btn-success">Ajouter une camera</button>
+        <form id="addScreen-form" class="form">
+            <div class="form-group">
+                <label for="code" class="control-label">Code : <input type="text" id="code" name="code" placeholder="Code de la camera"></label>
+            </div>
+        </form>
     </div>
 </section>
 
