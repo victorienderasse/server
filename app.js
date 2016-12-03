@@ -90,7 +90,7 @@ io.sockets.on('connection', function(socket){
   socket.on('client', function (data) {
     console.log('client connecté');
     console.log('attention voici l\'id !!!');
-    //var id = req.query.userID;
+    var id = req.query.userID;
     console.log('USER ID EGAL A : '+id);
     var sendCamera = 'SELECT * FROM camera WHERE enable = 1';
     connection.query(sendCamera, function (err,rows) {

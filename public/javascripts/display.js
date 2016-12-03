@@ -7,7 +7,7 @@
 
 
 //Connection to the server------------------
-var socket = io.connect(serverURL);
+//var socket = io.connect(serverURL);
 var stream;
 
 //Events------------------------------------
