@@ -11,5 +11,4 @@ router.get('/display', function(req,res){
   res.render('display',{userID: userID});
 });
 
-module.exports = userID;
 module.exports = router;
