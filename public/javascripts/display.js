@@ -12,7 +12,7 @@ var stream;
 
 //Events------------------------------------
 
-socket.emit('client','client');
+//socket.emit('client','client');
 
 
 //getCameras
