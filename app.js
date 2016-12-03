@@ -87,10 +87,11 @@ const connection = mysql.createConnection({
 io.sockets.on('connection', function(socket){
   
   //Client connected
-  socket.on('client', function (userID) {
+  socket.on('client', function (data) {
     console.log('client connecté');
+    console.log(data);
     console.log(userID);
-    var sendCamera = 'SELECT * FROM camera WHERE enable = 1 AND userID = '+userID;
+    var sendCamera = 'SELECT * FROM camera WHERE enable = 1 AND userID = '+data;
     connection.query(sendCamera, function (err,rows) {
       socket.emit('sendCamera', rows);
     });
