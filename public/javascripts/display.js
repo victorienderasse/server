@@ -14,7 +14,6 @@ var stream;
 
 
 var userID = document.getElementById('userID').innerHTML;
-console.log(userID);
 socket.emit('client',userID);
 
 
