@@ -7,12 +7,15 @@
 
 
 //Connection to the server------------------
-//var socket = io.connect(serverURL);
+var socket = io.connect(serverURL);
 var stream;
 
 //Events------------------------------------
 
-//socket.emit('client','client');
+
+var userID = document.getElementById('userID').innerHTML;
+console.log(userID);
+socket.emit('client',userID);
 
 
 //getCameras
