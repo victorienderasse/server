@@ -328,6 +328,27 @@ io.sockets.on('connection', function(socket){
     })
   });
 
+  //AddScreen
+  socket.on('addScreen', function(data){
+    console.log('add screen event');
+    const checkCode = 'SELECT * FROM camera WHERE code = "'+data.code+'"';
+    connection.query(checkCode, function(err,rows){
+      if (err){
+        throw err;
+      }
+      if (rows.length > 0){
+        const addScreenToClient = 'UPDATE camera SET userID = '+data.userID+', code = 0 WHERE code = "'+data.code+'"';
+        connection.query(addScreenToClient, function(err){
+          if (err){
+            throw err;
+          }
+        });
+      }else{
+        console.log('No camera found');
+      }
+    });
+  });
+
 
 //Functions-------------------------------------------------
 

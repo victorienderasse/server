@@ -108,6 +108,14 @@ document.getElementById('timer-confirm-btn').addEventListener('click', function(
 });
 
 
+document.getElementById('addScreen').addEventListener('click', function(){
+    console.log('AddScreen btn pressed');
+    var form = document.getElementById('addScreen-form');
+    var code = form.code.value;
+    var userID = document.getElementById('userID').innerHTML;
+    socket.emit('addScreen',{code:code,userID:userID});
+});
+
 
 
 //Functions-----------------------------------
