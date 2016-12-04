@@ -60,7 +60,7 @@ app.get('/display', function(req,res){
 app.get('/login', function(req,res,next){
   var login = true;
   if(login){
-    res.render('/display');
+    res.redirect('/display');
   }else{
     res.render('/');
   }
