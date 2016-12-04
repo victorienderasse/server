@@ -39,17 +39,20 @@
                 <h4 class="modal-header">Login</h4>
             </div>
             <div class="modal-body form-group" style="text-align:center;">
-                <form id="login-form">
+                <form id="login-form" action="/login" method="post">
                     <div class="form-group">
                         <label for="email" class="control-label">Email : <input id="email" name="email" type="text"></label>
                     </div>
                     <div class="form-group">
                         <label for="password" class="control-label">Password : <input id="password" name="password" type="password"></label>
                     </div>
+                    <div class="form-group">
+                        <input type="submit" value="Submit">
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="login-confirm-btn" type="button" class="btn btn-primary">Login</button>
+                <button id="login-confirm-btn" type="button" class="btn btn-primary" >Login</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>

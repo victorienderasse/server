@@ -41,8 +41,8 @@ app.use('/public/javascripts', express.static(path.join(__dirname, 'public/javas
 app.use('/public/stylesheets', express.static(path.join(__dirname, 'public/stylesheets')));
 app.use('/public/images', express.static(path.join(__dirname, 'public/images')));
 //app.use(logger('dev'));
-//app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(cookieParser());
 //app.use('/', routes);
 app.use(session({secret: 'topsecret'}));
@@ -57,13 +57,8 @@ app.get('/display', function(req,res){
   res.render('display.ejs',{userID: 4});
 });
 
-app.get('/login', function(req,res,next){
-  var login = false;
-  if(login){
-    res.redirect('/display');
-  }else{
-    res.redirect('/');
-  }
+app.post('/login', function(req,res,next){
+  console.log('email = '+req.body.email);
 });
 
 app.use(function(req,res,next){
