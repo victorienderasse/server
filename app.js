@@ -84,12 +84,13 @@ app.use(function(err, req, res, next) {
 });
 
 //PAGES-------------------------------------------------------------
+var router = express.Router();
 
-app.get('/', function(req,res){
+router.get('/', function(req,res){
    res.render('index');
 });
 
-app.get('display', function(req,res){
+router.get('display', function(req,res){
   res.render('display',{userID: req.query.userID});
 });
 
