@@ -96,8 +96,6 @@ app.get('display', function(req,res){
 
 //Receive data from client
 io.sockets.on('connection', function(socket){
-
-  console.log('client connected and testID = '+testID);
   //Client connected
   socket.on('client', function (userID) {
     console.log('client connecté');
