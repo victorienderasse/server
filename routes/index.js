@@ -9,9 +9,9 @@ router.get('/', function(req, res) {
 });
 
 router.get('/display', function(req,res){
-  sess = req.session;
-  sess.userID = req.query.userID;
-  res.render('display',{userID: req.query.userID});
+ // sess = req.session;
+  //sess.userID = req.query.userID;
+  res.render('display',{userID: 4});
 });
 
 module.exports = router;
