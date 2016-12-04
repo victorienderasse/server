@@ -83,13 +83,26 @@ app.get('/display', function(req,res){
 });
 
 app.post('/login', function(req,res,next){
-  var login = checkLogin(req.body.email,req.body.password);
-  console.log(login);
-  if (login){
-    res.redirect('/display');
-  }else{
-    res.redirect('/');
-  }
+  var email = req.body.email;
+  var password = req.body.password;
+  const getPassword = 'SELECT * FROM user WHERE email = "'+email+'"';
+  connection.query(getPassword, function(err,rows){
+    if (err){
+      throw err;
+    }
+    if (rows.length>0){
+      if (passHash.verify(password,rows[0].password)){
+        console.log('login ok');
+        res.redirect('/display');
+      }else{
+        console.log('mauvais password');
+        res.redirect('/');
+      }
+    }else{
+      console.log('email existe pas');
+      res.redirect('/');
+    }
+  });
 });
 
 app.use(function(req,res,next){
