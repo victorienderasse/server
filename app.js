@@ -54,7 +54,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({secret: 'topsecret'}));
 
 app.get('/', function(req,res){
-  res.render('index.ejs');
+  res.render('index.ejs',{name: 'test'});
 });
 
 app.get('display', function(req,res){
