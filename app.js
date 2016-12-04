@@ -36,6 +36,10 @@ var mySession = {
   secret: 'mySecret'
 };
 
+
+var router = express.Router();
+
+
 const io = require('socket.io').listen(server);
 
 // uncomment after placing your favicon in /public
@@ -84,7 +88,7 @@ app.use(function(err, req, res, next) {
 });
 
 //PAGES-------------------------------------------------------------
-var router = express.Router();
+
 
 router.get('/', function(req,res){
    res.render('index');
