@@ -16,7 +16,6 @@ const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-//app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');
 app.set('port', port);
 
@@ -60,11 +59,11 @@ app.use(session(mySession));
 //PAGES-------------------------------------------------------------
 
 
-app.get('/', function(req,res){
+app.use('/', function(req,res){
   res.render('index');
 });
 
-app.get('display', function(req,res){
+app.use('display', function(req,res){
   res.render('display',{userID: req.query.userID});
 });
 
