@@ -58,7 +58,7 @@ app.get('/display', function(req,res){
 });
 
 app.get('/login', function(req,res,next){
-  var login = true;
+  var login = false;
   if(login){
     res.redirect('/display');
   }else{
