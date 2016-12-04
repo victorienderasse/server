@@ -62,7 +62,7 @@ app.get('/login', function(req,res,next){
   if(login){
     res.redirect('/display');
   }else{
-    res.render('/');
+    res.redirect('/');
   }
 });
 
