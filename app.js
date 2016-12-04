@@ -58,14 +58,41 @@ app.get('/display', function(req,res){
 });
 
 app.post('/login', function(req,res,next){
-  console.log('email = '+req.body.email);
-  res.redirect('/display');
+  var login = checkLogin(req.body.email,req.body.password);
+  if (login){
+    res.redirect('/display');
+  }else{
+    res.redirect('/');
+  }
 });
 
 app.use(function(req,res,next){
   res.redirect('/');
 });
 
+
+//Functions--------------------------------------------------------------------------------
+
+function checkLogin(email,password){
+  console.log('login function');
+  const getPassword = 'SELECT * FROM user WHERE email = "'+email+'"';
+  connection.query(getPassword, function(err,rows){
+    if (err){
+      throw err;
+    }
+    if (rows.length>0){
+      if (passHash.verify(password,rows[0].password)){
+        return true;
+      }else{
+        console.log('mauvais password');
+        return false;
+      }
+    }else{
+      console.log('email existe pas');
+      return false;
+    }
+  });
+}
 
 //Receive data from client------------------------------------------------------------------
 
