@@ -19,10 +19,8 @@ const app = express();
 //app.set('view engine', 'ejs');
 //app.set('port', port);
 
-//const server = http.createServer(app);
-//server.listen(port, function(){
- // console.log('Server running !');
-//});
+const server = http.createServer(app);
+
 
 const connection = mysql.createConnection({
   host : 'localhost',
@@ -68,7 +66,7 @@ app.use(function(req,req,next){
   req.redirect('/erreur');
 });
 
-app.listen(3000);
+
 
 
 // catch 404 and forward to error handler
@@ -485,4 +483,8 @@ io.sockets.on('connection', function(socket){
     });
   }
 
+});
+
+server.listen(port, function(){
+  console.log('Server running !');
 });
