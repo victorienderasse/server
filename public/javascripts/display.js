@@ -13,7 +13,7 @@ var stream;
 //Events------------------------------------
 
 
-var userID = document.getElementById('userID').innerHTML;
+var userID = 3;
 socket.emit('client',userID);
 
 

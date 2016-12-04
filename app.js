@@ -98,7 +98,8 @@ io.sockets.on('connection', function(socket){
   //Client connected
   socket.on('client', function (userID) {
     console.log('client connecté');
-    var sendCamera = 'SELECT * FROM camera WHERE enable = 1 AND userID = '+userID;
+    console.log('userID : '+sess.userID);
+    var sendCamera = 'SELECT * FROM camera WHERE enable = 1 AND userID = '+sess.userID;
     connection.query(sendCamera, function (err,rows) {
       socket.emit('sendCamera', rows);
     });
