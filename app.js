@@ -57,6 +57,15 @@ app.get('/display', function(req,res){
   res.render('display.ejs',{userID: 4});
 });
 
+app.get('/login', function(req,res,next){
+  var login = true;
+  if(login){
+    res.render('/display');
+  }else{
+    res.render('/');
+  }
+});
+
 
 //Receive data from client------------------------------------------------------------------
 
@@ -64,7 +73,6 @@ io.sockets.on('connection', function(socket){
   //Client connected
   socket.on('client', function (userID) {
     console.log('client connecté');
-    console.log(userID);
     var sendCamera = 'SELECT * FROM camera WHERE enable = 1 AND userID = '+userID;
     connection.query(sendCamera, function (err,rows) {
       socket.emit('sendCamera', rows);
