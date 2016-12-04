@@ -66,6 +66,10 @@ app.get('/login', function(req,res,next){
   }
 });
 
+app.use(function(req,res,next){
+  res.redirect('/');
+});
+
 
 //Receive data from client------------------------------------------------------------------
 
