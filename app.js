@@ -46,31 +46,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(cookieParser());
 //app.use('/', routes);
 app.use(session({secret: 'topsecret'}));
-
-
-//Functions--------------------------------------------------------------------------------
-
-function checkLogin(email,password){
-  console.log('login function');
-  const getPassword = 'SELECT * FROM user WHERE email = "'+email+'"';
-  connection.query(getPassword, function(err,rows){
-    if (err){
-      throw err;
-    }
-    if (rows.length>0){
-      if (passHash.verify(password,rows[0].password)){
-        return true;
-      }else{
-        console.log('mauvais password');
-        return false;
-      }
-    }else{
-      console.log('email existe pas');
-      return false;
-    }
-  });
-}
-
+var sess;
 
 //PAGES--------------------------------------------------------------------------------------
 
@@ -79,10 +55,13 @@ app.get('/', function(req,res){
 });
 
 app.get('/display', function(req,res){
-  res.render('display.ejs',{userID: 4});
+  sess = req.session;
+  console.log(sess.name);
+  res.render('display.ejs');
 });
 
 app.post('/login', function(req,res,next){
+  sess = req.session;
   var email = req.body.email;
   var password = req.body.password;
   const getPassword = 'SELECT * FROM user WHERE email = "'+email+'"';
@@ -93,6 +72,9 @@ app.post('/login', function(req,res,next){
     if (rows.length>0){
       if (passHash.verify(password,rows[0].password)){
         console.log('login ok');
+        sess.userID = rows[0].userID;
+        sess.name = rows[0].name;
+        sess.email = rows[0].email;
         res.redirect('/display');
       }else{
         console.log('mauvais password');
