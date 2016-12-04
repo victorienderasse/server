@@ -10,17 +10,18 @@ const http = require('http');
 const mysql = require('mysql');
 const session = require('express-session');
 
-const port = 3000;
 //const routes = require('./routes/index');
-const app = express();
-
 // view engine setup
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'ejs');
 //app.set('port', port);
 
-const server = http.createServer(app);
+//Global var---------------------------------------------------------------------------------
+const port = 3000;
 
+const app = express();
+
+const server = http.createServer(app);
 
 const connection = mysql.createConnection({
   host : 'localhost',
@@ -29,29 +30,24 @@ const connection = mysql.createConnection({
   database : 'TFE'
 });
 
-
-//var router = express.Router();
-
-
 const io = require('socket.io').listen(server);
 
+
+//YOLO ?---------------------------------------------------------------------------------------
 // uncomment after placing your favicon in /public
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/public/javascripts', express.static(path.join(__dirname, 'public/javascripts')));
 app.use('/public/stylesheets', express.static(path.join(__dirname, 'public/stylesheets')));
 app.use('/public/images', express.static(path.join(__dirname, 'public/images')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(logger('dev'));
+//app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(cookieParser());
 //app.use('/', routes);
-
-
-//PAGES-------------------------------------------------------------
-
 app.use(session({secret: 'topsecret'}));
+
+//PAGES--------------------------------------------------------------------------------------
 
 app.get('/', function(req,res){
   res.render('index.ejs',{name: 'test'});
@@ -61,46 +57,9 @@ app.get('/display', function(req,res){
   res.render('display.ejs',{userID: 4});
 });
 
-//app.use(function(req,req,next){
-//  req.redirect('/erreur');
-//});
 
+//Receive data from client------------------------------------------------------------------
 
-
-
-// catch 404 and forward to error handler
-//app.use(function(req, res, next) {
-//  var err = new Error('Not Found');// err.status = 404;
-//  next(err);
-//});
-
-// error handlers
-
-// development error handler
-// will print stacktrace
-//if (app.get('env') === 'development') {
-//  app.use(function(err, req, res, next) {
-//    res.status(err.status || 500);
-//    res.render('error', {
-//      message: err.message,
-//      error: err
-//    });
-//  });
-//}
-//
-// production error handler
-//no stacktraces leaked to user
-//app.use(function(err, req, res, next) {
-//  res.status(err.status || 500);
-//  res.render('error', {
-//    message: err.message,
-//    error: {}
-//  });
-//});
-
-
-
-//Receive data from client
 io.sockets.on('connection', function(socket){
   //Client connected
   socket.on('client', function (userID) {
