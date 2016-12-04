@@ -83,11 +83,14 @@ app.use(function(err, req, res, next) {
   });
 });
 
-var testID = 3;
-var sess;
-app.get('/test', function(req,res){
-   sess = req.session;
-  sess.testID = testID;
+//PAGES-------------------------------------------------------------
+
+app.get('/', function(req,res){
+   res.render('index');
+});
+
+app.get('display', function(req,res){
+  res.render('display',{userID = req.query.userID});
 });
 
 
