@@ -57,7 +57,7 @@ app.get('/', function(req,res){
   res.render('index.ejs',{name: 'test'});
 });
 
-app.get('display', function(req,res){
+app.get('/display', function(req,res){
   res.render('display.ejs',{userID: 4});
 });
 
