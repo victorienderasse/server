@@ -8,6 +8,7 @@ const fs = require('fs');
 const passHash = require('password-hash');
 const http = require('http');
 const mysql = require('mysql');
+const session = require('express-session');
 
 const port = 3000;
 const routes = require('./routes/index');
@@ -24,6 +25,17 @@ server.listen(port, function(){
   console.log('Server running !');
 });
 
+const connection = mysql.createConnection({
+  host : 'localhost',
+  user : 'root',
+  password : 'tfepassword',
+  database : 'TFE'
+});
+
+var mySession = {
+  secret: 'mySecret'
+};
+
 const io = require('socket.io').listen(server);
 
 // uncomment after placing your favicon in /public
@@ -37,7 +49,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/', routes);
+//app.use('/', routes);
+app.use(session(mySession));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -70,22 +83,18 @@ app.use(function(err, req, res, next) {
   });
 });
 
-
-//module.exports = app;
-
-//connection database
-
-const connection = mysql.createConnection({
-  host : 'localhost',
-  user : 'root',
-  password : 'tfepassword',
-  database : 'TFE'
+var testID = 3;
+var sess;
+app.get('/test', function(req,res){
+   sess = req.session;
+  sess.testID = testID;
 });
 
 
 //Receive data from client
 io.sockets.on('connection', function(socket){
-  
+
+  console.log('client connected and testID = '+testID);
   //Client connected
   socket.on('client', function (userID) {
     console.log('client connecté');
