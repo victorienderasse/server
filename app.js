@@ -90,7 +90,7 @@ app.get('/', function(req,res){
 });
 
 app.get('display', function(req,res){
-  res.render('display',{userID = req.query.userID});
+  res.render('display',{userID: req.query.userID});
 });
 
 
