@@ -21,10 +21,7 @@ app.engine('html', require('ejs').renderFile);
 app.set('port', port);
 
 
-const server = http.createServer(app);
-server.listen(port, function(){
-  console.log('Server running !');
-});
+
 
 const connection = mysql.createConnection({
   host : 'localhost',
@@ -102,6 +99,10 @@ app.use(function(err, req, res, next) {
 });
 
 
+const server = http.createServer(app);
+server.listen(port, function(){
+  console.log('Server running !');
+});
 
 
 //Receive data from client
