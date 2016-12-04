@@ -56,6 +56,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 //app.use('/', routes);
 app.use(session(mySession));
 
+
+//PAGES-------------------------------------------------------------
+
+
+router.get('/', function(req,res){
+  res.render('index');
+});
+
+router.get('display', function(req,res){
+  res.render('display',{userID: req.query.userID});
+});
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -87,16 +100,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
-//PAGES-------------------------------------------------------------
 
-
-router.get('/', function(req,res){
-   res.render('index');
-});
-
-router.get('display', function(req,res){
-  res.render('display',{userID: req.query.userID});
-});
 
 
 //Receive data from client
