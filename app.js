@@ -11,18 +11,18 @@ const mysql = require('mysql');
 const session = require('express-session');
 
 const port = 3000;
-const routes = require('./routes/index');
+//const routes = require('./routes/index');
 const app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-app.set('port', port);
+//app.set('views', path.join(__dirname, 'views'));
+//app.set('view engine', 'ejs');
+//app.set('port', port);
 
-const server = http.createServer(app);
-server.listen(port, function(){
-  console.log('Server running !');
-});
+//const server = http.createServer(app);
+//server.listen(port, function(){
+ // console.log('Server running !');
+//});
 
 const connection = mysql.createConnection({
   host : 'localhost',
@@ -30,10 +30,6 @@ const connection = mysql.createConnection({
   password : 'tfepassword',
   database : 'TFE'
 });
-
-var mySession = {
-  secret: 'mySecret'
-};
 
 
 //var router = express.Router();
@@ -58,46 +54,53 @@ app.use(session(mySession));
 
 //PAGES-------------------------------------------------------------
 
+app.use(session({secret: 'topsecret'}));
 
-app.use('/', function(req,res){
-  res.render('index');
+app.get('/', function(req,res){
+  res.render('index.ejs');
 });
 
-app.use('display', function(req,res){
-  res.render('display',{userID: req.query.userID});
+app.get('display', function(req,res){
+  res.render('display.ejs',{userID: 4});
 });
+
+app.use(function(req,req,next){
+  req.redirect('/erreur');
+});
+
+app.listen(3000);
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
+//app.use(function(req, res, next) {
+//  var err = new Error('Not Found');
+//  err.status = 404;
+//  next(err);
+//});
 
 // error handlers
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
+//if (app.get('env') === 'development') {
+//  app.use(function(err, req, res, next) {
+//    res.status(err.status || 500);
+//    res.render('error', {
+//      message: err.message,
+//      error: err
+//    });
+//  });
+//}
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
-});
+//app.use(function(err, req, res, next) {
+//  res.status(err.status || 500);
+//  res.render('error', {
+//    message: err.message,
+//    error: {}
+//  });
+//});
 
 
 
