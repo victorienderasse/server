@@ -59,6 +59,7 @@ app.get('/display', function(req,res){
 
 app.post('/login', function(req,res,next){
   console.log('email = '+req.body.email);
+  res.render('display.ejs');
 });
 
 app.use(function(req,res,next){
