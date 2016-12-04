@@ -59,6 +59,7 @@ app.get('/display', function(req,res){
 
 app.post('/login', function(req,res,next){
   var login = checkLogin(req.body.email,req.body.password);
+  console.log(login);
   if (login){
     res.redirect('/display');
   }else{
