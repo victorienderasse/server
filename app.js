@@ -37,7 +37,7 @@ var mySession = {
 };
 
 
-var router = express.Router();
+//var router = express.Router();
 
 
 const io = require('socket.io').listen(server);
@@ -60,11 +60,11 @@ app.use(session(mySession));
 //PAGES-------------------------------------------------------------
 
 
-router.get('/', function(req,res){
+app.get('/', function(req,res){
   res.render('index');
 });
 
-router.get('display', function(req,res){
+app.get('display', function(req,res){
   res.render('display',{userID: req.query.userID});
 });
 
