@@ -16,12 +16,14 @@ const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.engine('html', require('ejs').renderFile);
-//app.set('view engine', 'ejs');
+//app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'ejs');
 app.set('port', port);
 
-
-
+const server = http.createServer(app);
+server.listen(port, function(){
+  console.log('Server running !');
+});
 
 const connection = mysql.createConnection({
   host : 'localhost',
@@ -98,11 +100,6 @@ app.use(function(err, req, res, next) {
   });
 });
 
-
-const server = http.createServer(app);
-server.listen(port, function(){
-  console.log('Server running !');
-});
 
 
 //Receive data from client
