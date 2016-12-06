@@ -122,11 +122,13 @@ document.getElementById('add-camera-btn').addEventListener('click', function(){
 function displayScreens(){
     console.log('displayScreens function');
 
+    var tbCamera = document.getElementById('tbody-camera');
+
     //Create table & add id
-    var tableScreen = document.createElement('table');
-    tableScreen.id = 'table-screen';
-    tableScreen.className = 'table table-striped table-hover table-responsive';
-    tableScreen.setAttribute('style','background-color:#FFFFFF;');
+    //var tableScreen = document.createElement('table');
+    //tableScreen.id = 'table-screen';
+    //tableScreen.className = 'table table-striped table-hover table-responsive';
+    //tableScreen.setAttribute('style','background-color:#FFFFFF;');
 
     //for each screen
     for(var i=0;i<tbScreen.length;i++) {
@@ -241,10 +243,10 @@ function displayScreens(){
         screen.appendChild(screen_notif);
         screen.appendChild(screen_timer);
         //screen.appendChild(screen_replay);
-        tableScreen.appendChild(screen);
+        tbCamera.appendChild(screen);
     }
 
-    document.getElementById('table-screen-div').appendChild(tableScreen);
+    //document.getElementById('table-screen-div').appendChild(tableScreen);
 
 }
 
