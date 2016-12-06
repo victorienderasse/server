@@ -126,7 +126,7 @@ io.sockets.on('connection', function(socket){
     console.log('test session : '+socket.handshake.session.test);
     console.log('page : ',data);
     console.log('socketID : '+socket.id);
-    var sendCamera = 'SELECT * FROM camera WHERE enable = 1;
+    var sendCamera = 'SELECT * FROM camera WHERE enable = 1';
     connection.query(sendCamera, function (err,rows) {
       socket.emit('sendCamera', rows);
     });
