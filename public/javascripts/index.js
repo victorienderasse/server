@@ -20,8 +20,8 @@ socket.on('message',function(data){
 });
 
 
-socket.on('loginSuccess', function(userID){
-
+socket.on('redirect', function(url){
+    window.location = url;
 });
 
 //Button-------------------------------
