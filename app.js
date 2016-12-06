@@ -8,7 +8,6 @@ const fs = require('fs');
 const passHash = require('password-hash');
 const http = require('http');
 const mysql = require('mysql');
-const session = require('express-session');
 
 //const routes = require('./routes/index');
 // view engine setup
@@ -31,8 +30,15 @@ const connection = mysql.createConnection({
   database : 'TFE'
 });
 
-const io = require('socket.io').listen(server);
+const session = require('express-session')({
+  secret: "tfe-secret",
+  resave: true,
+  saveUnitialized: true
+});
 
+const sharedSession = require('express-socket.io-session');
+
+const io = require('socket.io').listen(server);
 
 //YOLO ?---------------------------------------------------------------------------------------
 // uncomment after placing your favicon in /public
@@ -46,23 +52,31 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(cookieParser());
 //app.use('/', routes);
-app.use(session({secret: 'topsecret'}));
-var sess;
+app.use(session);
+
+io.use(sharedSession(session, {
+  autoSave: true
+}));
+
 
 //PAGES--------------------------------------------------------------------------------------
 
 app.get('/', function(req,res){
+  var sess = req.session;
+
   res.render('index.ejs',{name: 'test'});
 });
 
 app.get('/display', function(req,res){
-  sess = req.session;
+  var sess = req.session;
+  sess.test = 'test ok';
   console.log(sess.userID);
   res.render('display.ejs');
 });
 
 app.post('/login', function(req,res,next){
-  sess = req.session;
+  var sess = req.session;
+  sess.test = 'test ok';
   var email = req.body.email;
   var password = req.body.password;
   const getPassword = 'SELECT * FROM user WHERE email = "'+email+'"';
@@ -100,6 +114,7 @@ io.sockets.on('connection', function(socket){
   //Client connected
   socket.on('client', function (userID) {
     console.log('client connecté');
+    console.log('test session : '+socket.handshake.session.test);
     var sendCamera = 'SELECT * FROM camera WHERE enable = 1 AND userID = '+userID;
     connection.query(sendCamera, function (err,rows) {
       socket.emit('sendCamera', rows);
