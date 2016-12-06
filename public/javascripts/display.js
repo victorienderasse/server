@@ -104,13 +104,18 @@ document.getElementById('timer-confirm-btn').addEventListener('click', function(
     }
 });
 
-
+//Add Camera
 document.getElementById('add-camera-btn').addEventListener('click', function(){
     console.log('AddScreen btn pressed');
     var form = document.getElementById('addScreen-form');
     var code = form.code.value;
     var userID = document.getElementById('userID').innerHTML;
     socket.emit('addScreen',{code:code,userID:userID});
+});
+
+//Disconnect
+document.getElementById('disconnect-btn').addEventListener('click', function(){
+    window.location = serverURL;
 });
 
 
