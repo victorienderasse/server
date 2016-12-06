@@ -111,6 +111,7 @@ app.use(function(req,res,next){
 //Receive data from client------------------------------------------------------------------
 
 io.sockets.on('connection', function(socket){
+  socket.handshake.session.test = 'test ok';
   //Client connected
   socket.on('client', function (userID) {
     console.log('client connecté');
