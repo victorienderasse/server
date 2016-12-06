@@ -137,9 +137,9 @@ function displayScreens(){
         var screen_timer = document.createElement('td');
         var screen_timer_btn = document.createElement('button');
         var screen_timer_btn_icon = document.createElement('span');
-        //var screen_replay = document.createElement('td');
-        //var screen_replay_btn = document.createElement('button');
-        //var screen_replay_btn_icon = document.createElement('span');
+        var screen_replay = document.createElement('td');
+        var screen_replay_btn = document.createElement('button');
+        var screen_replay_btn_icon = document.createElement('span');
         var screen_img = document.createElement('img');
 
         //Create text
@@ -151,26 +151,21 @@ function displayScreens(){
         screen_name.appendChild(bold);
 
         //Add attributes
-        //Screen
         screen.id = 'screen-' + tbScreen[i].cameraID;
-        //Screen_live
         screen_live.id = 'screen-' + tbScreen[i].cameraID + '-live';
         screen_live.title = 'Watch your camera online';
         screen_live_btn.id = 'screen-' + tbScreen[i].cameraID + '-live-link';
         screen_live_btn.setAttribute('onclick','runLive(' + tbScreen[i].cameraID + ');');
         screen_live_btn.setAttribute('data-toggle','modal');
         screen_live_btn.setAttribute('data-target','#modal-live');
-        //Screen_name
         screen_name.id = 'screen-' + tbScreen[i].cameraID + '-name';
         screen_name.title = 'Click to change the name';
         screen_name.setAttribute('onclick','runName(' + tbScreen[i].cameraID + ');');
-        //Screen_notif
         screen_notif.id = 'screen-' + tbScreen[i].cameraID + '-notif';
         screen_notif.title = 'Activate start motion detection';
         screen_notif_check.id = 'screen-' + tbScreen[i].cameraID + '-notif-check';
         screen_notif_check.type = 'checkbox';
         screen_notif_check.setAttribute('onchange','runNotif(' + tbScreen[i].cameraID + ');');
-        //Screen_timer
         screen_timer.id = 'screen-' + tbScreen[i].cameraID + '-timer';
         screen_timer.title = 'manage your timers';
         screen_timer_btn.id = 'screen-' + tbScreen[i].cameraID + '-timer-btn';
@@ -178,13 +173,12 @@ function displayScreens(){
         screen_timer_btn.setAttribute('data-toggle','modal');
         screen_timer_btn.setAttribute('data-target','#modal-timer');
         screen_timer_btn.setAttribute('onclick','runTimer('+tbScreen[i].cameraID+');');
-        //Screen_replay
-        //screen_replay.id = 'screen-' + tbScreen[i].cameraID + '-replay';
-        //screen_replay.title = 'Watch the replay of this camera';
-        //screen_replay_btn.id = 'screen-' + tbScreen[i].cameraID + '-replay-btn';
-        //screen_replay_btn.setAttribute('onclick','runReplay(' + tbScreen[i].cameraID + ');');
-        //screen_replay_btn.setAttribute('data-toggle','modal');
-        //screen_replay_btn.setAttribute('data-target','#modal-replay');
+        screen_replay.id = 'screen-' + tbScreen[i].cameraID + '-replay';
+        screen_replay.title = 'Watch the replay of this camera';
+        screen_replay_btn.id = 'screen-' + tbScreen[i].cameraID + '-replay-btn';
+        screen_replay_btn.setAttribute('onclick','runReplay(' + tbScreen[i].cameraID + ');');
+        screen_replay_btn.setAttribute('data-toggle','modal');
+        screen_replay_btn.setAttribute('data-target','#modal-replay');
         //Screen_img
         screen_img.id = 'screen-'+tbScreen[i].cameraID+'-image';
         screen_img.setAttribute('src','/public/images/stream_camera_'+tbScreen[i].cameraID+'.jpg');
@@ -194,9 +188,9 @@ function displayScreens(){
 
         //Add Class
         screen_timer_btn.className = 'btn btn-primary form-control';
-        //screen_replay_btn.className = 'btn btn-success form-control';
+        screen_replay_btn.className = 'btn btn-success form-control';
         screen_timer_btn_icon.className = 'glyphicon glyphicon-edit';
-        //screen_replay_btn_icon.className = 'glyphicon glyphicon-play';
+        screen_replay_btn_icon.className = 'glyphicon glyphicon-play';
         screen.className = 'form-group jumbotron';
         screen_live.className = 'col-lg-2';
         screen_name.className = 'row col-lg-1';
@@ -225,12 +219,12 @@ function displayScreens(){
 
         //Insert Element
         screen_timer_btn.appendChild(screen_timer_btn_icon);
-        //screen_replay_btn.appendChild(screen_replay_btn_icon);
+        screen_replay_btn.appendChild(screen_replay_btn_icon);
         screen_live_btn.appendChild(screen_img);
         screen_live.appendChild(screen_live_btn);
         screen_notif.appendChild(screen_notif_check);
         screen_timer.appendChild(screen_timer_btn);
-        //screen_replay.appendChild(screen_replay_btn);
+        screen_replay.appendChild(screen_replay_btn);
         screen.appendChild(screen_live);
         screen.appendChild(screen_name);
         screen.appendChild(screen_notif);
