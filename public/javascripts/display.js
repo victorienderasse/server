@@ -10,11 +10,10 @@
 var socket = io.connect(serverURL);
 
 //Events------------------------------------
-
-
-var userID = 3;
 socket.emit('client','display');
 
+var userID = document.getElementById('userID').innerHTML;
+socket.emit('getCamera',userID);
 
 //getCameras
 socket.on('sendCamera', function(data){
@@ -31,6 +30,7 @@ socket.on('sendRecords', function(tbRecord){
 
 //message
 socket.on('message',function(data){
+    console.log('display message');
     //action
     //type
     if (data.title == 'Alerte'){

@@ -58,7 +58,12 @@ io.sockets.on('connection', function(socket){
   //Client connected
   socket.on('client', function (data) {
     console.log('client connected');
-    var sendCamera = 'SELECT * FROM camera WHERE enable = 1';
+  });
+
+
+  socket.on('getCamera', function(userID){
+    console.log('getCamera event -> userID : '+userID);
+    var sendCamera = 'SELECT * FROM camera WHERE enable = 1 AND userID = '+userID;
     connection.query(sendCamera, function (err,rows) {
       if (err){
         throw err;
