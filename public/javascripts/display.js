@@ -202,7 +202,7 @@ function displayScreens(){
         //screen_replay_btn.className = 'btn btn-success form-control';
         screen_timer_btn_icon.className = 'glyphicon glyphicon-edit';
         //screen_replay_btn_icon.className = 'glyphicon glyphicon-play';
-        screen.className = 'form-group';
+        screen.className = 'form-group jumbotron';
         screen_live.className = 'col-lg-2';
         screen_name.className = 'row col-lg-1';
         screen_notif.className = 'row col-lg-1';
