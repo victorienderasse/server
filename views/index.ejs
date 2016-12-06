@@ -12,8 +12,8 @@
 
 
 <%#-TITLE & MOTD-%>
-<section id="titre-section">
-    <div id="titre-div">
+<section id="titre-section" class="row jumbotron">
+    <div id="titre-div" class="container">
         <p><h1 id="titre">TFE</h1></p>
     </div>
     <div id="welcome-div">
@@ -21,8 +21,13 @@
     </div>
 </section>
 
+<section class="message-section">
+    <div class="message-div">
+        <p id="message"></p>
+    </div>
+</section>
 
-<section>
+<section class="row container">
     <div>
         <button id="login-btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-login">Login</button>
         <button id="signin-btn" type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-signin">Signin</button>
@@ -92,20 +97,6 @@
     </div>
 </div>
 
-
-<%#-PROJECT DESCRIPTION-%>
-<section id="description-section">
-    <div id="description-div">
-        <p>Ici un descriptif du produit</p>
-    </div>
-</section>
-
-<%#-PROJECT ADVANTAGES-%>
-<section id="adventages-section">
-    <div id="advantages-div">
-        <p>Ici les avantages</p>
-    </div>
-</section>
 
 
 <script src="/public/javascripts/hostconfig.js"></script>

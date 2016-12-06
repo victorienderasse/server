@@ -18,6 +18,7 @@ const session = require('express-session');
 
 //Global var---------------------------------------------------------------------------------
 const port = 3000;
+const serverURL = 'http://192.168.1.50:3000';
 
 const app = express();
 
@@ -326,7 +327,7 @@ io.sockets.on('connection', function(socket){
       }
       if (rows.length>0){
         if (passHash.verify(data.password, rows[0].password)){
-            socket.emit('redirect','http://192.168.1.50:3000/display?userID='+rows[0].userID);
+            socket.emit('redirect',serverURL+'/display?userID='+rows[0].userID);
         }else{
             socket.emit('msgError', 'Error wrong password');
         }
