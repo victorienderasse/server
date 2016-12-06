@@ -10,6 +10,7 @@
 </head>
 <body>
 
+<%#MENU%>
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -35,6 +36,7 @@
     </div>
 </nav>
 
+<%#TITLE%>
 <div class="jumbotron">
     <div class="container">
         <h1>Display</h1>
@@ -42,6 +44,7 @@
     </div>
 </div>
 
+<%#MESSAGE%>
 <div class="container">
     <div class="row">
         <div id="message-div">
@@ -51,12 +54,7 @@
     </div>
 </div>
 
-
-<div id="replay" class="container">
-    <button id="replay-btn" type="button" class="btn form-control btn-success" onclick="runReplay();" data-toggle="modal" data-target="#modal-replay">replays</button>
-</div>
-
-
+<%#TB SCREEN%>
 <div class="container">
     <div>
         <table id="table-camera" class="table table-condensed">
@@ -74,6 +72,13 @@
         </table>
     </div>
 </div>
+
+
+<hr>
+
+<footer class="container">
+    <p>© 2016 Victorien Derasse</p>
+</footer>
 
 
 <%#Modals Timer%>
