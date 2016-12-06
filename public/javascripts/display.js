@@ -458,7 +458,7 @@ function playReplay(){
     //create source
     var source = document.createElement('source');
     var opt = document.getElementById('select-replay').value;
-    var path = '/public/videos/'+opt;
+    var path = './public/videos/'+opt;
     source.setAttribute('src',path);
     source.setAttribute('type','video/mp4');
     video.appendChild(source);

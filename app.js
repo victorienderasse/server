@@ -217,7 +217,7 @@ io.sockets.on('connection', function(socket){
   //Get all the replay
   socket.on('getReplays', function(){
     console.log('getReplays event');
-    fs.readdir('../client/public/videos', function(err, files){
+    fs.readdir('./public/videos', function(err, files){
       if(err){
         console.log('getReplays error : '+err);
         throw err;
