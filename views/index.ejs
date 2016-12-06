@@ -18,15 +18,16 @@
             <a class="navbar-brand" href="#">TFE</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse" style="height:0.8px;">
-            <form class="navbar-form navbar-right">
+            <form class="navbar-form navbar-right" action="/login" method="post">
                 <div class="form-group">
                     <label for="email" class="control-label"><input id="email" name="email" type="text" class="form-control" placeholder="Email"></label>
                 </div>
                 <div class="form-group">
                     <label for="password" class="control-label"><input id="password" name="password" type="password" class="form-control" placeholder="Password"></label>
                 </div>
-                <button type="submit" class="btn btn-primary">Sign In</button>
+                <button type="submit" class="btn btn-primary">Log In</button>
             </form>
+            <button id="signin-btn" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#modal-signin">Sign In</button>
         </div>
     </div>
 </nav>
