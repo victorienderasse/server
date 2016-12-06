@@ -229,7 +229,7 @@ function displayScreens(){
         screen.appendChild(screen_name);
         screen.appendChild(screen_notif);
         screen.appendChild(screen_timer);
-        //screen.appendChild(screen_replay);
+        screen.appendChild(screen_replay);
         tbCamera.appendChild(screen);
     }
 }
