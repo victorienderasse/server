@@ -56,7 +56,7 @@ app.get('/', function(req,res){
 
 app.get('/display', function(req,res){
   sess = req.session;
-  console.log(sess.name);
+  console.log(sess.userID);
   res.render('display.ejs');
 });
 
@@ -73,6 +73,7 @@ app.post('/login', function(req,res,next){
       if (passHash.verify(password,rows[0].password)){
         console.log('login ok');
         sess.userID = rows[0].userID;
+        console.log(sess.userID);
         sess.name = rows[0].name;
         sess.email = rows[0].email;
         res.redirect('/display');
@@ -98,8 +99,7 @@ io.sockets.on('connection', function(socket){
   //Client connected
   socket.on('client', function (userID) {
     console.log('client connecté');
-    console.log('userID : '+sess.userID);
-    var sendCamera = 'SELECT * FROM camera WHERE enable = 1 AND userID = '+sess.userID;
+    var sendCamera = 'SELECT * FROM camera WHERE enable = 1 AND userID = '+userID;
     connection.query(sendCamera, function (err,rows) {
       socket.emit('sendCamera', rows);
     });
@@ -113,7 +113,6 @@ io.sockets.on('connection', function(socket){
     //check camera exist
     connection.query('SELECT * FROM camera WHERE serial = ?', serial , function(err, rows, fields){
       if(err){
-        console.log('camera exist MYSQL error : '+err);
         throw err;
       }
       if(rows.length > 0){
