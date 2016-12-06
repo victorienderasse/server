@@ -8,7 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
-<body style="background-color:#cccccc;">
+<body>
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
@@ -42,18 +42,14 @@
     </div>
 </div>
 
-
-<%#-ADD SCREEN-%>
-<section id="addScreen-section" class="row">
-    <div id="addScreen-div" class="col-lg-offset-2">
-        <button id="addScreen" type="button" class="btn btn-success">Ajouter une camera</button>
-        <form id="addScreen-form" class="form">
-            <div class="form-group">
-                <label for="code" class="control-label">Code : <input type="text" id="code" name="code" placeholder="Code de la camera"></label>
-            </div>
-        </form>
+<div class="container">
+    <div class="row">
+        <div id="message-div">
+            <strong id="message-title"></strong>
+            <p id="message-body"></p>
+        </div>
     </div>
-</section>
+</div>
 
 <%#-SCREENS-%>
 <section id="screen-section" class="row col-lg-offset-2 col-lg-8 ">
