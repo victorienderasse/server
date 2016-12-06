@@ -5,8 +5,18 @@ var socket = io.connect(serverURL);
 //Event--------------------------------
 socket.emit('client','index');
 //Display error messages
-socket.on('msgError', function(data){
-    console.log(data);
+socket.on('message',function(data){
+    //action
+    if (data.action == 'empty-login'){
+        emptyLoginForm();
+    }
+    //type
+    if (title == 'Alerte'){
+        document.getElementById('message-div').className = 'alert alert-danger';   
+    }
+    //add message and title
+    document.getElementById('message-title').innerHTML = data.title;
+    document.getElementById('message-body').innerHTML = data.message;
 });
 
 
@@ -42,3 +52,13 @@ document.getElementById('login-btn').addEventListener('click', function(){
         password: loginForm.password.value
     });
 });
+
+
+//Functions ---------------------------------------------
+
+function emptyLoginForm(){
+    console.log('emptyLoginForm function');
+    var myForm = document.getElementById('login-form');
+    myForm.email.value = '';
+    myForm.password.value = '';
+}

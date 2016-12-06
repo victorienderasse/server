@@ -1,3 +1,5 @@
+
+//Global var---------------------------------------------------------------------------------
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
@@ -8,22 +10,14 @@ const fs = require('fs');
 const passHash = require('password-hash');
 const http = require('http');
 const mysql = require('mysql');
-
 const routes = require('./routes/index');
 
 const port = 3000;
 const serverURL = 'http://192.168.1.50:3000';
-
-//Global var---------------------------------------------------------------------------------
-
 const app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-app.set('port', port);
-
 const server = http.createServer(app);
+const io = require('socket.io').listen(server);
 
 const connection = mysql.createConnection({
   host : 'localhost',
@@ -38,12 +32,13 @@ const session = require('express-session')({
   saveUnitialized: true
 });
 
-const sharedSession = require('express-socket.io-session');
 
-const io = require('socket.io').listen(server);
 
 //YOLO ?---------------------------------------------------------------------------------------
-// uncomment after placing your favicon in /public
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.set('port', port);
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/public/javascripts', express.static(path.join(__dirname, 'public/javascripts')));
@@ -55,66 +50,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use('/', routes);
 app.use(session);
-
-io.use(sharedSession(session, {
-  autoSave: true
-}));
-/*
-var socket = require('socket.io-client')(serverURL);
-socket.on('connect', function(){
-  socket.emit('client','client');
-  require('./routes/index.js')(app)
-});
-*/
-
-//PAGES--------------------------------------------------------------------------------------
-/*
-app.get('/', function(req,res){
-  var sess = req.session;
-
-  res.render('index.ejs',{name: 'test'});
-});
-
-app.get('/display', function(req,res){
-  var sess = req.session;
-  sess.test = 'test ok';
-  console.log(sess.userID);
-  res.render('display.ejs');
-});
-
-app.post('/login', function(req,res,next){
-  var sess = req.session;
-  sess.test = 'test ok';
-  var email = req.body.email;
-  var password = req.body.password;
-  const getPassword = 'SELECT * FROM user WHERE email = "'+email+'"';
-  connection.query(getPassword, function(err,rows){
-    if (err){
-      throw err;
-    }
-    if (rows.length>0){
-      if (passHash.verify(password,rows[0].password)){
-        console.log('login ok');
-        sess.userID = rows[0].userID;
-        console.log(sess.userID);
-        sess.name = rows[0].name;
-        sess.email = rows[0].email;
-        res.redirect('/display');
-      }else{
-        console.log('mauvais password');
-        res.redirect('/');
-      }
-    }else{
-      console.log('email existe pas');
-      res.redirect('/');
-    }
-  });
-});
-
-app.use(function(req,res,next){
-  res.redirect('/');
-});
-*/
 
 //Receive data from client------------------------------------------------------------------
 
@@ -349,9 +284,6 @@ io.sockets.on('connection', function(socket){
       }
       if (rows.length>0){
         if (passHash.verify(data.password, rows[0].password)){
-          socket.handshake.session.userID = rows[0].userID;
-          socket.handshake.session.name = rows[0].name;
-          socket.handshake.session.email = rows[0].email;
           socket.emit('redirect',serverURL+'/display?userID='+rows[0].userID);
         }else{
           socket.emit('message',{title: 'Alerte', message: 'Erreur: Le password entré est incorrect', action: 'empty-login'});
