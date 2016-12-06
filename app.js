@@ -9,15 +9,17 @@ const passHash = require('password-hash');
 const http = require('http');
 const mysql = require('mysql');
 
-//const routes = require('./routes/index');
-// view engine setup
-//app.set('views', path.join(__dirname, 'views'));
-//app.set('view engine', 'ejs');
-//app.set('port', port);
+const routes = require('./routes/index');
 
-//Global var---------------------------------------------------------------------------------
 const port = 3000;
 const serverURL = 'http://192.168.1.50:3000';
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.set('port', port);
+
+//Global var---------------------------------------------------------------------------------
 
 const app = express();
 
@@ -50,17 +52,23 @@ app.use('/public/images', express.static(path.join(__dirname, 'public/images')))
 //app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-//app.use(cookieParser());
-//app.use('/', routes);
+app.use(cookieParser());
+app.use('/', routes);
 app.use(session);
 
 io.use(sharedSession(session, {
   autoSave: true
 }));
-
+/*
+var socket = require('socket.io-client')(serverURL);
+socket.on('connect', function(){
+  socket.emit('client','client');
+  require('./routes/index.js')(app)
+});
+*/
 
 //PAGES--------------------------------------------------------------------------------------
-
+/*
 app.get('/', function(req,res){
   var sess = req.session;
 
@@ -106,17 +114,19 @@ app.post('/login', function(req,res,next){
 app.use(function(req,res,next){
   res.redirect('/');
 });
-
+*/
 
 //Receive data from client------------------------------------------------------------------
 
 io.sockets.on('connection', function(socket){
   socket.handshake.session.test = 'test ok';
   //Client connected
-  socket.on('client', function (userID) {
+  socket.on('client', function (data) {
     console.log('client connecté');
     console.log('test session : '+socket.handshake.session.test);
-    var sendCamera = 'SELECT * FROM camera WHERE enable = 1 AND userID = '+userID;
+    console.log('page : ',data);
+    console.log('socketID : '+socket.id);
+    var sendCamera = 'SELECT * FROM camera WHERE enable = 1;
     connection.query(sendCamera, function (err,rows) {
       socket.emit('sendCamera', rows);
     });
@@ -343,12 +353,15 @@ io.sockets.on('connection', function(socket){
       }
       if (rows.length>0){
         if (passHash.verify(data.password, rows[0].password)){
-            socket.emit('redirect',serverURL+'/display?userID='+rows[0].userID);
+          socket.handshake.session.userID = rows[0].userID;
+          socket.handshake.session.name = rows[0].name;
+          socket.handshake.session.email = rows[0].email;
+          socket.emit('redirect',serverURL+'/display?userID='+rows[0].userID);
         }else{
-            socket.emit('msgError', 'Error wrong password');
+          socket.emit('message',{title: 'Alerte', message: 'Erreur: Le password entré est incorrect', action: 'empty-login'});
         }
       }else{
-          socket.emit('msgError','Error email doesn\'t exist');
+          socket.emit('message',{title: 'Alerte', message: 'Erreur: Cette adresse email est introuvable', action: 'empty-login'});
       }
     })
   });

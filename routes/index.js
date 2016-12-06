@@ -1,7 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var sess;
-
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -9,9 +7,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/display', function(req,res){
- // sess = req.session;
-  //sess.userID = req.query.userID;
-  res.render('display',{userID: 4});
+  res.render('display');
 });
 
 module.exports = router;

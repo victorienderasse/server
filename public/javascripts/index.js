@@ -1,8 +1,9 @@
 /**
  * Created by Victorien on 02-12-16.
  */
+var socket = io.connect(serverURL);
 //Event--------------------------------
-
+socket.emit('client','index');
 //Display error messages
 socket.on('msgError', function(data){
     console.log(data);
@@ -33,7 +34,7 @@ document.getElementById('signin-confirm-btn').addEventListener('click',function(
 });
 
 //Login
-document.getElementById('login-confirm-btn').addEventListener('click', function(){
+document.getElementById('login-btn').addEventListener('click', function(){
     console.log('login btn');
     loginForm = document.getElementById('login-form');
     socket.emit('login', {

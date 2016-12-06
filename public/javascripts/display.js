@@ -8,13 +8,12 @@
 
 //Connection to the server------------------
 var socket = io.connect(serverURL);
-var stream;
 
 //Events------------------------------------
 
 
 var userID = 3;
-socket.emit('client',userID);
+socket.emit('client','display');
 
 
 //getCameras
