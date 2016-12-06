@@ -124,15 +124,8 @@ function displayScreens(){
 
     var tbCamera = document.getElementById('tbody-camera');
 
-    //Create table & add id
-    //var tableScreen = document.createElement('table');
-    //tableScreen.id = 'table-screen';
-    //tableScreen.className = 'table table-striped table-hover table-responsive';
-    //tableScreen.setAttribute('style','background-color:#FFFFFF;');
-
     //for each screen
     for(var i=0;i<tbScreen.length;i++) {
-
 
         //Create Elements
         var screen = document.createElement('tr');
@@ -245,9 +238,6 @@ function displayScreens(){
         //screen.appendChild(screen_replay);
         tbCamera.appendChild(screen);
     }
-
-    //document.getElementById('table-screen-div').appendChild(tableScreen);
-
 }
 
 

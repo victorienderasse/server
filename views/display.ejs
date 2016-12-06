@@ -51,6 +51,12 @@
     </div>
 </div>
 
+
+<div id="replay" class="container">
+    <button id="replay-btn" type="button" class="btn form-control btn-success" onclick="runReplay();" data-toggle="modal" data-target="#modal-replay">replays</button>
+</div>
+
+
 <div class="container">
     <div>
         <table id="table-camera" class="table table-condensed">
@@ -62,23 +68,12 @@
                     <th>Manage Planification</th>
                 </tr>
             </thead>
-            <tbody id="tbody-camera">
-
+            <tbody id="tbody-camera text-center">
             </tbody>
         </table>
     </div>
 </div>
 
-<%#-SCREENS-%>
-<section id="screen-section" class="row col-lg-offset-2 col-lg-8 ">
-    <div id="msg"></div>
-    <div id="replay" class="col-lg-2">
-        <button id="replay-btn" type="button" class="btn form-control btn-success" onclick="runReplay();" data-toggle="modal" data-target="#modal-replay">replays</button>
-    </div>
-    <div id="screen-div">
-        <div id="table-screen-div"></div>
-    </div>
-</section>
 
 <%#Modals Timer%>
 <div id="modal-timer" class="modal fade" role="dialog">
