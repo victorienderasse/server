@@ -53,7 +53,7 @@ app.use('/public/images', express.static(path.join(__dirname, 'public/images')))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use('/', routes);
+//app.use('/', routes);
 app.use(session);
 
 io.use(sharedSession(session, {
@@ -119,6 +119,9 @@ app.use(function(req,res,next){
 //Receive data from client------------------------------------------------------------------
 
 io.sockets.on('connection', function(socket){
+
+  require('./routes/index.js');
+
   socket.handshake.session.test = 'test ok';
   //Client connected
   socket.on('client', function (data) {
