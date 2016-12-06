@@ -60,7 +60,14 @@ io.sockets.on('connection', function(socket){
     console.log('client connected');
     var sendCamera = 'SELECT * FROM camera WHERE enable = 1';
     connection.query(sendCamera, function (err,rows) {
-      socket.emit('sendCamera', rows);
+      if (err){
+        throw err;
+      }
+      if (rows.length>0){
+        socket.emit('sendCamera', rows);
+      }else{
+        socket.emit('message', {title:'Alerte', message: 'Vous n\'avez aucune caméra', action=''});
+      }
     });
   });
 

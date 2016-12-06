@@ -19,15 +19,7 @@ socket.emit('client','display');
 //getCameras
 socket.on('sendCamera', function(data){
     console.log('sendCamera event');
-    tbScreen = data;
-
-    if(tbScreen.length>0){
-        displayScreens();
-        console.log('nbCamera = '+tbScreen.length);
-    }else{
-        document.getElementById('table-screen-div').innerHTML = 'Vous n\'avez aucune camera';
-        console.log('Aucune camera');
-    }
+    displayScreens(data);
 });
 
 
@@ -37,12 +29,18 @@ socket.on('sendRecords', function(tbRecord){
     displayRecords(tbRecord);
 });
 
-//Errors
-socket.on('msgError', function(msg){
-    console.log('msgError event');
-    document.getElementById('signin-form').reset();
-    document.getElementById('error-signin-div').innerHTML = msg;
+//message
+socket.on('message',function(data){
+    //action
+    //type
+    if (data.title == 'Alerte'){
+        document.getElementById('message-div').className = 'alert alert-danger';
+    }
+    //add message and title
+    document.getElementById('message-title').innerHTML = data.title;
+    document.getElementById('message-body').innerHTML = data.message;
 });
+
 
 //redirection
 socket.on('redirect', function(url){
@@ -119,7 +117,7 @@ document.getElementById('add-camera-btn').addEventListener('click', function(){
 
 //Functions-----------------------------------
 
-function displayScreens(){
+function displayScreens(tbScreen){
     console.log('displayScreens function');
 
     var tbCamera = document.getElementById('tbody-camera');
