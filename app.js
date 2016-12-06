@@ -66,7 +66,7 @@ io.sockets.on('connection', function(socket){
       if (rows.length>0){
         socket.emit('sendCamera', rows);
       }else{
-        socket.emit('message', {title:'Alerte', message: 'Vous n\'avez aucune caméra', action=''});
+        socket.emit('message', {title:'Alerte', message: 'Vous n\'avez aucune caméra', action:''});
       }
     });
   });
