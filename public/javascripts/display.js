@@ -107,7 +107,7 @@ document.getElementById('timer-confirm-btn').addEventListener('click', function(
 });
 
 
-document.getElementById('addScreen').addEventListener('click', function(){
+document.getElementById('add-camera-btn').addEventListener('click', function(){
     console.log('AddScreen btn pressed');
     var form = document.getElementById('addScreen-form');
     var code = form.code.value;
