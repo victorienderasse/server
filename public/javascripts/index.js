@@ -11,7 +11,7 @@ socket.on('message',function(data){
         emptyLoginForm();
     }
     //type
-    if (title == 'Alerte'){
+    if (data.title == 'Alerte'){
         document.getElementById('message-div').className = 'alert alert-danger';   
     }
     //add message and title
