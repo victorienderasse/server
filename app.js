@@ -14,14 +14,14 @@ const routes = require('./routes/index');
 const port = 3000;
 const serverURL = 'http://192.168.1.50:3000';
 
+//Global var---------------------------------------------------------------------------------
+
+const app = express();
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.set('port', port);
-
-//Global var---------------------------------------------------------------------------------
-
-const app = express();
 
 const server = http.createServer(app);
 
