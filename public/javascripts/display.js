@@ -176,6 +176,7 @@ function displayScreens(){
         screen_replay.id = 'screen-' + tbScreen[i].cameraID + '-replay';
         screen_replay.title = 'Watch the replay of this camera';
         screen_replay_btn.id = 'screen-' + tbScreen[i].cameraID + '-replay-btn';
+        screen_timer_btn.title ='Replay of the camera';
         screen_replay_btn.setAttribute('onclick','runReplay(' + tbScreen[i].cameraID + ');');
         screen_replay_btn.setAttribute('data-toggle','modal');
         screen_replay_btn.setAttribute('data-target','#modal-replay');
@@ -191,10 +192,11 @@ function displayScreens(){
         screen_replay_btn.className = 'btn btn-success form-control';
         screen_timer_btn_icon.className = 'glyphicon glyphicon-edit';
         screen_replay_btn_icon.className = 'glyphicon glyphicon-play';
-        screen.className = 'form-group jumbotron';
+        screen.className = 'form-group';
         screen_live.className = 'col-lg-2';
         screen_name.className = 'row col-lg-1';
         screen_notif.className = 'row col-lg-1';
+        screen_replay.className = 'row col-lg-1';
         screen_timer.className = 'row col-lg-1';
 
         //get state -> diabled btn
@@ -228,8 +230,8 @@ function displayScreens(){
         screen.appendChild(screen_live);
         screen.appendChild(screen_name);
         screen.appendChild(screen_notif);
-        screen.appendChild(screen_timer);
         screen.appendChild(screen_replay);
+        screen.appendChild(screen_timer);
         tbCamera.appendChild(screen);
     }
 }
