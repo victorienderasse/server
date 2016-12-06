@@ -126,6 +126,12 @@ io.sockets.on('connection', function(socket){
     console.log('test session : '+socket.handshake.session.test);
     console.log('page : ',data);
     console.log('socketID : '+socket.id);
+    if (data == 'index'){
+      socket.handshake.session.myID = socket.id;
+    }
+    if (data == 'display'){
+      console.log(socket.handshake.session.myID);
+    }
     var sendCamera = 'SELECT * FROM camera WHERE enable = 1';
     connection.query(sendCamera, function (err,rows) {
       socket.emit('sendCamera', rows);
