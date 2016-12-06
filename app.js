@@ -120,21 +120,8 @@ app.use(function(req,res,next){
 
 io.sockets.on('connection', function(socket){
 
-  require('./routes/index.js')
-
-  socket.handshake.session.test = 'test ok';
   //Client connected
   socket.on('client', function (data) {
-    console.log('client connecté');
-    console.log('test session : '+socket.handshake.session.test);
-    console.log('page : ',data);
-    console.log('socketID : '+socket.id);
-    if (data == 'index'){
-      socket.handshake.session.myID = socket.id;
-    }
-    if (data == 'display'){
-      console.log(socket.handshake.session.myID);
-    }
     var sendCamera = 'SELECT * FROM camera WHERE enable = 1';
     connection.query(sendCamera, function (err,rows) {
       socket.emit('sendCamera', rows);
