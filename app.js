@@ -108,6 +108,11 @@ io.sockets.on('connection', function(socket){
     });
   });
 
+  //python test
+  socket.on('PythonTest', function(data){
+    console.log('PythonTest');
+    console.log('Message : '+data);
+  });
 
   //camera or client disconnected
   socket.on('disconnect', function(){
