@@ -14,6 +14,12 @@ socket.on('message',function(data){
     if (data.title == 'Alerte'){
         document.getElementById('message-div').className = 'alert alert-danger';   
     }
+    if (data.title == 'Bravo'){
+        document.getElementById('message-div').className = 'alert alert-success';
+    }
+    if (data.title == 'Info'){
+        document.getElementById('message-div').className = 'alert alert-info';
+    }
     //add message and title
     document.getElementById('message-title').innerHTML = data.title;
     document.getElementById('message-body').innerHTML = data.message;
@@ -21,7 +27,7 @@ socket.on('message',function(data){
 
 
 socket.on('redirect', function(url){
-    window.location = url;
+    redirectURL(url);
 });
 
 //Button-------------------------------
@@ -61,4 +67,8 @@ function emptyLoginForm(){
     var myForm = document.getElementById('login-form');
     myForm.email.value = '';
     myForm.password.value = '';
+}
+
+function redirectURL(url){
+    window.location = url;
 }

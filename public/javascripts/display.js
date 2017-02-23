@@ -13,6 +13,8 @@ var socket = io.connect(serverURL);
 socket.emit('client','display');
 
 var userID = document.getElementById('userID').innerHTML;
+
+//Ask camera to server
 socket.emit('getCamera',userID);
 
 //getCameras
@@ -35,6 +37,12 @@ socket.on('message',function(data){
     //type
     if (data.title == 'Alerte'){
         document.getElementById('message-div').className = 'alert alert-danger';
+    }
+    if (data.title == 'Bravo'){
+        document.getElementById('message-div').className = 'alert alert-success';
+    }
+    if (data.title == 'Info'){
+        document.getElementById('message-div').className = 'alert alert-info';
     }
     //add message and title
     document.getElementById('message-title').innerHTML = data.title;

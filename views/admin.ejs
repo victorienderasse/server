@@ -10,8 +10,25 @@
 </head>
 <body>
 
+<%#MESSAGE%>
+<div class="container">
+    <div class="row">
+        <div id="message-div">
+            <strong id="message-title"></strong>
+            <p id="message-body"></p>
+        </div>
+    </div>
+</div>
+
 <div id="admin" style="display: none">
     <p>Admin interface</p>
+    <form id="add-camera-form">
+        <label for="serial" class="control-label">Code série : </label>
+        <input type="text" name="serial" id="serial">
+        <label for="code" class="control-label">Code secret : </label>
+        <input type="text" name="code" id="code">
+    </form>
+    <button id="add-camera-btn" type="button" class="btn btn-primary">Ajouter une caméra</button>
 </div>
 
 <script src="/public/javascripts/hostconfig.js"></script>

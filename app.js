@@ -60,7 +60,7 @@ io.sockets.on('connection', function(socket){
     console.log('client connected');
   });
 
-
+  //Send camera to client
   socket.on('getCamera', function(userID){
     console.log('getCamera event -> userID : '+userID);
     var sendCamera = 'SELECT * FROM camera WHERE enable = 1 AND userID = '+userID;
@@ -171,6 +171,7 @@ io.sockets.on('connection', function(socket){
     });
   });
 
+  
   //Delete recorded record
   socket.on('deleteRecord', function(recordID){
     console.log('deleteRecord event');
@@ -195,6 +196,7 @@ io.sockets.on('connection', function(socket){
     });
   });
 
+  
   //enable recorded record
   socket.on('applyRecord', function(recordID){
     console.log('applyRecord event');
@@ -219,6 +221,7 @@ io.sockets.on('connection', function(socket){
     });
   });
 
+  
   //Get all the replay
   socket.on('getReplays', function(){
     console.log('getReplays event');
@@ -231,6 +234,7 @@ io.sockets.on('connection', function(socket){
     })
   });
 
+  
   //Start the motion detection
   socket.on('startDetection', function(cameraID){
     console.log('startDetection event');
@@ -253,6 +257,7 @@ io.sockets.on('connection', function(socket){
     });
   });
 
+  
   //Start live stream
   socket.on('startStream', function(cameraID){
     console.log('startStream event');
@@ -260,6 +265,7 @@ io.sockets.on('connection', function(socket){
     sendToCamera(cameraID, 'startStream', cameraID);
   });
 
+  
   //Kill all python process
   socket.on('killProcess', function(cameraID){
     console.log('killProcess event');
@@ -267,6 +273,7 @@ io.sockets.on('connection', function(socket){
     sendToCamera(cameraID, 'killProcess', null);
   });
 
+  
   //Signin user
   socket.on('signin', function(data){
     console.log('signin event');
@@ -292,6 +299,7 @@ io.sockets.on('connection', function(socket){
     });
   });
 
+  
   //Login user
   socket.on('login', function(data){
     console.log('login event');
@@ -312,6 +320,7 @@ io.sockets.on('connection', function(socket){
     })
   });
 
+  
   //AddScreen
   socket.on('addScreen', function(data){
     console.log('add screen event');
@@ -331,6 +340,36 @@ io.sockets.on('connection', function(socket){
         console.log('No camera found');
       }
     });
+  });
+
+  
+  //CheckAdminPassword
+  socket.on('checkAdminPassword', function(data){
+    console.log('checkAdminPassword event');
+    const checkAdminPassword = "SELECT * FROM user WHERE userID == 1";
+    connection.query(checkAdminPassword, function(err,rows){
+      if(err){
+        throw err;
+      }
+      if (rows.length > 0){
+        if (passHash.verify(data, rows[0].password)){
+          socket.emit('displayAdmin');
+        }else{
+          socket.emit('message',{title: 'Alerte', message: 'Erreur: Le password est incorrect', action: ''});
+        }
+      }else{
+        socket.emit('message',{title: 'Alerte', message: 'Erreur: Aucun profil administrateur n\'a été trouvé. Veuillez vous référer à un administrateur (lol).', action: ''});
+      }
+    });
+  });
+
+  
+  //AddCameraAdmin
+  //Add a camera to DB (serial + code only)
+  socket.on('addCameraAdmin', function(data){
+    console.log('AddCameraAdmin event');
+    const checkSerial = 'SELECT * FROM camera WHERE serial = "'+data.serial+'"';
+    
   });
 
 
