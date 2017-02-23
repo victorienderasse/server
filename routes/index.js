@@ -10,6 +10,10 @@ router.get('/display', function(req,res){
   res.render('display', {userID: req.query.userID});
 });
 
+router.get('/admin', function(req,res){
+  res.render('admin', {});
+});
+
 router.use(function(req,res,next){
   res.redirect('/');
 });
