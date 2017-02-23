@@ -346,7 +346,7 @@ io.sockets.on('connection', function(socket){
   //CheckAdminPassword
   socket.on('checkAdminPassword', function(data){
     console.log('checkAdminPassword event');
-    const checkAdminPassword = "SELECT * FROM user WHERE userID == 1";
+    const checkAdminPassword = "SELECT * FROM user WHERE userID = 1";
     connection.query(checkAdminPassword, function(err,rows){
       if(err){
         throw err;
