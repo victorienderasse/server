@@ -10,6 +10,26 @@
 </head>
 <body>
 
+
+<%#MENU%>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">TFE</a>
+        </div>
+    </div>
+</nav>
+
+
+<%#TITLE%>
+<div class="jumbotron">
+    <div class="container">
+        <h1>Administration</h1>
+        <p>Interface Administrateur</p>
+    </div>
+</div>
+
+
 <%#MESSAGE%>
 <div class="container">
     <div class="row">
@@ -25,8 +45,8 @@
     <form id="add-camera-form">
         <label for="serial" class="control-label">Code série : </label>
         <input type="text" name="serial" id="serial">
-        <label for="code" class="control-label">Code secret : </label>
-        <input type="text" name="code" id="code">
+        <label for="cameraCode" class="control-label">Code secret : </label>
+        <input type="text" name="cameraCode" id="cameraCode">
     </form>
     <button id="add-camera-btn" type="button" class="btn btn-primary">Ajouter une caméra</button>
 </div>

@@ -13,16 +13,16 @@ const mysql = require('mysql');
 const routes = require('./routes/index');
 
 const port = 3000;
-const serverURL = 'http://192.168.1.50:3000';
+const serverURL = 'http://localhost:3000';
 const app = express();
 
 const server = http.createServer(app);
 const io = require('socket.io').listen(server);
 
 const connection = mysql.createConnection({
-  host : 'localhost',
+  host : '192.168.1.50',
   user : 'root',
-  password : 'tfepassword',
+  password : '',
   database : 'TFE'
 });
 
@@ -368,8 +368,23 @@ io.sockets.on('connection', function(socket){
   //Add a camera to DB (serial + code only)
   socket.on('addCameraAdmin', function(data){
     console.log('AddCameraAdmin event');
-    const checkSerial = 'SELECT * FROM camera WHERE serial = "'+data.serial+'"';
-    
+    const checkSerial = 'SELECT * FROM camera WHERE serial = "'+data.serial+'" AND code = "'+data.cameraCode+'"';
+    connection.query(checkSerial, function(err,rows){
+      if (err){
+        throw err;
+      }
+      if (rows.length > 0){
+        socket.emit('message', {title: 'Alerte', message: 'Erreur : Le numéro de série ou le code est déjà utilisé', action: ''});
+      }else{
+        const addCameraAdmin = 'INSERT INTO camera SET serial = "'+data.serial+'", enable = 0, state = 0, code = "'+data.cameraCode+'"';
+        connection.query(addCameraAdmin, function(err,rows){
+          if (err){
+            throw err;
+          }
+          socket.emit('message',{title: 'Bravo', message: 'La camera a bien été ajouté !', action: 'resetMessage'});
+        });
+      }
+    });
   });
 
 
