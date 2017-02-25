@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<%#MENU%>
+<%# -MENU- %>
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -32,7 +32,8 @@
     </div>
 </nav>
 
-<%#TITLE%>
+
+<%# -TITLE- %>
 <div id="titre-section" class="jumbotron">
     <div class="container">
         <h1 id="titre">TFE</h1>
@@ -41,7 +42,8 @@
     </div>
 </div>
 
-<%#MESSAGE%>
+
+<%# -MESSAGE- %>
 <div class="container">
     <div class="row">
         <div id="message-div">
@@ -51,7 +53,8 @@
     </div>
 </div>
 
-<%#INFO PROJET%>
+
+<%# -INFO PROJET- %>
 <div class="container">
     <div class="row">
         <div class="col-lg-4">
@@ -69,14 +72,17 @@
     </div>
 </div>
 
+
 <hr>
 
+
+<%# -FOOTER- %>
 <footer class="container">
     <p>© 2016 Victorien Derasse</p>
 </footer>
 
 
-<%#Modals signin%>
+<%# -MODAL SIGNIN- %>
 <div id="modal-signin" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -101,16 +107,17 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="signin-confirm-btn" type="button" class="btn btn-primary">Signin</button>
+                <button id="signin-confirm-btn" type="button" class="btn btn-primary" data-dismiss="modal">Signin</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
-
+<%# -SCRIPTS- %>
 <script src="/public/javascripts/hostconfig.js"></script>
 <script src="/public/javascripts/socket.io.js"></script>
+<script src="/public/javascripts/functions.js"></script>
 <script src="/public/javascripts/index.js"></script>
 
 </body>

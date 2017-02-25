@@ -10,7 +10,8 @@
 </head>
 <body>
 
-<%#MENU%>
+
+<%# -MENU- %>
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -37,7 +38,8 @@
     </div>
 </nav>
 
-<%#TITLE%>
+
+<%# -TITLE- %>
 <div class="jumbotron">
     <div class="container">
         <h1>Display</h1>
@@ -45,10 +47,12 @@
     </div>
 </div>
 
-<%#USER ID%>
+
+<%# -USER ID- %>
 <p id="userID"><%= userID %></p>
 
-<%#MESSAGE%>
+
+<%# -MESSAGE- %>
 <div class="container">
     <div class="row">
         <div id="message-div">
@@ -58,7 +62,8 @@
     </div>
 </div>
 
-<%#TB SCREEN%>
+
+<%# -TB SCREEN- %>
 <div class="container">
     <div>
         <table id="table-camera" class="table table-striped">
@@ -80,18 +85,21 @@
 
 <hr>
 
+
+<%# -FOOTER- %>
 <footer class="container">
     <p>© 2016 Victorien Derasse</p>
 </footer>
 
 
-<%#Modals Timer%>
+<%# -MODAL TIMER- %>
 <div id="modal-timer" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" onclick="emptyTimerForm();">&times;</button>
                 <h4 id="timer-title-camera" class="modal-header">Manage your timers</h4>
+                <h6 id="timer-recordingInfo" class="alert alert-info" style="display: none">Your camera is recording</h6>
             </div>
             <div class="modal-body">
                 <p><b>Add new timer </b></p>
@@ -141,7 +149,10 @@
                 </form>
                 <div id="timer-records-div">
                     <hr>
-                    <p><b>Your timers</b></p>
+                    <p>
+                        <b>Your timers</b>
+                        <button id="stopRecording" type="button" title="Click to stop the running record" style="display: none;" class="btn btn-warning">Stop</button>
+                    </p>
                     <table id="timer-records-table" class="table table-hover table-striped table-responsive">
                         <thead>
                         <tr>
@@ -164,7 +175,8 @@
     </div>
 </div>
 
-<%#Modals Replay%>
+
+<%# -MODAL REPLAYS- %>
 <div id="modal-replay" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -188,7 +200,8 @@
     </div>
 </div>
 
-<%#Modals live%>
+
+<%# -MODAL LIVE- %>
 <div id="modal-live" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content" style="text-align: center;">
@@ -209,9 +222,10 @@
 </div>
 
 
-<%#-GET SCRIPTS-%>
+<%# -SCRIPTS- %>
 <script src="/public/javascripts/hostconfig.js"></script>
 <script src="/public/javascripts/socket.io.js"></script>
+<script src="/public/javascripts/functions.js"></script>
 <script src="/public/javascripts/display.js"></script>
 
 </body>

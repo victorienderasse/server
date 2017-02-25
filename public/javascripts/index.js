@@ -2,8 +2,12 @@
  * Created by Victorien on 02-12-16.
  */
 var socket = io.connect(serverURL);
-//Event--------------------------------
 socket.emit('client','index');
+
+
+//Event--------------------------------
+
+
 //Display error messages
 socket.on('message',function(data){
     console.log('message event');
@@ -55,35 +59,3 @@ function emptyLoginForm(){
     myForm.password.value = '';
 }
 
-function redirectURL(url){
-    window.location = url;
-}
-
-
-function displayMessage(data){
-    console.log('displayMessage function');
-    //Action
-    if (data.action == "redirect-index"){
-        redirectURL(serverURL);
-    }
-    //type
-    if (data.title == 'Alerte'){
-        document.getElementById('message-div').className = 'alert alert-danger';
-    }
-    if (data.title == 'Bravo'){
-        document.getElementById('message-div').className = 'alert alert-success';
-    }
-    if (data.title == 'Info'){
-        document.getElementById('message-div').className = 'alert alert-info';
-    }
-    //add message and title
-    document.getElementById('message-title').innerHTML = data.title;
-    document.getElementById('message-body').innerHTML = data.message;
-}
-
-
-function resetMessage(){
-    document.getElementById('message-div').className = '';
-    document.getElementById('message-title').innerHTML = '';
-    document.getElementById('message-body').innerHTML = '';
-}

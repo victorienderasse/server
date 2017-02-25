@@ -11,7 +11,7 @@
 <body>
 
 
-<%#MENU%>
+<%# -MENU- %>
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -21,7 +21,7 @@
 </nav>
 
 
-<%#TITLE%>
+<%# -TITLE- %>
 <div class="jumbotron">
     <div class="container">
         <h1>Administration</h1>
@@ -30,7 +30,7 @@
 </div>
 
 
-<%#MESSAGE%>
+<%# -MESSAGE- %>
 <div class="container">
     <div class="row">
         <div id="message-div">
@@ -40,6 +40,8 @@
     </div>
 </div>
 
+
+<%# -ADMIN INTERFACE- %>>
 <div id="admin" style="display: none">
     <p>Admin interface</p>
     <form id="add-camera-form">
@@ -51,8 +53,20 @@
     <button id="add-camera-btn" type="button" class="btn btn-primary">Ajouter une caméra</button>
 </div>
 
+
+<hr>
+
+
+<%# -FOOTER- %>
+<footer class="container">
+    <p>© 2016 Victorien Derasse</p>
+</footer>
+
+
+<%# -SCRIPTS- %>>
 <script src="/public/javascripts/hostconfig.js"></script>
 <script src="/public/javascripts/socket.io.js"></script>
+<script src="/public/javascripts/functions.js"></script>
 <script src="/public/javascripts/admin.js"></script>
 
 </body>

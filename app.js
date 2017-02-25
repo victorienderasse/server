@@ -11,6 +11,8 @@ const passHash = require('password-hash');
 const http = require('http');
 const mysql = require('mysql');
 const routes = require('./routes/index');
+const exec = require('child_process').exec;
+const twilio = require('twilio');
 
 const port = 3000;
 const serverURL = 'http://localhost:3000';
@@ -31,6 +33,8 @@ const session = require('express-session')({
   resave: true,
   saveUnitialized: true
 });
+
+const client = new twilio.RestClient('AC175fe55d0a0d00d7094c00338f548ec5,956f723bfa80087e696300e1358f46cb');
 
 
 
@@ -54,11 +58,53 @@ app.use(session);
 //Receive data from client------------------------------------------------------------------
 
 io.sockets.on('connection', function(socket){
-
+  
+  //EVENTS---------------------------------------------------------------------------------------------
+  
   //Client connected
   socket.on('client', function (data) {
     console.log('client connected');
   });
+
+
+  //Camera connected
+  socket.on('camera', function (serial) {
+    console.log('camera connecté');
+    //check camera exist
+    connection.query('SELECT * FROM camera WHERE serial = ?', serial , function(err, rows){
+      if(err){
+        throw err;
+      }
+      if(rows.length > 0) {
+        console.log('camera exist');
+        const setSocketID = 'UPDATE camera SET socketID = "'+socket.id+'", enable = 1 WHERE cameraID = '+rows[0].cameraID;
+        if(rows[0].socketID == null){
+          //First connection -> Create camera folder
+          const createFolder = 'mkdir /home/victorien/TFE/source/server/public/videos/camera'+rows[0].cameraID;
+          exec(createFolder, function(error,stdout, stderr){
+            if (err){
+              throw err;
+            }
+          });
+          connection.query(setSocketID, function(err){
+            if (err){
+              throw err;
+            }
+          });
+        }else{
+          //Camera already added -> update socketID
+          connection.query(setSocketID, function(err){
+            if (err){
+              throw err;
+            }
+          });
+        }
+      }else{
+        console.log('Error ! No camera found. Please add it on admin interface first');
+      }
+    });
+  });
+
 
   //Send camera to client
   socket.on('getCamera', function(userID){
@@ -75,45 +121,15 @@ io.sockets.on('connection', function(socket){
       }
     });
   });
-
-
-  //Camera connected
-  socket.on('camera', function (serial) {
-    console.log('camera connecté');
-
-    //check camera exist
-    connection.query('SELECT * FROM camera WHERE serial = ?', serial , function(err, rows, fields){
-      if(err){
-        throw err;
-      }
-      if(rows.length > 0){
-        console.log('camera exist');
-        var alter = 'UPDATE camera SET socketID="'+socket.id+'" , enable = 1 WHERE cameraID = '+rows[0].cameraID;
-        connection.query(alter, function(err){
-          if(err){
-            console.log(err);
-          }
-        });
-
-      }else{
-        console.log('New camera');
-        var cameraName = "camera_"+serial;
-        var camera = {serial: serial, name: cameraName, socketID: socket.id};
-        connection.query('INSERT INTO camera SET ?', camera, function(err){
-          if(err){
-            console.log(err);
-          }
-        });
-      }
-    });
-  });
-
+  
+  
   //python test
   socket.on('PythonTest', function(data){
     console.log('PythonTest');
     console.log('Message : '+data);
   });
 
+  
   //camera or client disconnected
   socket.on('disconnect', function(){
     console.log('disconnected');
@@ -122,10 +138,10 @@ io.sockets.on('connection', function(socket){
     connection.query(disconnection, function(err, rows){
       if(rows.length > 0){
         //camera disconnected -> set enable to false and state to unused
-        var disable = 'UPDATE camera SET enable = 0 WHERE socketID = "'+socket.id+'"';
+        var disable = 'UPDATE camera SET enable = 0, state = 0 WHERE cameraID = '+rows[0].cameraID;
         connection.query(disable, function (err) {
           if(err){
-            console.log('disable error : '+err);
+            throw err;
           }
         });
       }
@@ -137,12 +153,22 @@ io.sockets.on('connection', function(socket){
   socket.on('setTimer', function(data) {
     console.log('SetTimer event');
     //update record
-    const updateRecord = 'UPDATE record SET state = 0 WHERE cameraID = ' + data.cameraID+' AND state = 1';
-    connection.query(updateRecord, function (err) {
-      if (err) {
+    const checkRecordEnable = 'SELECT * FROM record WHERE cameraID = '+data.cameraID+' AND state = 1';
+    connection.query(checkRecordEnable, function(err,rows){
+      if(err){
         throw err;
       }
-      addRecord(data);
+      if (rows.length > 0){
+        const updateRecord = 'UPDATE record SET state = 0 WHERE cameraID = ' + data.cameraID+' AND state = 1';
+        connection.query(updateRecord, function (err) {
+          if (err) {
+            throw err;
+          }
+          addRecord(data);
+        });
+      }else{
+        addRecord(data);
+      }
     });
   });
 
@@ -153,8 +179,9 @@ io.sockets.on('connection', function(socket){
     const changeName = 'UPDATE camera SET name = "'+data.name+'" WHERE cameraID = "'+data.cameraID+'"';
     connection.query(changeName, function(err){
       if(err){
-        console.log('error : '+err);
+        throw err;
       }
+      socket.emit('message', {title: 'Bravo', message: 'Le nom de votre caméra a été mis à jour !', action: 'resetMessage'});
     })
   });
 
@@ -165,7 +192,7 @@ io.sockets.on('connection', function(socket){
     const getRecords = 'SELECT * FROM record WHERE cameraID = '+cameraID;
     connection.query(getRecords, function(err, rows){
       if(err){
-        console.log(err);
+        throw err;
       }
       socket.emit('sendRecords', rows);
     });
@@ -197,7 +224,7 @@ io.sockets.on('connection', function(socket){
   });
 
   
-  //enable recorded record
+  //Set record ON
   socket.on('applyRecord', function(recordID){
     console.log('applyRecord event');
     //set old record to client
@@ -219,15 +246,29 @@ io.sockets.on('connection', function(socket){
         changeRecord(recordID);
       }
     });
+    //Check if camera is on state 3 -> if it is : kilProcess
+    const getCameraState = 'SELECT camera.state, camera.cameraID FROM record INNER JOIN camera ON record.cameraID=record.cameraID WHERE recordID = '+recordID;
+    connection.query(getCameraState, function(err, rows){
+      if(err){
+        throw err;
+      }
+      if (rows.length > 0){
+        if (rows[0].state == 3){
+          sendToCamera(rows.cameraID,'killProcess', null);
+        }
+      }else{
+        console.log('Erreur : Le record n\'est associé à aucune camera');
+      }
+    });
+
   });
 
   
   //Get all the replay
-  socket.on('getReplays', function(){
+  socket.on('getReplays', function(cameraID){
     console.log('getReplays event');
-    fs.readdir('./public/videos', function(err, files){
+    fs.readdir('./public/videos/camera'+cameraID, function(err, files){
       if(err){
-        console.log('getReplays error : '+err);
         throw err;
       }
       socket.emit('setReplays',files);
@@ -238,7 +279,7 @@ io.sockets.on('connection', function(socket){
   //Start the motion detection
   socket.on('startDetection', function(cameraID){
     console.log('startDetection event');
-    //update db
+    //évite qu'un record se lance pendant la détection de mouvement
     const setStateRecord = 'UPDATE record SET state = 0 WHERE cameraID = '+cameraID+" AND state = 1";
     connection.query(setStateRecord, function(err){
       if(err){
@@ -250,7 +291,6 @@ io.sockets.on('connection', function(socket){
     const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
     connection.query(getSocketID, function(err,rows){
       if(err){
-        console.log('get socket id MYSQL error : '+err);
         throw err;
       }
       io.to(rows[0].socketID).emit('startDetection', {cameraName: rows[0].name, cameraID: cameraID});
@@ -286,7 +326,7 @@ io.sockets.on('connection', function(socket){
       console.log('no error chack email');
       if (rows.length>0){
         console.log('email exist');
-        socket.emit('msgError', 'Error Email already exist');
+        socket.emit('message', {title: 'Alerte', message: 'Error Email already exist', action: ''});
       }else{
         console.log('email don\'t exist');
         const signin = 'INSERT INTO user SET name = "'+data.name+'", email = "'+data.email+'", password = "'+password+'"';
@@ -294,6 +334,14 @@ io.sockets.on('connection', function(socket){
           if (err){
             throw err;
           }
+          console.log('login success');
+          const getUserID = 'SELECT userID FROM user WHERE email = "'+data.email+'"';
+          connection.query(getUserID, function(err,rows){
+            if (err){
+              throw err;
+            }
+            socket.emit('redirect',serverURL+'/display?userID='+rows[0].userID);
+          });
         });
       }
     });
@@ -335,9 +383,14 @@ io.sockets.on('connection', function(socket){
           if (err){
             throw err;
           }
+          socket.emit('message', {title: 'Bravo', message: 'La caméra a correctement été ajouté ! La page devrait se rafraichir d\'ici quelques seconde..', action: ''});
+          setTimeout(function(){
+            socket.emit('redirect', serverURL+'/display?userID='+data.userID);
+          }, 5000);
         });
       }else{
         console.log('No camera found');
+        socket.emit('message',{title: 'Alerte', message: 'Le code indiqué est érroné', action: ''});
       }
     });
   });
@@ -388,7 +441,50 @@ io.sockets.on('connection', function(socket){
   });
 
 
-//Functions-------------------------------------------------
+  //Record motionDetectionStart
+  socket.on('motionDetectionStart', function(cameraID){
+    setState(cameraID,1);
+    io.emit('motionDetectionStart', cameraID);
+  });
+
+
+  //Record motionDetectionStop
+  socket.on('motionDetectionStop', function(cameraID){
+    setState(cameraID, 0);
+    io.emit('motionDetectionStop', cameraID);
+  });
+
+
+  //Motion is detected
+  socket.on('motionDetected', function(data){
+    const getInfoClient = 'SELECT user.userID, user.phone, user.email, camera.name AS cameraName FROM user INNER JOIN camera ON camera.userID=user.userID WHERE cameraID = '+data.cameraID;
+    connection.query(getInfoClient, function(err,rows){
+      if(err){
+        throw err;
+      }
+      if(rows.length > 0){
+        //Send SMS
+        client.sms.message.create({
+          to: "'"+rows[0].phone+"'",
+          from: '+32460207648',
+          body: 'Hi '+rows[0].name+' ! The camera "'+rows[0].cameraName+'" just detected motion at '+data.timetsr+'. A record has been started. You will be able to see it in few minutes on the website. Bisous !'
+        }, function(error, message){
+          if(error){
+            console.log('Error send SMS');
+          }else{
+            console.log('Succes send SMS');
+          }
+        })
+      }else{
+        console.log('Error: No user found to send SMS');
+      }
+    });
+  });
+  
+  
+
+
+//FUNCTIONS----------------------------------------------------------------------------------------------
 
   //function findGetParameter(parameterName) {
    // var result = null,
@@ -413,8 +509,8 @@ io.sockets.on('connection', function(socket){
         throw err;
       }
       //get socketID and name of the camera
-      const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+data.cameraID;
-      connection.query(getSocketID, function(err,rows){
+      const getInfoCamera = 'SELECT * FROM camera WHERE cameraID = '+data.cameraID;
+      connection.query(getInfoCamera, function(err,rows){
         if(err){
           throw err;
         }
@@ -494,6 +590,10 @@ io.sockets.on('connection', function(socket){
 
 
   function setState(cameraID, state){
+    //State 0 = Nothing is running
+    //State 1 = MotionDetection running
+    //State 2 = Live running
+    //State 3 = Record running
     console.log('setState function');
     const setState = 'UPDATE camera SET state = '+state+' WHERE cameraID = '+cameraID;
     connection.query(setState, function(err){

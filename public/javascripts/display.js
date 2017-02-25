@@ -8,14 +8,15 @@
 
 //Connection to the server------------------
 var socket = io.connect(serverURL);
-
-//Events------------------------------------
 socket.emit('client','display');
 
 var userID = document.getElementById('userID').innerHTML;
 
 //Ask camera to server
 socket.emit('getCamera',userID);
+
+
+//EVENTS-----------------------------------------------------------------------------------------------------------------
 
 //getCameras
 socket.on('sendCamera', function(data){
@@ -46,7 +47,6 @@ socket.on('redirect', function(url){
 
 socket.on('setOldRecord', function(recordID){
     console.log('setOldRecord event');
-    //document.getElementById('record-'+recordID+'-apply').disabled = false;
     document.getElementById('record-'+recordID).setAttribute('style','background-color:#FFFFFF');
 });
 
@@ -69,7 +69,30 @@ socket.on('setReplays', function(tbReplay){
 });
 
 
+socket.on('motionDetectionStart', function(cameraID){
+    console.log('motionDetectionStart event');
+    var camera = document.getElementById('screen-'+cameraID);
+    if(camera != 'undefined'){
+        document.getElementById('screen-'+cameraID+'-notif-check').checked = true;
+        document.getElementById('screen-'+cameraID+'-live-link').disabled = true;
+        document.getElementById('screen-'+cameraID+'-timer-btn').disabled = true;
+    }
+});
+
+
+socket.on('motionDetectionStop', function(cameraID){
+    console.log('motionDetectionStop event');
+    var camera = document.getElementById('screen-'+data.cameraID);
+    if(camera != 'undefined'){
+        document.getElementById('screen-'+cameraID+'-notif-check').checked = false;
+        document.getElementById('screen-'+cameraID+'-live-link').disabled = false;
+        document.getElementById('screen-'+cameraID+'-timer-btn').disabled = false;
+    }
+});
+
+
 //Actions--------------------------------------
+
 
 //Set Timer button
 document.getElementById('timer-confirm-btn').addEventListener('click', function(){
@@ -79,10 +102,11 @@ document.getElementById('timer-confirm-btn').addEventListener('click', function(
     var beginMinute = timer_form.beginMinute.value;
     var endHour = timer_form.endHour.value;
     var endMinute = timer_form.endMinute.value;
+    var type;
     if(document.getElementById('timer-detection').checked){
-        var type = 'detection';
+        type = 'detection';
     }else{
-        var type = 'record';
+        type = 'record';
     }
     if(beginHour >= 0 && beginHour < 24 && endHour >= 0 && endHour < 24 && beginMinute >= 0 && beginMinute < 60 && endMinute >= 0 && endMinute < 60) {
         socket.emit('setTimer', {
@@ -95,7 +119,7 @@ document.getElementById('timer-confirm-btn').addEventListener('click', function(
             type: type
         });
     }else{
-        document.getElementById('msg').innerHTML = 'error adding timer';
+        displayMessage({title: 'Alerte', message: 'Erreur ! Veuillez indiquer des valeurs correctes', action: ''});
     }
 });
 
@@ -236,11 +260,11 @@ function displayScreens(tbScreen){
 
 
 
-function runTimer(screen_id){
+function runTimer(cameraID){
     console.log('runTimer function');
     //get cameraID
     var hidden = document.getElementById('timer-camera-id-input');
-    hidden.setAttribute('value',screen_id);
+    hidden.setAttribute('value',cameraID);
     //getRecord of the camera
     if(document.getElementById('timer-table-record-list')){
         console.log('tb exist -> remove');
@@ -248,17 +272,17 @@ function runTimer(screen_id){
         document.getElementById('timer-records-div').removeChild(tb);
     }
     console.log('get records from server');
-    socket.emit('getRecords', screen_id);
+    socket.emit('getRecords', cameraID);
 }
 
 
-function runReplay(){
+function runReplay(cameraID){
     console.log('runReplay function');
     var select = document.getElementById('select-replay');
     while(select.firstChild){
         select.removeChild(select.firstChild);
     }
-    socket.emit('getReplays');
+    socket.emit('getReplays',cameraID);
 }
 
 
@@ -388,6 +412,7 @@ function displayRecords(tbRecord){
         removeBtn.setAttribute('onclick', 'deleteRecord('+ tbRecord[i].recordID +');');
         applyBtn.className = 'btn btn-primary';
         removeBtn.className = 'close';
+        applyBtnIcon.id = 'record-'+tbRecord[i].recordID+'-apply-icon';
         applyBtnIcon.className = 'glyphicon glyphicon-ok';
         removeBtnIcon.className = 'glyphicon glyphicon-remove';
 
@@ -466,37 +491,13 @@ function playReplay(){
 }
 
 
-function displayMessage(data){
-    console.log('displayMessage function');
-    //Action
-    if (data.action == "redirect-index"){
-        redirectURL(serverURL);
-    }
-    //type
-    if (data.title == 'Alerte'){
-        document.getElementById('message-div').className = 'alert alert-danger';
-    }
-    if (data.title == 'Bravo'){
-        document.getElementById('message-div').className = 'alert alert-success';
-    }
-    if (data.title == 'Info'){
-        document.getElementById('message-div').className = 'alert alert-info';
-    }
-    //add message and title
-    document.getElementById('message-title').innerHTML = data.title;
-    document.getElementById('message-body').innerHTML = data.message;
-}
-
-
-function resetMessage(){
-    console.log('resetMessage function');
-    document.getElementById('message-div').className = '';
-    document.getElementById('message-title').innerHTML = '';
-    document.getElementById('message-body').innerHTML = '';
-}
-
-
-function redirectURL(url){
-    console.log('redirectURL function');
-    window.location = url;
+function stopRecording(cameraID, recordID){
+    console.log('stopRecording function');
+    document.getElementById('screen-'+data.cameraID+'-notif-check').disabled = false;
+    document.getElementById('screen-'+data.cameraID+'-live-link').disabled = false;
+    document.getElementById('record-'+data.recordID+'-apply').className = 'btn btn-primary';
+    document.getElementById('record-'+data.recordID+'-apply').title = 'Click to apply this record';
+    document.getElementById('record-'+data.recordID+'-apply').setAttribute('onclick','applyRecord('+data.recordID+');');
+    document.getElementById('record-'+data.recordID+'-apply-icon').className = 'glyphicon glyphicon-ok';
+    socket.emit('killProcess',cameraID);
 }
