@@ -13,6 +13,7 @@ const mysql = require('mysql');
 const routes = require('./routes/index');
 const exec = require('child_process').exec;
 const twilio = require('twilio');
+const nodemailer = require('nodemailer');
 
 const port = 3000;
 const serverURL = 'http://localhost:3000';
@@ -34,8 +35,15 @@ const session = require('express-session')({
   saveUnitialized: true
 });
 
-const client = new twilio.RestClient('AC175fe55d0a0d00d7094c00338f548ec5,956f723bfa80087e696300e1358f46cb');
+const client = new twilio.RestClient('{firstMaj}C175fe55d0a0d00d7094c00338f548ec5,956f723bfa80087e696300e1358f46cb');
 
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'victorien.derasse@gmail.com',
+    pass: 'pass'
+  }
+});
 
 
 //YOLO ?---------------------------------------------------------------------------------------
@@ -467,14 +475,28 @@ io.sockets.on('connection', function(socket){
         client.sms.message.create({
           to: "'"+rows[0].phone+"'",
           from: '+32460207648',
-          body: 'Hi '+rows[0].name+' ! The camera "'+rows[0].cameraName+'" just detected motion at '+data.timetsr+'. A record has been started. You will be able to see it in few minutes on the website. Bisous !'
+          body: 'Hi '+rows[0].name+' ! The camera "'+rows[0].cameraName+'" just detected motion at '+data.timestr+'. A record has been started. You will be able to see it in few minutes on the website. Bisous !'
         }, function(error, message){
           if(error){
             console.log('Error send SMS');
           }else{
             console.log('Succes send SMS');
           }
-        })
+        });
+        //Send email
+        var mailOptions = {
+          from: '<\victorien.derasse@gmail.com>',
+          to: rows[0].email,
+          subject: 'Motion Detection',
+          text: 'A motion has been detected by camera "'+rows[0].cameraName+'" at '+data.timestr+'. A record has been started. You will be able to see it in few minutes on the website. Bisous !',
+          html: 'A motion has been detected by camera <\b>"'+rows[0].cameraName+'"</b> at <b>'+data.timestr+'</b>. A record has been started. You will be able to see it in few minutes on the website. Bisous !'
+        };
+        transporter.sendMail(mailOptions, function(err,info){
+          if (err){
+            throw err;
+          }
+          console.log('Email Send');
+        });
       }else{
         console.log('Error: No user found to send SMS');
       }
