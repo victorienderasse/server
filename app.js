@@ -88,12 +88,13 @@ io.sockets.on('connection', function(socket){
         const setSocketID = 'UPDATE camera SET socketID = "'+socket.id+'", enable = 1 WHERE cameraID = '+rows[0].cameraID;
         if(rows[0].socketID == null){
           //First connection -> Create camera folder
-          const createFolder = 'mkdir /home/victorien/TFE/source/server/public/videos/camera'+rows[0].cameraID;
+          const createFolder = 'mkdir -p /home/victorien/TFE/source/server/public/cameras/camera'+rows[0].cameraID+'/videos /home/victorien/TFE/source/server/public/cameras/camera'+rows[0].cameraID+'/live';
           exec(createFolder, function(error,stdout, stderr){
             if (err){
               throw err;
             }
           });
+          const createLiveFolder
           connection.query(setSocketID, function(err){
             if (err){
               throw err;
@@ -460,6 +461,7 @@ io.sockets.on('connection', function(socket){
   socket.on('motionDetectionStop', function(cameraID){
     setState(cameraID, 0);
     io.emit('motionDetectionStop', cameraID);
+    sendToCamera(cameraID,'killProcess',null);
   });
 
 
@@ -480,7 +482,7 @@ io.sockets.on('connection', function(socket){
           if(error){
             console.log('Error send SMS');
           }else{
-            console.log('Succes send SMS');
+            console.log('Successfully send SMS');
           }
         });
         //Send email
@@ -503,7 +505,15 @@ io.sockets.on('connection', function(socket){
     });
   });
   
-  
+
+  socket.on('recordStart', function(cameraID){
+    setState(cameraID,3);
+  });
+
+
+  socket.on('recordStop', function(cameraID){
+    setState(cameraID,0);
+  });
 
 
 //FUNCTIONS----------------------------------------------------------------------------------------------
