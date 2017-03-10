@@ -24,7 +24,6 @@ socket.on('sendCamera', function(data){
     displayScreens(data);
 });
 
-
 //getRecords
 socket.on('sendRecords', function(tbRecord){
     console.log('sendRecords event');
@@ -36,7 +35,6 @@ socket.on('message',function(data){
     console.log('display message event');
     displayMessage(data);
 });
-
 
 //redirection
 socket.on('redirect', function(url){
@@ -51,21 +49,21 @@ socket.on('setOldRecord', function(recordID){
 });
 
 
-socket.on('setReplays', function(tbReplay){
+socket.on('setReplays', function(data){
     console.log('setReplay event');
     var select = document.getElementById('select-replay');
 
-    for(i=0;i<tbReplay.length;i++){
+    for(i=0;i<data.tbReplay.length;i++){
         var replay = document.createElement('option');
-        var name = document.createTextNode(tbReplay[i]);
+        var name = document.createTextNode(data.tbReplay[i]);
         replay.id = 'replay-'+i;
         replay.title = 'Click to play the video';
-        replay.setAttribute('value',tbReplay[i]);
+        replay.setAttribute('value',data.tbReplay[i]);
         replay.appendChild(name);
         select.appendChild(replay);
     }
 
-    playReplay();
+    playReplay(data.cameraID);
 });
 
 
@@ -182,7 +180,7 @@ function displayScreens(tbScreen){
         screen_live_btn.setAttribute('data-target','#modal-live');
         screen_name.id = 'screen-' + tbScreen[i].cameraID + '-name';
         screen_name.title = 'Click to change the name';
-        screen_name.setAttribute('onclick','runName(' + tbScreen[i].cameraID + ');');
+        screen_name.setAttribute('onclick','setName(' + tbScreen[i].cameraID + ');');
         screen_notif.id = 'screen-' + tbScreen[i].cameraID + '-notif';
         screen_notif.title = 'Activate start motion detection';
         screen_notif_check.id = 'screen-' + tbScreen[i].cameraID + '-notif-check';
@@ -278,10 +276,17 @@ function runTimer(cameraID){
 
 function runReplay(cameraID){
     console.log('runReplay function');
-    var select = document.getElementById('select-replay');
-    while(select.firstChild){
-        select.removeChild(select.firstChild);
+    var selectDiv = document.getElementById('select-replay-div');
+    if (selectDiv.firstChild){
+        selectDiv.removeChild(selectDiv.firstChild);
     }
+    var select = document.createElement('select');
+    select.id = 'select-replay';
+    select.name = 'select-replay';
+    select.className = 'form-control';
+    select.setAttribute('onchange', 'playReplay('+cameraID+');');
+    selectDiv.appendChild(select);
+
     socket.emit('getReplays',cameraID);
 }
 
@@ -342,27 +347,18 @@ function runNotif(screen_id){
 }
 
 
-function runName(screen_id){
-    console.log('runName function');
-    var newName = document.createElement('input');
-    newName.id = 'screen-'+screen_id+'-newName';
-    newName.type = 'text';
-    newName.autofocus = true;
-    newName.setAttribute('onblur','changeName('+screen_id+');');
-    var screen_name = document.getElementById('screen-'+screen_id+'-name');
-    screen_name.replaceChild(newName, screen_name.firstChild);
+function setName(cameraID){
+    var getName = prompt('Nouveau nom : ');
+    if (getName != ''){
+        var bold = document.createElement('b');
+        var name = document.createTextNode(getName);
+        bold.appendChild(name);
+        var screenName = document.getElementById('screen-'+cameraID+'-name');
+        screenName.replaceChild(bold, screenName.firstChild);
+        socket.emit('changeCameraName', {cameraID: cameraID, name: name});
+    }
 }
 
-function changeName(screen_id){
-    console.log('changeName function');
-    var name = document.getElementById('screen-'+screen_id+'-newName').value;
-    var newName = document.createTextNode(name);
-    var bold = document.createElement('b');
-    bold.appendChild(newName);
-    var screen_name = document.getElementById('screen-'+screen_id+'-name');
-    screen_name.replaceChild(bold, screen_name.firstChild);
-    socket.emit('changeCameraName', {cameraID: screen_id, name: name});
-}
 
 function setTimer(){
     console.log('setTimer function');
@@ -468,7 +464,7 @@ function emptyTimerForm(){
 }
 
 
-function playReplay(){
+function playReplay(cameraID){
     console.log('playReplay function');
     //create video
     var video = document.createElement('video');
@@ -478,7 +474,7 @@ function playReplay(){
     //create source
     var source = document.createElement('source');
     var opt = document.getElementById('select-replay').value;
-    var path = '../videos/'+opt;
+    var path = '../cameras/camera'+cameraID+'/videos/'+opt;
     source.setAttribute('src',path);
     source.setAttribute('type','video/mp4');
     video.appendChild(source);

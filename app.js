@@ -276,11 +276,11 @@ io.sockets.on('connection', function(socket){
   //Get all the replay
   socket.on('getReplays', function(cameraID){
     console.log('getReplays event');
-    fs.readdir('./public/videos/camera'+cameraID, function(err, files){
+    fs.readdir('./public/cameras/camera'+cameraID+'/videos/', function(err, files){
       if(err){
         throw err;
       }
-      socket.emit('setReplays',files);
+      socket.emit('setReplays',{tbReplay: files, cameraID: cameraID});
     })
   });
 
