@@ -516,6 +516,10 @@ io.sockets.on('connection', function(socket){
   });
 
 
+  socket.on('streamSend', function(cameraID){
+    io.emit('updateStream', cameraID);
+  });
+  
 //FUNCTIONS----------------------------------------------------------------------------------------------
 
   //function findGetParameter(parameterName) {

@@ -89,6 +89,13 @@ socket.on('motionDetectionStop', function(cameraID){
 });
 
 
+socket.on('updateStream', function(cameraID){
+    var img = document.getElementById('live-stream-camera'+cameraID);
+    if (img != 'undefined'){
+        img.src = '/public/cameras/camera'+cameraID+'/live/stream_camera_'+cameraID+'.jpg?v='+ new Date().getTime()'
+    }
+});
+
 //Actions--------------------------------------
 
 
@@ -304,7 +311,13 @@ function addReplay(replay_id){
 }
 
 
-function runLive(screen_id){
+function runLive(cameraID){
+    /*
+     1. Make the 'X' and 'close' buttons stop the stream
+     2. Disabled 'timer' and 'motion detection' buttons
+     3. empty the old <img> and create a new one
+     4. Send command to server
+     */
     console.log('runLive function');
 
     document.getElementById('modal-live-close').setAttribute('onclick','stopStream('+screen_id+');');
@@ -312,14 +325,25 @@ function runLive(screen_id){
     document.getElementById('screen-'+screen_id+'-timer-btn').disabled = true;
     document.getElementById('screen-'+screen_id+'-notif-check').disabled = true;
 
+    var liveDiv = document.getElementById('live-stream');
+    if (liveDiv.firstChild){
+        liveDiv.removeChild(liveDiv.firstChild);
+    }
+    var img = document.createElement('img');
+    img.id = 'live-stream-camera'+cameraID;
+    liveDiv.appendChild(img);
+
     socket.emit('startStream',screen_id);
 
+    /*
     var img = document.getElementById('live-stream-img');
     stream = setInterval(function(){
         console.log('new source');
         img.src = '/public/images/stream_camera_'+screen_id+'.jpg?v='+ new Date().getTime();
     },1000);
+    */
 }
+
 
 
 function stopStream(screen_id){
