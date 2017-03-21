@@ -92,7 +92,7 @@ socket.on('motionDetectionStop', function(cameraID){
 socket.on('updateStream', function(cameraID){
     var img = document.getElementById('live-stream-camera'+cameraID);
     if (img != 'undefined'){
-        img.src = './public/cameras/camera'+cameraID+'/live/stream_camera_'+cameraID+'.jpg?v='+ new Date().getTime();
+        img.src = './public/cameras/camera'+cameraID+'/live/tream_camera_'+cameraID+'.jpg?v='+ new Date().getTime();
     }
 });
 
@@ -358,13 +358,13 @@ function runLive(cameraID){
 }
 
 
-
 function stopStream(screen_id){
     console.log('stopStream function');
     socket.emit('killProcess', screen_id);
+    var liveDiv = document.getElementById('live-stream');
+    liveDiv.removeChild(liveDiv.firstChild);
     document.getElementById('screen-'+screen_id+'-timer-btn').disabled = false;
     document.getElementById('screen-'+screen_id+'-notif-check').disabled = false;
-    clearInterval(stream);
 }
 
 
