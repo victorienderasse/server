@@ -251,7 +251,7 @@ function displayScreens(tbScreen){
             screen.className = 'camera-disable';
             screen_live_btn.disabled = true;
             screen_timer_btn.disabled = true;
-            screen_notif_check.setAttribute('disable','true');
+            screen_notif_check.disabled = true;
         }
 
 
