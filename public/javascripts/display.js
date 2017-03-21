@@ -209,7 +209,7 @@ function displayScreens(tbScreen){
         screen_replay_btn.setAttribute('data-target','#modal-replay');
         //Screen_img
         screen_img.id = 'screen-'+tbScreen[i].cameraID+'-image';
-        screen_img.setAttribute('src','/public/images/stream_camera_'+tbScreen[i].cameraID+'.jpg');
+        screen_img.setAttribute('src','/public/cameras/camera'+tbScreen[i].cameraID+'/stream_camera_'+tbScreen[i].cameraID+'.jpg');
         screen_img.setAttribute('height','150px');
         screen_img.setAttribute('width','200px');
         screen_img.setAttribute('alt','Click to display live session');
