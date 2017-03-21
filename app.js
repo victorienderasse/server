@@ -305,6 +305,21 @@ io.sockets.on('connection', function(socket){
     sendToCamera(cameraID, 'startStream', cameraID);
   });
 
+
+  socket.on('stopStream', function(cameraID){
+    console.log('stopStream');
+    var state = getState(cameraID);
+    if (state == 4){
+      //LiveRecording
+      setState(cameraID,0);
+      sendToCamera(cameraID,'getLiveRecording',cameraID);
+    }else{
+      //Live
+      setState(cameraID,0);
+      sendToCamera(cameraID,'killProcess',null);
+    }
+  });
+
   
   //Kill all python process
   socket.on('killProcess', function(cameraID){
@@ -497,7 +512,21 @@ io.sockets.on('connection', function(socket){
     console.log('streamSend');
     io.emit('updateStream', cameraID);
   });
-  
+
+
+  socket.on('startLiveRecording', function(cameraID){
+    console.log('startLiveRecording');
+    setState(cameraID,4);
+    sendToCamera(cameraID,'startLiveRecording',cameraID);
+  });
+
+
+  socket.on('stopLiveRecording', function(cameraID){
+    console.log('stopLiveRecording');
+    setState(cameraID,0);
+    sendToCamera(cameraID,'getLiveRecording',cameraID);
+  });
+
 //FUNCTIONS----------------------------------------------------------------------------------------------
 
   //function findGetParameter(parameterName) {
@@ -608,12 +637,25 @@ io.sockets.on('connection', function(socket){
     //State 1 = MotionDetection running
     //State 2 = Live running
     //State 3 = Record running
+    //State 4 = Live Recording running
     console.log('setState function');
     const setState = 'UPDATE camera SET state = '+state+' WHERE cameraID = '+cameraID;
     connection.query(setState, function(err){
       if(err){
         throw err;
       }
+    });
+  }
+
+
+  function getState(cameraID){
+    console.log('getState');
+    const getState = 'SELECT state FROM camera WHERE cameraID = '+cameraID;
+    connection.query(getState, function(err, rows){
+      if (err){
+        throw err;
+      }
+      return rows[0].state;
     });
   }
 

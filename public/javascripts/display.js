@@ -143,7 +143,6 @@ document.getElementById('disconnect-btn').addEventListener('click', function(){
 });
 
 
-
 //Functions-----------------------------------
 
 function displayScreens(tbScreen){
@@ -295,6 +294,11 @@ function runTimer(cameraID){
 
 
 function runReplay(cameraID){
+    /*
+    1. Remove old <select>
+    2. Create new <select>
+    3. Send command to server
+     */
     console.log('runReplay function');
     var selectDiv = document.getElementById('select-replay-div');
     if (selectDiv.firstChild){
@@ -327,14 +331,18 @@ function addReplay(replay_id){
 function runLive(cameraID){
     /*
      1. Make the 'X' and 'close' buttons stop the stream
-     2. Disabled 'timer' and 'motion detection' buttons
-     3. empty the old <img> and create a new one
-     4. Send command to server
+     2. Make the 'record' button record the focused camera
+     3. Disabled 'timer' and 'motion detection' buttons
+     4. remove old <img> and create a new one
+     5. Send command to server
      */
     console.log('runLive function');
 
     document.getElementById('modal-live-close').setAttribute('onclick','stopStream('+cameraID+');');
     document.getElementById('modal-live-x').setAttribute('onclick','stopStream('+cameraID+');');
+    
+    document.getElementById('modal-live-record').setAttribute('onclick','startLiveRecording('+cameraID+');');
+    
     document.getElementById('screen-'+cameraID+'-timer-btn').disabled = true;
     document.getElementById('screen-'+cameraID+'-notif-check').disabled = true;
 
@@ -347,22 +355,21 @@ function runLive(cameraID){
     liveDiv.appendChild(img);
 
     socket.emit('startStream',cameraID);
-
-    /*
-    var img = document.getElementById('live-stream-img');
-    stream = setInterval(function(){
-        console.log('new source');
-        img.src = '/public/images/stream_camera_'+screen_id+'.jpg?v='+ new Date().getTime();
-    },1000);
-    */
 }
 
 
 function stopStream(screen_id){
+    /*
+    1. Send command to server to stop the stream
+    2. Remove <img>
+    3. enable 'motion detection' and 'timer buttons
+     */
     console.log('stopStream function');
-    socket.emit('killProcess', screen_id);
+    socket.emit('stopStream', screen_id);
+    
     var liveDiv = document.getElementById('live-stream');
     liveDiv.removeChild(liveDiv.firstChild);
+    
     document.getElementById('screen-'+screen_id+'-timer-btn').disabled = false;
     document.getElementById('screen-'+screen_id+'-notif-check').disabled = false;
 }
@@ -533,4 +540,34 @@ function stopRecording(cameraID, recordID){
     document.getElementById('record-'+data.recordID+'-apply').setAttribute('onclick','applyRecord('+data.recordID+');');
     document.getElementById('record-'+data.recordID+'-apply-icon').className = 'glyphicon glyphicon-ok';
     socket.emit('killProcess',cameraID);
+}
+
+
+function startLiveRecording(cameraID){
+    /*
+    1. Update recording btn for user and add a new listener
+    2. Send command to server
+     */
+    console.log('startLiveRecording function');
+    
+    var recordBtn = document.getElementById('modal-live-record');
+    recordBtn.innerHTML = 'Recording ..';
+    recordBtn.setAttribute('onclick','stopLiveRecording('+cameraID+');');
+    
+    socket.emit('startLiveRecording', cameraID);
+}
+
+
+function stopLiveRecording(cameraID) {
+    /*
+    1. Update Record btn
+    2. Send command to server
+     */
+    console.log('stopLiveRecording');
+    
+    var recordBtn = document.getElementById('modal-live-record');
+    recordBtn.innerHTML = 'Record';
+    recordBtn.setAttribute('onclick','startLiveRecording('+cameraID+');');
+    
+    socket.emit('stopLiveRecording', cameraID);
 }
