@@ -13,7 +13,6 @@ const mysql = require('mysql');
 const routes = require('./routes/index');
 const exec = require('child_process').exec;
 const twilio = require('twilio');
-const nodemailer = require('nodemailer');
 
 const port = 3000;
 const serverURL = 'http://192.168.1.50:3000';
@@ -37,13 +36,6 @@ const session = require('express-session')({
 
 const client = new twilio.RestClient('AC175fe55d0a0d00d7094c00338f548ec5','956f723bfa80087e696300e1358f46c{{secondMin}}');
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'victorien.derasse@gmail.com',
-    pass: 'pass'
-  }
-});
 
 
 //YOLO ?---------------------------------------------------------------------------------------
@@ -483,20 +475,6 @@ io.sockets.on('connection', function(socket){
           }else{
             console.log('Successfully send SMS');
           }
-        });
-        //Send email
-        var mailOptions = {
-          from: '<\victorien.derasse@gmail.com>',
-          to: rows[0].email,
-          subject: 'Motion Detection',
-          text: 'A motion has been detected by camera "'+rows[0].cameraName+'" at '+data.timestr+'. A record has been started. You will be able to see it in few minutes on the website. Bisous !',
-          html: 'A motion has been detected by camera <\b>"'+rows[0].cameraName+'"</b> at <b>'+data.timestr+'</b>. A record has been started. You will be able to see it in few minutes on the website. Bisous !'
-        };
-        transporter.sendMail(mailOptions, function(err,info){
-          if (err){
-            throw err;
-          }
-          console.log('Email Send');
         });
       }else{
         console.log('Error: No user found to send SMS');
