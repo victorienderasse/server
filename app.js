@@ -16,7 +16,7 @@ const twilio = require('twilio');
 const nodemailer = require('nodemailer');
 
 const port = 3000;
-const serverURL = 'http://localhost:3000';
+const serverURL = 'http://192.168.1.50:3000';
 const app = express();
 
 const server = http.createServer(app);
@@ -35,7 +35,7 @@ const session = require('express-session')({
   saveUnitialized: true
 });
 
-const client = new twilio.RestClient('{firstMaj}C175fe55d0a0d00d7094c00338f548ec5,956f723bfa80087e696300e1358f46cb');
+const client = new twilio.RestClient('AC175fe55d0a0d00d7094c00338f548ec5','956f723bfa80087e696300e1358f46c{{secondMin}}');
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -94,7 +94,6 @@ io.sockets.on('connection', function(socket){
               throw err;
             }
           });
-          const createLiveFolder
           connection.query(setSocketID, function(err){
             if (err){
               throw err;

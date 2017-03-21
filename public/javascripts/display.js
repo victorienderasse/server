@@ -92,7 +92,7 @@ socket.on('motionDetectionStop', function(cameraID){
 socket.on('updateStream', function(cameraID){
     var img = document.getElementById('live-stream-camera'+cameraID);
     if (img != 'undefined'){
-        img.src = '/public/cameras/camera'+cameraID+'/live/stream_camera_'+cameraID+'.jpg?v='+ new Date().getTime()'
+        img.src = '/public/cameras/camera'+cameraID+'/live/stream_camera_'+cameraID+'.jpg?v='+ new Date().getTime();
     }
 });
 
@@ -320,10 +320,10 @@ function runLive(cameraID){
      */
     console.log('runLive function');
 
-    document.getElementById('modal-live-close').setAttribute('onclick','stopStream('+screen_id+');');
-    document.getElementById('modal-live-x').setAttribute('onclick','stopStream('+screen_id+');');
-    document.getElementById('screen-'+screen_id+'-timer-btn').disabled = true;
-    document.getElementById('screen-'+screen_id+'-notif-check').disabled = true;
+    document.getElementById('modal-live-close').setAttribute('onclick','stopStream('+cameraID+');');
+    document.getElementById('modal-live-x').setAttribute('onclick','stopStream('+cameraID+');');
+    document.getElementById('screen-'+cameraID+'-timer-btn').disabled = true;
+    document.getElementById('screen-'+cameraID+'-notif-check').disabled = true;
 
     var liveDiv = document.getElementById('live-stream');
     if (liveDiv.firstChild){
@@ -333,7 +333,7 @@ function runLive(cameraID){
     img.id = 'live-stream-camera'+cameraID;
     liveDiv.appendChild(img);
 
-    socket.emit('startStream',screen_id);
+    socket.emit('startStream',cameraID);
 
     /*
     var img = document.getElementById('live-stream-img');
