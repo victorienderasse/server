@@ -252,7 +252,7 @@ function displayScreens(tbScreen){
         }else{
             console.log('camera ',i,' is disable');
             //screen.className = 'camera-disable';
-            screen.setAttribute('style','background-color:#F1C4C4;');
+            screen.setAttribute('style','background-color:#FAECEC;');
             screen_live_btn.disabled = true;
             screen_timer_btn.disabled = true;
             screen_notif_check.disabled = true;
