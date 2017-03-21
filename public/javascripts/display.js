@@ -228,23 +228,32 @@ function displayScreens(tbScreen){
 
         //get state -> diabled btn
         var state = tbScreen[i].state;
-        switch(state){
-            case 1:
-                screen_live_btn.disabled = true;
-                screen_timer_btn.disabled = true;
-                screen_notif_check.checked = true;
-                break;
-            case 2:
-                screen_notif_check.disabled = true;
-                screen_timer_btn.disabled = true;
-                break;
-            case 3:
-                screen_live_btn.disabled = true;
-                screen_notif_check.disabled = true;
-                break;
-            default :
+        var enable = tbScreen[i].enable;
+        if(enable == 1){
+            switch(state){
+                case 1:
+                    screen_live_btn.disabled = true;
+                    screen_timer_btn.disabled = true;
+                    screen_notif_check.checked = true;
+                    break;
+                case 2:
+                    screen_notif_check.disabled = true;
+                    screen_timer_btn.disabled = true;
+                    break;
+                case 3:
+                    screen_live_btn.disabled = true;
+                    screen_notif_check.disabled = true;
+                    break;
+                default :
 
+            }
+        }else{
+            screen.className = 'camera-disable';
+            screen_live_btn.disabled = true;
+            screen_timer_btn.disabled = true;
+            screen_notif_check.disable = true;
         }
+
 
         //Insert Element
         screen_timer_btn.appendChild(screen_timer_btn_icon);
