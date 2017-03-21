@@ -92,7 +92,8 @@ socket.on('motionDetectionStop', function(cameraID){
 socket.on('updateStream', function(cameraID){
     var img = document.getElementById('live-stream-camera'+cameraID);
     if (img != 'undefined'){
-        img.src = './public/cameras/camera'+cameraID+'/live/tream_camera_'+cameraID+'.jpg?v='+ new Date().getTime();
+        //img.src = './public/cameras/camera'+cameraID+'/live/stream_camera_'+cameraID+'.jpg?v='+ new Date().getTime();
+        img.src = './public/cameras/camera'+cameraID+'/live/stream_camera_'+cameraID+'.jpg';
     }
 });
 
