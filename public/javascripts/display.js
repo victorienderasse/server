@@ -229,7 +229,9 @@ function displayScreens(tbScreen){
         //get state -> diabled btn
         var state = tbScreen[i].state;
         var enable = tbScreen[i].enable;
+
         if(enable == 1){
+            console.log('camera ',i,' is enable');
             switch(state){
                 case 1:
                     screen_live_btn.disabled = true;
@@ -248,6 +250,7 @@ function displayScreens(tbScreen){
 
             }
         }else{
+            console.log('camera ',i,' is disable');
             screen.className = 'camera-disable';
             screen_live_btn.disabled = true;
             screen_timer_btn.disabled = true;
