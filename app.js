@@ -494,6 +494,7 @@ io.sockets.on('connection', function(socket){
 
 
   socket.on('streamSend', function(cameraID){
+    console.log('streamSend');
     io.emit('updateStream', cameraID);
   });
   
