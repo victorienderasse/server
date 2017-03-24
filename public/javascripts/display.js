@@ -100,10 +100,10 @@ socket.on('updateStream', function(cameraID){
 socket.on('getLiveRecordingDone', function(cameraID){
     var img = document.getElementById('live-stream-camera'+cameraID);
     if(img != 'undefined'){
-        document.getElementById('modal-live-record').disabled = true;
+        document.getElementById('modal-live-record').disabled = false;
         document.getElementById('modal-live-record').innerHTML = "Record";
-        document.getElementById('modal-live-close').disabled = true;
-        document.getElementById('modal-live-x').disabled = true;
+        document.getElementById('modal-live-close').disabled = false;
+        document.getElementById('modal-live-x').disabled = false;
     }
 });
 
