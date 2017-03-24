@@ -300,7 +300,7 @@ io.sockets.on('connection', function(socket){
   
   //Start live stream
   socket.on('startStream', function(cameraID){
-    console.log('startStream event');
+    console.log('startStream event ');
     setState(cameraID, 2);
     var camera = getInfoCamera(cameraID);
     console.log('camera : '+camera);
