@@ -666,8 +666,7 @@ io.sockets.on('connection', function(socket){
         throw err;
       }
       if(rows.length>0){
-        console.log('Rows[0] : '+rows[0]);
-        console.log('rows : '+rows);
+        console.log('Rows[0].name : '+rows[0].name);
         return rows[0];
       }else{
         console.log('error getInfo Camera');
