@@ -303,12 +303,14 @@ io.sockets.on('connection', function(socket){
     console.log('startStream event ');
     setState(cameraID, 2);
     var camera = getInfoCamera(cameraID);
+    /*
     setInterval(function(){
       if(camera != 'undefined'){
         console.log('camera : '+camera);
         sendToCamera(cameraID, 'startStream', {cameraID: cameraID, name: camera.name});
       }
     },1);
+    */
   });
 
 
@@ -665,6 +667,7 @@ io.sockets.on('connection', function(socket){
       }
       if(rows.length>0){
         console.log('Rows[0] : '+rows[0]);
+        console.log('rows : '+rows);
         return rows[0];
       }else{
         console.log('error getInfo Camera');
