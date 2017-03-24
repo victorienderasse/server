@@ -303,7 +303,7 @@ io.sockets.on('connection', function(socket){
     console.log('startStream event ');
     setState(cameraID, 2);
     var camera = getInfoCamera(cameraID);
-    setInterval(function(){
+    setInterval(function(camera){
       if(camera == 'undefined'){
         console.log('camera : '+camera);
         sendToCamera(cameraID, 'startStream', {cameraID: cameraID, name: camera.name});
