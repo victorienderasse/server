@@ -297,6 +297,13 @@ io.sockets.on('connection', function(socket){
     });
   });
 
+
+  socket.on('stopDetection', function(cameraID){
+    console.log('stopDetection');
+    setState(cameraID,0);
+    sendToCamera(cameraID,'stopProcess',null);
+  });
+
   
   //Start live stream
   socket.on('startStream', function(cameraID){

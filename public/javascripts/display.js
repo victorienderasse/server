@@ -385,7 +385,7 @@ function runNotif(screen_id){
     }else{
         document.getElementById('screen-'+screen_id+'-timer-btn').disabled = false;
         document.getElementById('screen-'+screen_id+'-live-link').disabled = false;
-        socket.emit('killProcess', screen_id);
+        socket.emit('stopDetection', screen_id);
     }
 
 }
