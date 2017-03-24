@@ -302,14 +302,6 @@ io.sockets.on('connection', function(socket){
   socket.on('startStream', function(cameraID){
     console.log('startStream event ');
     setState(cameraID, 2);
-
-    setImmediate(function(){
-      var camera = getInfoCamera(cameraID);
-      while(camera == 'undefined'){}
-      console.log('camera.name : '+camera.name);
-    });
-
-    /*
     const getCameraName = 'SELECT name FROM camera WHERE cameraID = '+cameraID;
     connection.query(getCameraName, function(err,rows){
       if(err){
@@ -321,7 +313,6 @@ io.sockets.on('connection', function(socket){
         console.log('Error getCameraName in startStream event');
       }
     });
-*/
   });
 
 
@@ -334,7 +325,7 @@ io.sockets.on('connection', function(socket){
         throw err;
       }
       if(rows.length>0){
-        if (camera.state == 4){
+        if (rows.state == 4){
           //LiveRecording
           setState(cameraID,0);
           sendToCamera(cameraID,'getLiveRecording',cameraID);
@@ -347,8 +338,6 @@ io.sockets.on('connection', function(socket){
         console.log('Error getInfoCamera in stopStream');
       }
     });
-
-
   });
 
   
