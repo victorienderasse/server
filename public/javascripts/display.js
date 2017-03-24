@@ -98,17 +98,30 @@ socket.on('updateStream', function(cameraID){
 
 
 socket.on('getLiveRecordingDone', function(cameraID){
+    /*
+    -> Check if user concerné
+    -> Enable btn
+    -> remove messageLive
+     */
     var img = document.getElementById('live-stream-camera'+cameraID);
     if(img != 'undefined'){
         document.getElementById('modal-live-record').disabled = false;
-        document.getElementById('modal-live-record').innerHTML = "Record";
         document.getElementById('modal-live-close').disabled = false;
         document.getElementById('modal-live-x').disabled = false;
+
+        document.getElementById('messageLive-camera'+cameraID).id = 'messageLive';
+        document.getElementById('messageLive-title-camera'+cameraID).id = 'messageLive-title';
+        document.getElementById('messageLive-body').id = 'messageLive-body-camera'+cameraID;
+        resetLiveMessage();
     }
 });
 
 
 socket.on('updateLiveRecordingBtn', function(cameraID){
+    /*
+    When user close live interface while liveRecording
+     */
+    console.log('updateLiveRecordingBtn')
     document.getElementById('modal-live-record').innerHTML = 'Record';
     document.getElementById('modal-live-record').setAttribute('onclick','stopLiveRecording('+cameraID+');');
 });
@@ -584,7 +597,12 @@ function stopLiveRecording(cameraID) {
     console.log('stopLiveRecording');
     
     var recordBtn = document.getElementById('modal-live-record');
-    recordBtn.innerHTML = 'Sending files ..';
+    recordBtn.innerHTML = 'Record';
+
+    document.getElementById('messageLive').id = 'messageLive-camera'+cameraID;
+    document.getElementById('messageLive-title').id = 'messageLive-title-camera'+cameraID;
+    document.getElementById('messageLive-body').id = 'messageLive-body-camera'+cameraID;
+    displayLiveMessage({cameraID: cameraID, title: 'Info', message: 'Please wait until file receive'});
     recordBtn.setAttribute('onclick','startLiveRecording('+cameraID+');');
 
     document.getElementById('modal-live-record').disabled = true;
@@ -592,4 +610,30 @@ function stopLiveRecording(cameraID) {
     document.getElementById('modal-live-x').disabled = true;
 
     socket.emit('stopLiveRecording', cameraID);
+}
+
+
+function displayLiveMessage(data){
+    console.log('displayLiveMessage function');
+    //Action
+    //type
+    if (data.title == 'Alerte'){
+        document.getElementById('messageLive-camera'+data.cameraID).className = 'alert alert-danger';
+    }
+    if (data.title == 'Bravo'){
+        document.getElementById('messageLive-camera'+data.cameraID).className = 'alert alert-success';
+    }
+    if (data.title == 'Info'){
+        document.getElementById('messageLive-camera'+data.cameraID).className = 'alert alert-info';
+    }
+    //add message and title
+    document.getElementById('messageLive-title-camera'+data.cameraID).innerHTML = data.title;
+    document.getElementById('messageLive-body-camera'+data.cameraID).innerHTML = data.message;
+}
+
+
+function resetLiveMessage(){
+    document.getElementById('messageLive').innerHTML = '';
+    document.getElementById('messageLive-title').innerHTML = '';
+    document.getElementById('messageLive-body').innerHTML = '';
 }
