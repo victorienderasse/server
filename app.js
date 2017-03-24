@@ -302,14 +302,15 @@ io.sockets.on('connection', function(socket){
   socket.on('startStream', function(cameraID){
     console.log('startStream event');
     setState(cameraID, 2);
-    sendToCamera(cameraID, 'startStream', cameraID);
+    var camera = getInfoCamera(cameraID);
+    sendToCamera(cameraID, 'startStream', {cameraID: cameraID, name: camera.name});
   });
 
 
   socket.on('stopStream', function(cameraID){
     console.log('stopStream');
-    var state = getState(cameraID);
-    if (state == 4){
+    var camera = getInfoCamera(cameraID);
+    if (camera.state == 4){
       //LiveRecording
       setState(cameraID,0);
       sendToCamera(cameraID,'getLiveRecording',cameraID);
@@ -517,14 +518,16 @@ io.sockets.on('connection', function(socket){
   socket.on('startLiveRecording', function(cameraID){
     console.log('startLiveRecording');
     setState(cameraID,4);
-    sendToCamera(cameraID,'startLiveRecording',cameraID);
+    var camera = getInfoCamera(cameraID);
+    sendToCamera(cameraID, 'startLiveRecording', {cameraID: cameraID, name: camera.name});
   });
 
 
   socket.on('stopLiveRecording', function(cameraID){
     console.log('stopLiveRecording');
     setState(cameraID,0);
-    sendToCamera(cameraID,'getLiveRecording',cameraID);
+    var camera = getInfoCamera(cameraID);
+    sendToCamera(cameraID,'getLiveRecording',{cameraID: cameraID, name: camera.name});
   });
 
 //FUNCTIONS----------------------------------------------------------------------------------------------
@@ -646,19 +649,22 @@ io.sockets.on('connection', function(socket){
       }
     });
   }
-
-
-  function getState(cameraID){
-    console.log('getState');
-    const getState = 'SELECT state FROM camera WHERE cameraID = '+cameraID;
-    connection.query(getState, function(err, rows){
-      if (err){
+  
+  
+  function getInfoCamera(cameraID){
+    const getInfoCamera = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
+    connection.query(getInfoCamera, function(err,rows){
+      if(err){
         throw err;
       }
-      return rows[0].state;
+      if(rows.length>0){
+        return rows[0];
+      }else{
+        console.log('error getInfo Camera');
+      }
     });
   }
-
+  
 });
 
 server.listen(port, function(){
