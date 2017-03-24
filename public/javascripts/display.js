@@ -633,7 +633,8 @@ function displayLiveMessage(data){
 
 
 function resetLiveMessage(){
-    document.getElementById('messageLive').innerHTML = '';
+    console.log('resetLiveMessage function');
+    document.getElementById('messageLive').className = '';
     document.getElementById('messageLive-title').innerHTML = '';
     document.getElementById('messageLive-body').innerHTML = '';
 }
