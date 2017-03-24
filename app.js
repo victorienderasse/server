@@ -318,7 +318,6 @@ io.sockets.on('connection', function(socket){
 
   socket.on('stopStream', function(cameraID){
     console.log('stopStream');
-
     const getInfoCamera = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
     connection.query(getInfoCamera, function(err,rows){
       if(err){
@@ -332,7 +331,7 @@ io.sockets.on('connection', function(socket){
         }else{
           //Live
           setState(cameraID,0);
-          sendToCamera(cameraID,'killProcess',null);
+          sendToCamera(cameraID,'stopStream',null);
         }
       }else{
         console.log('Error getInfoCamera in stopStream');
