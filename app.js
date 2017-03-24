@@ -302,20 +302,18 @@ io.sockets.on('connection', function(socket){
   socket.on('startStream', function(cameraID){
     console.log('startStream event ');
     setState(cameraID, 2);
-    var camera = getInfoCamera(cameraID);
-    while(camera == 'undefined'){
-      console.log('undefined');
-    }
-    sendToCamera(cameraID, 'startStream', {cameraID: cameraID, name: camera.name});
-    /*
-    setInterval(function(){
-      if(camera == 'undefined'){
-        console.log('camera : '+camera);
-        sendToCamera(cameraID, 'startStream', {cameraID: cameraID, name: camera.name});
+    const getCameraName = 'SELECT name FROM camera WHERE cameraID = '+cameraID;
+    connection.query(getCameraName, function(err,rows){
+      if(err){
+        throw err;
       }
-      console.log('camera : '+camera);
-    },1);
-    */
+      if(rows.length>0){
+        sendToCamera(cameraID, 'startStream', {cameraID: cameraID, name: rows.name});
+      }else{
+        console.log('Error getCameraName in startStream event');
+      }
+    });
+
   });
 
 
@@ -530,16 +528,34 @@ io.sockets.on('connection', function(socket){
   socket.on('startLiveRecording', function(cameraID){
     console.log('startLiveRecording');
     setState(cameraID,4);
-    var camera = getInfoCamera(cameraID);
-    sendToCamera(cameraID, 'startLiveRecording', {cameraID: cameraID, name: camera.name});
+    const getCameraName = 'SELECT name FROM camera WHERE cameraID = '+cameraID;
+    connection.query(getCameraName, function(err,rows){
+      if(err){
+        throw err;
+      }
+      if(rows.length>0){
+        sendToCamera(cameraID, 'startLiveRecording', {cameraID: cameraID, name: rows.name});
+      }else{
+        console.log('Error getCameraName in startStream event');
+      }
+    });
   });
 
 
   socket.on('stopLiveRecording', function(cameraID){
     console.log('stopLiveRecording');
     setState(cameraID,0);
-    var camera = getInfoCamera(cameraID);
-    sendToCamera(cameraID,'getLiveRecording',{cameraID: cameraID, name: camera.name});
+    const getCameraName = 'SELECT name FROM camera WHERE cameraID = '+cameraID;
+    connection.query(getCameraName, function(err,rows){
+      if(err){
+        throw err;
+      }
+      if(rows.length>0){
+        sendToCamera(cameraID, 'getLiveRecording', {cameraID: cameraID, name: rows.name});
+      }else{
+        console.log('Error getCameraName in startStream event');
+      }
+    });
   });
 
 //FUNCTIONS----------------------------------------------------------------------------------------------
