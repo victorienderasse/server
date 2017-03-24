@@ -654,12 +654,14 @@ io.sockets.on('connection', function(socket){
   
   
   function getInfoCamera(cameraID){
+    console.log('getInfoCamera function');
     const getInfoCamera = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
     connection.query(getInfoCamera, function(err,rows){
       if(err){
         throw err;
       }
       if(rows.length>0){
+        console.log(rows[0]);
         return rows[0];
       }else{
         console.log('error getInfo Camera');
