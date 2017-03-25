@@ -101,18 +101,13 @@ socket.on('getLiveRecordingDone', function(cameraID){
     /*
     -> Check if user concerné
     -> Enable btn
-    -> remove messageLive
      */
     var img = document.getElementById('live-stream-camera'+cameraID);
     if(img != 'undefined'){
         document.getElementById('modal-live-record').disabled = false;
         document.getElementById('modal-live-close').disabled = false;
         document.getElementById('modal-live-x').disabled = false;
-
-        document.getElementById('messageLive-camera'+cameraID).id = 'messageLive';
-        document.getElementById('messageLive-title-camera'+cameraID).id = 'messageLive-title';
-        document.getElementById('messageLive-body').id = 'messageLive-body-camera'+cameraID;
-        resetLiveMessage();
+        document.getElementById('modal-live-record').innerHTML = 'Record';
     }
 });
 
@@ -597,12 +592,7 @@ function stopLiveRecording(cameraID) {
     console.log('stopLiveRecording');
     
     var recordBtn = document.getElementById('modal-live-record');
-    recordBtn.innerHTML = 'Record';
-
-    document.getElementById('messageLive').id = 'messageLive-camera'+cameraID;
-    document.getElementById('messageLive-title').id = 'messageLive-title-camera'+cameraID;
-    document.getElementById('messageLive-body').id = 'messageLive-body-camera'+cameraID;
-    displayLiveMessage({cameraID: cameraID, title: 'Info', message: 'Please wait until file receive'});
+    recordBtn.innerHTML = 'Sending file..';
     recordBtn.setAttribute('onclick','startLiveRecording('+cameraID+');');
 
     document.getElementById('modal-live-record').disabled = true;
