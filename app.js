@@ -560,14 +560,14 @@ io.sockets.on('connection', function(socket){
 
   socket.on('stopLiveRecording', function(cameraID){
     console.log('stopLiveRecording');
-    setState(cameraID,0);
+    setState(cameraID,2);
     const getCameraName = 'SELECT name FROM camera WHERE cameraID = '+cameraID;
     connection.query(getCameraName, function(err,rows){
       if(err){
         throw err;
       }
       if(rows.length>0){
-        sendToCamera(cameraID, 'getLiveRecording', {cameraID: cameraID, name: rows.name});
+        sendToCamera(cameraID, 'getLiveRecording', {cameraID: cameraID, name: rows[0].name});
       }else{
         console.log('Error getCameraName in startStream event');
       }
@@ -577,6 +577,19 @@ io.sockets.on('connection', function(socket){
 
   socket.on('getLiveRecordingDone', function(cameraID){
     console.log('getLiveRecordingDone');
+    var getInfoCamera = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
+    connection.query(getInfoCamera, function(err,rows){
+      if(err){
+        throw err;
+      }
+      if(rows.length>0){
+        if(rows[0].state == 2){
+          socket.emit('startStream', {cameraID: cameraID, name: rows[0].name});
+        }
+      }else{
+        console.log('Error getInfoCamera in getLiveRecordingDone');
+      }
+    });
     io.emit('getLiveRecordingDone',cameraID);
   });
 
