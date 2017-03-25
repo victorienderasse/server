@@ -335,7 +335,7 @@ io.sockets.on('connection', function(socket){
           //LiveRecording
           setState(cameraID,0);
           socket.emit('updateLiveRecordingBtn', cameraID);
-          sendToCamera(cameraID,'getLiveRecording',cameraID);
+          sendToCamera(cameraID,'getLiveRecording',{cameraID: cameraID, name: rows[0].name});
         }else{
           //Live
           setState(cameraID,0);
