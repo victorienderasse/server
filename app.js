@@ -610,13 +610,15 @@ io.sockets.on('connection', function(socket){
   
   socket.on('editReplay',function(data){
     console.log('editReplay event');
-    console.log('mv '+data.oldName+' '+data.newName+' in camera'+data.cameraID);
+    const cmd = 'mv ./public/cameras/camera'+data.cameraID+'/videos/'+data.oldName+' ./public/cameras/camera'+data.cameraID+'/videos/'+data.newName;
+    console.log(cmd);
   });
   
   
   socket.on('removeReplay',function(data){
     console.log('removeReplay event');
-    console.log('rm '+data.name+' in camera'+data.cameraID);
+    const cmd = 'rm ./public/cameras/camera'+data.cameraID+'/videos/'+data.name;
+    console.log(cmd);
   });
   
   
