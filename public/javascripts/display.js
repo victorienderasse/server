@@ -222,7 +222,7 @@ socket.on('setReplays2',function(data){
     video.setAttribute('controls',true);
     video.setAttribute('width','500px');
     var source = document.createElement('source');
-    source.setAttribute('src','../cameras/camera7/videos/'+data.tbReplay[0]);
+    source.setAttribute('src','../cameras/camera'+data.cameraID+'/videos/'+data.tbReplay[0]);
     source.setAttribute('type','video/mp4');
     video.appendChild(source);
     document.getElementById('player-replay-div').appendChild(video);
@@ -232,6 +232,19 @@ function playReplay2(data){
     var replay = document.getElementById('table-replay-'+data.replayID).firstChild;
     var name = replay.innerHTML;
     console.log('play replay : '+name);
+
+    var playerDiv = document.getElementById('player-replay-div');
+    var video = document.createElement('video');
+    var source = document.createElement('source');
+
+    playerDiv.removeChild(playerDiv.firstChild);
+    video.setAttribute('controls',true);
+    video.setAttribute('width','500px');
+    source.setAttribute('type','video/mp4');
+    source.setAttribute('src','../cameras/camera'+data.cameraID+'/videos/'+name);
+
+    video.appendChild(source);
+    playerDiv.appendChild(video);
 }
 
 function editReplay(data){
