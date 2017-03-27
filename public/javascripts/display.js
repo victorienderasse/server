@@ -197,9 +197,9 @@ socket.on('setReplays2',function(data){
         td.id = 'table-replay-'+i;
         td.setAttribute('onclick',playReplay2(data.cameraID));
         edit.className = 'glyphicon glyphicon-edit';
-        edit.setAttribute('onclick','editReplay({cameraID: data.cameraID, replayID: '+i+'});');
+        edit.setAttribute('onclick','editReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
         remove.className = 'glyphicon glyphicon-remove-circle';
-        remove.setAttribute('onclick','removeReplay({cameraID: data.cameraID, replayID: '+i+'});');
+        remove.setAttribute('onclick','removeReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
 
         td.appendChild(name);
         td.appendChild(edit);
@@ -226,15 +226,16 @@ function editReplay(data){
     var newName = prompt('New name : ');
     var replay = document.getElementById('table-replay-'+data.replayID);
     var name = replay.innerHTML;
-
-    socket.emit('editReplay',{cameraID: data.cameraID, oldName: name, newName: newName});
+    console.log('edit replay '+name);
+    //socket.emit('editReplay',{cameraID: data.cameraID, oldName: name, newName: newName});
 }
 
 function removeReplay(data){
     var replay = document.getElementById('table-replay-'+data.replayID);
     var name = replay.innerHTML;
 
-    socket.emit('removeReplay',{cameraID: data.cameraID, name: name});
+    console.log('remove replay '+name);
+    //socket.emit('removeReplay',{cameraID: data.cameraID, name: name});
 }
 
 //Disconnect
