@@ -272,7 +272,18 @@ io.sockets.on('connection', function(socket){
         throw err;
       }
       socket.emit('setReplays',{tbReplay: files, cameraID: cameraID});
+      socket.emit('setReplays2',{tbReplay: files, cameraID: cameraID});
     })
+  });
+
+  socket.on('getReplays2',function(cameraID){
+    console.log('getReplays2 event');
+    fs.readdir('./public/cameras/camera'+cameraID+'/videos/', function(err, files){
+      if(err){
+        throw err;
+      }
+      socket.emit('setReplays2',{tbReplay: files, cameraID: cameraID});
+    });
   });
 
   

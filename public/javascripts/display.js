@@ -162,6 +162,81 @@ document.getElementById('add-camera-btn').addEventListener('click', function(){
     socket.emit('addScreen',{code:code,userID:userID});
 });
 
+
+document.getElementById('testReplay').addEventListener('click',function(){
+    console.log('testReplay pressed');
+
+    var table = document.getElementById('table-replay');
+    while(table.firstChild){
+        table.removeChild(table.firstChild);
+    }
+
+    var playerReplay = document.getElementById('player-replay-div');
+    if(playerReplay.firstChild){
+        playerReplay.removeChild(playerReplay.firstChild);
+    }
+    console.log('emit getReplays2');
+    socket.emit('getReplays2',7);
+    console.log('done');
+});
+
+function closereplay2(){
+    document.getElementById('replay2').removeChild(document.getElementById('replay2').firstChild);
+}
+
+socket.on('setReplays2',function(data){
+    console.log('setReplay2');
+    var table = document.getElementById('table-replay');
+    for(var i=0;i<data.tbReplay.length;i++){
+        var tr = document.createElement('tr');
+        var td = document.createElement('td');
+        var edit = document.createElement('span');
+        var remove = document.createElement('span');
+        var name = document.createTextNode(data.tbReplay[i]);
+
+        td.id = 'table-replay-'+i;
+        td.setAttribute('onclick',playReplay2(data.cameraID));
+        edit.className = 'glyphicon glyphicon-edit';
+        edit.setAttribute('onclick','editReplay({cameraID: data.cameraID, replayID: '+i+'});');
+        remove.className = 'glyphicon glyphicon-remove-circle';
+        remove.setAttribute('onclick','removeReplay({cameraID: data.cameraID, replayID: '+i+'});');
+
+        td.appendChild(name);
+        td.appendChild(edit);
+        td.appendChild(remove);
+        tr.appendChild(td);
+        table.appendChild(tr);
+    }
+
+    var video = document.createElement('video');
+    video.setAttribute('controls',true);
+    video.setAttribute('width','400px');
+    var source = document.createElement('source');
+    source.setAttribute('src','../cameras/camera7/videos/'+data.tbReplay[0]);
+    source.setAttribute('type','video/mp4');
+    video.appendChild(source);
+    document.getElementById('player-replay-div').appendChild(video);
+});
+
+function playReplay2(data){
+
+}
+
+function editReplay(data){
+    var newName = prompt('New name : ');
+    var replay = document.getElementById('table-replay-'+data.replayID);
+    var name = replay.innerHTML;
+
+    socket.emit('editReplay',{cameraID: data.cameraID, oldName: name, newName: newName});
+}
+
+function removeReplay(data){
+    var replay = document.getElementById('table-replay-'+data.replayID);
+    var name = replay.innerHTML;
+
+    socket.emit('removeReplay',{cameraID: data.cameraID, name: name});
+}
+
 //Disconnect
 document.getElementById('disconnect-btn').addEventListener('click', function(){
     window.location = serverURL;
