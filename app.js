@@ -332,7 +332,7 @@ io.sockets.on('connection', function(socket){
       }
       if(rows.length>0){
         console.log('cameraState : '+rows[0].state);
-        if (rows.state == 4){
+        if (rows[0].state == 4){
           //LiveRecording
           console.log('close while recording');
           setState(cameraID,0);
