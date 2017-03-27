@@ -200,7 +200,7 @@ socket.on('setReplays2',function(data){
 
         tr.className = 'form-group';
         name.id = 'table-replay-'+i;
-        name.setAttribute('onclick','playReplay2('+data.cameraID+');');
+        name.setAttribute('onclick','playReplay2(cameraID:'+data.cameraID+', replayID: '+i+');');
         editIcon.className = 'glyphicon glyphicon-edit';
         editIcon.setAttribute('onclick','editReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
         removeIcon.className = 'glyphicon glyphicon-remove-circle';
@@ -229,7 +229,9 @@ socket.on('setReplays2',function(data){
 });
 
 function playReplay2(data){
-
+    var replay = document.getElementById('table-replay-'+data.replayID).firstChild;
+    var name = replay.innerHTML;
+    console.log('play replay : '+name);
 }
 
 function editReplay(data){
