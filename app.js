@@ -551,7 +551,7 @@ io.sockets.on('connection', function(socket){
       }
       if(rows.length>0){
         console.log('camera name : '+rows[0].name);
-        sendToCamera(cameraID, 'startLiveRecording', {cameraID: cameraID, name: rows.name});
+        sendToCamera(cameraID, 'startLiveRecording', {cameraID: cameraID, name: rows[0].name});
       }else{
         console.log('Error getCameraName in startStream event');
       }
