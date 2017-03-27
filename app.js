@@ -610,6 +610,8 @@ io.sockets.on('connection', function(socket){
   
   socket.on('editReplay',function(data){
     console.log('editReplay event');
+    var end = data.name.slice(-4);
+    console.log('end : '+end);
     const cmd = 'mv ./public/cameras/camera'+data.cameraID+'/videos/'+data.oldName+' ./public/cameras/camera'+data.cameraID+'/videos/'+data.newName;
     console.log(cmd);
   });
