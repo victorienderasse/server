@@ -583,13 +583,8 @@ io.sockets.on('connection', function(socket){
         throw err;
       }
       if(rows.length>0){
-        console.log('camera state : '+rows[0].state);
         if(rows[0].state == 2){
-          console.log('stream launch');
-          socket.emit('startStream', {cameraID: cameraID, name: rows[0].name});
-        }else{
-          console.log('state != 2');
-        }
+          sendToCamera(cameraID,'startStream',{cameraID: cameraID,name: rows[0].name});
       }else{
         console.log('Error getInfoCamera in getLiveRecordingDone');
       }
