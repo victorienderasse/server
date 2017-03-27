@@ -207,8 +207,6 @@ socket.on('setReplays2',function(data){
         removeIcon.setAttribute('onclick','removeReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
 
         name.className = 'col-lg-8';
-        edit.className = 'col-lg-2';
-        remove.className = 'col-lg-2';
 
         edit.appendChild(editIcon);
         remove.appendChild(removeIcon);
