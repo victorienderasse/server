@@ -584,6 +584,7 @@ io.sockets.on('connection', function(socket){
       }
       if(rows.length>0){
         if(rows[0].state == 2){
+          console.log('camera state : '+rows[0].state);
           socket.emit('startStream', {cameraID: cameraID, name: rows[0].name});
         }
       }else{
