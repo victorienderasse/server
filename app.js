@@ -561,8 +561,8 @@ io.sockets.on('connection', function(socket){
   socket.on('stopLiveRecording', function(cameraID){
     console.log('stopLiveRecording');
     setState(cameraID,2);
-    const getCameraName = 'SELECT name FROM camera WHERE cameraID = '+cameraID;
-    connection.query(getCameraName, function(err,rows){
+    const getInfoCamera = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
+    connection.query(getInfoCamera, function(err,rows){
       if(err){
         throw err;
       }
