@@ -192,7 +192,7 @@ socket.on('setReplays2',function(data){
         var td = document.createElement('td');
         var edit = document.createElement('span');
         var remove = document.createElement('span');
-        var p = document.createElement('p');
+        var p = document.createElement('span');
         var name = document.createTextNode(data.tbReplay[i]);
 
         td.id = 'table-replay-'+i;
