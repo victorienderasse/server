@@ -189,27 +189,29 @@ socket.on('setReplays2',function(data){
     var table = document.getElementById('table-replay');
     for(var i=0;i<data.tbReplay.length;i++){
         var tr = document.createElement('tr');
-        var td = document.createElement('td');
-        var btn = document.createElement('td');
-        var edit = document.createElement('span');
-        var remove = document.createElement('span');
-        var p = document.createElement('span');
-        var name = document.createTextNode(data.tbReplay[i]);
+        var name = document.createElement('td');
+        var edit = document.createElement('td');
+        var remove = document.createElement('td');
+        var editIcon = document.createElement('span');
+        var removeIcon = document.createElement('span');
+        var bold = document.createElement('b');
+        var nameText = document.createTextNode(data.tbReplay[i]);
 
         tr.className = 'form-group';
-        td.id = 'table-replay-'+i;
-        td.setAttribute('onclick','playReplay2('+data.cameraID+');');
-        edit.className = 'glyphicon glyphicon-edit';
-        edit.setAttribute('onclick','editReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
-        remove.className = 'glyphicon glyphicon-remove-circle';
-        remove.setAttribute('onclick','removeReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
+        name.id = 'table-replay-'+i;
+        name.setAttribute('onclick','playReplay2('+data.cameraID+');');
+        editIcon.className = 'glyphicon glyphicon-edit';
+        editIcon.setAttribute('onclick','editReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
+        removeIcon.className = 'glyphicon glyphicon-remove-circle';
+        removeIcon.setAttribute('onclick','removeReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
 
-        btn.appendChild(edit);
-        btn.appendChild(remove);
-        p.appendChild(name);
-        td.appendChild(p);
-        tr.appendChild(td);
-        tr.appendChild(btn);
+        edit.appendChild(editIcon);
+        remove.appendChild(removeIcon);
+        bold.appendChild(nameText);
+        name.appendChild(bold);
+        tr.appendChild(name);
+        tr.appendChild(edit);
+        tr.appendChild(remove);
         table.appendChild(tr);
     }
 
