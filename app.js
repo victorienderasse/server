@@ -331,6 +331,7 @@ io.sockets.on('connection', function(socket){
         throw err;
       }
       if(rows.length>0){
+        console.log('cameraState : '+rows[0].state);
         if (rows.state == 4){
           //LiveRecording
           console.log('close while recording');
@@ -692,7 +693,7 @@ io.sockets.on('connection', function(socket){
 
 
   function sendToCamera(cameraID, event, data){
-    console.log('sendToCamera function');
+    //console.log('sendToCamera function');
     const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
     connection.query(getSocketID, function(err,rows){
       io.to(rows[0].socketID).emit(event, data);
@@ -706,7 +707,7 @@ io.sockets.on('connection', function(socket){
     //State 2 = Live running
     //State 3 = Record running
     //State 4 = Live Recording running
-    console.log('setState function');
+    //console.log('setState function');
     const setState = 'UPDATE camera SET state = '+state+' WHERE cameraID = '+cameraID;
     connection.query(setState, function(err){
       if(err){
@@ -717,7 +718,7 @@ io.sockets.on('connection', function(socket){
   
   
   function getInfoCamera(cameraID){
-    console.log('getInfoCamera function');
+    //console.log('getInfoCamera function');
     const getInfoCamera = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
     connection.query(getInfoCamera, function(err,rows){
       if(err){
