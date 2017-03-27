@@ -333,6 +333,7 @@ io.sockets.on('connection', function(socket){
       if(rows.length>0){
         if (rows.state == 4){
           //LiveRecording
+          console.log('close while recording');
           setState(cameraID,0);
           socket.emit('updateLiveRecordingBtn', cameraID);
           sendToCamera(cameraID,'getLiveRecording',{cameraID: cameraID, name: rows[0].name});
