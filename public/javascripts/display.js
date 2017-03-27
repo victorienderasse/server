@@ -190,6 +190,7 @@ socket.on('setReplays2',function(data){
     for(var i=0;i<data.tbReplay.length;i++){
         var tr = document.createElement('tr');
         var td = document.createElement('td');
+        var btn = document.createElement('td');
         var edit = document.createElement('span');
         var remove = document.createElement('span');
         var p = document.createElement('span');
@@ -197,17 +198,18 @@ socket.on('setReplays2',function(data){
 
         tr.className = 'form-group';
         td.id = 'table-replay-'+i;
-        td.setAttribute('onclick','playReplay2(data.cameraID);');
+        td.setAttribute('onclick','playReplay2('+data.cameraID+');');
         edit.className = 'glyphicon glyphicon-edit';
         edit.setAttribute('onclick','editReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
         remove.className = 'glyphicon glyphicon-remove-circle';
         remove.setAttribute('onclick','removeReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
 
+        btn.appendChild(edit);
+        btn.appendChild(remove);
         p.appendChild(name);
         td.appendChild(p);
-        td.appendChild(edit);
-        td.appendChild(remove);
         tr.appendChild(td);
+        tr.appendChild(btn);
         table.appendChild(tr);
     }
 
