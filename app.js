@@ -544,12 +544,13 @@ io.sockets.on('connection', function(socket){
   socket.on('startLiveRecording', function(cameraID){
     console.log('startLiveRecording');
     setState(cameraID,4);
-    const getCameraName = 'SELECT name FROM camera WHERE cameraID = '+cameraID;
-    connection.query(getCameraName, function(err,rows){
+    const getInfoCamera = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
+    connection.query(getInfoCamera, function(err,rows){
       if(err){
         throw err;
       }
       if(rows.length>0){
+        console.log('camera name : '+rows[0].name);
         sendToCamera(cameraID, 'startLiveRecording', {cameraID: cameraID, name: rows.name});
       }else{
         console.log('Error getCameraName in startStream event');
