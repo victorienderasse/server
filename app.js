@@ -339,7 +339,7 @@ io.sockets.on('connection', function(socket){
         }else{
           //Live
           setState(cameraID,0);
-          sendToCamera(cameraID,'stopProcess',null);
+          sendToCamera(cameraID,'killProcess',null);
         }
       }else{
         console.log('Error getInfoCamera in stopStream');
