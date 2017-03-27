@@ -224,15 +224,15 @@ function playReplay2(data){
 
 function editReplay(data){
     var newName = prompt('New name : ');
-    var replay = document.getElementById('table-replay-'+data.replayID);
-    var name = replay.firstChild.innerHTML;
+    var replay = document.getElementById('table-replay-'+data.replayID).firstChild;
+    var name = replay.innerHTML;
     console.log('edit replay '+name);
     //socket.emit('editReplay',{cameraID: data.cameraID, oldName: name, newName: newName});
 }
 
 function removeReplay(data){
-    var replay = document.getElementById('table-replay-'+data.replayID);
-    var name = replay.firstChild.innerHTML;
+    var replay = document.getElementById('table-replay-'+data.replayID).firstChild;
+    var name = replay.innerHTML;
 
     console.log('remove replay '+name);
     //socket.emit('removeReplay',{cameraID: data.cameraID, name: name});
