@@ -187,6 +187,7 @@ function closereplay2(){
 socket.on('setReplays2',function(data){
     console.log('setReplay2');
     var table = document.getElementById('table-replay');
+    table.className = 'table table-striped';
     for(var i=0;i<data.tbReplay.length;i++){
         var tr = document.createElement('tr');
         var name = document.createElement('td');
