@@ -180,9 +180,6 @@ document.getElementById('testReplay').addEventListener('click',function(){
     console.log('done');
 });
 
-function closereplay2(){
-    document.getElementById('replay2').removeChild(document.getElementById('replay2').firstChild);
-}
 
 socket.on('setReplays2',function(data){
     console.log('setReplay2');
@@ -248,19 +245,25 @@ function playReplay2(data){
 }
 
 function editReplay(data){
-    var newName = prompt('New name : ');
     var replay = document.getElementById('table-replay-'+data.replayID).firstChild;
     var name = replay.innerHTML;
     console.log('edit replay '+name);
-    //socket.emit('editReplay',{cameraID: data.cameraID, oldName: name, newName: newName});
+
+    var newName = prompt('New name : ',name);
+    replay.innerHTML = newName;
+
+    socket.emit('editReplay',{cameraID: data.cameraID, oldName: name, newName: newName});
 }
 
 function removeReplay(data){
     var replay = document.getElementById('table-replay-'+data.replayID).firstChild;
     var name = replay.innerHTML;
-
     console.log('remove replay '+name);
-    //socket.emit('removeReplay',{cameraID: data.cameraID, name: name});
+    var tr = replay.parentNode;
+    var table = tr.parentNode;
+    table.removeChild(tr);
+
+    socket.emit('removeReplay',{cameraID: data.cameraID, name: name});
 }
 
 //Disconnect

@@ -607,6 +607,20 @@ io.sockets.on('connection', function(socket){
     io.emit('getLiveRecordingDone',cameraID);
   });
 
+  
+  socket.on('editReplay',function(data){
+    console.log('editReplay event');
+    console.log('mv '+data.oldName+' '+data.newName+' in camera'+data.cameraID);
+  });
+  
+  
+  socket.on('removeReplay',function(data){
+    console.log('removeReplay event');
+    console.log('rm '+data.name+' in camera'+data.cameraID);
+  });
+  
+  
+  
 //FUNCTIONS----------------------------------------------------------------------------------------------
 
   //function findGetParameter(parameterName) {
