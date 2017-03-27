@@ -195,6 +195,7 @@ socket.on('setReplays2',function(data){
         var p = document.createElement('span');
         var name = document.createTextNode(data.tbReplay[i]);
 
+        tr.className = 'form-group';
         td.id = 'table-replay-'+i;
         td.setAttribute('onclick','playReplay2(data.cameraID);');
         edit.className = 'glyphicon glyphicon-edit';
@@ -212,7 +213,7 @@ socket.on('setReplays2',function(data){
 
     var video = document.createElement('video');
     video.setAttribute('controls',true);
-    video.setAttribute('width','400px');
+    video.setAttribute('width','600px');
     var source = document.createElement('source');
     source.setAttribute('src','../cameras/camera7/videos/'+data.tbReplay[0]);
     source.setAttribute('type','video/mp4');
