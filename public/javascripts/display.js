@@ -222,7 +222,7 @@ socket.on('setReplays2',function(data){
 
     var video = document.createElement('video');
     video.setAttribute('controls',true);
-    video.setAttribute('width','600px');
+    video.setAttribute('width','500px');
     var source = document.createElement('source');
     source.setAttribute('src','../cameras/camera7/videos/'+data.tbReplay[0]);
     source.setAttribute('type','video/mp4');
