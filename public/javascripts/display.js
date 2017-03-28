@@ -257,13 +257,7 @@ function editReplay(data){
         newName = newName+'.mp4';
     }
 
-    for(var i=0;i<data.tbReplay.length;i++){
-        console.log('i : '+i);
-        if(data.tbReplay[i] == newName){
-            newName = '(1)'+newName;
-            i = 0;
-        }
-    }
+    console.log(data.tbReplay[0]);
 
     replay.innerHTML = newName;
     socket.emit('editReplay',{cameraID: data.cameraID, oldName: name, newName: newName});
