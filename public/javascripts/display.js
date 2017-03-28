@@ -196,6 +196,7 @@ socket.on('setReplays2',function(data){
         var nameText = document.createTextNode(data.tbReplay[i]);
 
         tr.className = 'form-group';
+        tr.setAttribute('style','background-color:#EEEEEE;')
         tr.id = 'table-replay-tr'+i;
         name.id = 'table-replay-'+i;
         name.setAttribute('onclick','playReplay2({cameraID:'+data.cameraID+', replayID: '+i+'});');
@@ -203,9 +204,6 @@ socket.on('setReplays2',function(data){
         edit.setAttribute('onclick','editReplay({cameraID: '+data.cameraID+', replayID: '+i+',tbReplay: ['+data.tbReplay+']});');
         removeIcon.className = 'glyphicon glyphicon-remove-circle';
         remove.setAttribute('onclick','removeReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
-        edit.setAttribute('style','background-color:#FF0000');
-        remove.setAttribute('style','background-color:#0000FF');
-        name.setAttribute('style','background-color:#00FF00');
 
         edit.appendChild(editIcon);
         remove.appendChild(removeIcon);
