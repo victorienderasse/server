@@ -196,7 +196,7 @@ socket.on('setReplays2',function(data){
         var nameText = document.createTextNode(data.tbReplay[i]);
 
         tr.className = 'form-group';
-        tr.setAttribute('style','background-color:#EEEEEE;')
+        tr.setAttribute('style','background-color:#F1E9E9;')
         tr.id = 'table-replay-tr'+i;
         name.id = 'table-replay-'+i;
         name.setAttribute('onclick','playReplay2({cameraID:'+data.cameraID+', replayID: '+i+'});');
