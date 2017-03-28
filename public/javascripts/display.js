@@ -731,6 +731,7 @@ function editReplay(data){
     console.log('edit replay '+name);
 
     var newName = prompt('New name : ',name);
+    console.log(newName);
     if (newName != '' || newName != null){
 
         var end = newName.slice(-4);
