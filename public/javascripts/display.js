@@ -200,7 +200,7 @@ socket.on('setReplays2',function(data){
         name.id = 'table-replay-'+i;
         name.setAttribute('onclick','playReplay2({cameraID:'+data.cameraID+', replayID: '+i+'});');
         editIcon.className = 'glyphicon glyphicon-edit';
-        edit.setAttribute('onclick','editReplay({cameraID: '+data.cameraID+', replayID: '+i+',tbReplay: '+tbReplay+'});');
+        edit.setAttribute('onclick','editReplay({cameraID: '+data.cameraID+', replayID: '+i+',tbReplay: '+data.tbReplay+'});');
         removeIcon.className = 'glyphicon glyphicon-remove-circle';
         remove.setAttribute('onclick','removeReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
         edit.setAttribute('style','background-color:#FF0000');
