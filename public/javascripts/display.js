@@ -724,18 +724,16 @@ function editReplay(data){
     console.log('edit replay '+name);
 
     var newName = prompt('New name : ',name);
-    var end = newName.slice(-4);
-    if(end != '.mp4'){
-        newName = newName+'.mp4';
+    if (newName != '') {
+
+        var end = newName.slice(-4);
+        if (end != '.mp4') {
+            newName = newName + '.mp4';
+        }
+
+        replay.innerHTML = newName;
+        socket.emit('editReplay', {cameraID: data.cameraID, oldName: name, newName: newName});
     }
-
-    replay.innerHTML = newName;
-    socket.emit('editReplay',{cameraID: data.cameraID, oldName: name, newName: newName});
-}
-
-
-function editReplayUpdate(data){
-    //Si nom pas déjà pris -> change
 }
 
 

@@ -612,9 +612,32 @@ io.sockets.on('connection', function(socket){
   
   socket.on('editReplay',function(data){
     console.log('editReplay event');
-    
-    const cmd = 'mv ./public/cameras/camera'+data.cameraID+'/videos/'+data.oldName+' ./public/cameras/camera'+data.cameraID+'/videos/'+data.newName;
-    console.log(cmd);
+
+    var nameTaken = false;
+    fs.readdir('./public/cameras/camera'+cameraID+'/videos/', function(err, files){
+      if(err){
+        throw err;
+      }
+      for(var i=0;i<files.length;i++){
+        if(files[i] == data.newName){
+          nameTaken = true;
+          console.log('name taken');
+          break;
+        }
+      }
+    });
+
+    if(nameTaken){
+      socket.emit('message',{title: 'Alerte',message:'Erreur: Le nom est déjà pris',action:null});
+    }else{
+      const cmd = 'mv ./public/cameras/camera'+data.cameraID+'/videos/'+data.oldName+' ./public/cameras/camera'+data.cameraID+'/videos/'+data.newName;
+      console.log(cmd);
+      exec(cmd,function(err){
+        if(err){
+          throw err;
+        }
+      });
+    }
   });
   
   
@@ -622,6 +645,11 @@ io.sockets.on('connection', function(socket){
     console.log('removeReplay event');
     const cmd = 'rm ./public/cameras/camera'+data.cameraID+'/videos/'+data.name;
     console.log(cmd);
+    exec(cmd,function(err){
+      if(err){
+        throw err;
+      }
+    });
   });
   
   
