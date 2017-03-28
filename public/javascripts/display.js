@@ -732,7 +732,7 @@ function editReplay(data){
 
     var newName = prompt('New name : ',name);
     console.log(newName);
-    if (newName != '' || newName != null){
+    if (newName != null){
 
         var end = newName.slice(-4);
         if (end != '.mp4') {
