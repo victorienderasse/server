@@ -48,7 +48,7 @@ socket.on('setOldRecord', function(recordID){
     document.getElementById('record-'+recordID).setAttribute('style','background-color:#FFFFFF');
 });
 
-
+/*
 socket.on('setReplays', function(data){
     console.log('setReplay event');
     var select = document.getElementById('select-replay');
@@ -64,6 +64,54 @@ socket.on('setReplays', function(data){
     }
 
     playReplay(data.cameraID);
+});
+*/
+
+socket.on('setReplays',function(data){
+    console.log('setReplay');
+    var table = document.getElementById('table-replay');
+
+    for(var i=0;i<data.tbReplay.length;i++){
+        var tr = document.createElement('tr');
+        var name = document.createElement('td');
+        var edit = document.createElement('td');
+        var remove = document.createElement('td');
+        var editIcon = document.createElement('span');
+        var removeIcon = document.createElement('span');
+        var bold = document.createElement('b');
+        var nameText = document.createTextNode(data.tbReplay[i]);
+
+        tr.className = 'form-group';
+        tr.setAttribute('style','background-color:#F1E9E9;')
+        tr.id = 'table-replay-tr'+i;
+        name.id = 'table-replay-'+i;
+        name.title = 'Click to play';
+        name.setAttribute('onclick','playReplay({cameraID:'+data.cameraID+', replayID: '+i+'});');
+        editIcon.className = 'glyphicon glyphicon-edit';
+        editIcon.title = 'Click to rename the replay';
+        editIcon.setAttribute('onclick','editReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
+        removeIcon.className = 'glyphicon glyphicon-remove-circle';
+        removeIcon.title = 'Click to delete the replay';
+        removeIcon.setAttribute('onclick','removeReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
+
+        edit.appendChild(editIcon);
+        remove.appendChild(removeIcon);
+        bold.appendChild(nameText);
+        name.appendChild(bold);
+        tr.appendChild(name);
+        tr.appendChild(edit);
+        tr.appendChild(remove);
+        table.appendChild(tr);
+    }
+
+    var video = document.createElement('video');
+    video.setAttribute('controls',true);
+    video.setAttribute('width','500px');
+    var source = document.createElement('source');
+    source.setAttribute('src','../cameras/camera'+data.cameraID+'/videos/'+data.tbReplay[0]);
+    source.setAttribute('type','video/mp4');
+    video.appendChild(source);
+    document.getElementById('player-replay-div').appendChild(video);
 });
 
 
@@ -162,114 +210,6 @@ document.getElementById('add-camera-btn').addEventListener('click', function(){
     socket.emit('addScreen',{code:code,userID:userID});
 });
 
-
-document.getElementById('testReplay').addEventListener('click',function(){
-    console.log('testReplay pressed');
-
-    var table = document.getElementById('table-replay');
-    while(table.firstChild){
-        table.removeChild(table.firstChild);
-    }
-
-    var playerReplay = document.getElementById('player-replay-div');
-    if(playerReplay.firstChild){
-        playerReplay.removeChild(playerReplay.firstChild);
-    }
-    console.log('emit getReplays2');
-    socket.emit('getReplays2',7);
-    console.log('done');
-});
-
-
-socket.on('setReplays2',function(data){
-    console.log('setReplay2');
-    var table = document.getElementById('table-replay');
-
-    for(var i=0;i<data.tbReplay.length;i++){
-        var tr = document.createElement('tr');
-        var name = document.createElement('td');
-        var edit = document.createElement('td');
-        var remove = document.createElement('td');
-        var editIcon = document.createElement('span');
-        var removeIcon = document.createElement('span');
-        var bold = document.createElement('b');
-        var nameText = document.createTextNode(data.tbReplay[i]);
-
-        tr.className = 'form-group';
-        tr.setAttribute('style','background-color:#F1E9E9;')
-        tr.id = 'table-replay-tr'+i;
-        name.id = 'table-replay-'+i;
-        name.setAttribute('onclick','playReplay2({cameraID:'+data.cameraID+', replayID: '+i+'});');
-        editIcon.className = 'glyphicon glyphicon-edit';
-        edit.setAttribute('onclick','editReplay({cameraID: '+data.cameraID+', replayID: '+i+',tbReplay: ['+data.tbReplay+']});');
-        removeIcon.className = 'glyphicon glyphicon-remove-circle';
-        remove.setAttribute('onclick','removeReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
-
-        edit.appendChild(editIcon);
-        remove.appendChild(removeIcon);
-        bold.appendChild(nameText);
-        name.appendChild(bold);
-        tr.appendChild(name);
-        tr.appendChild(edit);
-        tr.appendChild(remove);
-        table.appendChild(tr);
-    }
-
-    var video = document.createElement('video');
-    video.setAttribute('controls',true);
-    video.setAttribute('width','500px');
-    var source = document.createElement('source');
-    source.setAttribute('src','../cameras/camera'+data.cameraID+'/videos/'+data.tbReplay[0]);
-    source.setAttribute('type','video/mp4');
-    video.appendChild(source);
-    document.getElementById('player-replay-div').appendChild(video);
-});
-
-function playReplay2(data){
-    var replay = document.getElementById('table-replay-'+data.replayID).firstChild;
-    var name = replay.innerHTML;
-    console.log('play replay : '+name);
-
-    var playerDiv = document.getElementById('player-replay-div');
-    var video = document.createElement('video');
-    var source = document.createElement('source');
-
-    playerDiv.removeChild(playerDiv.firstChild);
-    video.setAttribute('controls',true);
-    video.setAttribute('width','500px');
-    source.setAttribute('type','video/mp4');
-    source.setAttribute('src','../cameras/camera'+data.cameraID+'/videos/'+name);
-
-    video.appendChild(source);
-    playerDiv.appendChild(video);
-}
-
-function editReplay(data){
-    var replay = document.getElementById('table-replay-'+data.replayID).firstChild;
-    var name = replay.innerHTML;
-    console.log('edit replay '+name);
-
-    var newName = prompt('New name : ',name);
-    var end = newName.slice(-4);
-    if(end != '.mp4'){
-        newName = newName+'.mp4';
-    }
-    
-
-    replay.innerHTML = newName;
-    socket.emit('editReplay',{cameraID: data.cameraID, oldName: name, newName: newName});
-}
-
-function removeReplay(data){
-    var replay = document.getElementById('table-replay-'+data.replayID).firstChild;
-    var name = replay.innerHTML;
-    console.log('remove replay '+name);
-    var Table = document.getElementById('table-replay');
-    Table.removeChild(document.getElementById('table-replay-tr'+data.replayID));
-
-    socket.emit('removeReplay',{cameraID: data.cameraID, name: name});
-}
-
 //Disconnect
 document.getElementById('disconnect-btn').addEventListener('click', function(){
     window.location = serverURL;
@@ -338,7 +278,7 @@ function displayScreens(tbScreen){
         screen_timer_btn.title ='Replay of the camera';
         screen_replay_btn.setAttribute('onclick','runReplay(' + tbScreen[i].cameraID + ');');
         screen_replay_btn.setAttribute('data-toggle','modal');
-        screen_replay_btn.setAttribute('data-target','#modal-replay');
+        screen_replay_btn.setAttribute('data-target','#modal-replay2');
         //Screen_img
         screen_img.id = 'screen-'+tbScreen[i].cameraID+'-image';
         screen_img.setAttribute('src','../cameras/camera'+tbScreen[i].cameraID+'/live/stream_camera_'+tbScreen[i].cameraID+'.jpg');
@@ -423,7 +363,7 @@ function runTimer(cameraID){
     socket.emit('getRecords', cameraID);
 }
 
-
+/*
 function runReplay(cameraID){
     /*
     1. Remove old <select>
@@ -441,6 +381,23 @@ function runReplay(cameraID){
     select.className = 'form-control';
     select.setAttribute('onchange', 'playReplay('+cameraID+');');
     selectDiv.appendChild(select);
+
+    socket.emit('getReplays',cameraID);
+}
+*/
+
+function runReplay(cameraID){
+    console.log('testReplay pressed');
+
+    var table = document.getElementById('table-replay');
+    while(table.firstChild){
+        table.removeChild(table.firstChild);
+    }
+
+    var playerReplay = document.getElementById('player-replay-div');
+    if(playerReplay.firstChild){
+        playerReplay.removeChild(playerReplay.firstChild);
+    }
 
     socket.emit('getReplays',cameraID);
 }
@@ -638,7 +595,7 @@ function emptyTimerForm(){
     myForm.frequency.value = 'Mon';
 }
 
-
+/*
 function playReplay(cameraID){
     console.log('playReplay function');
     //create video
@@ -660,7 +617,7 @@ function playReplay(cameraID){
     }
     display_div.appendChild(video);
 }
-
+*/
 
 function stopRecording(cameraID, recordID){
     console.log('stopRecording function');
@@ -733,4 +690,57 @@ function resetLiveMessage(){
     document.getElementById('messageLive').className = '';
     document.getElementById('messageLive-title').innerHTML = '';
     document.getElementById('messageLive-body').innerHTML = '';
+}
+
+
+function playReplay(data){
+    var replay = document.getElementById('table-replay-'+data.replayID).firstChild;
+    var name = replay.innerHTML;
+    console.log('play replay : '+name);
+
+    var playerDiv = document.getElementById('player-replay-div');
+    var video = document.createElement('video');
+    var source = document.createElement('source');
+
+    playerDiv.removeChild(playerDiv.firstChild);
+    video.setAttribute('controls',true);
+    video.setAttribute('width','500px');
+    source.setAttribute('type','video/mp4');
+    source.setAttribute('src','../cameras/camera'+data.cameraID+'/videos/'+name);
+
+    video.appendChild(source);
+    playerDiv.appendChild(video);
+}
+
+
+function editReplay(data){
+    var replay = document.getElementById('table-replay-'+data.replayID).firstChild;
+    var name = replay.innerHTML;
+    console.log('edit replay '+name);
+
+    var newName = prompt('New name : ',name);
+    var end = newName.slice(-4);
+    if(end != '.mp4'){
+        newName = newName+'.mp4';
+    }
+
+    replay.innerHTML = newName;
+    socket.emit('editReplay',{cameraID: data.cameraID, oldName: name, newName: newName});
+}
+
+
+function editReplayUpdate(data){
+    //Si nom pas déjà pris -> change
+}
+
+
+function removeReplay(data){
+    var replay = document.getElementById('table-replay-'+data.replayID).firstChild;
+    var name = replay.innerHTML;
+    console.log('remove replay '+name);
+
+    var Table = document.getElementById('table-replay');
+    Table.removeChild(document.getElementById('table-replay-tr'+data.replayID));
+
+    socket.emit('removeReplay',{cameraID: data.cameraID, name: name});
 }

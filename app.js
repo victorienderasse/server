@@ -265,6 +265,7 @@ io.sockets.on('connection', function(socket){
 
   
   //Get all the replay
+  /*
   socket.on('getReplays', function(cameraID){
     console.log('getReplays event');
     fs.readdir('./public/cameras/camera'+cameraID+'/videos/', function(err, files){
@@ -275,14 +276,15 @@ io.sockets.on('connection', function(socket){
       socket.emit('setReplays2',{tbReplay: files, cameraID: cameraID});
     })
   });
-
-  socket.on('getReplays2',function(cameraID){
-    console.log('getReplays2 event');
+  */
+  
+  socket.on('getReplays',function(cameraID){
+    console.log('getReplays event');
     fs.readdir('./public/cameras/camera'+cameraID+'/videos/', function(err, files){
       if(err){
         throw err;
       }
-      socket.emit('setReplays2',{tbReplay: files, cameraID: cameraID});
+      socket.emit('setReplays',{tbReplay: files, cameraID: cameraID});
     });
   });
 
@@ -610,15 +612,6 @@ io.sockets.on('connection', function(socket){
   
   socket.on('editReplay',function(data){
     console.log('editReplay event');
-
-    fs.readdir('./public/cameras/camera'+cameraID+'/videos/', function(err, files){
-      if(err){
-        throw err;
-      }
-      for(var i=0;i<files.length;i++){
-        
-      }
-    });
     
     const cmd = 'mv ./public/cameras/camera'+data.cameraID+'/videos/'+data.oldName+' ./public/cameras/camera'+data.cameraID+'/videos/'+data.newName;
     console.log(cmd);
