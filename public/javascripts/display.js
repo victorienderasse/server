@@ -200,7 +200,7 @@ socket.on('setReplays2',function(data){
         name.id = 'table-replay-'+i;
         name.setAttribute('onclick','playReplay2({cameraID:'+data.cameraID+', replayID: '+i+'});');
         editIcon.className = 'glyphicon glyphicon-edit';
-        edit.setAttribute('onclick','editReplay({cameraID: '+data.cameraID+', replayID: '+i+',tbReplay: '+data.tbReplay+'});');
+        edit.setAttribute('onclick','editReplay({cameraID: '+data.cameraID+', replayID: '+i+',tbReplay: ['+data.tbReplay+']});');
         removeIcon.className = 'glyphicon glyphicon-remove-circle';
         remove.setAttribute('onclick','removeReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
         edit.setAttribute('style','background-color:#FF0000');
@@ -257,7 +257,13 @@ function editReplay(data){
         newName = newName+'.mp4';
     }
 
-    console.log(data.tbReplay[0]);
+    for(var i=0;i<data.tbReplay.length;i++){
+        console.log('i : '+i);
+        if(data.tbReplay[i] == newName){
+            newName = '(1)'+newName;
+            i = 0;
+        }
+    }
 
     replay.innerHTML = newName;
     socket.emit('editReplay',{cameraID: data.cameraID, oldName: name, newName: newName});
