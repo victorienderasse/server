@@ -610,7 +610,15 @@ io.sockets.on('connection', function(socket){
   
   socket.on('editReplay',function(data){
     console.log('editReplay event');
-    var end = data.newName.slice(-4);
+
+    fs.readdir('./public/cameras/camera'+cameraID+'/videos/', function(err, files){
+      if(err){
+        throw err;
+      }
+      for(var i=0;i<files.length;i++){
+        
+      }
+    });
     
     const cmd = 'mv ./public/cameras/camera'+data.cameraID+'/videos/'+data.oldName+' ./public/cameras/camera'+data.cameraID+'/videos/'+data.newName;
     console.log(cmd);
