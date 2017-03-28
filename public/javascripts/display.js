@@ -366,7 +366,7 @@ function runTimer(cameraID){
 /*
 function runReplay(cameraID){
 
-    1. Remove old <select> 
+    1. Remove old <select>
     2. Create new <select>
     3. Send command to server
 
@@ -388,6 +388,11 @@ function runReplay(cameraID){
 
 function runReplay(cameraID){
     console.log('testReplay pressed');
+
+    var title = document.getElementById('replay-title');
+    var name = document.getElementById('screen-'+cameraID+'-name').firstChild;
+    name = name.innerHTML;
+    title.innerHTML = 'Replay - '+name;
 
     var table = document.getElementById('table-replay');
     while(table.firstChild){
