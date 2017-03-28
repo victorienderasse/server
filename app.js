@@ -176,13 +176,13 @@ io.sockets.on('connection', function(socket){
   //change the camera's name
   socket.on('changeCameraName', function(data){
     console.log('changeCameraName event');
-    const changeName = 'UPDATE camera SET name = "'+data.name+'" WHERE cameraID = "'+data.cameraID+'"';
+    const changeName = 'UPDATE camera SET name = "'+data.name+'" WHERE cameraID = '+data.cameraID;
     connection.query(changeName, function(err){
       if(err){
         throw err;
       }
       socket.emit('message', {title: 'Bravo', message: 'Le nom de votre caméra a été mis à jour !', action: 'resetMessage'});
-    })
+    });
   });
 
 

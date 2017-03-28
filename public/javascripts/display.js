@@ -390,8 +390,8 @@ function runReplay(cameraID){
     console.log('testReplay pressed');
 
     var title = document.getElementById('replay-title');
-    var name = document.getElementById('screen-'+cameraID+'-name').firstChild;
-    name = name.innerHTML;
+    var nameTD = document.getElementById('screen-'+cameraID+'-name').firstChild;
+    var name = nameTD.innerHTML;
     title.innerHTML = 'Replay - '+name;
 
     var table = document.getElementById('table-replay');
@@ -492,7 +492,7 @@ function setName(cameraID){
         bold.appendChild(name);
         var screenName = document.getElementById('screen-'+cameraID+'-name');
         screenName.replaceChild(bold, screenName.firstChild);
-        socket.emit('changeCameraName', {cameraID: cameraID, name: name});
+        socket.emit('changeCameraName', {cameraID: cameraID, name: getName});
     }
 }
 
