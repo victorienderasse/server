@@ -621,7 +621,7 @@ io.sockets.on('connection', function(socket){
       for(var i=0;i<files.length;i++){
         if(files[i] == data.newName){
           nameTaken = true;
-          console.log('name taken');
+          console.log(files[i]+' = '+data.newName);
           break;
         }
       }
