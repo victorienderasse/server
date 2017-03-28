@@ -169,6 +169,13 @@ socket.on('updateLiveRecordingBtn', function(cameraID){
     document.getElementById('modal-live-record').setAttribute('onclick','stopLiveRecording('+cameraID+');');
 });
 
+
+socket.on('editReplayOK', function(data){
+    console.log('editReplayOK event');
+    var replay = document.getElementById('table-replay-'+data.replayID).firstChild;
+    replay.innerHTML = data.name;
+});
+
 //Actions--------------------------------------
 
 
@@ -732,7 +739,7 @@ function editReplay(data){
         }
 
         replay.innerHTML = newName;
-        socket.emit('editReplay', {cameraID: data.cameraID, oldName: name, newName: newName});
+        socket.emit('editReplay', {cameraID: data.cameraID, oldName: name, newName: newName, replayID: data.replayID});
     }
 }
 

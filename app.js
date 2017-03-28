@@ -630,6 +630,7 @@ io.sockets.on('connection', function(socket){
     if(nameTaken){
       socket.emit('message',{title: 'Alerte',message:'Erreur: Le nom est déjà pris',action:null});
     }else{
+      socket.emit('editReplayOK',{name: data.newName, replayID: data.replayID});
       const cmd = 'mv ./public/cameras/camera'+data.cameraID+'/videos/'+data.oldName+' ./public/cameras/camera'+data.cameraID+'/videos/'+data.newName;
       console.log(cmd);
       exec(cmd,function(err){
