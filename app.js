@@ -611,13 +611,8 @@ io.sockets.on('connection', function(socket){
   socket.on('editReplay',function(data){
     console.log('editReplay event');
     var end = data.newName.slice(-4);
-    var newName;
-    if(end == '.mp4'){
-      newName = data.newName;
-    }else{
-      newName = data.newName+'.mp4';
-    }
-    const cmd = 'mv ./public/cameras/camera'+data.cameraID+'/videos/'+data.oldName+' ./public/cameras/camera'+data.cameraID+'/videos/'+newName;
+    
+    const cmd = 'mv ./public/cameras/camera'+data.cameraID+'/videos/'+data.oldName+' ./public/cameras/camera'+data.cameraID+'/videos/'+data.newName;
     console.log(cmd);
   });
   
