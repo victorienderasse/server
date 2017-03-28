@@ -622,14 +622,15 @@ io.sockets.on('connection', function(socket){
         if(files[i] == data.newName){
           nameTaken = true;
           console.log(files[i]+' = '+data.newName);
-          break;
         }
       }
     });
 
-    if(nameTaken){
+    if(nameTaken == true){
+      console.log('name Taken');
       socket.emit('message',{title: 'Alerte',message:'Erreur: Le nom est déjà pris',action:null});
     }else{
+      console.log('name not taken');
       socket.emit('editReplayOK',{name: data.newName, replayID: data.replayID});
       const cmd = 'mv ./public/cameras/camera'+data.cameraID+'/videos/'+data.oldName+' ./public/cameras/camera'+data.cameraID+'/videos/'+data.newName;
       console.log(cmd);
