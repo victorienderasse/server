@@ -614,7 +614,7 @@ io.sockets.on('connection', function(socket){
     console.log('editReplay event');
 
     var nameTaken = false;
-    fs.readdir('./public/cameras/camera'+cameraID+'/videos/', function(err, files){
+    fs.readdir('./public/cameras/camera'+data.cameraID+'/videos/', function(err, files){
       if(err){
         throw err;
       }
