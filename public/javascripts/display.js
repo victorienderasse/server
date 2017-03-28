@@ -737,8 +737,7 @@ function editReplay(data){
         if (end != '.mp4') {
             newName = newName + '.mp4';
         }
-
-        replay.innerHTML = newName;
+        
         socket.emit('editReplay', {cameraID: data.cameraID, oldName: name, newName: newName, replayID: data.replayID});
     }
 }
