@@ -731,13 +731,13 @@ function editReplay(data){
     console.log('edit replay '+name);
 
     var newName = prompt('New name : ',name);
-    if (newName != '') {
+    if (newName != '' || newName === null){
 
         var end = newName.slice(-4);
         if (end != '.mp4') {
             newName = newName + '.mp4';
         }
-        
+
         socket.emit('editReplay', {cameraID: data.cameraID, oldName: name, newName: newName, replayID: data.replayID});
     }
 }
