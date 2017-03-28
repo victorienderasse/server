@@ -366,7 +366,7 @@ function runTimer(cameraID){
 /*
 function runReplay(cameraID){
 
-    1. Remove old <select>
+    1. Remove old <select> 
     2. Create new <select>
     3. Send command to server
 
