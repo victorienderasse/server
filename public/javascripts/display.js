@@ -365,11 +365,11 @@ function runTimer(cameraID){
 
 /*
 function runReplay(cameraID){
-    /*
+
     1. Remove old <select>
     2. Create new <select>
     3. Send command to server
-     */
+
     console.log('runReplay function');
     var selectDiv = document.getElementById('select-replay-div');
     if (selectDiv.firstChild){
