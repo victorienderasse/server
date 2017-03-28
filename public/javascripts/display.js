@@ -203,6 +203,9 @@ socket.on('setReplays2',function(data){
         edit.setAttribute('onclick','editReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
         removeIcon.className = 'glyphicon glyphicon-remove-circle';
         remove.setAttribute('onclick','removeReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
+        edit.setAttribute('style','background-color:#FF0000');
+        remove.setAttribute('style','background-color:#0000FF');
+        name.setAttribute('style','background-color:#00FF00');
 
         edit.appendChild(editIcon);
         remove.appendChild(removeIcon);
