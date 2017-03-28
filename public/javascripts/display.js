@@ -200,7 +200,7 @@ socket.on('setReplays2',function(data){
         name.id = 'table-replay-'+i;
         name.setAttribute('onclick','playReplay2({cameraID:'+data.cameraID+', replayID: '+i+'});');
         editIcon.className = 'glyphicon glyphicon-edit';
-        edit.setAttribute('onclick','editReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
+        edit.setAttribute('onclick','editReplay({cameraID: '+data.cameraID+', replayID: '+i+',tbReplay: '+tbReplay+'});');
         removeIcon.className = 'glyphicon glyphicon-remove-circle';
         remove.setAttribute('onclick','removeReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
         edit.setAttribute('style','background-color:#FF0000');
@@ -255,6 +255,14 @@ function editReplay(data){
     var end = newName.slice(-4);
     if(end != '.mp4'){
         newName = newName+'.mp4';
+    }
+
+    for(var i=0;i<data.tbReplay.length;i++){
+        console.log('i : '+i);
+        if(data.tbReplay[i] == newName){
+            newName = '(1)'+newName;
+            i = 0;
+        }
     }
 
     replay.innerHTML = newName;
@@ -383,8 +391,6 @@ function displayScreens(tbScreen){
 
             }
         }else{
-            console.log('camera ',i,' is disable');
-            //screen.className = 'camera-disable';
             screen.setAttribute('style','background-color:#FAECEC;');
             screen_live_btn.disabled = true;
             screen_timer_btn.disabled = true;
