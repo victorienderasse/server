@@ -155,7 +155,8 @@ io.sockets.on('connection', function(socket){
         for(var i=0;i<rows.length;i++){
           console.log('check record '+i);
           f1b = rows[i].frequency;
-          f1e = rows[i].frequencyEnd;
+          //f1e = rows[i].frequencyEnd;
+          f1e = 3;
           console.log('f1b = '+f1b+' | f1e = '+f1e+' | f2b = '+f2b+' | f2e = '+f2e);
           if(f1b == '*' || f2b == '*'){
             console.log('f1b ou f2b is *');
