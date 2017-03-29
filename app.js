@@ -195,6 +195,9 @@ io.sockets.on('connection', function(socket){
                 t1b = ((parseInt(rows[i].frequency)*24*60)+rows[i].begin);
                 t1e = ((parseInt(rows[i].frequencyEnd)*24*60)+rows[i].end);
                 if(((t1e - t1b) >= 1440) || ((t1e - t1b) < 0)){
+                  console.log('size > 1440');
+                }else{
+
                   t2b1 = ((parseInt(rows[i].frequency)*24*60)+(data.begin_hour*60)+data.begin_minute);
                   t2e1 = ((parseInt(rows[i].frequency)*24*60)+(data.end_hour*60)+data.end_minute);
                   t2b2 = ((parseInt(rows[i].frequencyEnd)*24*60)+(data.begin_hour*60)+data.begin_minute);
@@ -205,8 +208,6 @@ io.sockets.on('connection', function(socket){
                   }else{
                     console.log('OK');
                   }
-                }else{
-                  console.log('size > 1440');
                 }
 
               }else{
@@ -214,6 +215,9 @@ io.sockets.on('connection', function(socket){
                 t2b = ((parseInt(data.frequency)*24*60)+(parseInt(data.begin_hour)*60)+parseInt(data.begin_minute));
                 t2e = ((parseInt(data.frequencyEnd)*24*60)+(parseInt(data.end_hour)*60)+parseInt(data.end_minute));
                 if(((t2e - t2b) >= 1440) || ((t2e - t2b) < 0)){
+                  console.log('size > 1440');
+                }else{
+
                   t1b1 = ((parseInt(data.frequency)*24*60)+rows[i].begin);
                   t1e1 = ((parseInt(data.frequency)*24*60)+rows[i].end);
                   t1b2 = ((parseInt(data.frequencyEnd)*24*60)+rows[i].begin);
@@ -225,8 +229,6 @@ io.sockets.on('connection', function(socket){
                   }else{
                     console.log('OK');
                   }
-                }else{
-                  console.log('size > 1440');
                 }
               }
           }
