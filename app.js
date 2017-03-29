@@ -160,8 +160,8 @@ io.sockets.on('connection', function(socket){
 
           if(data.frequency != '*' && rows[i].frequency != '*'){
             console.log('parseint frequence = '+parseInt(data.frequency));
-            t2b = ( ( parseInt(data.frequency) * 24 * 60) + (data.begin_hour*60) + data.begin_minute);
-            t2e = ((parseInt(data.frequencyEnd)*24*60) + (data.end_hour*60) + data.end_minute);
+            t2b = ( ( parseInt(data.frequency) * 24 * 60) + (parseInt(data.begin_hour)*60) + parseInt(data.begin_minute));
+            t2e = ((parseInt(data.frequencyEnd)*24*60) + (parseInt(data.end_hour)*60) + parseInt(data.end_minute));
             t1b = ((parseInt(rows[i].frequency)*24*60)+rows[i].begin);
             t1e = ((parseInt(rows[i].frequencyEnd)*24*60)+rows[i].end);
             console.log('t2b = '+t2b+' | t2e = '+t2e+' | t1b = '+t1b+' | t1e = '+t1e);
