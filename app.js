@@ -186,6 +186,8 @@ io.sockets.on('connection', function(socket){
               }else{
                 if(f2b <= f1b && f2e >= f1e){
                   console.log('situation 3');
+                }else{
+                  console.log('jour OK');
                 }
               }
             }
