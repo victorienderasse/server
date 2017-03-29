@@ -195,7 +195,7 @@ io.sockets.on('connection', function(socket){
               console.log('new > week');
             }else{
               console.log('size OK');
-              if(data.frequency = '*'){
+              if(data.frequency == '*'){
                 console.log('new is *');
               }else{
                 console.log('old is *');
