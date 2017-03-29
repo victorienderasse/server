@@ -207,7 +207,7 @@ io.sockets.on('connection', function(socket){
                 t1e2 = ((parseInt(data.frequencyEnd)*24*60)+rows[i].end);
                 console.log('t2b = '+t2b+' | t2e = '+t2e+' | t1b1 = '+t1b1+' | t1b2 = '+t1b2+' | t1e1 = '+t1e1+' | t1e2 = '+t1e2);
 
-                if((t2b >= t1b1 && t2b <= t1e1) || (t2e >= t1b2 && t2e <= t1e2) || (t2b < t1b1 && t2e > t1e1)){
+                if((t2b >= t1b1 && t2b <= t1e1) || (t2e >= t1b2 && t2e <= t1e2) || (t2b < t1b1 && t2e > t1e1) || (t2b > t1e1 && t2e < t1b1)){
                   console.log('not OK');
                 }else{
                   console.log('OK');
