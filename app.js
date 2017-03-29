@@ -156,6 +156,7 @@ io.sockets.on('connection', function(socket){
           console.log('check record '+i);
           f1b = rows[i].frequency;
           f1e = rows[i].frequencyEnd;
+          console.log('f1b = '+f1b+' | f1e = '+f1e+' | f2b = '+f2b+' | f2e = '+f2e);
           if(f1b == '*' || f2b == '*'){
             console.log('f1b ou f2b is *');
             //check Time
