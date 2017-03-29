@@ -181,7 +181,7 @@ io.sockets.on('connection', function(socket){
               console.log('t2b = '+t2b+' | t2e = '+t2e+' | t1b = '+t1b+' | t1e = '+t1e);
             }
 
-            if(t2b >= t1b && t2b <= t1e){
+            if((t2b >= t1b && t2b <= t1e) || (t2e >= t1b && t2e <= t1e) || (t2b < t1b && t2e > t1e)){
               console.log('situation 1');
             }else{
               if(t2e >= t1b && t2e <= t1e){
