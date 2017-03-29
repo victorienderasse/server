@@ -140,9 +140,12 @@ io.sockets.on('connection', function(socket){
 
   socket.on('setTimer', function(data) {
     console.log('SetTimer event');
+    //Frequency 2 Begin AND Frequency 2 End
     var f1b, f1e;
+    var t1b, t1e, t2b, t2e;
     var f2b = parseInt(data.frequency);
     var f2e = parseInt(data.frequencyEnd);
+
     //update record
     const checkRecordEnable = 'SELECT * FROM record WHERE cameraID = '+data.cameraID+' AND state = 1';
     connection.query(checkRecordEnable, function(err,rows){
@@ -154,45 +157,18 @@ io.sockets.on('connection', function(socket){
         //Check chevauche ?
         for(var i=0;i<rows.length;i++){
           console.log('check record '+i);
-          f1b = parseInt(rows[i].frequency);
-          //f1e = rows[i].frequencyEnd;
-          f1e = 3;
-          console.log('f1b = '+f1b+' | f1e = '+f1e+' | f2b = '+f2b+' | f2e = '+f2e);
-          if(f1b == '*' || f2b == '*'){
-            console.log('f1b ou f2b is *');
-            //check Time
-          }else{
-            console.log('no *');
-            if(f1b>f1e){
-              console.log('f1b>f1e');
-              f1e=f1e+7;
-              f2b=f2b+7;
-              f2e=f2e+7;
-              console.log('f1b = '+f1b+' | f1e = '+f1e+' | f2b = '+f2b+' | f2e = '+f2e);
-            }
-            if(f2b>f2e){
-              console.log('f2b>f2e');
-              f1b=f1b+7;
-              f1e=f1e+7;
-              f2e=f2e+7;
-              console.log('f1b = '+f1b+' | f1e = '+f1e+' | f2b = '+f2b+' | f2e = '+f2e);
-            }
 
-            if(f2b >= f1b && f2b <= f1e){
-              console.log('situation 1');
-            }else{
-              if(f2e >= f1b && f2e <= f1e){
-                console.log('situation 2');
-              }else{
-                if(f2b <= f1b && f2e >= f1e){
-                  console.log('situation 3');
-                }else{
-                  console.log('jour OK');
-                }
-              }
-            }
-            console.log('end record '+i);
+          if(data.frequency != '*' && rows[i].frequency != '*'){
+            t2b = ( ( parseInt(data.frequency) * 24 * 60) + (data.begin_hour*60) + data.begin_minute);
+            t2e = ((parseInt(data.frequencyEnd)*24*60) + (data.end_hour*60) + data.end_minute);
+            t1b = ((parseInt(rows[i].frequency)*24*60)+rows[i].begin);
+            t1e = ((parseInt(rows[i].frequencyEnd)*24*60)+rows[i].end);
+            console.log('t2b = '+t2b+' | t2e = '+t2e+' | t1b = '+t1b+' | t1e = '+t1e);
+          }else{
+            console.log('one * at least');
           }
+
+          console.log('end record '+i);
         }
         
         const updateRecord = 'UPDATE record SET state = 0 WHERE cameraID = ' + data.cameraID+' AND state = 1';
