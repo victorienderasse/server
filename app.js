@@ -141,8 +141,8 @@ io.sockets.on('connection', function(socket){
   socket.on('setTimer', function(data) {
     console.log('SetTimer event');
     var f1b, f1e;
-    var f2b = data.frequency;
-    var f2e = data.frequencyEnd;
+    var f2b = parseInt(data.frequency);
+    var f2e = parseInt(data.frequencyEnd);
     //update record
     const checkRecordEnable = 'SELECT * FROM record WHERE cameraID = '+data.cameraID+' AND state = 1';
     connection.query(checkRecordEnable, function(err,rows){
@@ -154,7 +154,7 @@ io.sockets.on('connection', function(socket){
         //Check chevauche ?
         for(var i=0;i<rows.length;i++){
           console.log('check record '+i);
-          f1b = rows[i].frequency;
+          f1b = parseInt(rows[i].frequency);
           //f1e = rows[i].frequencyEnd;
           f1e = 3;
           console.log('f1b = '+f1b+' | f1e = '+f1e+' | f2b = '+f2b+' | f2e = '+f2e);
