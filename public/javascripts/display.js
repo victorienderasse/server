@@ -1,7 +1,4 @@
 /**
- * Created by Victorien on 02-12-16.
- */
-/**
  * Created by Victorien on 17-06-16.
  */
 
@@ -18,25 +15,25 @@ socket.emit('getCamera',userID);
 
 //EVENTS-----------------------------------------------------------------------------------------------------------------
 
-//getCameras
+
 socket.on('sendCamera', function(data){
     console.log('sendCamera event');
     displayScreens(data);
 });
 
-//getRecords
+
 socket.on('sendRecords', function(tbRecord){
     console.log('sendRecords event');
     displayRecords(tbRecord);
 });
 
-//message
+
 socket.on('message',function(data){
     console.log('display message event');
     displayMessage(data);
 });
 
-//redirection
+
 socket.on('redirect', function(url){
     console.log('redirect event');
     redirectURL(url);
@@ -187,12 +184,16 @@ document.getElementById('timer-confirm-btn').addEventListener('click', function(
     var beginMinute = timer_form.beginMinute.value;
     var endHour = timer_form.endHour.value;
     var endMinute = timer_form.endMinute.value;
-    var type;
+    var type, once;
+    
     if(document.getElementById('timer-detection').checked){
         type = 'detection';
     }else{
         type = 'record';
     }
+    
+    once = document.getElementById('timer-once').checked;
+    
     if(beginHour >= 0 && beginHour < 24 && endHour >= 0 && endHour < 24 && beginMinute >= 0 && beginMinute < 60 && endMinute >= 0 && endMinute < 60) {
         socket.emit('setTimer', {
             begin_hour: beginHour,
@@ -200,8 +201,10 @@ document.getElementById('timer-confirm-btn').addEventListener('click', function(
             end_hour: endHour,
             end_minute: endMinute,
             frequency: timer_form.frequency.value,
+            frequencyEnd: timer_form.frequencyEnd.value,
             cameraID: timer_form.cameraID.value,
-            type: type
+            type: type,
+            once: once
         });
     }else{
         displayMessage({title: 'Alerte', message: 'Erreur ! Veuillez indiquer des valeurs correctes', action: ''});

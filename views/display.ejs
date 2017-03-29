@@ -130,22 +130,42 @@
                             <label for="frequency" class="control-label">
                                 Frequency :
                                 <select name="frequency" class="form-control">
-                                    <option value="Mon">Monday</option>
-                                    <option value="Tue">Tuesday</option>
-                                    <option value="Wed">Wednesday</option>
-                                    <option value="Thu">Thursday</option>
-                                    <option value="Fri">Friday</option>
-                                    <option value="Sat">Saturday</option>
-                                    <option value="Sun">Sunday</option>
+                                    <option value="1">Monday</option>
+                                    <option value="2">Tuesday</option>
+                                    <option value="3">Wednesday</option>
+                                    <option value="4">Thursday</option>
+                                    <option value="5">Friday</option>
+                                    <option value="6">Saturday</option>
+                                    <option value="7">Sunday</option>
                                     <option value="*">Every Day</option>
                                 </select>
                             </label>
                         </div>
+                        <div id="frequencyEnd" class="col-lg-offset-2 col-lg-3 form-group">
+                            <label for="frequencyEnd" class="control-label">
+                                Frequency End :
+                                <select name="frequencyEnd" class="form-control">
+                                    <option value="1">Monday</option>
+                                    <option value="2">Tuesday</option>
+                                    <option value="3">Wednesday</option>
+                                    <option value="4">Thursday</option>
+                                    <option value="5">Friday</option>
+                                    <option value="6">Saturday</option>
+                                    <option value="7">Sunday</option>
+                                </select>
+                            </label>
+                        </div>
                     </section>
-                    <div class="form-group col-lg-offset-2">
-                        <label for="timer-detection" class="control-label"> Motion detection : </label>
-                        <input id="timer-detection" name="detection" type="checkbox">
-                    </div>
+                    <section class="row">
+                        <div class="form-group col-lg-offset-2">
+                            <label for="timer-detection" class="control-label"> Motion detection : </label>
+                            <input id="timer-detection" name="detection" type="checkbox">
+                        </div>
+                        <div class="form-group col-lg-offset-2">
+                            <label for="timer-once" class="control-label"> Just once : </label>
+                            <input id="timer-once" name="timer-once" type="checkbox">
+                        </div>
+                    </section>
                 </form>
                 <div id="timer-records-div">
                     <hr>

@@ -61,13 +61,11 @@ io.sockets.on('connection', function(socket){
   
   //EVENTS---------------------------------------------------------------------------------------------
   
-  //Client connected
   socket.on('client', function (data) {
     console.log('client connected');
   });
 
-
-  //Camera connected
+  
   socket.on('camera', function (serial) {
     console.log('camera connecté');
     //check camera exist
@@ -105,8 +103,7 @@ io.sockets.on('connection', function(socket){
     });
   });
 
-
-  //Send camera to client
+  
   socket.on('getCamera', function(userID){
     console.log('getCamera event -> userID : '+userID);
     var sendCamera = 'SELECT * FROM camera WHERE userID = '+userID;
@@ -121,16 +118,8 @@ io.sockets.on('connection', function(socket){
       }
     });
   });
-  
-  
-  //python test
-  socket.on('PythonTest', function(data){
-    console.log('PythonTest');
-    console.log('Message : '+data);
-  });
 
   
-  //camera or client disconnected
   socket.on('disconnect', function(){
     console.log('disconnected');
     //check client or camera disconnected
@@ -149,9 +138,11 @@ io.sockets.on('connection', function(socket){
   });
 
 
-  //save record to db and send record to camera to process
   socket.on('setTimer', function(data) {
     console.log('SetTimer event');
+    var f1b, f1e;
+    var f2b = data.frequency;
+    var f2e = data.frequencyEnd;
     //update record
     const checkRecordEnable = 'SELECT * FROM record WHERE cameraID = '+data.cameraID+' AND state = 1';
     connection.query(checkRecordEnable, function(err,rows){
@@ -159,21 +150,58 @@ io.sockets.on('connection', function(socket){
         throw err;
       }
       if (rows.length > 0){
+        
+        //Check chevauche ?
+        for(var i=0;i<rows.length;i++){
+          console.log('check record '+i);
+          f1b = rows[i].frequency;
+          f1e = rows[i].frequencyEnd;
+          if(f1b == '*' || f2b == '*'){
+            console.log('f1b ou f2b is *');
+            //check Time
+          }else{
+            if(f1b>f1e){
+              console.log('f1b>f1e');
+              f1e=f1e+7;
+              f2b=f2b+7;
+              f2e=f2e+7;
+            }
+            if(f2b>f2e){
+              console.log('f2b>f2e');
+              f1b=f1b+7;
+              f1e=f1e+7;
+              f2e=f2e+7;
+            }
+
+            if(f2b >= f1b && f2b <= f1e){
+              console.log('situation 1');
+            }
+            if(f2e >= f1b && f2e <= f1e){
+              console.log('situation 2');
+            }
+            if(f2b <= f1b && f2e >= f1e){
+              console.log('situation 3');
+            }
+
+          }
+        }
+        
         const updateRecord = 'UPDATE record SET state = 0 WHERE cameraID = ' + data.cameraID+' AND state = 1';
+        /*
         connection.query(updateRecord, function (err) {
           if (err) {
             throw err;
           }
           addRecord(data);
         });
+        */
       }else{
-        addRecord(data);
+        //addRecord(data);
       }
     });
   });
 
-
-  //change the camera's name
+  
   socket.on('changeCameraName', function(data){
     console.log('changeCameraName event');
     const changeName = 'UPDATE camera SET name = "'+data.name+'" WHERE cameraID = '+data.cameraID;
@@ -185,8 +213,7 @@ io.sockets.on('connection', function(socket){
     });
   });
 
-
-  //Send Record to client
+  
   socket.on('getRecords', function(cameraID){
     console.log('getRecords event');
     const getRecords = 'SELECT * FROM record WHERE cameraID = '+cameraID;
@@ -199,7 +226,6 @@ io.sockets.on('connection', function(socket){
   });
 
   
-  //Delete recorded record
   socket.on('deleteRecord', function(recordID){
     console.log('deleteRecord event');
     const checkState = 'SELECT * FROM record WHERE recordID = '+recordID;
@@ -224,7 +250,6 @@ io.sockets.on('connection', function(socket){
   });
 
   
-  //Set record ON
   socket.on('applyRecord', function(recordID){
     console.log('applyRecord event');
     //set old record to client
@@ -289,7 +314,6 @@ io.sockets.on('connection', function(socket){
   });
 
   
-  //Start the motion detection
   socket.on('startDetection', function(cameraID){
     console.log('startDetection event');
     //évite qu'un record se lance pendant la détection de mouvement
@@ -317,8 +341,7 @@ io.sockets.on('connection', function(socket){
     sendToCamera(cameraID,'stopProcess',null);
   });
 
-
-  //Start live stream
+  
   socket.on('startStream', function(cameraID){
     console.log('startStream event ');
     setState(cameraID, 2);
@@ -363,15 +386,13 @@ io.sockets.on('connection', function(socket){
   });
 
   
-  //Kill all python process
   socket.on('killProcess', function(cameraID){
     console.log('killProcess event');
     setState(cameraID, 0);
     sendToCamera(cameraID, 'killProcess', null);
   });
 
-  
-  //Signin user
+
   socket.on('signin', function(data){
     console.log('signin event');
     var password = passHash.generate(data.password);
@@ -405,7 +426,6 @@ io.sockets.on('connection', function(socket){
   });
 
   
-  //Login user
   socket.on('login', function(data){
     console.log('login event');
     const getPassword = 'SELECT * FROM user WHERE email = "'+data.email+'"';
@@ -426,7 +446,6 @@ io.sockets.on('connection', function(socket){
   });
 
   
-  //AddScreen
   socket.on('addScreen', function(data){
     console.log('add screen event');
     const checkCode = 'SELECT * FROM camera WHERE code = "'+data.code+'"';
@@ -453,7 +472,6 @@ io.sockets.on('connection', function(socket){
   });
 
   
-  //CheckAdminPassword
   socket.on('checkAdminPassword', function(data){
     console.log('checkAdminPassword event');
     const checkAdminPassword = "SELECT * FROM user WHERE userID = 1";
@@ -474,8 +492,6 @@ io.sockets.on('connection', function(socket){
   });
 
   
-  //AddCameraAdmin
-  //Add a camera to DB (serial + code only)
   socket.on('addCameraAdmin', function(data){
     console.log('AddCameraAdmin event');
     const checkSerial = 'SELECT * FROM camera WHERE serial = "'+data.serial+'" AND code = "'+data.cameraCode+'"';
@@ -497,23 +513,20 @@ io.sockets.on('connection', function(socket){
     });
   });
 
-
-  //Record motionDetectionStart
+  
   socket.on('motionDetectionStart', function(cameraID){
     setState(cameraID,1);
     io.emit('motionDetectionStart', cameraID);
   });
 
-
-  //Record motionDetectionStop
+  
   socket.on('motionDetectionStop', function(cameraID){
     setState(cameraID, 0);
     io.emit('motionDetectionStop', cameraID);
     sendToCamera(cameraID,'killProcess',null);
   });
 
-
-  //Motion is detected
+  
   socket.on('motionDetected', function(data){
     const getInfoClient = 'SELECT user.userID, user.phone, user.email, camera.name AS cameraName FROM user INNER JOIN camera ON camera.userID=user.userID WHERE cameraID = '+data.cameraID;
     connection.query(getInfoClient, function(err,rows){
