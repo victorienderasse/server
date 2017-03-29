@@ -191,7 +191,7 @@ io.sockets.on('connection', function(socket){
             console.log('one * at least');
             t2b = ((parseInt(data.frequency)*24*60)+(parseInt(data.begin_hour)*60)+parseInt(data.begin_minute));
             t2e = ((parseInt(data.frequencyEnd)*24*60)+(parseInt(data.end_hour)*60)+parseInt(data.end_minute));
-            if((t2e - t2b) >= 10080){
+            if((t2e - t2b) >= 1440){
               console.log('new > week');
             }else{
               console.log('size OK');
