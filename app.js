@@ -190,7 +190,7 @@ io.sockets.on('connection', function(socket){
           }else{
             console.log('one * at least');
               console.log('size OK');
-              if(data.frequency == '*'){
+              if(data.frequency == '*' && rows[i].frequency != '*'){
                 console.log('new is *');
                 t1b = ((parseInt(rows[i].frequency)*24*60)+rows[i].begin);
                 t1e = ((parseInt(rows[i].frequencyEnd)*24*60)+rows[i].end);
@@ -211,25 +211,30 @@ io.sockets.on('connection', function(socket){
                 }
 
               }else{
-                console.log('old is *');
-                t2b = ((parseInt(data.frequency)*24*60)+(parseInt(data.begin_hour)*60)+parseInt(data.begin_minute));
-                t2e = ((parseInt(data.frequencyEnd)*24*60)+(parseInt(data.end_hour)*60)+parseInt(data.end_minute));
-                if(((t2e - t2b) >= 1440) || ((t2e - t2b) < 0)){
-                  console.log('size > 1440');
-                }else{
-
-                  t1b1 = ((parseInt(data.frequency)*24*60)+rows[i].begin);
-                  t1e1 = ((parseInt(data.frequency)*24*60)+rows[i].end);
-                  t1b2 = ((parseInt(data.frequencyEnd)*24*60)+rows[i].begin);
-                  t1e2 = ((parseInt(data.frequencyEnd)*24*60)+rows[i].end);
-                  console.log('t2b = '+t2b+' | t2e = '+t2e+' | t1b1 = '+t1b1+' | t1b2 = '+t1b2+' | t1e1 = '+t1e1+' | t1e2 = '+t1e2);
-
-                  if((t2b >= t1b1 && t2b <= t1e1) || (t2e >= t1b2 && t2e <= t1e2) || (t2b < t1b1 && t2e > t1e1) || (t2b > t1e1 && t2e < t1b1)){
-                    console.log('not OK');
+                if(data.frequency != '*' && rows[i].frequency == '*'){
+                  console.log('old is *');
+                  t2b = ((parseInt(data.frequency)*24*60)+(parseInt(data.begin_hour)*60)+parseInt(data.begin_minute));
+                  t2e = ((parseInt(data.frequencyEnd)*24*60)+(parseInt(data.end_hour)*60)+parseInt(data.end_minute));
+                  if(((t2e - t2b) >= 1440) || ((t2e - t2b) < 0)){
+                    console.log('size > 1440');
                   }else{
-                    console.log('OK');
+
+                    t1b1 = ((parseInt(data.frequency)*24*60)+rows[i].begin);
+                    t1e1 = ((parseInt(data.frequency)*24*60)+rows[i].end);
+                    t1b2 = ((parseInt(data.frequencyEnd)*24*60)+rows[i].begin);
+                    t1e2 = ((parseInt(data.frequencyEnd)*24*60)+rows[i].end);
+                    console.log('t2b = '+t2b+' | t2e = '+t2e+' | t1b1 = '+t1b1+' | t1b2 = '+t1b2+' | t1e1 = '+t1e1+' | t1e2 = '+t1e2);
+
+                    if((t2b >= t1b1 && t2b <= t1e1) || (t2e >= t1b2 && t2e <= t1e2) || (t2b < t1b1 && t2e > t1e1) || (t2b > t1e1 && t2e < t1b1)){
+                      console.log('not OK');
+                    }else{
+                      console.log('OK');
+                    }
                   }
+                }else{
+                  console.log('both are *');
                 }
+
               }
           }
           console.log('end record '+i);
