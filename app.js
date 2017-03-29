@@ -180,12 +180,14 @@ io.sockets.on('connection', function(socket){
 
             if(f2b >= f1b && f2b <= f1e){
               console.log('situation 1');
-            }
-            if(f2e >= f1b && f2e <= f1e){
-              console.log('situation 2');
-            }
-            if(f2b <= f1b && f2e >= f1e){
-              console.log('situation 3');
+            }else{
+              if(f2e >= f1b && f2e <= f1e){
+                console.log('situation 2');
+              }else{
+                if(f2b <= f1b && f2e >= f1e){
+                  console.log('situation 3');
+                }
+              }
             }
             console.log('end record '+i);
           }
