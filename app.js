@@ -142,7 +142,7 @@ io.sockets.on('connection', function(socket){
     console.log('SetTimer event');
     //Frequency 2 Begin AND Frequency 2 End
     var f1b, f1e;
-    var t1b, t1e, t1b1,t1b2,t1e1,t1e2, t2b, t2e;
+    var t1b, t1e, t1b1,t1b2,t1e1,t1e2, t2b, t2e, t2b1, t2e1, t2b2, t2e2;
     var f2b = parseInt(data.frequency);
     var f2e = parseInt(data.frequencyEnd);
 
@@ -191,16 +191,28 @@ io.sockets.on('connection', function(socket){
             console.log('one * at least');
             t2b = ((parseInt(data.frequency)*24*60)+(parseInt(data.begin_hour)*60)+parseInt(data.begin_minute));
             t2e = ((parseInt(data.frequencyEnd)*24*60)+(parseInt(data.end_hour)*60)+parseInt(data.end_minute));
-            if(((t2e - t2b) >= 1440) || ((t2e - t2b) < 0)){
+            t1b = ((parseInt(rows[i].frequency)*24*60)+rows[i].begin);
+            t1e = ((parseInt(rows[i].frequencyEnd)*24*60)+rows[i].end);
+            if(((t2e - t2b) >= 1440) || ((t2e - t2b) < 0) || ((t1e - t1b) >= 1440) || ((t1e - t1b) < 0)){
               console.log('new > week');
             }else{
               console.log('size OK');
               if(data.frequency == '*'){
                 console.log('new is *');
+                t2b1 = ((parseInt(rows[i].frequency)*24*60)+(data.begin_hour*60)+data.begin_minute);
+                t2e1 = ((parseInt(rows[i].frequency)*24*60)+(data.end_hour*60)+data.end_minute);
+                t2b2 = ((parseInt(rows[i].frequencyEnd)*24*60)+(data.begin_hour*60)+data.begin_minute);
+                t2e2 = ((parseInt(rows[i].frequencyEnd)*24*60)+(data.end_hour)+data.end_minute);
+                console.log('t1b = '+t1b+' | t1e = '+t1e+' | t2b1 = '+t2b1+' | t2b2 = '+t2b2+' | t2e1 = '+t2e1+' | t2e2 = '+t2e2);
+
+                if((t1b >= t2b1 && t1b <= t2e1) || (t1e >= t2b2 && t1e <= t2e2) || (t1b < t2b1 && t1e > t2e1) || (t1b > t2e1 && t1e < t2b1)){
+                  console.log('not OK');
+                }else{
+                  console.log('OK');
+                }
+
               }else{
                 console.log('old is *');
-                t2b = ((parseInt(data.frequency)*24*60)+(parseInt(data.begin_hour)*60)+parseInt(data.begin_minute));
-                t2e = ((parseInt(data.frequencyEnd)*24*60)+(parseInt(data.end_hour)*60)+parseInt(data.end_minute));
                 t1b1 = ((parseInt(data.frequency)*24*60)+rows[i].begin);
                 t1e1 = ((parseInt(data.frequency)*24*60)+rows[i].end);
                 t1b2 = ((parseInt(data.frequencyEnd)*24*60)+rows[i].begin);
