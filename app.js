@@ -160,11 +160,37 @@ io.sockets.on('connection', function(socket){
 
           if(data.frequency != '*' && rows[i].frequency != '*'){
             console.log('parseint frequence = '+parseInt(data.frequency));
-            t2b = ( ( parseInt(data.frequency) * 24 * 60) + (parseInt(data.begin_hour)*60) + parseInt(data.begin_minute));
-            t2e = ((parseInt(data.frequencyEnd)*24*60) + (parseInt(data.end_hour)*60) + parseInt(data.end_minute));
+            t2b = ((parseInt(data.frequency)*24*60)+(parseInt(data.begin_hour)*60)+parseInt(data.begin_minute));
+            t2e = ((parseInt(data.frequencyEnd)*24*60)+(parseInt(data.end_hour)*60)+parseInt(data.end_minute));
             t1b = ((parseInt(rows[i].frequency)*24*60)+rows[i].begin);
             t1e = ((parseInt(rows[i].frequencyEnd)*24*60)+rows[i].end);
             console.log('t2b = '+t2b+' | t2e = '+t2e+' | t1b = '+t1b+' | t1e = '+t1e);
+
+            if(t2b>t2e){
+              t2e=t2e+10080;
+              t1b=t1b+10080;
+              t1e=t1e+10080;
+            }
+            if(t1b>t1e){
+              t1e=t1e+10080;
+              t2b=t2b+10080;
+              t2e=t2e+10080;
+            }
+
+            if(t2b >= t1b && t2b <= t1e){
+              console.log('situation 1');
+            }else{
+              if(t2e >= t1b && t2e <= t1e){
+                console.log('situation 2');
+              }else{
+                if(t2b < t1b && t2e > t1e){
+                  console.log('situaion 3');
+                }else{
+                  console.log('OK');
+                }
+              }
+            }
+
           }else{
             console.log('one * at least');
           }
