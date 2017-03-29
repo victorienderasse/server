@@ -160,6 +160,7 @@ io.sockets.on('connection', function(socket){
             console.log('f1b ou f2b is *');
             //check Time
           }else{
+            console.log('no *');
             if(f1b>f1e){
               console.log('f1b>f1e');
               f1e=f1e+7;
@@ -182,7 +183,7 @@ io.sockets.on('connection', function(socket){
             if(f2b <= f1b && f2e >= f1e){
               console.log('situation 3');
             }
-
+            console.log('end record '+i);
           }
         }
         
