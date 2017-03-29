@@ -168,12 +168,14 @@ io.sockets.on('connection', function(socket){
               f1e=f1e+7;
               f2b=f2b+7;
               f2e=f2e+7;
+              console.log('f1b = '+f1b+' | f1e = '+f1e+' | f2b = '+f2b+' | f2e = '+f2e);
             }
             if(f2b>f2e){
               console.log('f2b>f2e');
               f1b=f1b+7;
               f1e=f1e+7;
               f2e=f2e+7;
+              console.log('f1b = '+f1b+' | f1e = '+f1e+' | f2b = '+f2b+' | f2e = '+f2e);
             }
 
             if(f2b >= f1b && f2b <= f1e){
