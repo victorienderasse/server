@@ -166,15 +166,19 @@ io.sockets.on('connection', function(socket){
             t1e = ((parseInt(rows[i].frequencyEnd)*24*60)+rows[i].end);
             console.log('t2b = '+t2b+' | t2e = '+t2e+' | t1b = '+t1b+' | t1e = '+t1e);
 
-            if(t2b>t2e){
+            if(t2b > t2e){
+              console.log('t2b > t2e');
               t2e=t2e+10080;
               t1b=t1b+10080;
               t1e=t1e+10080;
+              console.log('t2b = '+t2b+' | t2e = '+t2e+' | t1b = '+t1b+' | t1e = '+t1e);
             }
-            if(t1b>t1e){
+            if(t1b > t1e){
+              console.log('t1b > t1e');
               t1e=t1e+10080;
               t2b=t2b+10080;
               t2e=t2e+10080;
+              console.log('t2b = '+t2b+' | t2e = '+t2e+' | t1b = '+t1b+' | t1e = '+t1e);
             }
 
             if(t2b >= t1b && t2b <= t1e){
