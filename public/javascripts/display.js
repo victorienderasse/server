@@ -211,7 +211,7 @@ document.getElementById('timer-confirm-btn').addEventListener('click', function(
     }
 });
 
-document.getElementById('frequency').addEventListener('onchange',function(){
+document.getElementById('frequency').addEventListener('change',function(){
     var frequency = document.getElementById('frequency').value;
     console.log('frequency = '+frequency);
 });
