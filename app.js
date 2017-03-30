@@ -889,7 +889,7 @@ io.sockets.on('connection', function(socket){
   }
 
 
-  function checkTimer(data){
+  function checkTimer(data, callback){
 
     console.log('checkTimer');
 
