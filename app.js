@@ -154,7 +154,7 @@ io.sockets.on('connection', function(socket){
 
 
         checkTimer({timer1:rows,timer2:data},function(check){
-          console.log(check);
+          console.log('frequency = '+check);
         });
 
         /*
@@ -898,14 +898,8 @@ io.sockets.on('connection', function(socket){
 
     var timer1 = data.timer1;
     var timer2 = data.timer2;
-    console.log('timer1 frequence : '+timer1[0].frequency);
-    console.log('timer2 frequence : '+timer2.frequency);
 
-    if(timer2.frequency == 1){
-      return true;
-    }else{
-      return false;
-    }
+    return timer2.frequency;
 
 
 
