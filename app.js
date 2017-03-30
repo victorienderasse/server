@@ -151,7 +151,11 @@ io.sockets.on('connection', function(socket){
       }
       if (rows.length > 0){
 
-        checkTimer({timer1: rows, timer2:data});
+
+
+        checkTimer({timer1:rows,timer2:data},function(check){
+          console.log(check);
+        });
 
         /*
         //Check chevauche ?
@@ -890,11 +894,20 @@ io.sockets.on('connection', function(socket){
 
     console.log('checkTimer');
 
+    var t1b, t1e, t1b1,t1b2,t1e1,t1e2, t2b, t2e, t2b1, t2e1, t2b2, t2e2;
+
     var timer1 = data.timer1;
     var timer2 = data.timer2;
     console.log('timer1 frequence : '+timer1[0].frequency);
     console.log('timer2 frequence : '+timer2.frequency);
-    var t1b, t1e, t1b1,t1b2,t1e1,t1e2, t2b, t2e, t2b1, t2e1, t2b2, t2e2;
+
+    if(timer2.frequency == 1){
+      return true;
+    }else{
+      return false;
+    }
+
+
 
     //Check chevauche ?
     /*
