@@ -233,7 +233,26 @@ io.sockets.on('connection', function(socket){
                   }
                 }else{
                   console.log('both are *');
+                  t1b = rows[i].begin;
+                  t1e = rows[i].end;
+                  t2b = (parseInt(data.begin_hour)*60)+parseInt(data.begin_minute);
+                  t2e = (parseInt(data.end_hour)*60)+parseInt(data.end_minute);
 
+                  if(t1b > t1e){
+                    t1e = t1e + 1440;
+                  }
+                  if(t2b > t2e){
+                    t2e = t2e + 1440;
+                  }
+                  if(t2e = t2b ){
+                    t2e = t2e - 1;
+                  }
+
+                  if((t2b >= t1b && t2b <= t2e) || (t2e >= t1b && t2e <= t1e) || (t2b < t1b && t2e > t1e)){
+                    console.log('not OK');
+                  }else{
+                    console.log('OK');
+                  }
                 }
 
               }
