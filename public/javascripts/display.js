@@ -211,6 +211,11 @@ document.getElementById('timer-confirm-btn').addEventListener('click', function(
     }
 });
 
+document.getElementById('frequency').addEventListener('onchange',function(){
+    var frequency = document.getElementById('frequency').value;
+    console.log('frequency = '+frequency);
+});
+
 //Add Camera
 document.getElementById('add-camera-btn').addEventListener('click', function(){
     console.log('AddScreen btn pressed');
