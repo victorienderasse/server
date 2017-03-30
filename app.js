@@ -239,6 +239,10 @@ io.sockets.on('connection', function(socket){
                   t2e = (parseInt(data.end_hour)*60)+parseInt(data.end_minute);
                   console.log('t1b = '+t1b+' | t1e = '+t1e+' | t2b = '+t2b+' | t2e = '+t2e);
 
+                  if(t2e == t2b ){
+                    console.log('t2e = t2b');
+                    t2e = t2e - 1;
+                  }
                   if(t1b > t1e){
                     console.log('t1b > t1e');
                     t1e = t1e + 1440;
@@ -246,10 +250,6 @@ io.sockets.on('connection', function(socket){
                   if(t2b > t2e){
                     console.log('t2b > t2e');
                     t2e = t2e + 1440;
-                  }
-                  if(t2e == t2b ){
-                    console.log('t2e = t2b');
-                    t2e = t2e - 1;
                   }
 
                   console.log('t1b = '+t1b+' | t1e = '+t1e+' | t2b = '+t2b+' | t2e = '+t2e);
