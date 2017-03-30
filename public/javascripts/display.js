@@ -213,7 +213,11 @@ document.getElementById('timer-confirm-btn').addEventListener('click', function(
 
 document.getElementById('frequency').addEventListener('change',function(){
     var frequency = document.getElementById('timer-form').frequency.value;
-    console.log('frequency = '+frequency);
+    if(frequency == '*'){
+        document.getElementById('frequencyEnd').disabled = true;
+    }else{
+        document.getElementById('frequencyEnd').disabled = false;
+    }
 });
 
 //Add Camera
