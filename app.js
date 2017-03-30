@@ -151,7 +151,14 @@ io.sockets.on('connection', function(socket){
       }
       if (rows.length > 0){
 
-        checkTimer({timer1:rows,timer2:data}, function(check){
+        var timer = {
+          begin: (parseInt(data.begin_hour)*60)+parseInt(data.begin_minute),
+          end: (parseInt(data.end_hour)*60)+parseInt(data.end_minute),
+          frequency: data.frequency,
+          frequencyEnd: data.frequencyEnd
+        };
+
+        checkTimer({timer1:rows,timer2:timer}, function(check){
           if(check == 'OK'){
             console.log('OK');
           }else{
@@ -346,6 +353,26 @@ io.sockets.on('connection', function(socket){
         throw err;
       }
       if(rows.length>0) {
+
+
+        const getFocusRecord = 'SELECT * FROM record WHERE recordID = '+recordID;
+        connection.query(getFocusRecord, function(err,rows2){
+          if(err){
+            throw err;
+          }
+
+          checkTimer({timers:rows,timer2:rows2},function(check){
+            if(check == 'OK'){
+              console.log('Check OK');
+
+            }else{
+              console.log('Check NOK');
+              socket.emit('message',{title:'Alerte',message:'Erreur record chevauchage',action:null});
+            }
+          });
+
+        });
+
         socket.emit('setOldRecord', rows[0].recordID);
         if(parseInt(rows[0].recordID) == parseInt(recordID)){
           console.log('le mm');
@@ -901,6 +928,8 @@ io.sockets.on('connection', function(socket){
 
     var timer1 = data.timer1;
     var timer2 = data.timer2;
+
+    console.log('begin = '+timer2.begin);
 
 
     if(parseInt(timer2.frequency) == 1){
