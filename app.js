@@ -151,11 +151,10 @@ io.sockets.on('connection', function(socket){
       }
       if (rows.length > 0){
 
-
-
-        checkTimer({timer1:rows,timer2:data},function(check){
-          console.log('frequency = '+check);
+        checkTimer({timer1:rows,timer2:data}, function(returnValue){
+          console.log(returnValue);
         });
+
 
         /*
         //Check chevauche ?
