@@ -152,7 +152,7 @@ io.sockets.on('connection', function(socket){
       if (rows.length > 0){
 
         checkTimer({timer1:rows,timer2:data}, function(returnValue){
-          console.log(returnValue);
+          console.log('callback : '+returnValue);
         });
 
 
@@ -897,7 +897,7 @@ io.sockets.on('connection', function(socket){
 
     var timer1 = data.timer1;
     var timer2 = data.timer2;
-    
+
 
     callback(timer2.frequency);
 
