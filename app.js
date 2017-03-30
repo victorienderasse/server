@@ -244,7 +244,7 @@ io.sockets.on('connection', function(socket){
                     t1e = t1e + 1440;
                   }
                   if(t2b > t2e){
-                    console.lob('t2b > t2e');
+                    console.log('t2b > t2e');
                     t2e = t2e + 1440;
                   }
                   if(t2e == t2b ){
