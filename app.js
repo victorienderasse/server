@@ -189,7 +189,6 @@ io.sockets.on('connection', function(socket){
 
           }else{
             console.log('one * at least');
-              console.log('size OK');
               if(data.frequency == '*' && rows[i].frequency != '*'){
                 console.log('new is *');
                 t1b = ((parseInt(rows[i].frequency)*24*60)+rows[i].begin);
@@ -198,10 +197,10 @@ io.sockets.on('connection', function(socket){
                   console.log('size > 1440');
                 }else{
 
-                  t2b1 = ((parseInt(rows[i].frequency)*24*60)+(data.begin_hour*60)+data.begin_minute);
-                  t2e1 = ((parseInt(rows[i].frequency)*24*60)+(data.end_hour*60)+data.end_minute);
-                  t2b2 = ((parseInt(rows[i].frequencyEnd)*24*60)+(data.begin_hour*60)+data.begin_minute);
-                  t2e2 = ((parseInt(rows[i].frequencyEnd)*24*60)+(data.end_hour)+data.end_minute);
+                  t2b1 = ((parseInt(rows[i].frequency)*24*60)+(parseInt(data.begin_hour)*60)+parseInt(data.begin_minute));
+                  t2e1 = ((parseInt(rows[i].frequency)*24*60)+(parseInt(data.end_hour)*60)+parseInt(data.end_minute));
+                  t2b2 = ((parseInt(rows[i].frequencyEnd)*24*60)+(parseInt(data.begin_hour)*60)+parseInt(data.begin_minute));
+                  t2e2 = ((parseInt(rows[i].frequencyEnd)*24*60)+(parseInt(data.end_hour)*60)+parseInt(data.end_minute));
                   console.log('t1b = '+t1b+' | t1e = '+t1e+' | t2b1 = '+t2b1+' | t2b2 = '+t2b2+' | t2e1 = '+t2e1+' | t2e2 = '+t2e2);
                   if((t1b >= t2b1 && t1b <= t2e1) || (t1e >= t2b2 && t1e <= t2e2) || (t1b < t2b1 && t1e > t2e1) || (t1b > t2e1 && t1e < t2b1)){
                     console.log('not OK');
@@ -233,6 +232,7 @@ io.sockets.on('connection', function(socket){
                   }
                 }else{
                   console.log('both are *');
+
                 }
 
               }
