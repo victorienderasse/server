@@ -898,7 +898,9 @@ io.sockets.on('connection', function(socket){
     var timer1 = data.timer1;
     var timer2 = data.timer2;
 
-    return timer2.frequency;
+    console.log(timer2.frequency);
+
+    callback(timer2.frequency);
 
 
 
