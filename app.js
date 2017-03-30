@@ -151,8 +151,12 @@ io.sockets.on('connection', function(socket){
       }
       if (rows.length > 0){
 
-        checkTimer({timer1:rows,timer2:data}, function(returnValue){
-          console.log('callback : '+returnValue);
+        checkTimer({timer1:rows,timer2:data}, function(check){
+          if(check == 'OK'){
+            console.log('OK');
+          }else{
+            console.log('NOK');
+          }
         });
 
 
@@ -899,8 +903,11 @@ io.sockets.on('connection', function(socket){
     var timer2 = data.timer2;
 
 
-    callback(timer2.frequency);
-
+    if(parseInt(timer2.frequency) == 1){
+      callback('OK');
+    }else{
+      callback('NOK');
+    }
 
 
     //Check chevauche ?
