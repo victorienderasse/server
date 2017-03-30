@@ -214,9 +214,9 @@ document.getElementById('timer-confirm-btn').addEventListener('click', function(
 document.getElementById('frequency').addEventListener('change',function(){
     var frequency = document.getElementById('timer-form').frequency.value;
     if(frequency == '*'){
-        document.getElementById('frequencyEnd').disabled = true;
+        document.getElementById('frequencyEnd').display = none;
     }else{
-        document.getElementById('frequencyEnd').disabled = false;
+        document.getElementById('frequencyEnd').display = block;
     }
 });
 
