@@ -193,6 +193,7 @@ io.sockets.on('connection', function(socket){
                 console.log('new is *');
                 t1b = ((parseInt(rows[i].frequency)*24*60)+rows[i].begin);
                 t1e = ((parseInt(rows[i].frequencyEnd)*24*60)+rows[i].end);
+                console.log((t1e - t1b));
                 if(((t1e - t1b) >= 1440) || ((t1e - t1b) < 0)){
                   console.log('size > 1440');
                 }else{
