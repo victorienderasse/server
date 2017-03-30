@@ -194,6 +194,8 @@ document.getElementById('timer-confirm-btn').addEventListener('click', function(
     
     once = document.getElementById('timer-once').checked;
     
+    
+    
     if(beginHour >= 0 && beginHour < 24 && endHour >= 0 && endHour < 24 && beginMinute >= 0 && beginMinute < 60 && endMinute >= 0 && endMinute < 60) {
         socket.emit('setTimer', {
             begin_hour: beginHour,
