@@ -166,8 +166,8 @@ io.sockets.on('connection', function(socket){
           }
         });
 
-
         /*
+
         //Check chevauche ?
         for(var i=0;i<rows.length;i++){
           console.log('check record '+i);
@@ -278,8 +278,8 @@ io.sockets.on('connection', function(socket){
           }
           console.log('end record '+i);
         }
+
         */
-        
         const updateRecord = 'UPDATE record SET state = 0 WHERE cameraID = ' + data.cameraID+' AND state = 1';
         /*
         connection.query(updateRecord, function (err) {
@@ -925,31 +925,21 @@ io.sockets.on('connection', function(socket){
     console.log('checkTimer');
 
     var t1b, t1e, t1b1,t1b2,t1e1,t1e2, t2b, t2e, t2b1, t2e1, t2b2, t2e2;
-
+    var check = true;
     var timer1 = data.timer1;
     var timer2 = data.timer2;
 
-    console.log('begin = '+timer2.begin);
-
-
-    if(parseInt(timer2.frequency) == 1){
-      callback('OK');
-    }else{
-      callback('NOK');
-    }
-
-
     //Check chevauche ?
-    /*
-    for(var i=0;i<rows.length;i++){
+
+    for(var i=0;i<timer1.length;i++){
       console.log('check record '+i);
 
-      if(data.frequency != '*' && rows[i].frequency != '*'){
-        console.log('parseint frequence = '+parseInt(data.frequency));
-        t2b = ((parseInt(data.frequency)*24*60)+(parseInt(data.begin_hour)*60)+parseInt(data.begin_minute));
-        t2e = ((parseInt(data.frequencyEnd)*24*60)+(parseInt(data.end_hour)*60)+parseInt(data.end_minute));
-        t1b = ((parseInt(rows[i].frequency)*24*60)+rows[i].begin);
-        t1e = ((parseInt(rows[i].frequencyEnd)*24*60)+rows[i].end);
+      if(timer2.frequency != '*' && timer1[i].frequency != '*'){
+
+        t2b = ((parseInt(timer2.frequency)*24*60)+timer2.begin);
+        t2e = ((parseInt(timer2.frequencyEnd)*24*60)+timer2.end);
+        t1b = ((parseInt(timer1[i].frequency)*24*60)+timer1[i].begin);
+        t1e = ((parseInt(timer1[i].frequencyEnd)*24*60)+timer1[i].end);
         console.log('t2b = '+t2b+' | t2e = '+t2e+' | t1b = '+t1b+' | t1e = '+t1e);
 
         if(t2b > t2e){
@@ -969,60 +959,76 @@ io.sockets.on('connection', function(socket){
 
         if((t2b >= t1b && t2b <= t1e) || (t2e >= t1b && t2e <= t1e) || (t2b < t1b && t2e > t1e)){
           console.log('not OK');
+          check = false;
+          break;
         }else{
           console.log('OK');
         }
 
       }else{
         console.log('one * at least');
-        if(data.frequency == '*' && rows[i].frequency != '*'){
+
+        if(timer2.frequency == '*' && timer1[i].frequency != '*'){
           console.log('new is *');
-          t1b = ((parseInt(rows[i].frequency)*24*60)+rows[i].begin);
-          t1e = ((parseInt(rows[i].frequencyEnd)*24*60)+rows[i].end);
-          console.log((t1e - t1b));
+
+          t1b = ((parseInt(timer1[i].frequency)*24*60)+timer1[i].begin);
+          t1e = ((parseInt(timer1[i].frequencyEnd)*24*60)+timer1[i].end);
+
           if(((t1e - t1b) >= 1440) || ((t1e - t1b) < 0)){
             console.log('size > 1440');
+            check = false;
+            break;
           }else{
 
-            t2b1 = ((parseInt(rows[i].frequency)*24*60)+(parseInt(data.begin_hour)*60)+parseInt(data.begin_minute));
-            t2e1 = ((parseInt(rows[i].frequency)*24*60)+(parseInt(data.end_hour)*60)+parseInt(data.end_minute));
-            t2b2 = ((parseInt(rows[i].frequencyEnd)*24*60)+(parseInt(data.begin_hour)*60)+parseInt(data.begin_minute));
-            t2e2 = ((parseInt(rows[i].frequencyEnd)*24*60)+(parseInt(data.end_hour)*60)+parseInt(data.end_minute));
+            t2b1 = ((parseInt(timer1[i].frequency)*24*60)+timer2.begin);
+            t2e1 = ((parseInt(timer1[i].frequency)*24*60)+timer2.end);
+            t2b2 = ((parseInt(timer1[i].frequencyEnd)*24*60)+timer2.begin);
+            t2e2 = ((parseInt(timer1[i].frequencyEnd)*24*60)+timer2.end);
             console.log('t1b = '+t1b+' | t1e = '+t1e+' | t2b1 = '+t2b1+' | t2b2 = '+t2b2+' | t2e1 = '+t2e1+' | t2e2 = '+t2e2);
+
             if((t1b >= t2b1 && t1b <= t2e1) || (t1e >= t2b2 && t1e <= t2e2) || (t1b < t2b1 && t1e > t2e1) || (t1b > t2e1 && t1e < t2b1)){
               console.log('not OK');
+              check = false;
+              break;
             }else{
               console.log('OK');
             }
           }
 
         }else{
-          if(data.frequency != '*' && rows[i].frequency == '*'){
+          if(timer2.frequency != '*' && timer1[i].frequency == '*'){
             console.log('old is *');
-            t2b = ((parseInt(data.frequency)*24*60)+(parseInt(data.begin_hour)*60)+parseInt(data.begin_minute));
-            t2e = ((parseInt(data.frequencyEnd)*24*60)+(parseInt(data.end_hour)*60)+parseInt(data.end_minute));
+
+            t2b = ((parseInt(timer2.frequency)*24*60)+timer2.begin);
+            t2e = ((parseInt(timer2.frequencyEnd)*24*60)+timer2.end);
+
             if(((t2e - t2b) >= 1440) || ((t2e - t2b) < 0)){
               console.log('size > 1440');
+              check = false;
+              break;
             }else{
 
-              t1b1 = ((parseInt(data.frequency)*24*60)+rows[i].begin);
-              t1e1 = ((parseInt(data.frequency)*24*60)+rows[i].end);
-              t1b2 = ((parseInt(data.frequencyEnd)*24*60)+rows[i].begin);
-              t1e2 = ((parseInt(data.frequencyEnd)*24*60)+rows[i].end);
+              t1b1 = ((parseInt(timer2.frequency)*24*60)+timer1[i].begin);
+              t1e1 = ((parseInt(timer2.frequency)*24*60)+timer1[i].end);
+              t1b2 = ((parseInt(timer2.frequencyEnd)*24*60)+timer1[i].begin);
+              t1e2 = ((parseInt(timer2.frequencyEnd)*24*60)+timer1[i].end);
               console.log('t2b = '+t2b+' | t2e = '+t2e+' | t1b1 = '+t1b1+' | t1b2 = '+t1b2+' | t1e1 = '+t1e1+' | t1e2 = '+t1e2);
 
               if((t2b >= t1b1 && t2b <= t1e1) || (t2e >= t1b2 && t2e <= t1e2) || (t2b < t1b1 && t2e > t1e1) || (t2b > t1e1 && t2e < t1b1)){
                 console.log('not OK');
+                check = false;
+                break;
               }else{
                 console.log('OK');
               }
             }
           }else{
             console.log('both are *');
-            t1b = rows[i].begin;
-            t1e = rows[i].end;
-            t2b = (parseInt(data.begin_hour)*60)+parseInt(data.begin_minute);
-            t2e = (parseInt(data.end_hour)*60)+parseInt(data.end_minute);
+
+            t1b = timer1[i].begin;
+            t1e = timer1[i].end;
+            t2b = timer2.begin;
+            t2e = timer2.begin;
             console.log('t1b = '+t1b+' | t1e = '+t1e+' | t2b = '+t2b+' | t2e = '+t2e);
 
             if(t2e == t2b ){
@@ -1039,8 +1045,11 @@ io.sockets.on('connection', function(socket){
             }
 
             console.log('t1b = '+t1b+' | t1e = '+t1e+' | t2b = '+t2b+' | t2e = '+t2e);
+
             if((t2b >= t1b && t2b <= t2e) || (t2e >= t1b && t2e <= t1e) || (t2b < t1b && t2e > t1e)){
               console.log('not OK');
+              check = false;
+              break;
             }else{
               console.log('OK');
             }
@@ -1050,7 +1059,14 @@ io.sockets.on('connection', function(socket){
       }
       console.log('end record '+i);
     }
-  */
+
+    console.log('end loop');
+    if(check){
+      callback('OK');
+    }else{
+      callback('NOK');
+    }
+
   }
 
   
