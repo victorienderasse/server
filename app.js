@@ -665,7 +665,7 @@ io.sockets.on('connection', function(socket){
     const begin = parseInt(data.begin_hour*60)+parseInt(data.begin_minute);
     const end = parseInt(data.end_hour*60)+parseInt(data.end_minute);
     //add new record
-    const addRecord = 'INSERT INTO record SET cameraID = '+data.cameraID+', begin = '+begin+', end = '+end+', frequency = "'+data.frequency+'", state = 1, type = "'+data.type+'"';
+    const addRecord = 'INSERT INTO record SET cameraID = '+data.cameraID+', begin = '+begin+', end = '+end+', frequency = "'+data.frequency+'", frequencyEnd = "'+data.frequencyEnd+'", state = 1, type = "'+data.type+'"';
     connection.query(addRecord, function(err){
       if(err){
         throw err;
