@@ -548,25 +548,25 @@ function displayRecords(tbRecord){
 
         var frequency, frequencyEnd;
         switch(tbRecord[i].frequency){
-            case 1:
+            case '1':
                 frequency = document.createTextNode('Monday');
                 break;
-            case 2:
+            case '2':
                 frequency = document.createTextNode('Tuesday');
                 break;
-            case 3:
+            case '3':
                 frequency = document.createTextNode('Wednesday');
                 break;
-            case 4:
+            case '4':
                 frequency = document.createTextNode('Thursday');
                 break;
-            case 5:
+            case '5':
                 frequency = document.createTextNode('Friday');
                 break;
-            case 6:
+            case '6':
                 frequency = document.createTextNode('Saturday');
                 break;
-            case 7:
+            case '7':
                 frequency = document.createTextNode('Sunday');
                 break;
             default:
@@ -574,25 +574,25 @@ function displayRecords(tbRecord){
                 break;
         }
         switch(tbRecord[i].frequencyEnd){
-            case 1:
+            case '1':
                 frequencyEnd = document.createTextNode('Monday');
                 break;
-            case 2:
+            case '2':
                 frequencyEnd = document.createTextNode('Tuesday');
                 break;
-            case 3:
+            case '3':
                 frequencyEnd = document.createTextNode('Wednesday');
                 break;
-            case 4:
+            case '4':
                 frequencyEnd = document.createTextNode('Thursday');
                 break;
-            case 5:
+            case '5':
                 frequencyEnd = document.createTextNode('Friday');
                 break;
-            case 6:
+            case '6':
                 frequencyEnd = document.createTextNode('Saturday');
                 break;
-            case 7:
+            case '7':
                 frequencyEnd = document.createTextNode('Sunday');
                 break;
             default:
