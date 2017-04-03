@@ -517,10 +517,13 @@ io.sockets.on('connection', function(socket){
   });
 
   
-  socket.on('motionDetectionStop', function(cameraID){
-    setState(cameraID, 0);
-    io.emit('motionDetectionStop', cameraID);
-    sendToCamera(cameraID,'killProcess',null);
+  socket.on('motionDetectionStop', function(data){
+    setState(data.cameraID, 0);
+    io.emit('motionDetectionStop', data.cameraID);
+    if(data.once){
+      setRecordState(data.recordID,0);
+      sendToCamera(data.cameraID,'deleteRecord',data.recordID);
+    }
   });
 
   
@@ -555,8 +558,13 @@ io.sockets.on('connection', function(socket){
   });
 
 
-  socket.on('recordStop', function(cameraID){
-    setState(cameraID,0);
+  socket.on('recordStop', function(data){
+    console.log('recordStop event');
+    setState(data.cameraID,0);
+    if(data.once){
+      setRecordState(data.recordID, 0);
+      sendToCamera(data.cameraID,'deleteRecord',data.recordID);
+    }
   });
 
 
@@ -769,6 +777,22 @@ io.sockets.on('connection', function(socket){
     //console.log('setState function');
     const setState = 'UPDATE camera SET state = '+state+' WHERE cameraID = '+cameraID;
     connection.query(setState, function(err){
+      if(err){
+        throw err;
+      }
+    });
+  }
+
+
+  function setRecordState(recordID, state){
+    console.log('setRecordState function');
+    /*
+    State 0 : Disable
+    State 1 : Enable
+    State 2 : Pause
+     */
+    const setRecordState = 'UPDATE record SET state = '+state+' WHERE recordID = '+recordID;
+    connection.query(setRecordState, function(err){
       if(err){
         throw err;
       }
