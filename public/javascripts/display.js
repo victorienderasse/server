@@ -549,54 +549,54 @@ function displayRecords(tbRecord){
         var frequency, frequencyEnd;
         switch(tbRecord[i].frequency){
             case 1:
-                frequency = 'Monday';
+                frequency = document.createTextNode('Monday');
                 break;
             case 2:
-                frequency = 'Tuesday';
+                frequency = document.createTextNode('Tuesday');
                 break;
             case 3:
-                frequency = 'Wednesday';
+                frequency = document.createTextNode('Wednesday');
                 break;
             case 4:
-                frequency = 'Thursday';
+                frequency = document.createTextNode('Thursday');
                 break;
             case 5:
-                frequency = 'Friday';
+                frequency = document.createTextNode('Friday');
                 break;
             case 6:
-                frequency = 'Saturday';
+                frequency = document.createTextNode('Saturday');
                 break;
             case 7:
-                frequency = 'Sunday';
+                frequency = document.createTextNode('Sunday');
                 break;
             default:
-                frequency = 'Every Day';
+                frequency = document.createTextNode('Every Day');
                 break;
         }
         switch(tbRecord[i].frequencyEnd){
             case 1:
-                frequencyEnd = 'Monday';
+                frequencyEnd = document.createTextNode('Monday');
                 break;
             case 2:
-                frequencyEnd = 'Tuesday';
+                frequencyEnd = document.createTextNode('Tuesday');
                 break;
             case 3:
-                frequencyEnd = 'Wednesday';
+                frequencyEnd = document.createTextNode('Wednesday');
                 break;
             case 4:
-                frequencyEnd = 'Thursday';
+                frequencyEnd = document.createTextNode('Thursday');
                 break;
             case 5:
-                frequencyEnd = 'Friday';
+                frequencyEnd = document.createTextNode('Friday');
                 break;
             case 6:
-                frequencyEnd = 'Saturday';
+                frequencyEnd = document.createTextNode('Saturday');
                 break;
             case 7:
-                frequencyEnd = 'Sunday';
+                frequencyEnd = document.createTextNode('Sunday');
                 break;
             default:
-                frequencyEnd = 'Every Day';
+                frequencyEnd = document.createTextNode('Every Day');
                 break;
         }
 
