@@ -196,21 +196,18 @@ document.getElementById('timer-confirm-btn').addEventListener('click', function(
     
     
     
-    if(beginHour >= 0 && beginHour < 24 && endHour >= 0 && endHour < 24 && beginMinute >= 0 && beginMinute < 60 && endMinute >= 0 && endMinute < 60) {
-        socket.emit('setTimer', {
-            begin_hour: beginHour,
-            begin_minute: beginMinute,
-            end_hour: endHour,
-            end_minute: endMinute,
-            frequency: timer_form.frequency.value,
-            frequencyEnd: timer_form.frequencyEnd.value,
-            cameraID: timer_form.cameraID.value,
-            type: type,
-            once: once
-        });
-    }else{
-        displayMessage({title: 'Alerte', message: 'Erreur ! Veuillez indiquer des valeurs correctes', action: ''});
-    }
+    socket.emit('setTimer', {
+        begin_hour: beginHour,
+        begin_minute: beginMinute,
+        end_hour: endHour,
+        end_minute: endMinute,
+        frequency: timer_form.frequency.value,
+        frequencyEnd: timer_form.frequencyEnd.value,
+        cameraID: timer_form.cameraID.value,
+        type: type,
+        once: once
+    });
+    
 });
 
 document.getElementById('frequency').addEventListener('change',function(){

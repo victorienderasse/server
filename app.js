@@ -139,10 +139,12 @@ io.sockets.on('connection', function(socket){
 
 
   socket.on('setTimer', function(data) {
+    /*
+    -> Check si d'autre record sont actif
+    -> Si ce n'est pas le cas, on ajoute les données
+    -> Si c'est le cas, on check qu'ils ne se chevauchent pas avant d'ajouter les données
+     */
     console.log('SetTimer event');
-    //t = Timer, 1 = ancien record, 2 = nouveau record, b= begin, e = end
-    //t1b1 = timer ancien begin 1 (because, don't ask why)
-    var t1b, t1e, t1b1,t1b2,t1e1,t1e2, t2b, t2e, t2b1, t2e1, t2b2, t2e2;
     //update record
     const checkRecordEnable = 'SELECT * FROM record WHERE cameraID = '+data.cameraID+' AND state = 1';
     connection.query(checkRecordEnable, function(err,rows){
@@ -160,25 +162,17 @@ io.sockets.on('connection', function(socket){
 
         checkTimer({timer1:rows,timer2:timer}, function(check){
           if(check == 'OK'){
-            console.log('OK');
+            console.log('Check Timer OK');
             socket.emit('message',{title: 'Bravo', message: 'Record success',action:null});
+            addRecord(data);
           }else{
             console.log('NOK');
             socket.emit('message',{title: 'Alerte', message: 'Erreur record',action:null});
           }
         });
 
-        const updateRecord = 'UPDATE record SET state = 0 WHERE cameraID = ' + data.cameraID+' AND state = 1';
-        /*
-        connection.query(updateRecord, function (err) {
-          if (err) {
-            throw err;
-          }
-          addRecord(data);
-        });
-        */
       }else{
-        //addRecord(data);
+        addRecord(data);
       }
     });
   });
@@ -574,53 +568,34 @@ io.sockets.on('connection', function(socket){
   socket.on('startLiveRecording', function(cameraID){
     console.log('startLiveRecording');
     setState(cameraID,4);
-    const getInfoCamera = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
-    connection.query(getInfoCamera, function(err,rows){
-      if(err){
-        throw err;
-      }
-      if(rows.length>0){
-        console.log('camera name : '+rows[0].name);
-        sendToCamera(cameraID, 'startLiveRecording', {cameraID: cameraID, name: rows[0].name});
-      }else{
-        console.log('Error getCameraName in startStream event');
-      }
+
+    getInfoCamera(cameraID, function(camera){
+      sendToCamera(cameraID, 'startLiveRecording', {cameraID: cameraID, name: camera.name});
     });
+
   });
 
 
   socket.on('stopLiveRecording', function(cameraID){
     console.log('stopLiveRecording');
     setState(cameraID,2);
-    const getInfoCamera = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
-    connection.query(getInfoCamera, function(err,rows){
-      if(err){
-        throw err;
-      }
-      if(rows.length>0){
-        sendToCamera(cameraID, 'getLiveRecording', {cameraID: cameraID, name: rows[0].name});
-      }else{
-        console.log('Error getCameraName in startStream event');
-      }
+
+    getInfoCamera(cameraID, function(camera){
+      sendToCamera(cameraID, 'getLiveRecording', {cameraID: cameraID, name: camera.name});
     });
+
   });
 
 
   socket.on('getLiveRecordingDone', function(cameraID){
     console.log('getLiveRecordingDone');
-    var getInfoCamera = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
-    connection.query(getInfoCamera, function(err,rows){
-      if(err){
-        throw err;
-      }
-      if(rows.length>0){
-        if(rows[0].state == 2) {
-          sendToCamera(cameraID, 'startStream', {cameraID: cameraID, name: rows[0].name});
-        }
-      }else{
-        console.log('Error getInfoCamera in getLiveRecordingDone');
+
+    getInfoCamera(cameraID, function(camera){
+      if(camera.state == 2){
+        sendToCamera(cameraID, 'startStream', {cameraID: cameraID, name: camera.name});
       }
     });
+
     io.emit('getLiveRecordingDone',cameraID);
   });
 
@@ -695,20 +670,28 @@ io.sockets.on('connection', function(socket){
       if(err){
         throw err;
       }
-      //get socketID and name of the camera
-      const getInfoCamera = 'SELECT * FROM camera WHERE cameraID = '+data.cameraID;
-      connection.query(getInfoCamera, function(err,rows){
+      const getRecordID = 'SELECT recordID FROM record ORDER BY recordID DESC LIMIT 1';
+      connection.query(getRecordID, function(err,rows){
         if(err){
           throw err;
         }
-        io.to(rows[0].socketID).emit('timer', {
-          begin_hour: data.begin_hour,
-          begin_minute: data.begin_minute,
-          end_hour: data.end_hour,
-          end_minute: data.end_minute,
-          frequency: data.frequency,
-          cameraName: rows[0].name,
-          type: data.type
+        getInfoCamera(data.cameraID, function(camera){
+          if(camera != null){
+
+            io.to(camera.socketID).emit('timer', {
+              begin_hour: data.begin_hour,
+              begin_minute: data.begin_minute,
+              end_hour: data.end_hour,
+              end_minute: data.end_minute,
+              frequency: data.frequency,
+              frequencyEnd: data.frequencyEnd,
+              cameraName: camera.name,
+              cameraID: camera.cameraID,
+              type: data.type,
+              once: data.once,
+              recordID: rows[0].recordID
+            });
+          }
         });
       });
     });
@@ -792,17 +775,49 @@ io.sockets.on('connection', function(socket){
   }
   
   
-  function getInfoCamera(cameraID){
-    //console.log('getInfoCamera function');
+  function getInfoCamera(cameraID, callback){
+    console.log('getInfoCamera function');
     const getInfoCamera = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
     connection.query(getInfoCamera, function(err,rows){
       if(err){
         throw err;
       }
       if(rows.length>0){
-        return rows[0];
+        callback(rows[0]);
       }else{
-        console.log('error getInfo Camera');
+        console.log('error getInfoCamera - no camera');
+      }
+    });
+  }
+
+
+  function getInfoUser(userID, callback){
+    console.log('getInfoUser function');
+    const getInfoUser = 'SELECT * FROM user WHERE userID = '+userID;
+    connection.query(getInfoUser, function(err,rows){
+      if(err){
+        throw err;
+      }
+      if(rows.length>0){
+        callback(rows[0]);
+      }else{
+        console.log('error getInfoUser function');
+      }
+    });
+  }
+
+
+  function getInfoRecord(recordID, callback){
+    console.log('getInfoRecord function');
+    const getInfoRecord = 'SELECT * FROM record WHERE recordID = '+recordID;
+    connection.query(getInfoRecord, function(err,rows){
+      if(err){
+        throw err;
+      }
+      if(rows.length>0){
+        callback(rows[0]);
+      }else{
+        console.log('error getInfoRecord function');
       }
     });
   }
