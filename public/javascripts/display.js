@@ -193,16 +193,21 @@ document.getElementById('timer-confirm-btn').addEventListener('click', function(
     }
     
     once = document.getElementById('timer-once').checked;
-    
-    
-    
+
+    var frequencyEnd;
+    if(timer_form.frequency.value == '*'){
+        frequencyEnd = '*';
+    }else{
+        frequencyEnd = timer_form.frequencyEnd.value;
+    }
+
     socket.emit('setTimer', {
         begin_hour: beginHour,
         begin_minute: beginMinute,
         end_hour: endHour,
         end_minute: endMinute,
         frequency: timer_form.frequency.value,
-        frequencyEnd: timer_form.frequencyEnd.value,
+        frequencyEnd: frequencyEnd,
         cameraID: timer_form.cameraID.value,
         type: type,
         once: once
@@ -530,15 +535,70 @@ function displayRecords(tbRecord){
     }
 
 
-    for(i=0;i<tbRecord.length;i++){
+    for(var i=0;i<tbRecord.length;i++){
         //Create elements
         var record = document.createElement('tr');
         var beginTD = document.createElement('td');
         var endTD = document.createElement('td');
         var frequencyTD = document.createElement('td');
+        var frequencyEndTD = document.createElement('td');
         var typeTD = document.createElement('td');
         var apply = document.createElement('td');
         var remove = document.createElement('td');
+
+        var frequency, frequencyEnd;
+        switch(tbRecord[i].frequency){
+            case 1:
+                frequency = 'Monday';
+                break;
+            case 2:
+                frequency = 'Tuesday';
+                break;
+            case 3:
+                frequency = 'Wednesday';
+                break;
+            case 4:
+                frequency = 'Thursday';
+                break;
+            case 5:
+                frequency = 'Friday';
+                break;
+            case 6:
+                frequency = 'Saturday';
+                break;
+            case 7:
+                frequency = 'Sunday';
+                break;
+            default:
+                frequency = 'Every Day';
+                break;
+        }
+        switch(tbRecord[i].frequencyEnd){
+            case 1:
+                frequencyEnd = 'Monday';
+                break;
+            case 2:
+                frequencyEnd = 'Tuesday';
+                break;
+            case 3:
+                frequencyEnd = 'Wednesday';
+                break;
+            case 4:
+                frequencyEnd = 'Thursday';
+                break;
+            case 5:
+                frequencyEnd = 'Friday';
+                break;
+            case 6:
+                frequencyEnd = 'Saturday';
+                break;
+            case 7:
+                frequencyEnd = 'Sunday';
+                break;
+            default:
+                frequencyEnd = 'Every Day';
+                break;
+        }
 
         var beginMinute = (tbRecord[i].begin % 60);
         var beginHour = ((tbRecord[i].begin - beginMinute) / 60);
@@ -546,7 +606,6 @@ function displayRecords(tbRecord){
         var endMinute = (tbRecord[i].end % 60);
         var endHour = ((tbRecord[i].end - endMinute) / 60);
         var end = document.createTextNode(endHour+':'+endMinute);
-        var frequency = document.createTextNode(tbRecord[i].frequency);
         var type = document.createTextNode(tbRecord[i].type);
         var applyBtn = document.createElement('button');
         var applyBtnIcon = document.createElement('span');
@@ -572,18 +631,22 @@ function displayRecords(tbRecord){
             //applyBtn.disabled = true;
         }
 
+
+
         //add Elements to table
         applyBtn.appendChild(applyBtnIcon);
         removeBtn.appendChild(removeBtnIcon);
         beginTD.appendChild(begin);
         endTD.appendChild(end);
         frequencyTD.appendChild(frequency);
+        frequencyEndTD.appendChild(frequencyEnd);
         typeTD.appendChild(type);
         apply.appendChild(applyBtn);
         remove.appendChild(removeBtn);
-        record.appendChild(beginTD);
-        record.appendChild(endTD);
         record.appendChild(frequencyTD);
+        record.appendChild(beginTD);
+        record.appendChild(frequencyEndTD);
+        record.appendChild(endTD);
         record.appendChild(typeTD);
         record.appendChild(apply);
         record.appendChild(remove);
@@ -764,4 +827,37 @@ function removeReplay(data){
     Table.removeChild(document.getElementById('table-replay-tr'+data.replayID));
 
     socket.emit('removeReplay',{cameraID: data.cameraID, name: name});
+}
+
+
+function frequencyInt2String(freq, callback){
+    var name;
+    switch(freq){
+        case 1:
+            name = 'Monday';
+            break;
+        case 2:
+            name = 'Tuesday';
+            break;
+        case 3:
+            name = 'Wednesday';
+            break;
+        case 4:
+            name = 'Thursday';
+            break;
+        case 5:
+            name = 'Friday';
+            break;
+        case 6:
+            name = 'Saturday';
+            break;
+        case 7:
+            name = 'Sunday';
+            break;
+        default:
+            name = 'Every Day';
+            break;
+    }
+
+    callback(name);
 }

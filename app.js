@@ -192,6 +192,7 @@ io.sockets.on('connection', function(socket){
   
   socket.on('getRecords', function(cameraID){
     console.log('getRecords event');
+    
     const getRecords = 'SELECT * FROM record WHERE cameraID = '+cameraID;
     connection.query(getRecords, function(err, rows){
       if(err){
