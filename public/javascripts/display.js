@@ -611,6 +611,12 @@ function displayRecords(tbRecord){
         var begin = document.createTextNode(beginHour+':'+beginMinute);
         var endMinute = (tbRecord[i].end % 60);
         var endHour = ((tbRecord[i].end - endMinute) / 60);
+        if(endMinute < 10){
+            endMinute = '0'+endMinute;
+        }
+        if(endHour < 10){
+            endHour = '0'+endHour;
+        }
         var end = document.createTextNode(endHour+':'+endMinute);
         var type = document.createTextNode(tbRecord[i].type);
         var applyBtn = document.createElement('button');
