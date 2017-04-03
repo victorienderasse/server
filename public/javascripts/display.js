@@ -602,6 +602,12 @@ function displayRecords(tbRecord){
 
         var beginMinute = (tbRecord[i].begin % 60);
         var beginHour = ((tbRecord[i].begin - beginMinute) / 60);
+        if(beginMinute < 10){
+            beginMinute = '0'+beginMinute;
+        }
+        if(beginHour < 10){
+            beginHour = '0'+beginHour;
+        }
         var begin = document.createTextNode(beginHour+':'+beginMinute);
         var endMinute = (tbRecord[i].end % 60);
         var endHour = ((tbRecord[i].end - endMinute) / 60);
