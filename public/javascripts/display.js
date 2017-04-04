@@ -660,11 +660,12 @@ function deleteRecord(recordID){
 function emptyTimerForm(){
     console.log('emptyTimerForm function');
     var myForm = document.getElementById('timer-form');
-    myForm.beginHour.value = '';
-    myForm.beginMinute.value = '';
-    myForm.endHour.value = '';
-    myForm.endMinute.value = '';
-    myForm.frequency.value = 'Mon';
+    myForm.beginHour.value = 0;
+    myForm.beginMinute.value = 0;
+    myForm.endHour.value = 0;
+    myForm.endMinute.value = 0;
+    myForm.frequency.value = 1;
+    myForm.frequencyEnd.value = 1;
 }
 
 
