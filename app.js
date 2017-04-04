@@ -270,20 +270,6 @@ io.sockets.on('connection', function(socket){
   });
 
   
-  //Get all the replay
-  /*
-  socket.on('getReplays', function(cameraID){
-    console.log('getReplays event');
-    fs.readdir('./public/cameras/camera'+cameraID+'/videos/', function(err, files){
-      if(err){
-        throw err;
-      }
-      socket.emit('setReplays',{tbReplay: files, cameraID: cameraID});
-      socket.emit('setReplays2',{tbReplay: files, cameraID: cameraID});
-    })
-  });
-  */
-  
   socket.on('getReplays',function(cameraID){
     console.log('getReplays event');
     fs.readdir('./public/cameras/camera'+cameraID+'/videos/', function(err, files){
@@ -296,74 +282,78 @@ io.sockets.on('connection', function(socket){
 
   
   socket.on('startDetection', function(cameraID){
+    /*
+    -> Set enabled record on pause state
+    -> set state of camera to 1 (motion detection)
+    -> send request to camera to start process
+     */
     console.log('startDetection event');
-    //évite qu'un record se lance pendant la détection de mouvement
-    const setStateRecord = 'UPDATE record SET state = 0 WHERE cameraID = '+cameraID+" AND state = 1";
-    connection.query(setStateRecord, function(err){
-      if(err){
-        throw err;
-      }
-    });
-    //send to camera
+
+    setRecordPaused(cameraID);
+
     setState(cameraID, 1);
-    const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
-    connection.query(getSocketID, function(err,rows){
-      if(err){
-        throw err;
-      }
-      io.to(rows[0].socketID).emit('startDetection', {cameraName: rows[0].name, cameraID: cameraID});
+
+    getInfoCamera(cameraID, function(camera){
+      sendToCamera(cameraID,'startDetection',{cameraName: camera.name, cameraID: cameraID});
     });
+
   });
 
 
   socket.on('stopDetection', function(cameraID){
+    /*
+    -> Set enable paused record
+    -> set state of camera to 0 (unused)
+    -> send request to camera to stop process
+     */
     console.log('stopDetection');
+    setRecordUnpaused(cameraID);
     setState(cameraID,0);
-    sendToCamera(cameraID,'stopProcess',null);
+    sendToCamera(cameraID,'killProcess',null);
   });
 
   
   socket.on('startStream', function(cameraID){
+    /*
+    -> Set camera state to 2 (live)
+    -> Set enable record on pause
+    -> send request to camera
+     */
     console.log('startStream event ');
     setState(cameraID, 2);
-    const getCameraName = 'SELECT name FROM camera WHERE cameraID = '+cameraID;
-    connection.query(getCameraName, function(err,rows){
-      if(err){
-        throw err;
-      }
-      if(rows.length>0){
-        sendToCamera(cameraID, 'startStream', {cameraID: cameraID, name: rows.name});
-      }else{
-        console.log('Error getCameraName in startStream event');
-      }
+
+    setRecordPaused(cameraID);
+
+    getInfoCamera(cameraID, function(camera){
+      sendToCamera(cameraID,'startStream', {cameraID: cameraID, name: camera.name});
     });
+
   });
 
 
   socket.on('stopStream', function(cameraID){
+    /*
+    -> enable paused records
+    -> Check state of camera
+    -> if state = 4 : Close while recording, ask camera to send video
+    -> if state = 2 : just stop the stream
+    -> set state of camera to 0 (unused)
+     */
     console.log('stopStream');
-    const getInfoCamera = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
-    connection.query(getInfoCamera, function(err,rows){
-      if(err){
-        throw err;
-      }
-      if(rows.length>0){
-        console.log('cameraState : '+rows[0].state);
-        if (rows[0].state == 4){
-          //LiveRecording
-          console.log('close while recording');
-          setState(cameraID,0);
-          socket.emit('updateLiveRecordingBtn', cameraID);
-          sendToCamera(cameraID,'getLiveRecording',{cameraID: cameraID, name: rows[0].name});
-        }else{
-          //Live
-          setState(cameraID,0);
-          sendToCamera(cameraID,'killProcess',null);
-        }
+
+    setRecordUnpaused(cameraID);
+
+    getInfoCamera(cameraID, function(camera){
+      if(camera.state == 4){
+        setState(cameraID,0);
+        socket.emit('updateLiveRecordingBtn',cameraID);
+        sendToCamera(cameraID,'getLiveRecording',{cameraID: cameraID, name: camera.name});
       }else{
-        console.log('Error getInfoCamera in stopStream');
+        setState(cameraID,0);
+        sendToCamera(cameraID,'killProcess',null);
       }
     });
+
   });
 
   
@@ -641,17 +631,6 @@ io.sockets.on('connection', function(socket){
   
 //FUNCTIONS----------------------------------------------------------------------------------------------
 
-  //function findGetParameter(parameterName) {
-   // var result = null,
-  //      tmp = [];
-  //  var items = location.search.substr(1).split("&");
-  //  for (var index = 0; index < items.length; index++) {
-  //    tmp = items[index].split("=");
-  //    if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
-  //  }
-  //  return result;
- // }
-
 
   function addRecord(data){
     console.log('addRecord function');
@@ -788,7 +767,7 @@ io.sockets.on('connection', function(socket){
     //State 2 = Live running
     //State 3 = Record running
     //State 4 = Live Recording running
-    //console.log('setState function');
+    console.log('setState function - camera state = '+state);
     const setState = 'UPDATE camera SET state = '+state+' WHERE cameraID = '+cameraID;
     connection.query(setState, function(err){
       if(err){
@@ -799,7 +778,7 @@ io.sockets.on('connection', function(socket){
 
 
   function setRecordState(recordID, state){
-    console.log('setRecordState function');
+    console.log('setRecordState function - state = '+state);
     /*
     State 0 : Disable
     State 1 : Enable
@@ -815,7 +794,7 @@ io.sockets.on('connection', function(socket){
   
   
   function getInfoCamera(cameraID, callback){
-    console.log('getInfoCamera function');
+
     const getInfoCamera = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
     connection.query(getInfoCamera, function(err,rows){
       if(err){
@@ -847,7 +826,7 @@ io.sockets.on('connection', function(socket){
 
 
   function getInfoRecord(recordID, callback){
-    console.log('getInfoRecord function');
+
     const getInfoRecord = 'SELECT * FROM record WHERE recordID = '+recordID;
     connection.query(getInfoRecord, function(err,rows){
       if(err){
@@ -1012,6 +991,104 @@ io.sockets.on('connection', function(socket){
       callback('NOK');
     }
 
+  }
+
+
+  function setRecordPaused(cameraID){
+    /*
+    -> Get tb of all record enable
+    -> set all enable record on pause
+    -> update UI
+    -> send to camera to delete enable record on cron table
+     */
+    console.log('setRecordPaused function');
+    const getEnableRecord = 'SELECT * FROM record WHERE state = 1 AND cameraID = '+cameraID;
+    connection.query(getEnableRecord, function(err,rows){
+      if(err){
+        throw err;
+      }
+
+      if(rows.length>0){
+        const setRecordPaused = 'UPDATE record SET state = 2 WHERE state = 1 AND cameraID = '+cameraID;
+        connection.query(setRecordPaused, function(err){
+          if(err){
+            throw err;
+          }
+        });
+
+        for(var i = 0;i<rows.length;i++){
+          socket.emit('updateRecordColor',{recordID: rows[i].recordID, state: 2});
+          sendToCamera(cameraID,'deleteRecord',rows[i].recordID);
+        }
+      }
+
+    });
+
+
+  }
+
+
+  function setRecordUnpaused(cameraID){
+    /*
+    -> get all record on pause
+    -> set paused record on enable
+    -> update UI
+    -> add record on cron table
+     */
+    console.log('setRecordUnpaused function');
+    const getPausedRecord = 'SELECT * FROM record WHERE state = 2 AND cameraID = '+cameraID;
+    connection.query(getPausedRecord, function(err,rows){
+      if(err){
+        throw err;
+      }
+
+      if(rows.length>0){
+        const setRecordEnable = 'UPDATE record SET state = 1 WHERE state = 2 AND cameraID = '+cameraID;
+        connection.query(setRecordEnable, function(err){
+          if(err){
+            throw err;
+          }
+        });
+
+
+        getInfoCamera(cameraID, function(camera){
+
+          for(var i=0;i<rows.length;i++){
+
+            var begin_minute = rows[i].begin % 60;
+            var begin_hour = (rows[i].begin - begin_minute) / 60;
+            var end_minute = rows[i].end % 60;
+            var end_hour = (rows[i].end - end_minute) / 60;
+
+            var Once;
+            if(rows[i].once == 1){
+              Once = true;
+            }else{
+              Once = false;
+            }
+
+            arg = {
+              begin_hour: begin_hour,
+              begin_minute: begin_minute,
+              end_hour: end_hour,
+              end_minute: end_minute,
+              frequency: rows[i].frequency,
+              frequencyEnd: rows[i].frequencyEnd,
+              cameraName: camera.name,
+              cameraID: rows[i].cameraID,
+              type: rows[i].type,
+              once: Once,
+              recordID: rows[i].recordID
+            };
+
+            sendToCamera(cameraID,'timer',arg);
+
+            socket.emit('updateRecordColor',{recordID:rows[i].recordID,state:1});
+
+          }
+        });
+      }
+    });
   }
 
   

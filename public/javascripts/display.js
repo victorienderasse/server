@@ -44,37 +44,23 @@ socket.on('updateRecordColor', function(data){
     console.log('setOldRecord event');
     
     var record = document.getElementById('record-'+data.recordID);
-    switch(data.state){
-        case 0:
-            record.setAttribute('style','background-color:#FFFFFF');
-            break;
-        case 1:
-            record.setAttribute('style','background-color:#B9E9C4');
-            break; 
-        case 2:
-            record.setAttribute('style','background-color:#E1E099');
-            break;
+    
+    if(record != 'undefined' && record != null){
+        switch(data.state){
+            case 0:
+                record.setAttribute('style','background-color:#FFFFFF');
+                break;
+            case 1:
+                record.setAttribute('style','background-color:#B9E9C4');
+                break;
+            case 2:
+                record.setAttribute('style','background-color:#E1E099');
+                break;
+        }
     }
+    
 });
 
-/*
-socket.on('setReplays', function(data){
-    console.log('setReplay event');
-    var select = document.getElementById('select-replay');
-
-    for(i=0;i<data.tbReplay.length;i++){
-        var replay = document.createElement('option');
-        var name = document.createTextNode(data.tbReplay[i]);
-        replay.id = 'replay-'+i;
-        replay.title = 'Click to play the video';
-        replay.setAttribute('value',data.tbReplay[i]);
-        replay.appendChild(name);
-        select.appendChild(replay);
-    }
-
-    playReplay(data.cameraID);
-});
-*/
 
 socket.on('setReplays',function(data){
     console.log('setReplay');
@@ -227,6 +213,7 @@ document.getElementById('timer-confirm-btn').addEventListener('click', function(
     
 });
 
+//set frequencyEnd select on Change
 document.getElementById('frequency').addEventListener('change',function(){
     var frequency = document.getElementById('timer-form').frequency.value;
     if(frequency == '*'){
@@ -382,7 +369,6 @@ function displayScreens(tbScreen){
 }
 
 
-
 function runTimer(cameraID){
     console.log('runTimer function');
     //get cameraID
@@ -398,28 +384,6 @@ function runTimer(cameraID){
     socket.emit('getRecords', cameraID);
 }
 
-/*
-function runReplay(cameraID){
-
-    1. Remove old <select>
-    2. Create new <select>
-    3. Send command to server
-
-    console.log('runReplay function');
-    var selectDiv = document.getElementById('select-replay-div');
-    if (selectDiv.firstChild){
-        selectDiv.removeChild(selectDiv.firstChild);
-    }
-    var select = document.createElement('select');
-    select.id = 'select-replay';
-    select.name = 'select-replay';
-    select.className = 'form-control';
-    select.setAttribute('onchange', 'playReplay('+cameraID+');');
-    selectDiv.appendChild(select);
-
-    socket.emit('getReplays',cameraID);
-}
-*/
 
 function runReplay(cameraID){
     console.log('testReplay pressed');
@@ -703,29 +667,6 @@ function emptyTimerForm(){
     myForm.frequency.value = 'Mon';
 }
 
-/*
-function playReplay(cameraID){
-    console.log('playReplay function');
-    //create video
-    var video = document.createElement('video');
-    video.id = 'video-replay';
-    video.setAttribute('controls',true);
-    video.setAttribute('width','600px');
-    //create source
-    var source = document.createElement('source');
-    var opt = document.getElementById('select-replay').value;
-    var path = '../cameras/camera'+cameraID+'/videos/'+opt;
-    source.setAttribute('src',path);
-    source.setAttribute('type','video/mp4');
-    video.appendChild(source);
-
-    var display_div = document.getElementById('display-replay-div');
-    if(display_div.firstChild){
-        display_div.removeChild(display_div.firstChild);
-    }
-    display_div.appendChild(video);
-}
-*/
 
 function stopRecording(cameraID, recordID){
     console.log('stopRecording function');
