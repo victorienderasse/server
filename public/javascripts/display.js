@@ -40,9 +40,21 @@ socket.on('redirect', function(url){
 });
 
 
-socket.on('setOldRecord', function(recordID){
+socket.on('updateRecordColor', function(data){
     console.log('setOldRecord event');
-    document.getElementById('record-'+recordID).setAttribute('style','background-color:#FFFFFF');
+    
+    var record = document.getElementById('record-'+data.recordID);
+    switch(data.state){
+        case 0:
+            record.setAttribute('style','background-color:#FFFFFF');
+            break;
+        case 1:
+            record.setAttribute('style','background-color:#B9E9C4');
+            break; 
+        case 2:
+            record.setAttribute('style','background-color:#E1E099');
+            break;
+    }
 });
 
 /*
@@ -669,9 +681,7 @@ function displayRecords(tbRecord){
 
 function applyRecord(recordID){
     console.log('applyRecord function');
-    document.getElementById('record-'+recordID).setAttribute('style','background-color:#B9E9C4');
     socket.emit('applyRecord',recordID);
-
 }
 
 
@@ -842,34 +852,3 @@ function removeReplay(data){
 }
 
 
-function frequencyInt2String(freq, callback){
-    var name;
-    switch(freq){
-        case 1:
-            name = 'Monday';
-            break;
-        case 2:
-            name = 'Tuesday';
-            break;
-        case 3:
-            name = 'Wednesday';
-            break;
-        case 4:
-            name = 'Thursday';
-            break;
-        case 5:
-            name = 'Friday';
-            break;
-        case 6:
-            name = 'Saturday';
-            break;
-        case 7:
-            name = 'Sunday';
-            break;
-        default:
-            name = 'Every Day';
-            break;
-    }
-
-    callback(name);
-}

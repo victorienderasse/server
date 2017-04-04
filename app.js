@@ -204,84 +204,67 @@ io.sockets.on('connection', function(socket){
 
   
   socket.on('deleteRecord', function(recordID){
+    /*
+    -> delete record from DB
+    -> if state = 1, delete record from Cron
+     */
     console.log('deleteRecord event');
-    const checkState = 'SELECT * FROM record WHERE recordID = '+recordID;
-    connection.query(checkState, function(err,rows){
+
+    const deleteRecord = 'DELETE FROM record WHERE recordID = '+recordID;
+    connection.query(deleteRecord, function(err){
       if(err){
         throw err;
       }
-      const deleteRecord = 'DELETE FROM record WHERE recordID = '+recordID;
-      connection.query(deleteRecord, function(err){
-        if(err){
-          throw err;
-        }
-      });
-      if(rows[0].state == 1) {
-        if(rows[0].type == 'record'){
-          sendToCamera(rows[0].cameraID, 'deleteRecord', null);
-        }else{
-          sendToCamera(rows[0].cameraID, 'deleteDetection', null);
-        }
+    });
+
+    getInfoRecord(recordID, function(record){
+      if(record.state == 1){
+        sendToCamera(record.cameraID,'deleteRecord',recordID);
       }
     });
+
   });
 
   
   socket.on('applyRecord', function(recordID){
     console.log('applyRecord event');
     //set old record to client
-    const getOldRecord = 'SELECT * FROM record WHERE state = 1 AND cameraID = (SELECT cameraID FROM (SELECT cameraID FROM record WHERE recordID ='+recordID+') AS tpm)';
-    connection.query(getOldRecord, function(err,rows){
-      if(err){
-        throw err;
-      }
-      if(rows.length>0) {
 
+        getInfoRecord(recordID, function(record){
 
-        const getFocusRecord = 'SELECT * FROM record WHERE recordID = '+recordID;
-        connection.query(getFocusRecord, function(err,rows2){
-          if(err){
-            throw err;
-          }
+          const getRecordsEnable = 'SELECT * FROM record WHERE state = 1 AND cameraID = '+record.cameraID;
+          connection.query(getRecordsEnable, function(err,rows){
+            if(err){
+              throw err;
+            }
+            if(rows.length>0){
+              var same = false;
+              for(var i=0;i<rows.length;i++){
+                if(parseInt(rows[i].recordID) == recordID){
+                  same = true;
+                  break;
+                }
+              }
 
-          checkTimer({timers:rows,timer2:rows2},function(check){
-            if(check == 'OK'){
-              console.log('Check OK');
-
+              if(same){
+                console.log('disable record');
+                disableRecord(recordID);
+              }else{
+                console.log('apply record');
+                checkTimer({timers:rows,timer2:record},function(check){
+                  if(check == 'OK'){
+                    changeRecord(recordID);
+                  }else{
+                    socket.emit('message',{title:'Alerte',message:'Erreur record chevauchage',action:null});
+                  }
+                });
+              }
             }else{
-              console.log('Check NOK');
-              socket.emit('message',{title:'Alerte',message:'Erreur record chevauchage',action:null});
+              changeRecord(recordID);
             }
           });
 
         });
-
-        socket.emit('setOldRecord', rows[0].recordID);
-        if(parseInt(rows[0].recordID) == parseInt(recordID)){
-          console.log('le mm');
-          disableRecord(recordID);
-        }else{
-          console.log('pas le mm');
-          changeRecord(recordID);
-        }
-      }else{
-        changeRecord(recordID);
-      }
-    });
-    //Check if camera is on state 3 -> if it is : kilProcess
-    const getCameraState = 'SELECT camera.state, camera.cameraID FROM record INNER JOIN camera ON record.cameraID=record.cameraID WHERE recordID = '+recordID;
-    connection.query(getCameraState, function(err, rows){
-      if(err){
-        throw err;
-      }
-      if (rows.length > 0){
-        if (rows[0].state == 3){
-          sendToCamera(rows.cameraID,'killProcess', null);
-        }
-      }else{
-        console.log('Erreur : Le record n\'est associé à aucune camera');
-      }
-    });
 
   });
 
@@ -673,8 +656,14 @@ io.sockets.on('connection', function(socket){
     console.log('addRecord function');
     const begin = parseInt(data.begin_hour*60)+parseInt(data.begin_minute);
     const end = parseInt(data.end_hour*60)+parseInt(data.end_minute);
+    var Once;
+    if(data.once){
+      Once = 1;
+    }else{
+      Once = 0;
+    }
     //add new record
-    const addRecord = 'INSERT INTO record SET cameraID = '+data.cameraID+', begin = '+begin+', end = '+end+', frequency = "'+data.frequency+'", frequencyEnd = "'+data.frequencyEnd+'", state = 1, type = "'+data.type+'"';
+    const addRecord = 'INSERT INTO record SET cameraID = '+data.cameraID+', begin = '+begin+', end = '+end+', frequency = "'+data.frequency+'", frequencyEnd = "'+data.frequencyEnd+'", state = 1, type = "'+data.type+'", once = '+Once;
     connection.query(addRecord, function(err){
       if(err){
         throw err;
@@ -687,7 +676,7 @@ io.sockets.on('connection', function(socket){
         getInfoCamera(data.cameraID, function(camera){
           if(camera != null){
 
-            io.to(camera.socketID).emit('timer', {
+            arg = {
               begin_hour: data.begin_hour,
               begin_minute: data.begin_minute,
               end_hour: data.end_hour,
@@ -699,7 +688,10 @@ io.sockets.on('connection', function(socket){
               type: data.type,
               once: data.once,
               recordID: rows[0].recordID
-            });
+            };
+
+            sendToCamera(data.cameraID,'timer',arg);
+
           }
         });
       });
@@ -708,66 +700,88 @@ io.sockets.on('connection', function(socket){
 
 
   function changeRecord(recordID){
+    /*
+    -> Update record color in UI
+    -> Set record state to 1 (enable)
+    -> get info record & info camera
+    -> send to camera to add record on cron table
+     */
     console.log('changeRecord function');
-    const oldRecord = 'UPDATE record SET state =0 WHERE state =1 AND cameraID = ( SELECT cameraID FROM (SELECT cameraID FROM record WHERE recordID ='+recordID+') AS tmp )';
-    connection.query(oldRecord, function (err) {
-      if(err){
-        throw err;
-      }
-      //set new main record state to 1
-      const newRecord = 'UPDATE record SET state = 1 WHERE recordID = '+recordID;
-      connection.query(newRecord, function(err){
-        if(err){
-          throw err;
+    
+    socket.emit('updateRecordColor',{recordID: recordID, state: 1});
+
+    setRecordState(recordID,1);
+
+    getInfoRecord(recordID, function(record){
+      //because cameraName
+      getInfoCamera(record.cameraID, function(camera){
+
+        var begin_minute = record.begin % 60;
+        var begin_hour = (record.begin - begin_minute) / 60;
+        var end_minute = record.end % 60;
+        var end_hour = (record.end - end_minute) / 60;
+
+        var Once;
+        if(record.once == 0){
+          Once = false;
+        }else{
+          Once = true;
         }
-        //set record to camera
-        const getDataRecord = 'SELECT * FROM record INNER JOIN camera ON record.cameraID = camera.cameraID WHERE recordID = '+recordID;
-        connection.query(getDataRecord, function(err, rows){
-          if(err){
-            throw err;
-          }
-          var begin_minute = rows[0].begin % 60;
-          var begin_hour = (rows[0].begin - begin_minute) / 60;
-          var end_minute = rows[0].end % 60;
-          var end_hour = (rows[0].end - end_minute) / 60;
-          io.to(rows[0].socketID).emit('timer', {begin_hour: begin_hour, begin_minute: begin_minute, end_hour: end_hour, end_minute: end_minute, frequency: rows[0].frequency, cameraName: rows[0].name, type: rows[0].type});
-        });
+
+        arg = {
+          begin_hour: begin_hour,
+          begin_minute: begin_minute,
+          end_hour: end_hour,
+          end_minute: end_minute,
+          frequency: record.frequency,
+          frequencyEnd: record.frequencyEnd,
+          cameraName: camera.name,
+          cameraID: record.cameraID,
+          type: record.type,
+          once: Once,
+          recordID: recordID
+        };
+
+        sendToCamera(record.cameraID,'timer',arg);
+
       });
+
     });
+
   }
 
 
   function disableRecord(recordID){
+    /*
+    -> Change record color on UI
+    -> Set record state to 0 (disable)
+    -> get cameraID of record
+    -> get socketID of the camera
+    -> send deleteRecord to camera
+     */
     console.log('disableRecord function');
-    const setStateTo0 = 'UPDATE record SET state = 0 WHERE recordID = '+recordID;
-    connection.query(setStateTo0, function(err){
-      if(err){
-        throw err;
-      }
+
+    socket.emit('updateRecordColor',0);
+    
+    setRecordState(recordID,0);
+
+    getInfoRecord(recordID, function(record){
+        sendToCamera(record.cameraID,'deleteRecord',recordID);
     });
-    const getRecordType = 'SELECT * FROM record WHERE recordID = '+recordID;
-    connection.query(getRecordType, function(err, rows){
-      if(err){
-        throw err;
-      }
-      if(rows[0].type == 'record'){
-        sendToCamera(rows[0].cameraID, 'deleteRecord', null);
-      }else{
-        sendToCamera(rows[0].cameraID, 'deleteDetection', null);
-      }
-    });
+    
   }
 
 
   function sendToCamera(cameraID, event, data){
     //console.log('sendToCamera function');
-    const getSocketID = 'SELECT * FROM camera WHERE cameraID = '+cameraID;
-    connection.query(getSocketID, function(err,rows){
-      io.to(rows[0].socketID).emit(event, data);
+    
+    getInfoCamera(cameraID, function(camera){
+      io.to(camera.socketID).emit(event,data);
     });
+    
   }
-
-
+  
+  
   function setState(cameraID, state){
     //State 0 = Nothing is running
     //State 1 = MotionDetection running
@@ -849,6 +863,9 @@ io.sockets.on('connection', function(socket){
 
 
   function checkTimer(data, callback){
+    /*
+    -> Check the record get over another record
+     */
 
     console.log('checkTimer');
 
