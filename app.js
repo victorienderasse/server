@@ -898,19 +898,30 @@ io.sockets.on('connection', function(socket){
           t1b = ((parseInt(timer1[i].frequency)*24*60)+timer1[i].begin);
           t1e = ((parseInt(timer1[i].frequencyEnd)*24*60)+timer1[i].end);
 
-          if(((t1e - t1b) >= 1440) || ((t1e - t1b) < 0)){
-            console.log('size > 1440');
+          if(t1b > t1e){
+            t1e = t1e + 10080;
+          }
+
+          if((t1e - t1b) >= 1440){
+            console.log('size old > 1440');
             check = false;
             break;
           }else{
 
-            t2b1 = ((parseInt(timer1[i].frequency)*24*60)+timer2.begin);
-            t2e1 = ((parseInt(timer1[i].frequency)*24*60)+timer2.end);
-            t2b2 = ((parseInt(timer1[i].frequencyEnd)*24*60)+timer2.begin);
-            t2e2 = ((parseInt(timer1[i].frequencyEnd)*24*60)+timer2.end);
-            console.log('t1b = '+t1b+' | t1e = '+t1e+' | t2b1 = '+t2b1+' | t2b2 = '+t2b2+' | t2e1 = '+t2e1+' | t2e2 = '+t2e2);
+            t1b = timer1[i].begin;
+            t1e = timer1[i].end;
+            t2b = timer2.begin;
+            t2e = timer2.end;
 
-            if((t1b >= t2b1 && t1b <= t2e1) || (t1e >= t2b2 && t1e <= t2e2) || (t1b < t2b1 && t1e > t2e1) || (t1b > t2e1 && t1e < t2b1)){
+            if(t1b > t1e){
+              t1e = t1e + 1440;
+            }
+            if(t2b > t2e){
+              t2e = t2e + 1440;
+            }
+
+            console.log('t1b = '+t1b+' | t1e = '+t1e+' | t2b = '+t2b+' | t2e = '+t2e);
+            if((t2b >= t1b && t2b <= t1e) || (t2e >= t1b && t2e <= t1e) || (t2b < t1b && t2e > t1e)){
               console.log('not OK');
               check = false;
               break;
@@ -927,7 +938,7 @@ io.sockets.on('connection', function(socket){
             t2e = ((parseInt(timer2.frequencyEnd)*24*60)+timer2.end);
 
             if(((t2e - t2b) >= 1440) || ((t2e - t2b) < 0)){
-              console.log('size > 1440');
+              console.log('size new > 1440');
               check = false;
               break;
             }else{
