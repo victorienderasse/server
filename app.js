@@ -761,7 +761,7 @@ io.sockets.on('connection', function(socket){
      */
     console.log('disableRecord function');
 
-    socket.emit('updateRecordColor',0);
+    socket.emit('updateRecordColor',{recordID: recordID,state:0});
     
     setRecordState(recordID,0);
 
@@ -773,7 +773,6 @@ io.sockets.on('connection', function(socket){
 
 
   function sendToCamera(cameraID, event, data){
-    //console.log('sendToCamera function');
     
     getInfoCamera(cameraID, function(camera){
       io.to(camera.socketID).emit(event,data);
