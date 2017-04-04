@@ -210,17 +210,18 @@ io.sockets.on('connection', function(socket){
      */
     console.log('deleteRecord event');
 
-    const deleteRecord = 'DELETE FROM record WHERE recordID = '+recordID;
-    connection.query(deleteRecord, function(err){
-      if(err){
-        throw err;
-      }
-    });
-
     getInfoRecord(recordID, function(record){
       if(record.state == 1){
         sendToCamera(record.cameraID,'deleteRecord',recordID);
       }
+
+      const deleteRecord = 'DELETE FROM record WHERE recordID = '+recordID;
+      connection.query(deleteRecord, function(err){
+        if(err){
+          throw err;
+        }
+      });
+
     });
 
   });
