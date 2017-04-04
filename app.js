@@ -251,7 +251,7 @@ io.sockets.on('connection', function(socket){
                 disableRecord(recordID);
               }else{
                 console.log('apply record');
-                checkTimer({timers:rows,timer2:record},function(check){
+                checkTimer({timer1:rows,timer2:record},function(check){
                   if(check == 'OK'){
                     changeRecord(recordID);
                   }else{
