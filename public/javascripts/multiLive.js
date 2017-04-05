@@ -34,6 +34,10 @@ function displayCamera(tbCamera){
         img.id = 'player'+tbCamera[i].cameraID;
         img.src = '../images/zelda1.png';
 
+        var btnDiv = document.createElement('div');
+        btnDiv.id = 'player'+tbCamera[i].cameraID+'-btn';
+        btnDiv.setAttribute('style','padding:5px;');
+
         var play = document.createElement('button');
         play.id = 'player'+tbCamera[i].cameraID+'-play';
         play.setAttribute('onclick','play('+tbCamera[i].cameraID+');');
@@ -62,9 +66,10 @@ function displayCamera(tbCamera){
         colDiv.id = 'colDiv'+tbCamera[i].cameraID;
         colDiv.className = 'col-lg-4';
 
+        btnDiv.appendChild(play);
+        btnDiv.appendChild(record);
         colDiv.appendChild(img);
-        colDiv.appendChild(play);
-        colDiv.appendChild(record);
+        colDiv.appendChild(btnDiv);
 
         var rowDiv;
 
