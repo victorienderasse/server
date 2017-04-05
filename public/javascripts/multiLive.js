@@ -43,6 +43,7 @@ function displayCamera(tbCamera){
         img.src = '../images/zelda1.png';
         var colDiv = document.createElement('div');
         colDiv.id = 'colDiv'+i;
+        colDiv.className = 'col-lg-4';
 
         colDiv.appendChild(img);
 
