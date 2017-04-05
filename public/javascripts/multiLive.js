@@ -50,7 +50,6 @@ function displayCamera(tbCamera){
         var rowDiv;
 
         if((size%3) == 0){
-            size = size - 1;
             row = row + 1;
             rowDiv = document.createElement('div');
             rowDiv.id = 'rowDiv'+row;
@@ -61,6 +60,6 @@ function displayCamera(tbCamera){
             rowDiv = document.getElementById('rowDiv'+row);
             rowDiv.appendChild(colDiv);
         }
-
+        size = size - 1;
     }
 }
