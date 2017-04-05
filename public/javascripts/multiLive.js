@@ -64,6 +64,7 @@ function displayCamera(tbCamera){
 
         colDiv.appendChild(img);
         colDiv.appendChild(play);
+        colDiv.appendChild(record);
 
         var rowDiv;
 
