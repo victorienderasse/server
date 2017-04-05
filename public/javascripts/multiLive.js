@@ -45,8 +45,8 @@ function displayCamera(tbCamera){
 
         var playIcon = document.createElement('span');
         playIcon.id = 'player'+tbCamera[i].cameraID+'-playIcon';
-        playIcon.className = 'glyphicon glyphicon-play';
-        //playIcon.className = 'glyphicon glyphicon-stop';
+        //playIcon.className = 'glyphicon glyphicon-play';
+        playIcon.className = 'glyphicon glyphicon-stop';
 
         play.appendChild(playIcon);
 
@@ -90,6 +90,8 @@ function displayCamera(tbCamera){
 
 function play(cameraID){
     console.log('play camera '+cameraID);
+    var player = document.getElementById('player'+cameraID);
+    player.src = '../images/zelda3.png';
 }
 
 
