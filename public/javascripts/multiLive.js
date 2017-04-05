@@ -105,4 +105,11 @@ function play(cameraID){
 
 function record(cameraID){
     console.log('record camera '+cameraID);
+
+    var icon = document.getElementById('player'+cameraID+'-recordIcon');
+    if(icon.className == 'glyphicon glyphicon-record'){
+        icon.className = 'glyphicon glyphicon-stop';
+    }else{
+        icon.className = 'glyphicon glyphicon-record';
+    }
 }
