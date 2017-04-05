@@ -802,7 +802,7 @@ function removeReplay(data){
 //Multi Live
 document.getElementById('btnTest').addEventListener('click',function(){
     console.log('TEST BTN');
-    
+    redirectURL(serverURL+'/multiLive?userID='+userID);
 });
 
 
