@@ -30,117 +30,121 @@ function displayCamera(tbCamera){
 
     for(var i=0;i<tbCamera.length;i++){
 
-        //IMG
+        if(tbCamera[i].enable == 1){
+            //IMG
 
-        var img = document.createElement('img');
-        img.id = 'player'+tbCamera[i].cameraID;
-        img.src = '../images/zelda1.png';
+            var img = document.createElement('img');
+            img.id = 'player'+tbCamera[i].cameraID;
+            img.src = '../images/zelda1.png';
+            img.className = 'img-multiLive'
 
-        var imgDiv = document.createElement('div');
-        imgDiv.id = 'player'+tbCamera[i].cameraID+'-imgDiv';
-        imgDiv.className = 'col-lg-10';
-        imgDiv.setAttribute('style','background-color:#FF0000;');
+            var imgDiv = document.createElement('div');
+            imgDiv.id = 'player'+tbCamera[i].cameraID+'-imgDiv';
+            imgDiv.className = 'row';
 
-        imgDiv.appendChild(img);
+            imgDiv.appendChild(img);
 
-        //PLAY
+            //PLAY
 
-        var play = document.createElement('button');
-        play.id = 'player'+tbCamera[i].cameraID+'-play';
-        play.setAttribute('onclick','play('+tbCamera[i].cameraID+');');
-        play.setAttribute('style','background-color:#B9E9C4;');
-        play.className = 'btn-multiLive';
+            var play = document.createElement('button');
+            play.id = 'player'+tbCamera[i].cameraID+'-play';
+            play.setAttribute('onclick','play('+tbCamera[i].cameraID+');');
+            play.setAttribute('style','background-color:#B9E9C4;');
+            play.className = 'btn-multiLive';
 
-        var playIcon = document.createElement('span');
-        playIcon.id = 'player'+tbCamera[i].cameraID+'-playIcon';
-        //playIcon.className = 'glyphicon glyphicon-play';
-        playIcon.className = 'glyphicon glyphicon-stop';
+            var playIcon = document.createElement('span');
+            playIcon.id = 'player'+tbCamera[i].cameraID+'-playIcon';
+            //playIcon.className = 'glyphicon glyphicon-play';
+            playIcon.className = 'glyphicon glyphicon-stop';
 
-        var playDiv = document.createElement('div');
-        playDiv.id = 'player'+tbCamera[i].cameraID+'-playDiv';
-        playDiv.className = 'row';
-        playDiv.setAttribute('style','background-color:#00FF00;');
+            var playDiv = document.createElement('div');
+            playDiv.id = 'player'+tbCamera[i].cameraID+'-playDiv';
+            playDiv.className = 'col-lg-6';
+            playDiv.setAttribute('style','text-align:right');
 
-        play.appendChild(playIcon);
-        playDiv.appendChild(play);
+            play.appendChild(playIcon);
+            playDiv.appendChild(play);
 
-        //RECORD
+            //RECORD
 
-        var record = document.createElement('button');
-        record.id = 'player'+tbCamera[i].cameraID+'-record';
-        record.setAttribute('style','background-color:#FAECEC;');
-        record.setAttribute('onclick','record('+tbCamera[i].cameraID+');');
-        record.className = 'btn-multiLive';
+            var record = document.createElement('button');
+            record.id = 'player'+tbCamera[i].cameraID+'-record';
+            record.setAttribute('style','background-color:#FAECEC;');
+            record.setAttribute('onclick','record('+tbCamera[i].cameraID+');');
+            record.className = 'btn-multiLive';
 
-        var recordIcon = document.createElement('span');
-        recordIcon.id = 'player'+tbCamera[i].cameraID+'-recordIcon';
-        recordIcon.className = 'glyphicon glyphicon-record';
-        //recordIcon.className = 'glyphicon glyphicon-stop';
+            var recordIcon = document.createElement('span');
+            recordIcon.id = 'player'+tbCamera[i].cameraID+'-recordIcon';
+            recordIcon.className = 'glyphicon glyphicon-record';
+            //recordIcon.className = 'glyphicon glyphicon-stop';
 
-        var recordDiv = document.createElement('div');
-        recordDiv.id = 'player'+tbCamera[i].cameraID+'-recordDiv';
-        recordDiv.className = 'row';
-        recordDiv.setAttribute('style','background-color:#0000FF;');
+            var recordDiv = document.createElement('div');
+            recordDiv.id = 'player'+tbCamera[i].cameraID+'-recordDiv';
+            recordDiv.className = 'col-lg-6';
 
-        record.appendChild(recordIcon);
-        recordDiv.appendChild(record);
+            record.appendChild(recordIcon);
+            recordDiv.appendChild(record);
 
-        //BTN DIV
+            //BTN DIV
 
-        var btnDiv = document.createElement('div');
-        btnDiv.id = 'player'+tbCamera[i].cameraID+'-btn';
-        btnDiv.className = 'col-lg-2';
-        btnDiv.setAttribute('style','background-color:#000088;');
+            var btnDiv = document.createElement('div');
+            btnDiv.id = 'player'+tbCamera[i].cameraID+'-btn';
+            btnDiv.className = 'row';
 
-        btnDiv.appendChild(playDiv);
-        btnDiv.appendChild(recordDiv);
+            btnDiv.appendChild(playDiv);
+            btnDiv.appendChild(recordDiv);
 
-        //NAME
+            //NAME
 
-        var name = document.createTextNode(tbCamera[i].name);
-        name.id = 'player'+tbCamera[i].cameraID+'-name';
+            var name = document.createTextNode(tbCamera[i].name);
+            name.id = 'player'+tbCamera[i].cameraID+'-name';
 
-        var nameDiv = document.createElement('div');
-        nameDiv.id = 'player'+tbCamera[i].cameraID+'-nameDiv';
-        nameDiv.className = 'row';
-        nameDiv.setAttribute('style','text-align:center;');
-        nameDiv.setAttribute('style','background-color:#880000;');
+            var nameBold = document.createElement('h3');
 
-        nameDiv.appendChild(name);
+            var nameDiv = document.createElement('div');
+            nameDiv.id = 'player'+tbCamera[i].cameraID+'-nameDiv';
+            nameDiv.className = 'row';
+            nameDiv.setAttribute('style','text-align:center;');
 
-        //ACTION
+            nameBold.appendChild(name);
+            nameDiv.appendChild(nameBold);
 
-        var actionDiv = document.createElement('div');
-        actionDiv.id = 'player'+tbCamera[i].cameraID+'-actionDiv';
-        actionDiv.className = 'row';
-        actionDiv.setAttribute('style','background-color:#008800;');
+            //ACTION
+            /*
+             var actionDiv = document.createElement('div');
+             actionDiv.id = 'player'+tbCamera[i].cameraID+'-actionDiv';
+             actionDiv.className = 'row';
 
-        actionDiv.appendChild(imgDiv);
-        actionDiv.appendChild(btnDiv);
+             actionDiv.appendChild(imgDiv);
+             actionDiv.appendChild(btnDiv);
+             */
 
-        //COL
+            //COL
 
-        var colDiv = document.createElement('div');
-        colDiv.id = 'colDiv'+tbCamera[i].cameraID;
-        colDiv.className = 'col-lg-4';
-        colDiv.setAttribute('style','border:solid;');
+            var colDiv = document.createElement('div');
+            colDiv.id = 'colDiv'+tbCamera[i].cameraID;
+            colDiv.className = 'col-lg-4';
+            colDiv.setAttribute('style','border:1px solid #ddd;border-radius:4px;');
 
-        colDiv.appendChild(nameDiv);
-        colDiv.appendChild(actionDiv);
+            colDiv.appendChild(nameDiv);
+            colDiv.appendChild(imgDiv);
+            colDiv.appendChild(btnDiv);
 
-        var rowDiv;
+            var rowDiv;
 
-        if(((i%3) == 0) || row == 0){
-            row = row + 1;
-            rowDiv = document.createElement('div');
-            rowDiv.id = 'rowDiv'+row;
-            rowDiv.className = 'row';
-            rowDiv.appendChild(colDiv);
-            multiLive.appendChild(rowDiv);
-        }else{
-            rowDiv = document.getElementById('rowDiv'+row);
-            rowDiv.appendChild(colDiv);
+            if(((i%3) == 0) || row == 0){
+                row = row + 1;
+                rowDiv = document.createElement('div');
+                rowDiv.id = 'rowDiv'+row;
+                rowDiv.className = 'row';
+                rowDiv.appendChild(colDiv);
+                multiLive.appendChild(rowDiv);
+            }else{
+                rowDiv = document.getElementById('rowDiv'+row);
+                rowDiv.appendChild(colDiv);
+            }
         }
+
     }
 }
 
