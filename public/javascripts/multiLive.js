@@ -93,15 +93,15 @@ function play(cameraID){
 
     var player = document.getElementById('player'+cameraID);
     var play = document.getElementById('player'+cameraID+'-playIcon');
-    var record = document.getElementById('player'+cameraID+'-recordIcon');
+    var record = document.getElementById('player'+cameraID+'-record');
     if(play.className == 'glyphicon glyphicon-play'){
         player.src = '../images/zelda1.png?v='+ new Date().getTime();
         play.className = 'glyphicon glyphicon-stop';
-        record.className = 'glyphicon glyphicon-record';
+        record.disabled = false;
     }else{
         player.src = '../images/zelda3.jpg?v='+ new Date().getTime();
         play.className = 'glyphicon glyphicon-play';
-        record.className = 'glyphicon glyphicon-stop';
+        record.disabled = true;
     }
 }
 
