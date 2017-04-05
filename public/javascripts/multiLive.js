@@ -31,4 +31,34 @@ function displayCamera(tbCamera){
     nbRow = nbRow + (size / 3);
 
     console.log('nb Row : '+nbRow);
+
+    var row = 0;
+
+    var multiLive = document.getElementById('multiLive');
+
+    for(var i=0;i<size;i++){
+
+        var img = document.createElement('img');
+        img.id = 'player'+i;
+        img.src = '../images/zelda1.png';
+        var colDiv = document.createElement('div');
+        colDiv.id = 'colDiv'+i;
+
+        colDiv.appendChild(img);
+
+        var rowDiv;
+
+        if((size%3) == 0){
+            row = row + 1;
+            rowDiv = document.createElement('div');
+            rowDiv.id = 'rowDiv'+row;
+            rowDiv.className = 'row';
+            rowDiv.appendChild(colDiv);
+            multiLive.appendChild(rowDiv);
+        }else{
+            rowDiv = document.getElementById('rowDiv'+row);
+            rowDiv.appendChild(colDiv);
+        }
+
+    }
 }
