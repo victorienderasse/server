@@ -69,14 +69,14 @@ io.sockets.on('connection', function(socket){
   socket.on('camera', function (serial) {
     console.log('camera connecté');
     //check camera exist
-    const getSerial = 'SELECT * FROM camera WHERE cameraID = 9';
+    const getSerial = 'SELECT * FROM camera WHERE serial = "'+serial+'"';
     connection.query(getSerial , function(err, rows){
       if(err){
         throw err;
       }
       if(rows.length > 0) {
         console.log('camera exist');
-        const setSocketID = 'UPDATE camera SET socketID = "'+socket.id+'", enable = 1, serial = "'+serial+'" WHERE cameraID = '+rows[0].cameraID;
+        const setSocketID = 'UPDATE camera SET socketID = "'+socket.id+'", enable = 1 WHERE cameraID = '+rows[0].cameraID;
         if(rows[0].socketID == null){
           //First connection -> Create camera folder
           const createFolder = 'mkdir -p /home/victorien/TFE/source/server/public/cameras/camera'+rows[0].cameraID+'/videos /home/victorien/TFE/source/server/public/cameras/camera'+rows[0].cameraID+'/live';
