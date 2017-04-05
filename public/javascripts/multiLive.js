@@ -2,8 +2,7 @@
  * Created by Victorien on 05-04-17.
  */
 //Connection to the server
-var socket = io.connect(serverURL);
-socket.emit('client','multiLive');
+
 
 var userID = document.getElementById('userID').innerHTML;
 
@@ -15,6 +14,7 @@ socket.emit('getCamera',userID);
 socket.on('sendCamera', function(tbCamera){
     console.log('sendCamera event');
     displayCamera(tbCamera);
+    startStream(tbCamera);
 });
 
 
@@ -176,4 +176,9 @@ function record(cameraID){
     }else{
         icon.className = 'glyphicon glyphicon-record';
     }
+}
+
+
+function startStream(tbCamera){
+
 }

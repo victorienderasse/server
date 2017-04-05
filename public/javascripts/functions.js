@@ -2,6 +2,9 @@
  * Created by Victorien on 24-02-17.
  */
 
+var socket = io.connect(serverURL);
+socket.emit('client','multiLive');
+
 function redirectURL(url){
     console.log('redirectURL function');
     window.location = url;
