@@ -58,7 +58,7 @@ function displayCamera(tbCamera){
 
         var playDiv = document.createElement('div');
         playDiv.id = 'player'+tbCamera[i].cameraID+'-playDiv';
-        playDiv.className = 'row';
+        playDiv.className = 'row btn-multiLive';
         playDiv.setAttribute('style','background-color:#00FF00;');
 
         play.appendChild(playIcon);
@@ -79,7 +79,7 @@ function displayCamera(tbCamera){
 
         var recordDiv = document.createElement('div');
         recordDiv.id = 'player'+tbCamera[i].cameraID+'-recordDiv';
-        recordDiv.className = 'row';
+        recordDiv.className = 'row btn-multiLive';
         recordDiv.setAttribute('style','background-color:#0000FF;');
 
         record.appendChild(recordIcon);
