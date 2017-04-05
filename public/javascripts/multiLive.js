@@ -30,13 +30,19 @@ function displayCamera(tbCamera){
 
     for(var i=0;i<tbCamera.length;i++){
 
+        //IMG
+
         var img = document.createElement('img');
         img.id = 'player'+tbCamera[i].cameraID;
         img.src = '../images/zelda1.png';
 
-        var btnDiv = document.createElement('div');
-        btnDiv.id = 'player'+tbCamera[i].cameraID+'-btn';
-        btnDiv.setAttribute('style','padding:5px;');
+        var imgDiv = document.createElement('div');
+        imgDiv.id = 'player'+tbCamera[i].cameraID+'-imgDiv';
+        imgDiv.className = 'col-lg-10';
+
+        imgDiv.appendChild(img);
+
+        //PLAY
 
         var play = document.createElement('button');
         play.id = 'player'+tbCamera[i].cameraID+'-play';
@@ -48,7 +54,14 @@ function displayCamera(tbCamera){
         //playIcon.className = 'glyphicon glyphicon-play';
         playIcon.className = 'glyphicon glyphicon-stop';
 
+        var playDiv = document.createElement('div');
+        playDiv.id = 'player'+tbCamera[i].cameraID+'-playDiv';
+        playDiv.className = 'row';
+
         play.appendChild(playIcon);
+        playDiv.appendChild(play);
+
+        //RECORD
 
         var record = document.createElement('button');
         record.id = 'player'+tbCamera[i].cameraID+'-record';
@@ -60,16 +73,51 @@ function displayCamera(tbCamera){
         recordIcon.className = 'glyphicon glyphicon-record';
         //recordIcon.className = 'glyphicon glyphicon-stop';
 
+        var recordDiv = document.createElement('div');
+        recordDiv.id = 'player'+tbCamera[i].cameraID+'-recordDiv';
+        recordDiv.className = 'row';
+
         record.appendChild(recordIcon);
+        recordDiv.appendChild(record);
+
+        //BTN DIV
+
+        var btnDiv = document.createElement('div');
+        btnDiv.id = 'player'+tbCamera[i].cameraID+'-btn';
+        btnDiv.className = 'col-lg-2';
+
+        btnDiv.appendChild(playDiv);
+        btnDiv.appendChild(recordDiv);
+
+        //NAME
+
+        var name = document.createTextNode(tbCamera[i].name);
+        name.id = 'player'+tbCamera[i].cameraID+'-name';
+        name.setAttribute('style','text-align:center;');
+
+        var nameDiv = document.createElement('div');
+        nameDiv.id = 'player'+tbCamera[i].cameraID+'-nameDiv';
+        nameDiv.className = 'row';
+
+        nameDiv.appendChild(name);
+
+        //ACTION
+
+        var actionDiv = document.createElement('div');
+        actionDiv.id = 'player'+tbCamera[i].cameraID+'-actionDiv';
+        actionDiv.className = 'row';
+
+        actionDiv.appendChild(imgDiv);
+        actionDiv.appendChild(btnDiv);
+
+        //COL
 
         var colDiv = document.createElement('div');
         colDiv.id = 'colDiv'+tbCamera[i].cameraID;
         colDiv.className = 'col-lg-4';
 
-        btnDiv.appendChild(play);
-        btnDiv.appendChild(record);
-        colDiv.appendChild(img);
-        colDiv.appendChild(btnDiv);
+        colDiv.appendChild(nameDiv);
+        colDiv.appendChild(actionDiv);
 
         var rowDiv;
 
