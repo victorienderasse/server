@@ -23,32 +23,47 @@ socket.on('sendCamera', function(tbCamera){
 function displayCamera(tbCamera){
     console.log('displayCamera function');
 
-    //var size = tbCamera.length;
-    var tbLenth = 8;
-    var size = tbLenth;
-
-    var nbRow = size % 3;
-    nbRow = nbRow + ((size-nbRow) / 3);
-    console.log('nbRow = '+nbRow);
-    console.log('size = '+size);
-
     var row = 0;
     console.log('row = '+row);
 
     var multiLive = document.getElementById('multiLive');
 
-    for(var i=0;i<tbLenth;i++){
-
-        console.log('size = '+size);
+    for(var i=0;i<tbCamera.length;i++){
 
         var img = document.createElement('img');
-        img.id = 'player'+i;
+        img.id = 'player'+tbCamera[i].cameraID;
         img.src = '../images/zelda1.png';
+
+        var play = document.createElement('button');
+        play.id = 'player'+tbCamera[i].cameraID+'-play';
+        play.setAttribute('onclick','play('+tbCamera[i].cameraID+');');
+        play.setAttribute('style','background-color:#B9E9C4;');
+
+        var playIcon = document.createElement('span');
+        playIcon.id = 'player'+tbCamera[i].cameraID+'-playIcon';
+        playIcon.className = 'glyphicon glyphicon-play';
+        //playIcon.className = 'glyphicon glyphicon-stop';
+
+        play.appendChild(playIcon);
+
+        var record = document.createElement('button');
+        record.id = 'player'+tbCamera[i].cameraID+'-record';
+        record.setAttribute('style','background-color:#FAECEC;');
+        record.setAttribute('onclick','record('+tbCamera[i].cameraID+');');
+
+        var recordIcon = document.createElement('span');
+        recordIcon.id = 'player'+tbCamera[i].cameraID+'-recordIcon';
+        recordIcon.className = 'glyphicon glyphicon-record';
+        //recordIcon.className = 'glyphicon glyphicon-stop';
+
+        record.appendChild(recordIcon);
+
         var colDiv = document.createElement('div');
-        colDiv.id = 'colDiv'+i;
+        colDiv.id = 'colDiv'+tbCamera[i].cameraID;
         colDiv.className = 'col-lg-4';
 
         colDiv.appendChild(img);
+        colDiv.appendChild(play);
 
         var rowDiv;
 
@@ -63,6 +78,15 @@ function displayCamera(tbCamera){
             rowDiv = document.getElementById('rowDiv'+row);
             rowDiv.appendChild(colDiv);
         }
-        size = size - 1;
     }
+}
+
+
+function play(cameraID){
+    console.log('play camera '+cameraID);
+}
+
+
+function record(cameraID){
+    console.log('record camera '+cameraID);
 }

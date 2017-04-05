@@ -325,7 +325,7 @@ function displayScreens(tbScreen){
         var enable = tbScreen[i].enable;
 
         if(enable == 1){
-            console.log('camera ',i,' is enable');
+            
             switch(state){
                 case 1:
                     screen_live_btn.disabled = true;
