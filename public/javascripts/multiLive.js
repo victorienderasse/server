@@ -92,13 +92,16 @@ function play(cameraID){
     console.log('play camera '+cameraID);
 
     var player = document.getElementById('player'+cameraID);
-    var icon = document.getElementById('player'+cameraID+'-playIcon');
-    if(icon.className == 'glyphicon glyphicon-play'){
+    var play = document.getElementById('player'+cameraID+'-playIcon');
+    var record = document.getElementById('player'+cameraID+'-recordIcon');
+    if(play.className == 'glyphicon glyphicon-play'){
         player.src = '../images/zelda1.png?v='+ new Date().getTime();
-        icon.className = 'glyphicon glyphicon-stop';
+        play.className = 'glyphicon glyphicon-stop';
+        record.className = 'glyphicon glyphicon-record';
     }else{
         player.src = '../images/zelda3.jpg?v='+ new Date().getTime();
-        icon.className = 'glyphicon glyphicon-play';
+        play.className = 'glyphicon glyphicon-play';
+        record.className = 'glyphicon glyphicon-stop';
     }
 }
 
