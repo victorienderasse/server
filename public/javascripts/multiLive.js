@@ -94,10 +94,10 @@ function play(cameraID){
     var player = document.getElementById('player'+cameraID);
     var icon = document.getElementById('player'+cameraID+'-playIcon');
     if(player.src == '../images/zelda3.jpg'){
-        player.src = '../images/zelda1.png';
+        player.src = '../images/zelda1.png?v='+ new Date().getTime();
         icon.className = 'glyphicon glyphicon-stop';
     }else{
-        player.src = '../images/zelda3.jpg';
+        player.src = '../images/zelda3.jpg?v='+ new Date().getTime();
         icon.className = 'glyphicon glyphicon-play';
     }
 }
