@@ -24,6 +24,7 @@ function displayCamera(tbCamera){
     console.log('displayCamera function');
 
     //var size = tbCamera.length;
+    var tbLenth = 6;
     var size = 6;
 
     var nbRow = size % 3;
@@ -36,7 +37,7 @@ function displayCamera(tbCamera){
 
     var multiLive = document.getElementById('multiLive');
 
-    for(var i=0;i<size;i++){
+    for(var i=0;i<tbLenth;i++){
 
         console.log('size = '+size);
 
