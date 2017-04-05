@@ -39,6 +39,7 @@ function displayCamera(tbCamera){
         var imgDiv = document.createElement('div');
         imgDiv.id = 'player'+tbCamera[i].cameraID+'-imgDiv';
         imgDiv.className = 'col-lg-10';
+        imgDiv.setAttribute('style','background-color:#FF0000;');
 
         imgDiv.appendChild(img);
 
@@ -57,6 +58,7 @@ function displayCamera(tbCamera){
         var playDiv = document.createElement('div');
         playDiv.id = 'player'+tbCamera[i].cameraID+'-playDiv';
         playDiv.className = 'row';
+        playDiv.setAttribute('style','background-color:#00FF00;');
 
         play.appendChild(playIcon);
         playDiv.appendChild(play);
@@ -76,6 +78,7 @@ function displayCamera(tbCamera){
         var recordDiv = document.createElement('div');
         recordDiv.id = 'player'+tbCamera[i].cameraID+'-recordDiv';
         recordDiv.className = 'row';
+        recordDiv.setAttribute('style','background-color:#0000FF;');
 
         record.appendChild(recordIcon);
         recordDiv.appendChild(record);
@@ -85,6 +88,7 @@ function displayCamera(tbCamera){
         var btnDiv = document.createElement('div');
         btnDiv.id = 'player'+tbCamera[i].cameraID+'-btn';
         btnDiv.className = 'col-lg-2';
+        btnDiv.setAttribute('style','background-color:#000088;');
 
         btnDiv.appendChild(playDiv);
         btnDiv.appendChild(recordDiv);
@@ -98,6 +102,7 @@ function displayCamera(tbCamera){
         nameDiv.id = 'player'+tbCamera[i].cameraID+'-nameDiv';
         nameDiv.className = 'row';
         nameDiv.setAttribute('style','text-align:center;');
+        nameDiv.setAttribute('style','background-color:#880000;');
 
         nameDiv.appendChild(name);
 
@@ -106,6 +111,7 @@ function displayCamera(tbCamera){
         var actionDiv = document.createElement('div');
         actionDiv.id = 'player'+tbCamera[i].cameraID+'-actionDiv';
         actionDiv.className = 'row';
+        actionDiv.setAttribute('style','background-color:#008800;');
 
         actionDiv.appendChild(imgDiv);
         actionDiv.appendChild(btnDiv);
@@ -115,6 +121,7 @@ function displayCamera(tbCamera){
         var colDiv = document.createElement('div');
         colDiv.id = 'colDiv'+tbCamera[i].cameraID;
         colDiv.className = 'col-lg-4';
+        colDiv.setAttribute('style','border:solid;');
 
         colDiv.appendChild(nameDiv);
         colDiv.appendChild(actionDiv);
