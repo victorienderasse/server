@@ -100,7 +100,6 @@ function play(cameraID){
         player.src = '../images/zelda3.jpg';
         icon.className = 'glyphicon glyphicon-stop';
     }
-
 }
 
 
