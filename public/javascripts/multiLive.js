@@ -22,4 +22,12 @@ socket.on('sendCamera', function(tbCamera){
 
 function displayCamera(tbCamera){
     console.log('displayCamera function');
+
+    //var size = tbCamera.length;
+    var size = 3;
+    var nbRow = size / 3;
+    if((size % 3) > 0){
+        nbRow = nbRow + 1;
+    }
+    console.log('nb Row : '+nbRow);
 }
