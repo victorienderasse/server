@@ -113,7 +113,7 @@ socket.on('setReplays',function(data){
 socket.on('motionDetectionStart', function(cameraID){
     console.log('motionDetectionStart event');
     var camera = document.getElementById('screen-'+cameraID);
-    if(camera != 'undefined'){
+    if(camera != 'undefined' && camera != null){
         document.getElementById('screen-'+cameraID+'-notif-check').checked = true;
         document.getElementById('screen-'+cameraID+'-live-link').disabled = true;
         document.getElementById('screen-'+cameraID+'-timer-btn').disabled = true;
@@ -124,7 +124,7 @@ socket.on('motionDetectionStart', function(cameraID){
 socket.on('motionDetectionStop', function(cameraID){
     console.log('motionDetectionStop event');
     var camera = document.getElementById('screen-'+data.cameraID);
-    if(camera != 'undefined'){
+    if(camera != 'undefined' && camera != null){
         document.getElementById('screen-'+cameraID+'-notif-check').checked = false;
         document.getElementById('screen-'+cameraID+'-live-link').disabled = false;
         document.getElementById('screen-'+cameraID+'-timer-btn').disabled = false;
@@ -286,7 +286,7 @@ function displayScreens(tbScreen){
         screen_notif.title = 'Activate start motion detection';
         screen_notif_check.id = 'screen-' + tbScreen[i].cameraID + '-notif-check';
         screen_notif_check.type = 'checkbox';
-        screen_notif_check.setAttribute('onchange','runNotif(' + tbScreen[i].cameraID + ');');
+        screen_notif_check.setAttribute('onchange','runDetection(' + tbScreen[i].cameraID + ');');
         screen_timer.id = 'screen-' + tbScreen[i].cameraID + '-timer';
         screen_timer.title = 'manage your timers';
         screen_timer_btn.id = 'screen-' + tbScreen[i].cameraID + '-timer-btn';
@@ -467,17 +467,21 @@ function stopStream(screen_id){
 }
 
 
-function runNotif(screen_id){
-    console.log('runNotif  function');
-    var check = document.getElementById('screen-'+screen_id+'-notif-check');
+function runDetection(cameraID){
+    /*
+    -> disable or enable live and record btn
+    -> Start or stop motion detection
+     */
+    console.log('runDetection  function');
+    var check = document.getElementById('screen-'+cameraID+'-notif-check');
     if(check.checked){
-        document.getElementById('screen-'+screen_id+'-timer-btn').disabled = true;
-        document.getElementById('screen-'+screen_id+'-live-link').disabled = true;
-        socket.emit('startDetection', screen_id);
+        document.getElementById('screen-'+cameraID+'-timer-btn').disabled = true;
+        document.getElementById('screen-'+cameraID+'-live-link').disabled = true;
+        socket.emit('startDetection', cameraID);
     }else{
-        document.getElementById('screen-'+screen_id+'-timer-btn').disabled = false;
-        document.getElementById('screen-'+screen_id+'-live-link').disabled = false;
-        socket.emit('stopDetection', screen_id);
+        document.getElementById('screen-'+cameraID+'-timer-btn').disabled = false;
+        document.getElementById('screen-'+cameraID+'-live-link').disabled = false;
+        socket.emit('stopDetection', cameraID);
     }
 
 }
@@ -792,5 +796,13 @@ function removeReplay(data){
 
     socket.emit('removeReplay',{cameraID: data.cameraID, name: name});
 }
+
+
+
+//Multi Live
+document.getElementById('btnTest').addEventListener('click',function(){
+    console.log('TEST BTN');
+    
+});
 
 

@@ -290,13 +290,10 @@ io.sockets.on('connection', function(socket){
     console.log('startDetection event');
 
     setRecordPaused(cameraID);
-
     setState(cameraID, 1);
-
     getInfoCamera(cameraID, function(camera){
       sendToCamera(cameraID,'startDetection',{cameraName: camera.name, cameraID: cameraID});
     });
-
   });
 
 
