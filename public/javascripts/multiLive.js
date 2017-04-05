@@ -93,11 +93,11 @@ function displayCamera(tbCamera){
 
         var name = document.createTextNode(tbCamera[i].name);
         name.id = 'player'+tbCamera[i].cameraID+'-name';
-        name.setAttribute('style','text-align:center;');
 
         var nameDiv = document.createElement('div');
         nameDiv.id = 'player'+tbCamera[i].cameraID+'-nameDiv';
         nameDiv.className = 'row';
+        nameDiv.setAttribute('style','text-align:center;');
 
         nameDiv.appendChild(name);
 
