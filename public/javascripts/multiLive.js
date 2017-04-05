@@ -24,8 +24,8 @@ function displayCamera(tbCamera){
     console.log('displayCamera function');
 
     //var size = tbCamera.length;
-    var tbLenth = 6;
-    var size = 6;
+    var tbLenth = 10;
+    var size = tbLenth;
 
     var nbRow = size % 3;
     nbRow = nbRow + ((size-nbRow) / 3);
