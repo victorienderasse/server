@@ -90,8 +90,17 @@ function displayCamera(tbCamera){
 
 function play(cameraID){
     console.log('play camera '+cameraID);
+
     var player = document.getElementById('player'+cameraID);
-    player.src = '../images/zelda3.jpg';
+    var icon = document.getElementById('player'+cameraID+'-playIcon');
+    if(player.src == '../images/zelda3.jpg'){
+        player.src = '../images/zelda1.png';
+        icon.className = 'glyphicon glyphicon-play';
+    }else{
+        player.src = '../images/zelda3.jpg';
+        icon.className = 'glyphicon glyphicon-stop';
+    }
+
 }
 
 
