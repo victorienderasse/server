@@ -27,16 +27,18 @@ function displayCamera(tbCamera){
     var size = 6;
 
     var nbRow = size % 3;
-    size = size - nbRow;
     nbRow = nbRow + ((size-nbRow) / 3);
-
+    console.log('nbRow = '+nbRow);
     console.log('size = '+size);
 
     var row = 0;
+    console.log('row = '+row);
 
     var multiLive = document.getElementById('multiLive');
 
     for(var i=0;i<size;i++){
+
+        console.log('size = '+size);
 
         var img = document.createElement('img');
         img.id = 'player'+i;
@@ -60,6 +62,6 @@ function displayCamera(tbCamera){
             rowDiv = document.getElementById('rowDiv'+row);
             rowDiv.appendChild(colDiv);
         }
-        
+        size = size - 1;
     }
 }
