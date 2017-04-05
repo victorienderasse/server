@@ -164,12 +164,12 @@ function play(cameraID){
     var play = document.getElementById('player'+cameraID+'-playIcon');
     var record = document.getElementById('player'+cameraID+'-record');
     if(play.className == 'glyphicon glyphicon-play'){
-        //Start Live
+        console.log('StartStream multiLive');
         play.className = 'glyphicon glyphicon-stop';
         record.disabled = false;
         socket.emit('startStream',cameraID);
     }else{
-        //Stop Live
+        console.log('StopStream multiLive');
         play.className = 'glyphicon glyphicon-play';
         record.disabled = true;
         socket.emit('stopStream',cameraID);

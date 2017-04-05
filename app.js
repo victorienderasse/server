@@ -68,6 +68,7 @@ io.sockets.on('connection', function(socket){
   
   socket.on('camera', function (serial) {
     console.log('camera connecté');
+    console.log('serial : '+serial);
     //check camera exist
     connection.query('SELECT * FROM camera WHERE serial = ?', serial , function(err, rows){
       if(err){
