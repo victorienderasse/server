@@ -2,10 +2,6 @@
  * Created by Victorien on 23-02-17.
  */
 
-//Connection to the server
-var socket = io.connect(serverURL);
-socket.emit('client','display');
-
 //Get admin password
 var password = prompt('Entrez password admin');
 

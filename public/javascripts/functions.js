@@ -3,7 +3,7 @@
  */
 
 var socket = io.connect(serverURL);
-socket.emit('client','multiLive');
+socket.emit('client');
 
 function redirectURL(url){
     console.log('redirectURL function');

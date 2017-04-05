@@ -18,6 +18,14 @@ socket.on('sendCamera', function(tbCamera){
 });
 
 
+socket.on('updateStream', function(cameraID){
+    var img = document.getElementById('player'+cameraID);
+    if (img != 'undefined' || img != null){
+        img.src = '../cameras/camera'+cameraID+'/live/stream_camera_'+cameraID+'.jpg?v='+ new Date().getTime();
+    }
+});
+
+
 //Functions============================================================================
 
 function displayCamera(tbCamera){
@@ -156,13 +164,15 @@ function play(cameraID){
     var play = document.getElementById('player'+cameraID+'-playIcon');
     var record = document.getElementById('player'+cameraID+'-record');
     if(play.className == 'glyphicon glyphicon-play'){
-        player.src = '../images/zelda1.png?v='+ new Date().getTime();
+        //Start Live
         play.className = 'glyphicon glyphicon-stop';
         record.disabled = false;
+        socket.emit('startStream',cameraID);
     }else{
-        player.src = '../images/zelda3.jpg?v='+ new Date().getTime();
+        //Stop Live
         play.className = 'glyphicon glyphicon-play';
         record.disabled = true;
+        socket.emit('stopStream',cameraID);
     }
 }
 
@@ -180,5 +190,7 @@ function record(cameraID){
 
 
 function startStream(tbCamera){
-
+    for(var i=0;i<tbCamera.length;i++){
+        socket.emit('startStream',tbCamera[i].cameraID);
+    }
 }

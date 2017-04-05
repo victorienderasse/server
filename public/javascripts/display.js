@@ -3,10 +3,6 @@
  */
 
 
-//Connection to the server------------------
-var socket = io.connect(serverURL);
-socket.emit('client','display');
-
 var userID = document.getElementById('userID').innerHTML;
 
 //Ask camera to server
