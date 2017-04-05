@@ -52,7 +52,7 @@ function displayCamera(tbCamera){
 
         var rowDiv;
 
-        if((size%3) == 0){
+        if(((i%3) == 0) || row == 0){
             row = row + 1;
             rowDiv = document.createElement('div');
             rowDiv.id = 'rowDiv'+row;
