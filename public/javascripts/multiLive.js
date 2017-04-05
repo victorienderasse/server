@@ -12,10 +12,10 @@ socket.emit('getCamera',userID);
 
 //EVENTS===============================================================================
 
-socket.on('sendCamera', tbCamera){
+socket.on('sendCamera', function(tbCamera){
     console.log('sendCamera event');
     displayCamera(tbCamera);
-}
+});
 
 
 //Functions============================================================================
