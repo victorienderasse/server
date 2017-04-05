@@ -91,7 +91,7 @@ function displayCamera(tbCamera){
 function play(cameraID){
     console.log('play camera '+cameraID);
     var player = document.getElementById('player'+cameraID);
-    player.src = '../images/zelda3.png';
+    player.src = '../images/zelda3.jpg';
 }
 
 
