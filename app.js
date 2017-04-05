@@ -68,10 +68,11 @@ io.sockets.on('connection', function(socket){
   
   socket.on('camera', function (serial) {
     console.log('camera connecté');
-    serial = serial.substr(1);
+    //serial = serial.substr(1);
     console.log('serial : '+serial);
     //check camera exist
     const getSerial = 'SELECT * FROM camera WHERE serial = "'+serial+'"';
+    console.log('getSerial : '+getSerial);
     connection.query(getSerial , function(err, rows){
       if(err){
         throw err;
