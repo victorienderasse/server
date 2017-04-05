@@ -93,7 +93,7 @@ function play(cameraID){
 
     var player = document.getElementById('player'+cameraID);
     var icon = document.getElementById('player'+cameraID+'-playIcon');
-    if(player.src == '../images/zelda3.jpg'){
+    if(icon.className == 'glyphicon glyphicon-play'){
         player.src = '../images/zelda1.png?v='+ new Date().getTime();
         icon.className = 'glyphicon glyphicon-stop';
     }else{
