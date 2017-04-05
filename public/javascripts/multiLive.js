@@ -49,6 +49,7 @@ function displayCamera(tbCamera){
         play.id = 'player'+tbCamera[i].cameraID+'-play';
         play.setAttribute('onclick','play('+tbCamera[i].cameraID+');');
         play.setAttribute('style','background-color:#B9E9C4;');
+        play.className = 'btn-multiLive';
 
         var playIcon = document.createElement('span');
         playIcon.id = 'player'+tbCamera[i].cameraID+'-playIcon';
@@ -69,6 +70,7 @@ function displayCamera(tbCamera){
         record.id = 'player'+tbCamera[i].cameraID+'-record';
         record.setAttribute('style','background-color:#FAECEC;');
         record.setAttribute('onclick','record('+tbCamera[i].cameraID+');');
+        record.className = 'btn-multiLive';
 
         var recordIcon = document.createElement('span');
         recordIcon.id = 'player'+tbCamera[i].cameraID+'-recordIcon';
