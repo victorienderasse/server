@@ -25,9 +25,10 @@ function displayCamera(tbCamera){
 
     //var size = tbCamera.length;
     var size = 16;
-    var nbRow = size / 3;
-    if((size % 3) > 0){
-        nbRow = nbRow + 1;
-    }
+
+    var nbRow = size % 3;
+    size = size - nbRow;
+    nbRow = nbRow + (size / 3);
+    
     console.log('nb Row : '+nbRow);
 }
