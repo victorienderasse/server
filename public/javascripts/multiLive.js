@@ -28,9 +28,9 @@ function displayCamera(tbCamera){
 
     var nbRow = size % 3;
     size = size - nbRow;
-    nbRow = nbRow + (size / 3);
+    nbRow = nbRow + ((size-nbRow) / 3);
 
-    console.log('nb Row : '+nbRow);
+    console.log('size = '+size);
 
     var row = 0;
 
@@ -60,6 +60,6 @@ function displayCamera(tbCamera){
             rowDiv = document.getElementById('rowDiv'+row);
             rowDiv.appendChild(colDiv);
         }
-        size = size - 1;
+        
     }
 }
