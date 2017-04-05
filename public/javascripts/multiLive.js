@@ -24,11 +24,11 @@ function displayCamera(tbCamera){
     console.log('displayCamera function');
 
     //var size = tbCamera.length;
-    var size = 16;
+    var size = 6;
 
     var nbRow = size % 3;
     size = size - nbRow;
     nbRow = nbRow + (size / 3);
-    
+
     console.log('nb Row : '+nbRow);
 }
