@@ -162,7 +162,7 @@ function displayCamera(tbCamera){
 
         var row;
 
-        if((nbRow == 0) || ((size %2) == 0)){
+        if((nbRow == 0) || ((i%2) == 0)){
             nbRow = nbRow + 1;
             row = document.createElement('div');
             row.id = 'row'+nbRow;
