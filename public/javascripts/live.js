@@ -89,7 +89,7 @@ function displayCamera(tbCamera){
         detection.appendChild(detectionIcon);
         detectionDiv.appendChild(detection);
 
-        //CONFIG===============================================================
+        //CONFIG=============================================================
 
         var configDiv = document.createElement('div');
         configDiv.id = 'camera'+tbCamera[i].cameraID+'-configDiv';
