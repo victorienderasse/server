@@ -625,6 +625,38 @@ io.sockets.on('connection', function(socket){
       }
     });
   });
+
+
+  socket.on('stopMultiLive', function(userID){
+    console.log('stopMultiLive event');
+    const getCamera = 'SELECT * FROM camera WHERE userID = '+userID;
+    connection.query(getCamera, function(err,rows){
+      if(err){
+        throw err;
+      }
+      if(rows.length>0){
+        for(var i =0;i<rows.length;i++){
+
+          setRecordUnpaused(rows[i].cameraID);
+
+          getInfoCamera(rows[i].cameraID, function(camera){
+
+            if(rows[i].state == 4){
+              sendToCamera(camera.cameraID,'getLiveRecording',{cameraID:camera.cameraID, name: camera.name});
+            }else{
+              sendToCamera(rcamera.cameraID,'killProcess',null);
+            }
+            setState(camera.cameraID,0);
+
+          });
+
+        }
+      }else{
+        console.log('User has no camera up');
+      }
+
+    });
+  });
   
   
   
