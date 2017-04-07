@@ -508,11 +508,11 @@ io.sockets.on('connection', function(socket){
       }
       if(rows.length > 0){
         //Send SMS
-        client.sms.message.create({
+        client.messages.create({
           to: "'"+rows[0].phone+"'",
           from: '+32460207648',
           body: 'Hi '+rows[0].name+' ! The camera "'+rows[0].cameraName+'" just detected motion at '+data.timestr+'. A record has been started. You will be able to see it in few minutes on the website. Bisous !'
-        }, function(error, message){
+        }, function(error){
           if(error){
             console.log('Error send SMS');
           }else{
