@@ -26,6 +26,7 @@ function displayCamera(tbCamera){
         var nameDiv = document.createElement('div');
         nameDiv.id = 'camera'+tbCamera[i].cameraID+'-nameDiv';
         nameDiv.className = 'row';
+        nameDiv.setAttribute('style','text-align:center;');
         var nameH3 = document.createElement('h3');
         nameH3.id = 'camera'+tbCamera[i].cameraID+'-nameH3';
         var name = document.createTextNode(tbCamera[i].name);
@@ -36,12 +37,10 @@ function displayCamera(tbCamera){
 
         //IMG==================================================================
 
-        var imgDiv = document.createElement('img');
+        var imgDiv = document.createElement('div');
         imgDiv.id = 'camera'+tbCamera[i].cameraID+'-imgDiv';
         imgDiv.className = 'col-lg-6';
-        imgDiv.setAttribute('height','100%');
-        imgDiv.setAttribute('width','100%');
-        imgDiv.setAttribute('style','background-color:#FF0000;');
+        //imgDiv.setAttribute('style','background-color:#FF0000;');
         var img = document.createElement('img');
         img.id = 'camera'+tbCamera[i].cameraID+'-img';
         img.src = '../cameras/camera'+tbCamera[i].cameraID+'/live/stream_camera_'+tbCamera[i].cameraID+'.jpg';
