@@ -91,7 +91,7 @@ function displayCamera(tbCamera){
         var detection = document.createElement('button');
         detection.id = 'camera'+tbCamera[i].cameraID+'-detection';
         detection.className = 'btn btn-lg btn-danger btn-display';
-        detection.setAttribute('style','border-radius:100%;margin-left:5%');
+        detection.setAttribute('style','border-radius:100%;margin-left:10%');
         var detectionIcon = document.createElement('span');
         detectionIcon.id = 'camera'+tbCamera[i].cameraID+'-detectionIcon';
         detectionIcon.className = 'glyphicon glyphicon-facetime-video';
