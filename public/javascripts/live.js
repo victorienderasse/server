@@ -138,7 +138,7 @@ function displayCamera(tbCamera){
         var btnDiv = document.createElement('div');
         btnDiv.id = 'camera'+tbCamera[i].cameraID+'-btnDiv';
         btnDiv.className = 'col-lg-6';
-        btnDiv.setAttribute('style','border: 2px dotted;')
+        btnDiv.setAttribute('style','border: 2px dotted; width:100%;height:100%;')
 
         btnDiv.appendChild(detectionTimerDiv);
         btnDiv.appendChild(replayConfigDiv);
