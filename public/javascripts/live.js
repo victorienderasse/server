@@ -45,7 +45,7 @@ function displayCamera(tbCamera){
         var img = document.createElement('img');
         img.id = 'camera'+tbCamera[i].cameraID+'-img';
         img.src = '../cameras/camera'+tbCamera[i].cameraID+'/live/stream_camera_'+tbCamera[i].cameraID+'.jpg';
-        img.setAttribute('style','border:1px solid #ddd;border-radius:4px;height:100%;width:100%');
+        img.setAttribute('style','border:5px solid #ccc;border-radius:8px;height:100%;width:100%');
         //img.setAttribute('height','100%');
         //img.setAttribute('width','100%');
         img.setAttribute('alt','Click to display live session');
