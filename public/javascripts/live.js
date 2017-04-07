@@ -41,6 +41,10 @@ function displayCamera(tbCamera){
         imgDiv.className = 'col-lg-6';
         var img = document.createElement('img');
         img.id = 'camera'+tbCamera[i].cameraID+'-img';
+        img.setAttribute('src','../cameras/camera'+tbScreen[i].cameraID+'/live/stream_camera_'+tbScreen[i].cameraID+'.jpg');
+        img.setAttribute('height','150px');
+        img.setAttribute('width','200px');
+        img.setAttribute('alt','Click to display live session');
 
         imgDiv.appendChild(img);
 
