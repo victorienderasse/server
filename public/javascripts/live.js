@@ -41,7 +41,7 @@ function displayCamera(tbCamera){
         imgDiv.className = 'col-lg-6';
         var img = document.createElement('img');
         img.id = 'camera'+tbCamera[i].cameraID+'-img';
-        img.setAttribute('src','../cameras/camera'+tbCamera[i].cameraID+'/live/stream_camera_'+tbCamera[i].cameraID+'.jpg');
+        img.src = '../cameras/camera'+tbCamera[i].cameraID+'/live/stream_camera_'+tbCamera[i].cameraID+'.jpg';
         img.setAttribute('height','150px');
         img.setAttribute('width','200px');
         img.setAttribute('alt','Click to display live session');
