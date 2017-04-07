@@ -34,8 +34,6 @@ function displayCamera(tbCamera){
         nameH3.appendChild(name);
         nameDiv.appendChild(nameH3);
 
-        nameDiv.setAttribute('style','background-color:#FF0000');
-
         //IMG==================================================================
 
         var imgDiv = document.createElement('img');
@@ -46,8 +44,6 @@ function displayCamera(tbCamera){
 
         imgDiv.appendChild(img);
 
-        imgDiv.setAttribute('style','background-color:#00FF00');
-
         //REPLAY================================================================
 
         var replayDiv = document.createElement('div');
@@ -55,13 +51,13 @@ function displayCamera(tbCamera){
         replayDiv.className = 'col-lg-6';
         var replay = document.createElement('button');
         replay.id = 'camera'+tbCamera[i].cameraID+'-replay';
+        replay.className = 'btn btn-success';
         var replayIcon = document.createElement('span');
         replayIcon.id = 'camera'+tbCamera[i].cameraID+'-replayIcon';
+        replayIcon.className = 'glyphicon glyphicon-play';
 
         replay.appendChild(replayIcon);
         replayDiv.appendChild(replay);
-
-        replayDiv.setAttribute('style','background-color:#0000FF');
 
         //TIMER================================================================
 
@@ -70,13 +66,13 @@ function displayCamera(tbCamera){
         timerDiv.className = 'col-lg-6';
         var timer = document.createElement('button');
         timer.id = 'camera'+tbCamera[i].cameraID+'-timer';
+        timer.className = 'btn btn-primary';
         var timerIcon = document.createElement('span');
         timerIcon.id = 'camera'+tbCamera[i].cameraID+'-timerIcon';
+        timerIcon.className = 'glyphicon glyphicon-edit';
 
         timer.appendChild(timerIcon);
         timerDiv.appendChild(timer);
-
-        timerDiv.setAttribute('style','background-color:#FFFF00');
 
         //DETECTION============================================================
 
@@ -85,13 +81,13 @@ function displayCamera(tbCamera){
         detectionDiv.className = 'col-lg-6';
         var detection = document.createElement('button');
         detection.id = 'camera'+tbCamera[i].cameraID+'-detection';
+        detection.className = 'btn btn-danger';
         var detectionIcon = document.createElement('span');
         detectionIcon.id = 'camera'+tbCamera[i].cameraID+'-detectionIcon';
+        detectionIcon.className = 'glyphicon glyphicon-facetime-video';
 
         detection.appendChild(detectionIcon);
         detectionDiv.appendChild(detection);
-
-        detectionDiv.setAttribute('style','background-color:#FF00FF');
 
         //CONFIG===============================================================
 
@@ -100,13 +96,13 @@ function displayCamera(tbCamera){
         configDiv.className = 'col-lg-6';
         var config = document.createElement('button');
         config.id = 'camera'+tbCamera[i].cameraID+'-config';
+        config.className = 'btn btn-warning';
         var configIcon = document.createElement('span');
         configIcon.id = 'camera'+tbCamera[i].cameraID+'-configIcon';
+        configIcon.className = 'glyphicon glyphicon-settings';
 
         config.appendChild(configIcon);
         configDiv.appendChild(config);
-
-        configDiv.setAttribute('style','background-color:#00FFFF');
 
         //DETECTION-TIMER=====================================================
 
@@ -117,8 +113,6 @@ function displayCamera(tbCamera){
         detectionTimerDiv.appendChild(detectionDiv);
         detectionTimerDiv.appendChild(timerDiv);
 
-        detectionDiv.setAttribute('style','background-color:#880000');
-
         //REPLAY-CONFIG=======================================================
 
         var replayConfigDiv = document.createElement('div');
@@ -127,8 +121,6 @@ function displayCamera(tbCamera){
 
         replayConfigDiv.appendChild(replayDiv);
         replayConfigDiv.appendChild(configDiv);
-
-        replayDiv.setAttribute('style','background-color:#008800');
 
         //BTN=================================================================
 
@@ -139,8 +131,6 @@ function displayCamera(tbCamera){
         btnDiv.appendChild(detectionTimerDiv);
         btnDiv.appendChild(replayConfigDiv);
 
-        btnDiv.setAttribute('style','background-color:#000088');
-
         //IMG-BTN============================================================
 
         var imgBtnDiv = document.createElement('div');
@@ -149,8 +139,6 @@ function displayCamera(tbCamera){
 
         imgBtnDiv.appendChild(imgDiv);
         imgBtnDiv.appendChild(btnDiv);
-
-        imgBtnDiv.setAttribute('style','background-color:#888800');
 
         //CAMERA==============================================================
 
