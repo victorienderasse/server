@@ -99,7 +99,7 @@ function displayCamera(tbCamera){
         config.className = 'btn btn-warning';
         var configIcon = document.createElement('span');
         configIcon.id = 'camera'+tbCamera[i].cameraID+'-configIcon';
-        configIcon.className = 'glyphicon glyphicon-cogwheel';
+        configIcon.className = 'glyphicon glyphicon-cogwheels';
 
         config.appendChild(configIcon);
         configDiv.appendChild(config);
