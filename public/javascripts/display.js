@@ -219,14 +219,28 @@ document.getElementById('frequency').addEventListener('change',function(){
     }
 });
 
-//Add Camera
-document.getElementById('add-camera-btn').addEventListener('click', function(){
-    console.log('AddScreen btn pressed');
-    var form = document.getElementById('addScreen-form');
-    var code = form.code.value;
-    var userID = document.getElementById('userID').innerHTML;
-    socket.emit('addScreen',{code:code,userID:userID});
+
+document.getElementById('addCamera-btn').addEventListener('click',function(){
+    console.log('addCamera-btn');
+    var code = prompt('Code Camera :');
+    if((code != null) || (code != 'undefined')){
+        var userID = document.getElementById('userID').innerHTML;
+        socket.emit('addCamera',{code: code,userID:userID});
+    }
 });
+
+
+document.getElementById('multiLive-btn').addEventListener('click',function(){
+    console.log('multiLive-btn');
+    redirectURL(serverURL+'/multiLive?userID='+userID);
+});
+
+
+document.getElementById('user-btn').addEventListener('click',function(){
+    console.log('user-btn');
+    redirectURL(serverURL+'/user?userID='+userID);
+});
+
 
 //Disconnect
 document.getElementById('disconnect-btn').addEventListener('click', function(){
@@ -798,7 +812,7 @@ function removeReplay(data){
 //Multi Live
 document.getElementById('btnTest').addEventListener('click',function(){
     console.log('TEST BTN');
-    redirectURL(serverURL+'/multiLive?userID='+userID);
+    
 });
 
 

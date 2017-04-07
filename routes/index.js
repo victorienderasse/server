@@ -18,6 +18,10 @@ router.get('/multiLive', function(req,res){
   res.render('multiLive', {userID: req.query.userID});
 });
 
+router.get('/user', function(req,res){
+  res.render('user', {userID: req.query.userID});
+});
+
 router.use(function(req,res,next){
   res.redirect('/');
 });

@@ -415,7 +415,7 @@ io.sockets.on('connection', function(socket){
   });
 
   
-  socket.on('addScreen', function(data){
+  socket.on('addCamera', function(data){
     console.log('add screen event');
     const checkCode = 'SELECT * FROM camera WHERE code = "'+data.code+'"';
     connection.query(checkCode, function(err,rows){

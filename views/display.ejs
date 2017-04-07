@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>titre</title>
+    <title>Display</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -19,20 +19,12 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse" style="height:0.8px;">
             <form id="addScreen-form" class="navbar-form navbar-right">
-                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add Camera <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li>
-                        <div class="form-group">
-                            <label for="add-camera-code" class="label-control">
-                                <input id="code" name="code" type="text" class="form-control" placeholder="Enter your code">
-                            </label>
-                            <button id="add-camera-btn" type="button" class="btn btn-primary form-right">Go</button>
-                        </div>
-                    </li>
-                </ul>
+                <button type="button" id="addCamera-btn" title="Add Camera" style="border-radius:100%" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span></button>
             </form>
             <form class="navbar-form navbar-right">
-                <button type="button" id="disconnect-btn" class="btn btn-danger">Log Out</span></button>
+                <button type="button" id="user-btn" title="User Interface" style="border-radius:100%" class="btn btn-success"><span class="glyphicon glyphicon-user"></span></button>
+                <button type="button" id="multiLive-btn" title="Multi-Live" style="border-radius:100%" class="btn btn-primary"><span class="glyphicon glyphicon-blackboard"></span></button>
+                <button type="button" id="disconnect-btn" title="Log Out" style="border-radius:100%" class="btn btn-danger"><span class="glyphicon glyphicon-log-out"></span></button>
             </form>
         </div>
     </div>
@@ -50,7 +42,7 @@
 
 <%# - BTN TEST- %>
 <div>
-    <button id="btnTest" type="button" data-toggle="modal" data-target="#modal-multi-live">TEST</button>
+    <button id="btnTest" type="button">TEST</button>
 </div>
 
 
