@@ -34,7 +34,7 @@ const session = require('express-session')({
   saveUnitialized: true
 });
 
-const client = new twilio.RestClient('AC175fe55d0a0d00d7094c00338f548ec5','956f723bfa80087e696300e1358f46c{{secondMin}}');
+const client = new twilio.RestClient('AC175fe55d0a0d00d7094c00338f548ec5','956f723bfa80087e696300e1358f46cb');
 
 
 
@@ -500,6 +500,7 @@ io.sockets.on('connection', function(socket){
 
   
   socket.on('motionDetected', function(data){
+    console.log('MotionDetected event');
     const getInfoClient = 'SELECT user.userID, user.phone, user.email, camera.name AS cameraName FROM user INNER JOIN camera ON camera.userID=user.userID WHERE cameraID = '+data.cameraID;
     connection.query(getInfoClient, function(err,rows){
       if(err){

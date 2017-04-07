@@ -26,6 +26,15 @@ socket.on('updateStream', function(cameraID){
 });
 
 
+socket.on('getLiveRecordingDone',function(cameraID){
+    var player = document.getElementById('player'+cameraID);
+    var record = document.getElementById('player'+cameraID+'-recordIcon');
+    if(player != 'undefined' || player != null){
+        record.disabled = false;
+    }
+});
+
+
 //Functions============================================================================
 
 function displayCamera(tbCamera){
@@ -117,16 +126,6 @@ function displayCamera(tbCamera){
             nameBold.appendChild(name);
             nameDiv.appendChild(nameBold);
 
-            //ACTION
-            /*
-             var actionDiv = document.createElement('div');
-             actionDiv.id = 'player'+tbCamera[i].cameraID+'-actionDiv';
-             actionDiv.className = 'row';
-
-             actionDiv.appendChild(imgDiv);
-             actionDiv.appendChild(btnDiv);
-             */
-
             //COL
 
             var colDiv = document.createElement('div');
@@ -180,11 +179,16 @@ function play(cameraID){
 function record(cameraID){
     console.log('record camera '+cameraID);
 
-    var icon = document.getElementById('player'+cameraID+'-recordIcon');
-    if(icon.className == 'glyphicon glyphicon-record'){
-        icon.className = 'glyphicon glyphicon-stop';
+    var record = document.getElementById('player'+cameraID+'-recordIcon');
+    if(record.className == 'glyphicon glyphicon-record'){
+        console.log('Start live recording');
+        socket.emit('startLiveRecording',cameraID);
+        record.className = 'glyphicon glyphicon-stop';
     }else{
-        icon.className = 'glyphicon glyphicon-record';
+        console.log('stop live recording');
+        socket.emit('stopLiveRecording',cameraID);
+        record.className = 'glyphicon glyphicon-record';
+        record.disabled = true;
     }
 }
 
