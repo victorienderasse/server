@@ -58,7 +58,7 @@ function displayCamera(tbCamera){
         replayDiv.className = 'col-lg-6';
         var replay = document.createElement('button');
         replay.id = 'camera'+tbCamera[i].cameraID+'-replay';
-        replay.className = 'btn btn-success';
+        replay.className = 'btn btn-success btn-display';
         replay.setAttribute('style','border-radius:100%');
         var replayIcon = document.createElement('span');
         replayIcon.id = 'camera'+tbCamera[i].cameraID+'-replayIcon';
@@ -74,7 +74,7 @@ function displayCamera(tbCamera){
         timerDiv.className = 'col-lg-6';
         var timer = document.createElement('button');
         timer.id = 'camera'+tbCamera[i].cameraID+'-timer';
-        timer.className = 'btn btn-primary';
+        timer.className = 'btn btn-primary btn-display';
         timer.setAttribute('style','border-radius:100%');
         var timerIcon = document.createElement('span');
         timerIcon.id = 'camera'+tbCamera[i].cameraID+'-timerIcon';
@@ -90,7 +90,7 @@ function displayCamera(tbCamera){
         detectionDiv.className = 'col-lg-6';
         var detection = document.createElement('button');
         detection.id = 'camera'+tbCamera[i].cameraID+'-detection';
-        detection.className = 'btn btn-danger';
+        detection.className = 'btn btn-danger btn-display';
         detection.setAttribute('style','border-radius:100%');
         var detectionIcon = document.createElement('span');
         detectionIcon.id = 'camera'+tbCamera[i].cameraID+'-detectionIcon';
@@ -106,7 +106,7 @@ function displayCamera(tbCamera){
         configDiv.className = 'col-lg-6';
         var config = document.createElement('button');
         config.id = 'camera'+tbCamera[i].cameraID+'-config';
-        config.className = 'btn btn-warning';
+        config.className = 'btn btn-warning btn-display';
         config.setAttribute('style','border-radius:100%');
         var configIcon = document.createElement('span');
         configIcon.id = 'camera'+tbCamera[i].cameraID+'-configIcon';
