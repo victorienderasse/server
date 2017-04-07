@@ -99,7 +99,7 @@ function displayCamera(tbCamera){
         config.className = 'btn btn-warning';
         var configIcon = document.createElement('span');
         configIcon.id = 'camera'+tbCamera[i].cameraID+'-configIcon';
-        configIcon.className = 'glyphicon glyphicon-settings';
+        configIcon.className = 'glyphicon glyphicon-cogwheel';
 
         config.appendChild(configIcon);
         configDiv.appendChild(config);
@@ -145,6 +145,7 @@ function displayCamera(tbCamera){
         var camera = document.createElement('div');
         camera.id = 'camera'+tbCamera[i].cameraID;
         camera.className = 'col-lg-offset-2 col-lg-3';
+        camera.setAttribute('style','border:1px solid #ddd;border-radius:4px;');
         camera.appendChild(nameDiv);
         camera.appendChild(imgBtnDiv);
 
