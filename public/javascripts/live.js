@@ -155,7 +155,6 @@ function displayCamera(tbCamera){
 
         var camera = document.createElement('div');
         camera.id = 'camera'+tbCamera[i].cameraID;
-        camera.className = 'col-lg-offset-2 col-lg-3 camera-display';
         camera.setAttribute('style','border:1px solid #ddd;border-radius:4px; background-color:#E2E5E4');
 
 
@@ -169,10 +168,12 @@ function displayCamera(tbCamera){
             row = document.createElement('div');
             row.id = 'row'+nbRow;
             row.className = 'row';
+            camera.className = 'col-lg-offset-2 col-lg-4 camera-display';
             row.appendChild(camera);
             display.appendChild(row);
         }else{
             row = document.getElementById('row'+nbRow);
+            camera.className = 'col-lg-offset-1 col-lg-4 camera-display';
             row.appendChild(camera);
         }
 
