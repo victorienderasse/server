@@ -156,7 +156,7 @@ function displayCamera(tbCamera){
 
         var camera = document.createElement('div');
         camera.id = 'camera'+tbCamera[i].cameraID;
-        camera.className = 'col-lg-offset-2 col-lg-4';
+        camera.className = 'col-lg-offset-1 col-lg-3';
         camera.appendChild(nameDiv);
         camera.appendChild(imgBtnDiv);
 
