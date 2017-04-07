@@ -58,7 +58,7 @@ function displayCamera(tbCamera){
         replayDiv.className = 'col-lg-6';
         var replay = document.createElement('button');
         replay.id = 'camera'+tbCamera[i].cameraID+'-replay';
-        replay.className = 'btn btn-success btn-display';
+        replay.className = 'btn btn-lg btn-success btn-display';
         replay.setAttribute('style','border-radius:100%');
         var replayIcon = document.createElement('span');
         replayIcon.id = 'camera'+tbCamera[i].cameraID+'-replayIcon';
