@@ -154,12 +154,14 @@ function displayCamera(tbCamera){
 
         //CAMERA==============================================================
 
+        var hr = document.createElement('hr');
         var camera = document.createElement('div');
         camera.id = 'camera'+tbCamera[i].cameraID;
         camera.setAttribute('style','border:1px solid #ddd;border-radius:4px; background-color:#E2E5E4');
 
 
         camera.appendChild(nameDiv);
+        camera.appendChild(hr);
         camera.appendChild(imgBtnDiv);
 
         var row;
