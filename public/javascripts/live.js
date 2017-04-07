@@ -25,6 +25,7 @@ function displayCamera(tbCamera){
 
         var nameDiv = document.createElement('div');
         nameDiv.id = 'camera'+tbCamera[i].cameraID+'-nameDiv';
+        nameDiv.className = 'row';
         var nameH3 = document.createElement('h3');
         nameH3.id = 'camera'+tbCamera[i].cameraID+'-nameH3';
         var name = document.createTextNode(tbCamera[i].name);
@@ -39,6 +40,7 @@ function displayCamera(tbCamera){
 
         var imgDiv = document.createElement('img');
         imgDiv.id = 'camera'+tbCamera[i].cameraID+'-imgDiv';
+        imgDiv.className = 'col-lg-6';
         var img = document.createElement('img');
         img.id = 'camera'+tbCamera[i].cameraID+'-img';
 
@@ -50,6 +52,7 @@ function displayCamera(tbCamera){
 
         var replayDiv = document.createElement('div');
         replayDiv.id = 'camera'+tbCamera[i].cameraID+'-replayDiv';
+        replayDiv.className = 'col-lg-6';
         var replay = document.createElement('button');
         replay.id = 'camera'+tbCamera[i].cameraID+'-replay';
         var replayIcon = document.createElement('span');
@@ -64,6 +67,7 @@ function displayCamera(tbCamera){
 
         var timerDiv = document.createElement('div');
         timerDiv.id = 'camera'+tbCamera[i].cameraID+'-timerDiv';
+        timerDiv.className = 'col-lg-6';
         var timer = document.createElement('button');
         timer.id = 'camera'+tbCamera[i].cameraID+'-timer';
         var timerIcon = document.createElement('span');
@@ -78,6 +82,7 @@ function displayCamera(tbCamera){
 
         var detectionDiv = document.createElement('div');
         detectionDiv.id = 'camera'+tbCamera[i].cameraID+'-detectionDiv';
+        detectionDiv.className = 'col-lg-6';
         var detection = document.createElement('button');
         detection.id = 'camera'+tbCamera[i].cameraID+'-detection';
         var detectionIcon = document.createElement('span');
@@ -92,6 +97,7 @@ function displayCamera(tbCamera){
 
         var configDiv = document.createElement('div');
         configDiv.id = 'camera'+tbCamera[i].cameraID+'-configDiv';
+        configDiv.className = 'col-lg-6';
         var config = document.createElement('button');
         config.id = 'camera'+tbCamera[i].cameraID+'-config';
         var configIcon = document.createElement('span');
@@ -106,6 +112,7 @@ function displayCamera(tbCamera){
 
         var detectionTimerDiv = document.createElement('div');
         detectionTimerDiv.id = 'camera'+tbCamera[i].cameraID+'-detectionTimerDiv';
+        detectionTimerDiv.className = 'row';
 
         detectionTimerDiv.appendChild(detectionDiv);
         detectionTimerDiv.appendChild(timerDiv);
@@ -116,6 +123,7 @@ function displayCamera(tbCamera){
 
         var replayConfigDiv = document.createElement('div');
         replayConfigDiv.id = 'camera'+tbCamera[i].cameraID+'-replayConfigDiv';
+        replayConfigDiv.className = 'row';
 
         replayConfigDiv.appendChild(replayDiv);
         replayConfigDiv.appendChild(configDiv);
@@ -126,6 +134,7 @@ function displayCamera(tbCamera){
 
         var btnDiv = document.createElement('div');
         btnDiv.id = 'camera'+tbCamera[i].cameraID+'-btnDiv';
+        btnDiv.className = 'col-lg-6';
 
         btnDiv.appendChild(detectionTimerDiv);
         btnDiv.appendChild(replayConfigDiv);
@@ -136,6 +145,7 @@ function displayCamera(tbCamera){
 
         var imgBtnDiv = document.createElement('div');
         imgBtnDiv.id = 'camera'+tbCamera[i].cameraID+'-imgBtnDiv';
+        imgBtnDiv.className = 'row';
 
         imgBtnDiv.appendChild(imgDiv);
         imgBtnDiv.appendChild(btnDiv);
@@ -156,6 +166,7 @@ function displayCamera(tbCamera){
             nbRow = nbRow + 1;
             row = document.createElement('div');
             row.id = 'row'+nbRow;
+            row.className = 'row';
             row.appendChild(camera);
             display.appendChild(row);
         }else{
