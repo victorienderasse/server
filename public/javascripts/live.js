@@ -41,6 +41,7 @@ function displayCamera(tbCamera){
         imgDiv.className = 'col-lg-6';
         imgDiv.setAttribute('height','100%');
         imgDiv.setAttribute('width','100%');
+        imgDiv.setAttribute('style','background-color:#FF0000;');
         var img = document.createElement('img');
         img.id = 'camera'+tbCamera[i].cameraID+'-img';
         img.src = '../cameras/camera'+tbCamera[i].cameraID+'/live/stream_camera_'+tbCamera[i].cameraID+'.jpg';
