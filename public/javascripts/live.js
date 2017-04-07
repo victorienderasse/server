@@ -154,8 +154,10 @@ function displayCamera(tbCamera){
 
         var camera = document.createElement('div');
         camera.id = 'camera'+tbCamera[i].cameraID;
-        camera.className = 'col-lg-offset-2 col-lg-3';
-        camera.setAttribute('style','border:1px solid #ddd;border-radius:4px;');
+        camera.className = 'col-lg-offset-2 col-lg-3 camera-display';
+        camera.setAttribute('style','border:1px solid #ddd;border-radius:4px; background-color:#E2E5E4');
+
+
         camera.appendChild(nameDiv);
         camera.appendChild(imgBtnDiv);
 
