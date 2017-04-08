@@ -11,10 +11,6 @@ socket.on('sendCamera',function(tbCamera){
     displayCamera(tbCamera);
 });
 
-function runLive(cameraID){
-    console.log('run Live camera : '+cameraID);
-}
-
 function displayCamera(tbCamera){
 
 
@@ -35,6 +31,7 @@ function displayCamera(tbCamera){
         var name = document.createTextNode(tbCamera[i].name);
         name.id = 'camera'+tbCamera[i].cameraID+'-name';
         name.title = 'Click to update your camera name';
+        name.setAttribute('onclick','setName('+tbCamera[i].cameraID+');');
 
         nameH3.appendChild(name);
         nameDiv.appendChild(nameH3);
@@ -47,8 +44,10 @@ function displayCamera(tbCamera){
         imgDiv.setAttribute('style','margin-bottom:2%;');
         var imgBtn = document.createElement('button');
         imgBtn.id = 'camera'+tbCamera[i].cameraID+'-imgBtn';
-        imgBtn.setAttribute('style','border:0px; background-color:#fff;')
+        imgBtn.setAttribute('style','border:0px; background-color:#fff;');
         imgBtn.setAttribute('onclick','runLive('+tbCamera[i].cameraID+');');
+        imgBtn.setAttribute('data-toggle','modal');
+        imgBtn.setAttribute('data-target','#modal-live');
         var img = document.createElement('img');
         img.id = 'camera'+tbCamera[i].cameraID+'-img';
         img.src = '../cameras/camera'+tbCamera[i].cameraID+'/live/stream_camera_'+tbCamera[i].cameraID+'.jpg';
@@ -69,6 +68,9 @@ function displayCamera(tbCamera){
         replay.className = 'btn btn-lg btn-success btn-display';
         replay.title = 'Click to open the replay interface';
         replay.setAttribute('style','border-radius:100%;margin-left:20%');
+        replay.setAttribute('onclick','runReplay('+tbCamera[i].cameraID+');');
+        replay.setAttribute('data-toggla','modal');
+        replay.setAttribute('data-target','#modal-replay');
         var replayIcon = document.createElement('span');
         replayIcon.id = 'camera'+tbCamera[i].cameraID+'-replayIcon';
         replayIcon.className = 'glyphicon glyphicon-play';
@@ -86,6 +88,9 @@ function displayCamera(tbCamera){
         timer.className = 'btn btn-lg btn-primary btn-display';
         timer.title = 'Click to open the timer interface';
         timer.setAttribute('style','border-radius:100%');
+        timer.setAttribute('onclick','runTimer('+tbCamera[i].cameraID+');');
+        timer.setAttribute('data-toggle','modal');
+        timer.setAttribute('data-target','#modal-timer');
         var timerIcon = document.createElement('span');
         timerIcon.id = 'camera'+tbCamera[i].cameraID+'-timerIcon';
         timerIcon.className = 'glyphicon glyphicon-edit';
@@ -103,6 +108,7 @@ function displayCamera(tbCamera){
         detection.className = 'btn btn-lg btn-danger btn-display';
         detection.title = 'Click to start the motion detector';
         detection.setAttribute('style','border-radius:100%;margin-left:20%');
+        detection.setAttribute('onclick','runDetection('+tbCamera[i].cameraID+');');
         var detectionIcon = document.createElement('span');
         detectionIcon.id = 'camera'+tbCamera[i].cameraID+'-detectionIcon';
         detectionIcon.className = 'glyphicon glyphicon-facetime-video';
@@ -120,6 +126,9 @@ function displayCamera(tbCamera){
         config.className = 'btn btn-lg btn-warning btn-display';
         config.title = 'Click to update camera settings';
         config.setAttribute('style','border-radius:100%');
+        config.setAttribute('onclick','runConfig('+tbCamera[i].cameraID+');');
+        config.setAttribute('data-toggle','modal');
+        config.setAttribute('data-target','#modal-config');
         var configIcon = document.createElement('span');
         configIcon.id = 'camera'+tbCamera[i].cameraID+'-configIcon';
         configIcon.className = 'glyphicon glyphicon-wrench';
@@ -176,8 +185,13 @@ function displayCamera(tbCamera){
         camera.appendChild(hr);
         camera.appendChild(imgBtnDiv);
 
-        var row;
+        if(tbCamera[i].enable == 0){
+            camera.setAttribute('style','background-color:#FAECEC;');
+            timer.disabled = true;
+            config.disabled = true;
+            detection.disabled = true;
 
+        var row;
         if((nbRow == 0) || ((i%2) == 0)){
             nbRow = nbRow + 1;
             row = document.createElement('div');
