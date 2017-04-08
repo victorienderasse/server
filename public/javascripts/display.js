@@ -60,6 +60,10 @@ socket.on('updateRecordColor', function(data){
 
 
 socket.on('setReplays',function(data){
+    /*
+    -> create elements
+    -> set first video ready on player
+     */
     console.log('setReplay');
     var table = document.getElementById('table-replay');
 
@@ -172,6 +176,7 @@ socket.on('editReplayOK', function(data){
 
 
 //Set Timer button
+/*
 document.getElementById('timer-confirm-btn').addEventListener('click', function(){
     console.log('timer-confirm-btn pressed');
     var timer_form = document.getElementById("timer-form");
@@ -209,6 +214,7 @@ document.getElementById('timer-confirm-btn').addEventListener('click', function(
     });
     
 });
+*/
 
 //set frequencyEnd select on Change
 document.getElementById('frequency').addEventListener('change',function(){
@@ -587,8 +593,24 @@ function displayScreens(tbScreen){
 
 
 function runTimer(cameraID){
+    /*
+    -> update timer-confirm-btn
+    -> remove old record
+    -> empty timer form
+     */
     console.log('runTimer function');
     //get cameraID
+
+    var timerBtn = document.getElementById('timer-confirm-btn');
+    timerBtn.setAttribute('onclick','applyTimer('+cameraID+');');
+
+    var tbRecord = document.getElementById('timer-records-tbody');
+    while(tbRecord.firstChild){
+        tbRecord.removeChild(tbRecord.firstChild);
+    }
+
+    emptyTimerForm();
+    /*
     var hidden = document.getElementById('timer-camera-id-input');
     hidden.setAttribute('value',cameraID);
     //getRecord of the camera
@@ -598,134 +620,47 @@ function runTimer(cameraID){
         document.getElementById('timer-records-div').removeChild(tb);
     }
     console.log('get records from server');
+    */
     socket.emit('getRecords', cameraID);
 }
 
 
-function runReplay(cameraID){
-    /*
-    -> Add camera name to modal
-    -> empty old replays
-    -> Remove old player
-    -> send request to server
-     */
-    console.log('testReplay pressed');
-
-    var title = document.getElementById('replay-title');
-    var name = document.getElementById('camera'+cameraID+'-nameH3').innerHTML;
-    title.innerHTML = 'Replay - '+name;
-
-
-    var table = document.getElementById('table-replay');
-    while(table.firstChild){
-        table.removeChild(table.firstChild);
-    }
-
-    var playerReplay = document.getElementById('player-replay-div');
-    if(playerReplay.firstChild){
-        playerReplay.removeChild(playerReplay.firstChild);
-    }
-
-    socket.emit('getReplays',cameraID);
-}
-
-
-function addReplay(replay_id){
-    console.log('addReplay function');
-    var opt = document.createElement('option');
-    var name = document.createTextNode('replay '+replay_id);
-
-    opt.value = 'replay-'+replay_id;
-    opt.appendChild(name);
-
-    document.getElementById('select-replay').appendChild(opt);
-
-}
-
-
-function runLive(cameraID){
-    /*
-     1. Make the 'X' and 'close' buttons stop the stream
-     2. Make the 'record' button record the focused camera
-     3. Disabled 'timer' and 'motion detection' buttons
-     4. remove old <img> and create a new one
-     5. Send command to server
-     */
-    console.log('runLive function');
-
-    document.getElementById('modal-live-close').setAttribute('onclick','stopStream('+cameraID+');');
-    document.getElementById('modal-live-x').setAttribute('onclick','stopStream('+cameraID+');');
-    
-    document.getElementById('modal-live-record').setAttribute('onclick','startLiveRecording('+cameraID+');');
-    
-    document.getElementById('screen-'+cameraID+'-timer-btn').disabled = true;
-    document.getElementById('screen-'+cameraID+'-notif-check').disabled = true;
-
-    var liveDiv = document.getElementById('live-stream');
-    if (liveDiv.firstChild){
-        liveDiv.removeChild(liveDiv.firstChild);
-    }
-    var img = document.createElement('img');
-    img.id = 'live-stream-camera'+cameraID;
-    liveDiv.appendChild(img);
-
-    socket.emit('startStream',cameraID);
-}
-
-
-function stopStream(screen_id){
-    /*
-    1. Send command to server to stop the stream
-    2. Remove <img>
-    3. enable 'motion detection' and 'timer buttons
-     */
-    console.log('stopStream function');
-    socket.emit('stopStream', screen_id);
-    
-    var liveDiv = document.getElementById('live-stream');
-    liveDiv.removeChild(liveDiv.firstChild);
-    
-    document.getElementById('screen-'+screen_id+'-timer-btn').disabled = false;
-    document.getElementById('screen-'+screen_id+'-notif-check').disabled = false;
-}
-
-
-function runDetection(cameraID){
-    /*
-    -> disable or enable live and record btn
-    -> Start or stop motion detection
-     */
-    console.log('runDetection  function');
-    var check = document.getElementById('screen-'+cameraID+'-notif-check');
-    if(check.checked){
-        document.getElementById('screen-'+cameraID+'-timer-btn').disabled = true;
-        document.getElementById('screen-'+cameraID+'-live-link').disabled = true;
-        socket.emit('startDetection', cameraID);
-    }else{
-        document.getElementById('screen-'+cameraID+'-timer-btn').disabled = false;
-        document.getElementById('screen-'+cameraID+'-live-link').disabled = false;
-        socket.emit('stopDetection', cameraID);
-    }
-
-}
-
-
-function setName(cameraID){
-    var getName = prompt('Nouveau nom : ');
-    if (getName != '' && getName != null){
-        var nameH3 = document.getElementById('camera'+cameraID+'-nameH3');
-        var name = document.createTextNode(getName);
-        name.id = 'camera'+cameraID+'-name';
-        nameH3.replaceChild(name, nameH3.firstChild);
-        socket.emit('changeCameraName', {cameraID: cameraID, name: getName});
-    }
-}
-
-
-function setTimer(){
-    console.log('setTimer function');
+function applyTimer(cameraID){
+    console.log('timer-confirm-btn pressed');
     var timer_form = document.getElementById("timer-form");
-    socket.emit('setTimer', {begin_hour: timer_form.begin-hour.value, begin_minute: timer_form.begin-minute.value, end_hour: timer_form.end-hour.value, end_minute: timer_form.end-minute.value, frequency: timer_form.frequency.value});
+    var beginHour = timer_form.beginHour.value;
+    var beginMinute = timer_form.beginMinute.value;
+    var endHour = timer_form.endHour.value;
+    var endMinute = timer_form.endMinute.value;
+    var type, once;
+
+    if(document.getElementById('timer-detection').checked){
+        type = 'detection';
+    }else{
+        type = 'record';
+    }
+
+    once = document.getElementById('timer-once').checked;
+
+    var frequencyEnd;
+    if(timer_form.frequency.value == '*'){
+        frequencyEnd = '*';
+    }else{
+        frequencyEnd = timer_form.frequencyEnd.value;
+    }
+
+
+    socket.emit('setTimer', {
+        begin_hour: beginHour,
+        begin_minute: beginMinute,
+        end_hour: endHour,
+        end_minute: endMinute,
+        frequency: timer_form.frequency.value,
+        frequencyEnd: frequencyEnd,
+        cameraID: cameraID,
+        type: type,
+        once: once
+    });
 }
 
 
@@ -869,6 +804,142 @@ function displayRecords(tbRecord){
 }
 
 
+function runReplay(cameraID){
+    /*
+    -> Add camera name to modal
+    -> empty old replays
+    -> Remove old player
+    -> send request to server
+     */
+    console.log('testReplay pressed');
+
+    var title = document.getElementById('replay-title');
+    var name = document.getElementById('camera'+cameraID+'-nameH3').innerHTML;
+    title.innerHTML = 'Replay - '+name;
+
+
+    var table = document.getElementById('table-replay');
+    while(table.firstChild){
+        table.removeChild(table.firstChild);
+    }
+
+    var playerReplay = document.getElementById('player-replay-div');
+    if(playerReplay.firstChild){
+        playerReplay.removeChild(playerReplay.firstChild);
+    }
+
+    socket.emit('getReplays',cameraID);
+}
+
+
+function addReplay(replay_id){
+    console.log('addReplay function');
+    var opt = document.createElement('option');
+    var name = document.createTextNode('replay '+replay_id);
+
+    opt.value = 'replay-'+replay_id;
+    opt.appendChild(name);
+
+    document.getElementById('select-replay').appendChild(opt);
+
+}
+
+
+function runLive(cameraID){
+    /*
+     1. Make the 'X' and 'close' buttons stop the stream
+     2. Make the 'record' button record the focused camera
+     3. Disabled 'timer' and 'motion detection' buttons
+     4. remove old <img> and create a new one
+     5. Send command to server
+     */
+    console.log('runLive function');
+
+    document.getElementById('modal-live-close').setAttribute('onclick','stopStream('+cameraID+');');
+    document.getElementById('modal-live-x').setAttribute('onclick','stopStream('+cameraID+');');
+    
+    document.getElementById('modal-live-record').setAttribute('onclick','startLiveRecording('+cameraID+');');
+    
+    document.getElementById('screen-'+cameraID+'-timer-btn').disabled = true;
+    document.getElementById('screen-'+cameraID+'-notif-check').disabled = true;
+
+    var liveDiv = document.getElementById('live-stream');
+    if (liveDiv.firstChild){
+        liveDiv.removeChild(liveDiv.firstChild);
+    }
+    var img = document.createElement('img');
+    img.id = 'live-stream-camera'+cameraID;
+    liveDiv.appendChild(img);
+
+    socket.emit('startStream',cameraID);
+}
+
+
+function stopStream(screen_id){
+    /*
+    1. Send command to server to stop the stream
+    2. Remove <img>
+    3. enable 'motion detection' and 'timer buttons
+     */
+    console.log('stopStream function');
+    socket.emit('stopStream', screen_id);
+    
+    var liveDiv = document.getElementById('live-stream');
+    liveDiv.removeChild(liveDiv.firstChild);
+    
+    document.getElementById('screen-'+screen_id+'-timer-btn').disabled = false;
+    document.getElementById('screen-'+screen_id+'-notif-check').disabled = false;
+}
+
+
+function runDetection(cameraID){
+    /*
+    -> disable or enable live and record btn
+    -> Start or stop motion detection
+     */
+    console.log('runDetection  function');
+    var check = document.getElementById('screen-'+cameraID+'-notif-check');
+    if(check.checked){
+        document.getElementById('screen-'+cameraID+'-timer-btn').disabled = true;
+        document.getElementById('screen-'+cameraID+'-live-link').disabled = true;
+        socket.emit('startDetection', cameraID);
+    }else{
+        document.getElementById('screen-'+cameraID+'-timer-btn').disabled = false;
+        document.getElementById('screen-'+cameraID+'-live-link').disabled = false;
+        socket.emit('stopDetection', cameraID);
+    }
+
+}
+
+
+function setName(cameraID){
+    /*
+    -> display prompt to get new camera name
+    -> check name not empty or null
+    -> replace old name to new name
+    -> send request to server
+     */
+    var getName = prompt('Nouveau nom : ');
+    if (getName != '' && getName != null){
+        var nameH3 = document.getElementById('camera'+cameraID+'-nameH3');
+        var name = document.createTextNode(getName);
+        name.id = 'camera'+cameraID+'-name';
+        nameH3.replaceChild(name, nameH3.firstChild);
+        socket.emit('changeCameraName', {cameraID: cameraID, name: getName});
+    }
+}
+
+
+function setTimer(){
+    console.log('setTimer function');
+    var timer_form = document.getElementById("timer-form");
+    socket.emit('setTimer', {begin_hour: timer_form.begin-hour.value, begin_minute: timer_form.begin-minute.value, end_hour: timer_form.end-hour.value, end_minute: timer_form.end-minute.value, frequency: timer_form.frequency.value});
+}
+
+
+
+
+
 function applyRecord(recordID){
     console.log('applyRecord function');
     socket.emit('applyRecord',recordID);
@@ -892,6 +963,8 @@ function emptyTimerForm(){
     myForm.endMinute.value = 0;
     myForm.frequency.value = 1;
     myForm.frequencyEnd.value = 1;
+    myForm.timerDetection.checked = false;
+    myForm.timerOnce.checked = false;
 }
 
 

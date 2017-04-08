@@ -272,6 +272,10 @@ io.sockets.on('connection', function(socket){
 
   
   socket.on('getReplays',function(cameraID){
+    /*
+    -> get filename in directory
+    -> send it to client
+     */
     console.log('getReplays event');
     fs.readdir('./public/cameras/camera'+cameraID+'/videos/', function(err, files){
       if(err){
