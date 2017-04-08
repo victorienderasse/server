@@ -443,7 +443,7 @@ function displayCamera(tbCamera){
             row.id = 'row'+nbRow;
             row.className = 'row';
             row.setAttribute('style','margin-bottom:3%;');
-            camera.className = 'col-lg-offset-1 col-lg-4 camera-display fade';
+            camera.className = 'col-lg-offset-1 col-lg-4 camera-display';
             row.appendChild(camera);
             display.appendChild(row);
         }else{
