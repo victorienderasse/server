@@ -706,20 +706,12 @@ function runDetection(cameraID){
 
 function setName(cameraID){
     var getName = prompt('Nouveau nom : ');
+    console.log('getName = '+getName);
     if (getName != '' || getName != null || getName != 'undefined'){
-
-
         var nameH3 = document.getElementById('camera'+cameraID+'-nameH3');
         var name = document.createTextNode(getName);
         nameH3.replaceChild(name, nameH3.firstChild);
-        /*
-        var bold = document.createElement('b');
-       var name = document.createTextNode(getName);
-        bold.appendChild(name);
-        var screenName = document.getElementById('screen-'+cameraID+'-name');
-        screenName.replaceChild(bold, screenName.firstChild);
-        socket.emit('changeCameraName', {cameraID: cameraID, name: getName});
-        */
+        //socket.emit('changeCameraName', {cameraID: cameraID, name: getName});
     }
 }
 
