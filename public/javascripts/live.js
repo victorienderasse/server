@@ -11,6 +11,9 @@ socket.on('sendCamera',function(tbCamera){
     displayCamera(tbCamera);
 });
 
+function runLive(cameraID{
+    console.log('run Live camera : '+cameraID);
+});
 
 function displayCamera(tbCamera){
 
@@ -31,6 +34,7 @@ function displayCamera(tbCamera){
         nameH3.id = 'camera'+tbCamera[i].cameraID+'-nameH3';
         var name = document.createTextNode(tbCamera[i].name);
         name.id = 'camera'+tbCamera[i].cameraID+'-name';
+        name.title = 'Click to update your camera name';
 
         nameH3.appendChild(name);
         nameDiv.appendChild(nameH3);
@@ -41,16 +45,18 @@ function displayCamera(tbCamera){
         imgDiv.id = 'camera'+tbCamera[i].cameraID+'-imgDiv';
         imgDiv.className = 'col-lg-6';
         imgDiv.setAttribute('style','margin-bottom:2%;');
-        //imgDiv.setAttribute('style','background-color:#FF0000;');
+        var imgBtn = document.createElement('button');
+        imgBtn.id = 'camera'+tbCamera[i].cameraID+'-imgBtn';
+        imgBtn.setAttribute('onclick','runLive('+tbCamera[i].cameraID+');');
         var img = document.createElement('img');
         img.id = 'camera'+tbCamera[i].cameraID+'-img';
         img.src = '../cameras/camera'+tbCamera[i].cameraID+'/live/stream_camera_'+tbCamera[i].cameraID+'.jpg';
+        img.title = 'Click to start live';
         img.setAttribute('style','border:5px solid #fff;border-radius:8px;height:100%;width:100%');
-        //img.setAttribute('height','100%');
-        //img.setAttribute('width','100%');
         img.setAttribute('alt','Click to display live session');
 
-        imgDiv.appendChild(img);
+        imgBtn.appendChild(img);
+        imgDiv.appendChild(imgBtn);
 
         //REPLAY================================================================
 
@@ -60,6 +66,7 @@ function displayCamera(tbCamera){
         var replay = document.createElement('button');
         replay.id = 'camera'+tbCamera[i].cameraID+'-replay';
         replay.className = 'btn btn-lg btn-success btn-display';
+        replay.title = 'Click to open the replay interface';
         replay.setAttribute('style','border-radius:100%;margin-left:20%');
         var replayIcon = document.createElement('span');
         replayIcon.id = 'camera'+tbCamera[i].cameraID+'-replayIcon';
@@ -76,6 +83,7 @@ function displayCamera(tbCamera){
         var timer = document.createElement('button');
         timer.id = 'camera'+tbCamera[i].cameraID+'-timer';
         timer.className = 'btn btn-lg btn-primary btn-display';
+        timer.title = 'Click to open the timer interface';
         timer.setAttribute('style','border-radius:100%');
         var timerIcon = document.createElement('span');
         timerIcon.id = 'camera'+tbCamera[i].cameraID+'-timerIcon';
@@ -92,6 +100,7 @@ function displayCamera(tbCamera){
         var detection = document.createElement('button');
         detection.id = 'camera'+tbCamera[i].cameraID+'-detection';
         detection.className = 'btn btn-lg btn-danger btn-display';
+        detection.title = 'Click to start the motion detector';
         detection.setAttribute('style','border-radius:100%;margin-left:20%');
         var detectionIcon = document.createElement('span');
         detectionIcon.id = 'camera'+tbCamera[i].cameraID+'-detectionIcon';
@@ -108,6 +117,7 @@ function displayCamera(tbCamera){
         var config = document.createElement('button');
         config.id = 'camera'+tbCamera[i].cameraID+'-config';
         config.className = 'btn btn-lg btn-warning btn-display';
+        config.title = 'Click to update camera settings';
         config.setAttribute('style','border-radius:100%');
         var configIcon = document.createElement('span');
         configIcon.id = 'camera'+tbCamera[i].cameraID+'-configIcon';
