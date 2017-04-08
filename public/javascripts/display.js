@@ -612,7 +612,7 @@ function runReplay(cameraID){
     console.log('testReplay pressed');
 
     var title = document.getElementById('replay-title');
-    var name = document.getElementById('camera'+cameraID+'-name').innerHTML;
+    var name = document.getElementById('camera'+cameraID+'-nameH3').innerHTML;
     title.innerHTML = 'Replay - '+name;
 
 
