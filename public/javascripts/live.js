@@ -185,12 +185,13 @@ function displayCamera(tbCamera){
         camera.appendChild(hr);
         camera.appendChild(imgBtnDiv);
 
-        if(tbCamera[i].enable == 0){
-            camera.setAttribute('style','background-color:#FAECEC;');
+        if(tbCamera[i].enable == 0) {
+            camera.setAttribute('style', 'background-color:#FAECEC;');
             timer.disabled = true;
             config.disabled = true;
             detection.disabled = true;
-
+        }
+        
         var row;
         if((nbRow == 0) || ((i%2) == 0)){
             nbRow = nbRow + 1;
