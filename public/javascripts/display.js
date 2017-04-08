@@ -591,10 +591,15 @@ function displayScreens(tbScreen){
 function runTimer(cameraID){
     /*
     -> update timer-confirm-btn
+    -> update timer modal title
     -> remove old record
     -> empty timer form
      */
     console.log('runTimer function');
+    
+    var title = document.getElementById('timer-title');
+    var name = document.getElementById('camera'+cameraID+'-nameH3').innerHTML;
+    title.innerHTML = 'Timer - '+name;
 
     var timerBtn = document.getElementById('timer-confirm-btn');
     timerBtn.setAttribute('onclick','applyTimer('+cameraID+');');
@@ -834,6 +839,7 @@ function runLive(cameraID){
     /*
      1. Make the 'X' and 'close' buttons stop the stream
      2. Make the 'record' button record the selected camera
+     -> update live title
      4. remove old <img> and create a new one
      5. Send command to server
      */
@@ -843,6 +849,10 @@ function runLive(cameraID){
     document.getElementById('modal-live-x').setAttribute('onclick','stopStream('+cameraID+');');
     
     document.getElementById('modal-live-record').setAttribute('onclick','startLiveRecording('+cameraID+');');
+
+    var title = document.getElementById('live-title');
+    var name = document.getElementById('camera'+cameraID+'-nameH3').innerHTML;
+    title.innerHTML = 'Live - '+name;
 
     var liveDiv = document.getElementById('live-stream');
     if (liveDiv.firstChild){
@@ -860,16 +870,13 @@ function stopStream(screen_id){
     /*
     1. Send command to server to stop the stream
     2. Remove <img>
-    3. enable 'motion detection' and 'timer buttons
      */
     console.log('stopStream function');
     socket.emit('stopStream', screen_id);
     
     var liveDiv = document.getElementById('live-stream');
     liveDiv.removeChild(liveDiv.firstChild);
-    
-    document.getElementById('screen-'+screen_id+'-timer-btn').disabled = false;
-    document.getElementById('screen-'+screen_id+'-notif-check').disabled = false;
+
 }
 
 
@@ -887,6 +894,15 @@ function runDetection(cameraID){
         socket.emit('stopDetection', cameraID);
     }
 
+}
+
+
+function runConfig(cameraID){
+    console.log('runConfig function');
+
+    var title = document.getElementById('config-title');
+    var name = document.getElementById('camera'+cameraID+'-nameH3').innerHTML;
+    title.innerHTML = 'Settings - '+name;
 }
 
 
