@@ -626,7 +626,7 @@ function runTimer(cameraID){
 
 
 function applyTimer(cameraID){
-    console.log('timer-confirm-btn pressed');
+    console.log('applyTimer function');
     var timer_form = document.getElementById("timer-form");
     var beginHour = timer_form.beginHour.value;
     var beginMinute = timer_form.beginMinute.value;
@@ -634,13 +634,13 @@ function applyTimer(cameraID){
     var endMinute = timer_form.endMinute.value;
     var type, once;
 
-    if(document.getElementById('timer-detection').checked){
+    if(document.getElementById('timerDetection').checked){
         type = 'detection';
     }else{
         type = 'record';
     }
 
-    once = document.getElementById('timer-once').checked;
+    once = document.getElementById('timerOnce').checked;
 
     var frequencyEnd;
     if(timer_form.frequency.value == '*'){
