@@ -53,7 +53,7 @@ function displayCamera(tbCamera){
         img.id = 'camera'+tbCamera[i].cameraID+'-img';
         img.src = '../cameras/camera'+tbCamera[i].cameraID+'/live/stream_camera_'+tbCamera[i].cameraID+'.jpg';
         img.title = 'Click to start live';
-        img.setAttribute('style','border:5px solid #fff;border-radius:8px;height:100%;width:100%');
+        img.setAttribute('style','border:5px solid #ddd;border-radius:8px;height:100%;width:100%');
         img.setAttribute('alt','Click to display live session');
 
         imgBtn.appendChild(img);
