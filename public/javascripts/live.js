@@ -172,11 +172,13 @@ function displayCamera(tbCamera){
             row = document.createElement('div');
             row.id = 'row'+nbRow;
             row.className = 'row';
+            row.setAttribute('style','margin-bottom:3%;');
             camera.className = 'col-lg-offset-1 col-lg-4 camera-display';
             row.appendChild(camera);
             display.appendChild(row);
         }else{
             row = document.getElementById('row'+nbRow);
+            row.setAttribute('style','margin-bottom:3%;');
             camera.className = 'col-lg-offset-2 col-lg-4 camera-display';
             row.appendChild(camera);
         }
