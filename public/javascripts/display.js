@@ -709,7 +709,7 @@ function setName(cameraID){
     if (getName != '' || getName != null || getName != 'undefined'){
 
 
-        var nameH3 = document.getElementById('nameH3');
+        var nameH3 = document.getElementById('camera'+cameraID+'-nameH3');
         var name = document.createTextNode(getName);
         nameH3.replaceChild(name, nameH3.firstChild);
         /*
