@@ -489,13 +489,11 @@ io.sockets.on('connection', function(socket){
   
   socket.on('motionDetectionStart', function(cameraID){
     setState(cameraID,1);
-    io.emit('motionDetectionStart', cameraID);
   });
 
   
   socket.on('motionDetectionStop', function(data){
     setState(data.cameraID, 0);
-    io.emit('motionDetectionStop', data.cameraID);
     if(data.once){
       setRecordState(data.recordID,0);
       sendToCamera(data.cameraID,'deleteRecord',data.recordID);

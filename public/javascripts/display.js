@@ -111,28 +111,6 @@ socket.on('setReplays',function(data){
 });
 
 
-socket.on('motionDetectionStart', function(cameraID){
-    console.log('motionDetectionStart event');
-    var camera = document.getElementById('screen-'+cameraID);
-    if(camera != 'undefined' && camera != null){
-        document.getElementById('screen-'+cameraID+'-notif-check').checked = true;
-        document.getElementById('screen-'+cameraID+'-live-link').disabled = true;
-        document.getElementById('screen-'+cameraID+'-timer-btn').disabled = true;
-    }
-});
-
-
-socket.on('motionDetectionStop', function(cameraID){
-    console.log('motionDetectionStop event');
-    var camera = document.getElementById('screen-'+data.cameraID);
-    if(camera != 'undefined' && camera != null){
-        document.getElementById('screen-'+cameraID+'-notif-check').checked = false;
-        document.getElementById('screen-'+cameraID+'-live-link').disabled = false;
-        document.getElementById('screen-'+cameraID+'-timer-btn').disabled = false;
-    }
-});
-
-
 socket.on('updateStream', function(cameraID){
     var img = document.getElementById('live-stream-camera'+cameraID);
     if (img != 'undefined'){
@@ -189,22 +167,28 @@ socket.on('displayCameraState',function(data){
             case 1:
                 live.disabled = true;
                 timer.disabled = true;
+                detection.disabled = false;
+                detection.firstElementChild.className = 'glyphicon glyphicon-stop';
                 break;
             case 2:
                 timer.disabled = true;
                 detection.disabled = true;
+                live.disabled = true;
                 break;
             case 3:
                 detection.disabled = true;
                 live.disabled = true;
+                timer.disabled = false;
                 break;
             case 4:
                 timer.disabled = true;
                 detection.disabled = true;
+                live.disabled = true;
                 break;
             default:
                 timer.disabled = false;
                 detection.disabled = false;
+                detection.firstElementChild.className = 'glyphicon glyphicon-facetime-video';
                 live.disabled = false;
         }
     }
@@ -850,7 +834,6 @@ function runLive(cameraID){
     /*
      1. Make the 'X' and 'close' buttons stop the stream
      2. Make the 'record' button record the selected camera
-     3. Disabled 'timer' and 'motion detection' buttons
      4. remove old <img> and create a new one
      5. Send command to server
      */
@@ -860,12 +843,6 @@ function runLive(cameraID){
     document.getElementById('modal-live-x').setAttribute('onclick','stopStream('+cameraID+');');
     
     document.getElementById('modal-live-record').setAttribute('onclick','startLiveRecording('+cameraID+');');
-
-    /*
-    document.getElementById('screen-'+cameraID+'-timer-btn').disabled = true;
-    document.getElementById('screen-'+cameraID+'-notif-check').disabled = true;
-    */
-    //displayCameraState({cameraID: cameraID,state:2});
 
     var liveDiv = document.getElementById('live-stream');
     if (liveDiv.firstChild){
@@ -898,18 +875,15 @@ function stopStream(screen_id){
 
 function runDetection(cameraID){
     /*
-    -> disable or enable live and record btn
+    -> update detection button
     -> Start or stop motion detection
      */
     console.log('runDetection  function');
-    var check = document.getElementById('screen-'+cameraID+'-notif-check');
-    if(check.checked){
-        document.getElementById('screen-'+cameraID+'-timer-btn').disabled = true;
-        document.getElementById('screen-'+cameraID+'-live-link').disabled = true;
+
+    var detection = document.getElementById('camera'+cameraID+'-detectionIcon');
+    if(detection.className == 'glyphicon glyphicon-facetime-video'){
         socket.emit('startDetection', cameraID);
     }else{
-        document.getElementById('screen-'+cameraID+'-timer-btn').disabled = false;
-        document.getElementById('screen-'+cameraID+'-live-link').disabled = false;
         socket.emit('stopDetection', cameraID);
     }
 
