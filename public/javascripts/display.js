@@ -603,12 +603,18 @@ function runTimer(cameraID){
 
 
 function runReplay(cameraID){
+    /*
+    -> Add camera name to modal
+    -> empty old replays
+    -> Remove old player
+    -> send request to server
+     */
     console.log('testReplay pressed');
 
     var title = document.getElementById('replay-title');
-    var nameTD = document.getElementById('screen-'+cameraID+'-name').firstChild;
-    var name = nameTD.innerHTML;
+    var name = document.getElementById('camera'+cameraID+'-name').innerHTML;
     title.innerHTML = 'Replay - '+name;
+
 
     var table = document.getElementById('table-replay');
     while(table.firstChild){
@@ -620,7 +626,7 @@ function runReplay(cameraID){
         playerReplay.removeChild(playerReplay.firstChild);
     }
 
-    socket.emit('getReplays',cameraID);
+    //socket.emit('getReplays',cameraID);
 }
 
 
@@ -710,7 +716,7 @@ function setName(cameraID){
         var nameH3 = document.getElementById('camera'+cameraID+'-nameH3');
         var name = document.createTextNode(getName);
         nameH3.replaceChild(name, nameH3.firstChild);
-        //socket.emit('changeCameraName', {cameraID: cameraID, name: getName});
+        socket.emit('changeCameraName', {cameraID: cameraID, name: getName});
     }
 }
 
@@ -1014,7 +1020,7 @@ function removeReplay(data){
 
 
 
-//Multi Live
+//BTN TEST
 document.getElementById('btnTest').addEventListener('click',function(){
     console.log('TEST BTN');
     
