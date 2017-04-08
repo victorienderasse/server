@@ -28,10 +28,10 @@ function displayCamera(tbCamera){
         nameDiv.setAttribute('style','text-align:center;');
         var nameH3 = document.createElement('h3');
         nameH3.id = 'camera'+tbCamera[i].cameraID+'-nameH3';
+        nameH3.setAttribute('onclick','setName('+tbCamera[i].cameraID+');');
         var name = document.createTextNode(tbCamera[i].name);
         name.id = 'camera'+tbCamera[i].cameraID+'-name';
         name.title = 'Click to update your camera name';
-        name.setAttribute('onclick','setName('+tbCamera[i].cameraID+');');
 
         nameH3.appendChild(name);
         nameDiv.appendChild(nameH3);
@@ -191,7 +191,7 @@ function displayCamera(tbCamera){
             config.disabled = true;
             detection.disabled = true;
         }
-        
+
         var row;
         if((nbRow == 0) || ((i%2) == 0)){
             nbRow = nbRow + 1;
