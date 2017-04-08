@@ -706,8 +706,7 @@ function runDetection(cameraID){
 
 function setName(cameraID){
     var getName = prompt('Nouveau nom : ');
-    console.log('getName = '+getName);
-    if (getName != '' || getName != null || getName != 'undefined'){
+    if (getName != '' && getName != null){
         var nameH3 = document.getElementById('camera'+cameraID+'-nameH3');
         var name = document.createTextNode(getName);
         nameH3.replaceChild(name, nameH3.firstChild);
