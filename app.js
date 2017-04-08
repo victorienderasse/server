@@ -808,6 +808,7 @@ io.sockets.on('connection', function(socket){
       if(err){
         throw err;
       }
+      io.emit('displayCameraState',{cameraID:cameraID, state: state});
     });
   }
 

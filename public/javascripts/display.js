@@ -172,49 +172,45 @@ socket.on('editReplayOK', function(data){
     replay.innerHTML = data.name;
 });
 
-//Actions--------------------------------------
 
+socket.on('displayCameraState',function(data){
+    /*
+     -> get camera data.cameraID
+     -> getstate data.state
+     -> switch
+     */
+    var camera = document.getElementById('camera'+data.cameraID);
+    if(camera != 'undefined' && camera != null){
+        var timer = document.getElementById('camera'+data.cameraID+'-timer');
+        var live = document.getElementById('camera'+data.cameraID+'-liveBtn');
+        var detection = document.getElementById('camera'+data.cameraID+'-detection');
 
-//Set Timer button
-/*
-document.getElementById('timer-confirm-btn').addEventListener('click', function(){
-    console.log('timer-confirm-btn pressed');
-    var timer_form = document.getElementById("timer-form");
-    var beginHour = timer_form.beginHour.value;
-    var beginMinute = timer_form.beginMinute.value;
-    var endHour = timer_form.endHour.value;
-    var endMinute = timer_form.endMinute.value;
-    var type, once;
-    
-    if(document.getElementById('timer-detection').checked){
-        type = 'detection';
-    }else{
-        type = 'record';
+        switch(data.state){
+            case 1:
+                live.disabled = true;
+                timer.disabled = true;
+                break;
+            case 2:
+                timer.disabled = true;
+                detection.disabled = true;
+                break;
+            case 3:
+                detection.disabled = true;
+                live.disabled = true;
+                break;
+            case 4:
+                timer.disabled = true;
+                detection.disabled = true;
+                break;
+            default:
+                timer.disabled = false;
+                detection.disabled = false;
+                live.disabled = false;
+        }
     }
-    
-    once = document.getElementById('timer-once').checked;
-
-    var frequencyEnd;
-    if(timer_form.frequency.value == '*'){
-        frequencyEnd = '*';
-    }else{
-        frequencyEnd = timer_form.frequencyEnd.value;
-    }
-
-    socket.emit('setTimer', {
-        begin_hour: beginHour,
-        begin_minute: beginMinute,
-        end_hour: endHour,
-        end_minute: endMinute,
-        frequency: timer_form.frequency.value,
-        frequencyEnd: frequencyEnd,
-        cameraID: timer_form.cameraID.value,
-        type: type,
-        once: once
-    });
-    
 });
-*/
+
+//Actions--------------------------------------
 
 //set frequencyEnd select on Change
 document.getElementById('frequency').addEventListener('change',function(){
@@ -247,7 +243,6 @@ document.getElementById('user-btn').addEventListener('click',function(){
     console.log('user-btn');
     redirectURL(serverURL+'/user?userID='+userID);
 });
-
 
 //Disconnect
 document.getElementById('disconnect-btn').addEventListener('click', function(){
@@ -435,9 +430,26 @@ function displayCamera(tbCamera){
         if(tbCamera[i].enable == 0) {
             camera.setAttribute('style', 'background-color:#FAECEC;');
             timer.disabled = true;
-            config.disabled = true;
             detection.disabled = true;
             liveBtn.disabled = true;
+        }else{
+            switch(tbCamera[i].state){
+                case 1:
+                    liveBtn.disabled = true;
+                    timer.disabled = true;
+                    break;
+                case 2:
+                    timer.disabled = true;
+                    detection.disabled = true;
+                    break;
+                case 3:
+                    detection.disabled = true;
+                    liveBtn.disabled = true;
+                    break;
+                case 4:
+                    timer.disabled = true;
+                    detection.disabled = true;
+            }
         }
 
         var row;
@@ -599,7 +611,6 @@ function runTimer(cameraID){
     -> empty timer form
      */
     console.log('runTimer function');
-    //get cameraID
 
     var timerBtn = document.getElementById('timer-confirm-btn');
     timerBtn.setAttribute('onclick','applyTimer('+cameraID+');');
@@ -610,17 +621,7 @@ function runTimer(cameraID){
     }
 
     emptyTimerForm();
-    /*
-    var hidden = document.getElementById('timer-camera-id-input');
-    hidden.setAttribute('value',cameraID);
-    //getRecord of the camera
-    if(document.getElementById('timer-table-record-list')){
-        console.log('tb exist -> remove');
-        var tb = document.getElementById('timer-table-record-list');
-        document.getElementById('timer-records-div').removeChild(tb);
-    }
-    console.log('get records from server');
-    */
+
     socket.emit('getRecords', cameraID);
 }
 
@@ -848,7 +849,7 @@ function addReplay(replay_id){
 function runLive(cameraID){
     /*
      1. Make the 'X' and 'close' buttons stop the stream
-     2. Make the 'record' button record the focused camera
+     2. Make the 'record' button record the selected camera
      3. Disabled 'timer' and 'motion detection' buttons
      4. remove old <img> and create a new one
      5. Send command to server
@@ -859,9 +860,12 @@ function runLive(cameraID){
     document.getElementById('modal-live-x').setAttribute('onclick','stopStream('+cameraID+');');
     
     document.getElementById('modal-live-record').setAttribute('onclick','startLiveRecording('+cameraID+');');
-    
+
+    /*
     document.getElementById('screen-'+cameraID+'-timer-btn').disabled = true;
     document.getElementById('screen-'+cameraID+'-notif-check').disabled = true;
+    */
+    //displayCameraState({cameraID: cameraID,state:2});
 
     var liveDiv = document.getElementById('live-stream');
     if (liveDiv.firstChild){
@@ -935,9 +939,6 @@ function setTimer(){
     var timer_form = document.getElementById("timer-form");
     socket.emit('setTimer', {begin_hour: timer_form.begin-hour.value, begin_minute: timer_form.begin-minute.value, end_hour: timer_form.end-hour.value, end_minute: timer_form.end-minute.value, frequency: timer_form.frequency.value});
 }
-
-
-
 
 
 function applyRecord(recordID){
@@ -1090,6 +1091,11 @@ function removeReplay(data){
     Table.removeChild(document.getElementById('table-replay-tr'+data.replayID));
 
     socket.emit('removeReplay',{cameraID: data.cameraID, name: name});
+}
+
+
+function displayCameraState(data){
+
 }
 
 
