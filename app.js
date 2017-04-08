@@ -659,6 +659,18 @@ io.sockets.on('connection', function(socket){
 
     });
   });
+
+
+  socket.on('startConfig', function(cameraID){
+    console.log('startConfig event');
+    sendToCamera(cameraID,'getConfig',cameraID);
+  });
+  
+  
+  socket.on('setConfig', function(data){
+    console.log('setConfig event');
+    io.emit('setConfig',{cameraID:data.cameraID, conf: data.conf});
+  });
   
   
   

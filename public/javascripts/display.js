@@ -8,6 +8,8 @@ var userID = document.getElementById('userID').innerHTML;
 //Ask camera to server
 socket.emit('getCamera',userID);
 
+var slider = new Slider('ex5');
+
 
 //EVENTS-----------------------------------------------------------------------------------------------------------------
 
@@ -193,6 +195,13 @@ socket.on('displayCameraState',function(data){
         }
     }
 });
+
+
+socket.on('setConfig', function(data){
+    if()
+    console.log('resolution : '+data.conf.resolution);
+});
+
 
 //Actions--------------------------------------
 
@@ -903,6 +912,8 @@ function runConfig(cameraID){
     var title = document.getElementById('config-title');
     var name = document.getElementById('camera'+cameraID+'-nameH3').innerHTML;
     title.innerHTML = 'Settings - '+name;
+    
+    socket.emit('startConfig',cameraID);
 }
 
 
