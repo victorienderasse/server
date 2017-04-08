@@ -190,7 +190,7 @@ function displayCamera(tbCamera){
             timer.disabled = true;
             config.disabled = true;
             detection.disabled = true;
-            live.disabled = true;
+            liveBtn.disabled = true;
         }
 
         var row;
