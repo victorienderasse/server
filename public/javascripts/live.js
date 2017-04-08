@@ -47,6 +47,7 @@ function displayCamera(tbCamera){
         imgDiv.setAttribute('style','margin-bottom:2%;');
         var imgBtn = document.createElement('button');
         imgBtn.id = 'camera'+tbCamera[i].cameraID+'-imgBtn';
+        imgBtn.setAttribute('style','border:0px; background-color:#fff;')
         imgBtn.setAttribute('onclick','runLive('+tbCamera[i].cameraID+');');
         var img = document.createElement('img');
         img.id = 'camera'+tbCamera[i].cameraID+'-img';
