@@ -13,7 +13,7 @@ socket.on('sendCamera',function(tbCamera){
 
 function runLive(cameraID{
     console.log('run Live camera : '+cameraID);
-});
+}
 
 function displayCamera(tbCamera){
 
