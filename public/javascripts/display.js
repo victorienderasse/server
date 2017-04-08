@@ -626,7 +626,7 @@ function runReplay(cameraID){
         playerReplay.removeChild(playerReplay.firstChild);
     }
 
-    //socket.emit('getReplays',cameraID);
+    socket.emit('getReplays',cameraID);
 }
 
 
@@ -715,6 +715,7 @@ function setName(cameraID){
     if (getName != '' && getName != null){
         var nameH3 = document.getElementById('camera'+cameraID+'-nameH3');
         var name = document.createTextNode(getName);
+        name.id = 'camera'+cameraID+'-name';
         nameH3.replaceChild(name, nameH3.firstChild);
         socket.emit('changeCameraName', {cameraID: cameraID, name: getName});
     }
