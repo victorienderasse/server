@@ -38,25 +38,25 @@ function displayCamera(tbCamera){
 
         //IMG==================================================================
 
-        var imgDiv = document.createElement('div');
-        imgDiv.id = 'camera'+tbCamera[i].cameraID+'-imgDiv';
-        imgDiv.className = 'col-lg-6';
-        imgDiv.setAttribute('style','margin-bottom:2%;');
-        var imgBtn = document.createElement('button');
-        imgBtn.id = 'camera'+tbCamera[i].cameraID+'-imgBtn';
-        imgBtn.setAttribute('style','border:0px; background-color:#fff;');
-        imgBtn.setAttribute('onclick','runLive('+tbCamera[i].cameraID+');');
-        imgBtn.setAttribute('data-toggle','modal');
-        imgBtn.setAttribute('data-target','#modal-live');
-        var img = document.createElement('img');
-        img.id = 'camera'+tbCamera[i].cameraID+'-img';
-        img.src = '../cameras/camera'+tbCamera[i].cameraID+'/live/stream_camera_'+tbCamera[i].cameraID+'.jpg';
-        img.title = 'Click to start live';
-        img.setAttribute('style','border:5px solid #ddd;border-radius:8px;height:100%;width:100%');
-        img.setAttribute('alt','Click to display live session');
+        var liveDiv = document.createElement('div');
+        liveDiv.id = 'camera'+tbCamera[i].cameraID+'-liveDiv';
+        liveDiv.className = 'col-lg-6';
+        liveDiv.setAttribute('style','margin-bottom:2%;');
+        var liveBtn = document.createElement('button');
+        liveBtn.id = 'camera'+tbCamera[i].cameraID+'-liveBtn';
+        liveBtn.setAttribute('style','border:0px; background-color:#fff;');
+        liveBtn.setAttribute('onclick','runLive('+tbCamera[i].cameraID+');');
+        liveBtn.setAttribute('data-toggle','modal');
+        liveBtn.setAttribute('data-target','#modal-live');
+        var live = document.createElement('img');
+        live.id = 'camera'+tbCamera[i].cameraID+'-live';
+        live.src = '../cameras/camera'+tbCamera[i].cameraID+'/live/stream_camera_'+tbCamera[i].cameraID+'.jpg';
+        live.title = 'Click to start live';
+        live.setAttribute('style','border:5px solid #ddd;border-radius:8px;height:100%;width:100%');
+        live.setAttribute('alt','Click to display live session');
 
-        imgBtn.appendChild(img);
-        imgDiv.appendChild(imgBtn);
+        liveBtn.appendChild(live);
+        liveDiv.appendChild(liveBtn);
 
         //REPLAY================================================================
 
@@ -170,7 +170,7 @@ function displayCamera(tbCamera){
         imgBtnDiv.id = 'camera'+tbCamera[i].cameraID+'-imgBtnDiv';
         imgBtnDiv.className = 'row';
 
-        imgBtnDiv.appendChild(imgDiv);
+        imgBtnDiv.appendChild(liveDiv);
         imgBtnDiv.appendChild(btnDiv);
 
         //CAMERA==============================================================
@@ -190,6 +190,7 @@ function displayCamera(tbCamera){
             timer.disabled = true;
             config.disabled = true;
             detection.disabled = true;
+            live.disabled = true;
         }
 
         var row;
