@@ -310,7 +310,7 @@ function displayCamera(tbCamera){
         replay.title = 'Click to open the replay interface';
         replay.setAttribute('style','border-radius:100%;margin-left:20%');
         replay.setAttribute('onclick','runReplay('+tbCamera[i].cameraID+');');
-        replay.setAttribute('data-toggla','modal');
+        replay.setAttribute('data-toggle','modal');
         replay.setAttribute('data-target','#modal-replay');
         var replayIcon = document.createElement('span');
         replayIcon.id = 'camera'+tbCamera[i].cameraID+'-replayIcon';
