@@ -10,6 +10,40 @@
 </head>
 <body>
 
+
+<%# -MENU- %>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">TFE</a>
+        </div>
+        <div>
+            <button type="button" id="back-multiLive" class="btn btn-danger btn-lg navbar-form navbar-right"><span class="glyphicon glyphicon-arrow-left"> Back</span></button>
+        </div>
+    </div>
+</nav>
+
+
+<%# -TITLE- %>
+<div class="jumbotron">
+    <div class="container">
+        <h1>Display</h1>
+        <p>Interface utilisateur</p>
+    </div>
+</div>
+
+
+<%# -MESSAGE- %>
+<div class="container">
+    <div class="row">
+        <div id="message-div">
+            <strong id="message-title"></strong>
+            <p id="message-body"></p>
+        </div>
+    </div>
+</div>
+
+
 <%# -USER ID- %>
 <p id="userID"><%= userID %></p>
 
@@ -17,6 +51,12 @@
 
 
 <div id="display"></div>
+
+
+<%# -FOOTER- %>
+<footer class="container">
+    <p>© 2016 Victorien Derasse</p>
+</footer>
 
 <script src="/public/javascripts/hostconfig.js"></script>
 <script src="/public/javascripts/socket.io.js"></script>
