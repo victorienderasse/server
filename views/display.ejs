@@ -328,7 +328,13 @@
                 <h4 id ="config-title" style="text-align:center;" class="modal-header"></h4>
             </div>
             <div class="modal-body">
-                <p><progress id="avancement" value="30" max="70"></progress></p>
+
+                <div class="range-slider" data-slider>
+                    <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                    <span class="range-slider-active-segment"></span>
+                    <input type="hidden">
+                </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" id="modal-config-confirm" class="btn btn-success">Confirm</button>
