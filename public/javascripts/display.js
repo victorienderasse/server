@@ -215,14 +215,14 @@ socket.on('getConfig', function(data){
 
 
     var brightness = data.brightness - 50;
-    document.getElementById('brightness').setAttribute('value','"'+brightness+'"');
-    document.getElementById('contrast').setAttribute('value','"'+data.contrast+'"');
-    document.getElementById('fps').setAttribute('value','"'+data.fps+'"');
+    document.getElementById('brightness').setAttribute('value',''+brightness+'');
+    document.getElementById('contrast').setAttribute('value',''+data.contrast+'');
+    document.getElementById('fps').setAttribute('value',''+data.fps+'');
 
     document.getElementById('resolutionValue').innerHTML = resolution;
-    document.getElementById('fps').innerHTML = data.fps;
-    document.getElementById('brightness').innerHTML = brightness;
-    document.getElementById('contrast').innerHTML = data.contrast;
+    document.getElementById('fpsValue').innerHTML = data.fps;
+    document.getElementById('brightnessValue').innerHTML = brightness;
+    document.getElementById('contrastValue').innerHTML = data.contrast;
 });
 
 
