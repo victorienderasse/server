@@ -290,8 +290,9 @@ document.getElementById('resolution').addEventListener('change', function(){
 
 function showResolution(value){
 
+    console.log('value = '+value);
     var resolutionValue = document.getElementById('resolutionValue');
-    switch (value){
+    switch (parseInt(value)){
         case 1:
             resolutionValue.innerHTML = 'Low';
             break;
