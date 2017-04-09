@@ -195,9 +195,34 @@ socket.on('displayCameraState',function(data){
 });
 
 
-socket.on('setConfig', function(data){
+socket.on('getConfig', function(data){
+    console.log('getConfig');
 
-    console.log('resolution : '+data.conf.resolution);
+    var resolution;
+    switch(data.resolution){
+        case 1:
+            resolution = 'Low';
+            document.getElementById('resolution').setAttribute('value','0');
+            break;
+        case 2:
+            resolution = 'Medium';
+            document.getElementById('resolution').setAttribute('value','1');
+            break;
+        default:
+            resolution = 'High';
+            document.getElementById('resolution').setAttribute('value','2');
+    }
+
+
+    var brightness = data.brightness - 50;
+    document.getElementById('brightness').setAttribute('value',''+brightness+'');
+    ocument.getElementById('contrast').setAttribute('value',''+data.contrast+'');
+    ocument.getElementById('fps').setAttribute('value',''+data.fps+'');
+
+    document.getElementById('resolutionValue').innerHTML = resolution;
+    document.getElementById('fps').innerHTML = data.fps;
+    document.getElementById('brightness').innerHTML = brightness;
+    document.getElementById('contrast').innerHTML = data.contrast;
 });
 
 
@@ -213,7 +238,7 @@ document.getElementById('frequency').addEventListener('change',function(){
     }
 });
 
-
+//Add camera
 document.getElementById('addCamera-btn').addEventListener('click',function(){
     console.log('addCamera-btn');
     var code = prompt('Code Camera :');
@@ -223,13 +248,13 @@ document.getElementById('addCamera-btn').addEventListener('click',function(){
     }
 });
 
-
+//MultiLive
 document.getElementById('multiLive-btn').addEventListener('click',function(){
     console.log('multiLive-btn');
     redirectURL(serverURL+'/multiLive?userID='+userID);
 });
 
-
+//User
 document.getElementById('user-btn').addEventListener('click',function(){
     console.log('user-btn');
     redirectURL(serverURL+'/user?userID='+userID);
@@ -239,6 +264,9 @@ document.getElementById('user-btn').addEventListener('click',function(){
 document.getElementById('disconnect-btn').addEventListener('click', function(){
     window.location = serverURL;
 });
+
+//resolution on change
+document.getElementById()
 
 
 //Functions-----------------------------------
@@ -911,7 +939,14 @@ function runConfig(cameraID){
     var name = document.getElementById('camera'+cameraID+'-nameH3').innerHTML;
     title.innerHTML = 'Settings - '+name;
     
+    document.getElementById('modal-config-confirm').addEventListener('click','applyConfig('+cameraID+');');
+    
     socket.emit('startConfig',cameraID);
+}
+
+
+function applyConfig(cameraID){
+
 }
 
 
