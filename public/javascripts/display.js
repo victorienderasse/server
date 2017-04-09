@@ -217,7 +217,7 @@ socket.on('getConfig', function(data){
     var brightness = data.brightness - 50;
     document.getElementById('brightness').setAttribute('value',''+brightness+'');
     document.getElementById('contrast').setAttribute('value',''+data.contrast+'');
-    document.getElementById('fps').setAttribute('value',''+data.fps+'');
+    document.getElementById('fps').setAttribute('value',data.fps);
 
     document.getElementById('resolutionValue').innerHTML = resolution;
     document.getElementById('fpsValue').innerHTML = data.fps;
@@ -269,6 +269,8 @@ document.getElementById('disconnect-btn').addEventListener('click', function(){
 document.getElementById('resolution').addEventListener('change', function(){
     console.log('resolution changed');
     var value = document.getElementById('resolution').getAttribute('value');
+    console.log('resolution value = '+value);
+
     var resolution;
     switch(parseInt(value)){
         case 1:
@@ -280,6 +282,7 @@ document.getElementById('resolution').addEventListener('change', function(){
         case 3:
             resolution = 'High';
     }
+    console.log('res = '+resolution);
     document.getElementById('resolutionValue').innerHTML = resolution;
 });
 
