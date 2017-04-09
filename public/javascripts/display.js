@@ -266,6 +266,7 @@ document.getElementById('disconnect-btn').addEventListener('click', function(){
 });
 
 //resolution on change
+/*
 document.getElementById('resolution').addEventListener('change', function(){
     console.log('resolution changed');
     var value = document.getElementById('resolution').getAttribute('value');
@@ -285,6 +286,11 @@ document.getElementById('resolution').addEventListener('change', function(){
     console.log('res = '+resolution);
     document.getElementById('resolutionValue').innerHTML = resolution;
 });
+*/
+
+function showResolution(value){
+    console.log('value = '+value);
+}
 
 //fps on change
 //brightness on change
