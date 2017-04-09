@@ -215,8 +215,8 @@ socket.on('getConfig', function(data){
 
 
     var brightness = data.brightness - 50;
-    document.getElementById('brightness').setAttribute('value',''+brightness+'');
-    document.getElementById('contrast').setAttribute('value',''+data.contrast+'');
+    document.getElementById('brightness').setAttribute('value',brightness);
+    document.getElementById('contrast').setAttribute('value',data.contrast);
     document.getElementById('fps').setAttribute('value',data.fps);
 
     document.getElementById('resolutionValue').innerHTML = resolution;
@@ -931,6 +931,11 @@ function runDetection(cameraID){
 
 
 function runConfig(cameraID){
+    /*
+    -> Update title of config modal
+    -> Set confirm btn
+    -> set oninput
+     */
     console.log('runConfig function');
 
     var title = document.getElementById('config-title');
@@ -938,6 +943,7 @@ function runConfig(cameraID){
     title.innerHTML = 'Settings - '+name;
     
     document.getElementById('modal-config-confirm').addEventListener('click','applyConfig('+cameraID+');');
+
     document.getElementById('resolution').setAttribute('oninput','updateConfigValue({value:this.value,input:this.id});');
     document.getElementById('fps').setAttribute('oninput','updateConfigValue({value:this.value,input:this.id});');
     document.getElementById('brightness').setAttribute('oninput','updateConfigValue({value:this.value,input:this.id});');
@@ -1134,37 +1140,6 @@ function displayCameraState(data){
 
 }
 
-
-function showResolution(value){
-
-    console.log('value = '+value);
-    var resolutionValue = document.getElementById('resolutionValue');
-    switch (parseInt(value)){
-        case 1:
-            resolutionValue.innerHTML = 'Low';
-            break;
-        case 2:
-            resolutionValue.innerHTML = 'Medium';
-            break;
-        case 3:
-            resolutionValue.innerHTML = 'High';
-    }
-}
-
-function showFPS(value){
-    console.log('Value = '+value);
-    document.getElementById('fpsValue').innerHTML = value;
-}
-
-function showBrightness(value){
-    console.log('Value = '+value);
-    document.getElementById('brightnessValue').innerHTML = value;
-}
-
-function showContrast(value){
-    console.log('Value = '+value);
-    document.getElementById('contrastValue').innerHTML = value;
-}
 
 function updateConfigValue(data){
     console.log('updateConfigValue');
