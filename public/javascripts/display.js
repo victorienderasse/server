@@ -938,7 +938,7 @@ function runConfig(cameraID){
     title.innerHTML = 'Settings - '+name;
     
     document.getElementById('modal-config-confirm').addEventListener('click','applyConfig('+cameraID+');');
-    document.getElementById('resolution').setAttribute('oninput','updateConfigValue({value:this.value,input: resolution});');
+    document.getElementById('resolution').setAttribute('oninput','updateConfigValue({value:this.value,input:this.id});');
 
     socket.emit('startConfig',cameraID);
 }
