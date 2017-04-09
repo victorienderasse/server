@@ -202,15 +202,15 @@ socket.on('getConfig', function(data){
     switch(parseInt(data.resolution)){
         case 1:
             resolution = 'Low';
-            document.getElementById('resolution').setAttribute('value','0');
+            document.getElementById('resolution').setAttribute('value','1');
             break;
         case 2:
             resolution = 'Medium';
-            document.getElementById('resolution').setAttribute('value','1');
+            document.getElementById('resolution').setAttribute('value','2');
             break;
         case 3:
             resolution = 'High';
-            document.getElementById('resolution').setAttribute('value','2');
+            document.getElementById('resolution').setAttribute('value','3');
     }
 
 
