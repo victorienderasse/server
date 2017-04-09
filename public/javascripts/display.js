@@ -266,6 +266,26 @@ document.getElementById('disconnect-btn').addEventListener('click', function(){
 });
 
 //resolution on change
+document.getElementById('resolution').addEventListener('change', function(){
+    console.log('resolution changed');
+    var value = document.getElementById('resolution').getAttribute('value');
+    var resolution;
+    switch(value){
+        case 1:
+            resolution = 'Low';
+            break;
+        case 2:
+            resolution = 'Medium';
+            break;
+        default:
+            resolution = 'High';
+    }
+    document.getElementById('resolutionValue').innerHTML = resolution;
+});
+
+//fps on change
+//brightness on change
+//contrast on change
 
 
 
