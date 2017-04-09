@@ -289,7 +289,18 @@ document.getElementById('resolution').addEventListener('change', function(){
 */
 
 function showResolution(value){
-    console.log('value = '+value);
+
+    var resolutionValue = document.getElementById('resolutionValue');
+    switch (value){
+        case 1:
+            resolutionValue.innerHTML = 'Low';
+            break;
+        case 2;
+            resolutionValue.innerHTML = 'Medium';
+            break;
+        case 3:
+            resolutionValue.innerHTML = 'High';
+    }
 }
 
 //fps on change
