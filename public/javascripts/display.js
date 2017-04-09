@@ -198,7 +198,7 @@ socket.on('displayCameraState',function(data){
 
 
 socket.on('setConfig', function(data){
-    if()
+    
     console.log('resolution : '+data.conf.resolution);
 });
 
