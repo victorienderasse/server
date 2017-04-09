@@ -295,7 +295,7 @@ function showResolution(value){
         case 1:
             resolutionValue.innerHTML = 'Low';
             break;
-        case 2;
+        case 2:
             resolutionValue.innerHTML = 'Medium';
             break;
         case 3:
