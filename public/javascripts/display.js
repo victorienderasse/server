@@ -266,7 +266,7 @@ document.getElementById('disconnect-btn').addEventListener('click', function(){
 });
 
 //resolution on change
-document.getElementById()
+
 
 
 //Functions-----------------------------------
