@@ -938,8 +938,8 @@ function runConfig(cameraID){
     title.innerHTML = 'Settings - '+name;
     
     document.getElementById('modal-config-confirm').addEventListener('click','applyConfig('+cameraID+');');
-    document.getElementById('resolution').setAttribute('oninput','updateConfigValue({value:this.value,input:'+resolution+'});');
-    
+    document.getElementById('resolution').setAttribute('oninput','updateConfigValue({value:this.value,input: resolution});');
+
     socket.emit('startConfig',cameraID);
 }
 
@@ -1165,6 +1165,9 @@ function showContrast(value){
 
 function updateConfigValue(data){
 
+    console.log('updateConfigValue');
+    console.log('Value = '+data.value);
+    console.log('Input = '+data.input);
 }
 
 
