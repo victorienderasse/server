@@ -8,8 +8,6 @@ var userID = document.getElementById('userID').innerHTML;
 //Ask camera to server
 socket.emit('getCamera',userID);
 
-var slider = new Slider('ex5');
-
 
 //EVENTS-----------------------------------------------------------------------------------------------------------------
 
@@ -198,7 +196,7 @@ socket.on('displayCameraState',function(data){
 
 
 socket.on('setConfig', function(data){
-    
+
     console.log('resolution : '+data.conf.resolution);
 });
 
