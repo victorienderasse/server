@@ -199,7 +199,7 @@ socket.on('getConfig', function(data){
     console.log('getConfig');
 
     var resolution;
-    switch(data.resolution){
+    switch(parseInt(data.resolution)){
         case 1:
             resolution = 'Low';
             document.getElementById('resolution').setAttribute('value','0');
@@ -208,7 +208,7 @@ socket.on('getConfig', function(data){
             resolution = 'Medium';
             document.getElementById('resolution').setAttribute('value','1');
             break;
-        default:
+        case 3:
             resolution = 'High';
             document.getElementById('resolution').setAttribute('value','2');
     }
@@ -270,14 +270,14 @@ document.getElementById('resolution').addEventListener('change', function(){
     console.log('resolution changed');
     var value = document.getElementById('resolution').getAttribute('value');
     var resolution;
-    switch(value){
+    switch(parseInt(value)){
         case 1:
             resolution = 'Low';
             break;
         case 2:
             resolution = 'Medium';
             break;
-        default:
+        case 3:
             resolution = 'High';
     }
     document.getElementById('resolutionValue').innerHTML = resolution;
