@@ -265,49 +265,6 @@ document.getElementById('disconnect-btn').addEventListener('click', function(){
     window.location = serverURL;
 });
 
-//resolution on change
-/*
-document.getElementById('resolution').addEventListener('change', function(){
-    console.log('resolution changed');
-    var value = document.getElementById('resolution').getAttribute('value');
-    console.log('resolution value = '+value);
-
-    var resolution;
-    switch(parseInt(value)){
-        case 1:
-            resolution = 'Low';
-            break;
-        case 2:
-            resolution = 'Medium';
-            break;
-        case 3:
-            resolution = 'High';
-    }
-    console.log('res = '+resolution);
-    document.getElementById('resolutionValue').innerHTML = resolution;
-});
-*/
-
-function showResolution(value){
-
-    console.log('value = '+value);
-    var resolutionValue = document.getElementById('resolutionValue');
-    switch (parseInt(value)){
-        case 1:
-            resolutionValue.innerHTML = 'Low';
-            break;
-        case 2:
-            resolutionValue.innerHTML = 'Medium';
-            break;
-        case 3:
-            resolutionValue.innerHTML = 'High';
-    }
-}
-
-//fps on change
-//brightness on change
-//contrast on change
-
 
 
 //Functions-----------------------------------
@@ -1171,6 +1128,38 @@ function removeReplay(data){
 
 function displayCameraState(data){
 
+}
+
+
+function showResolution(value){
+
+    console.log('value = '+value);
+    var resolutionValue = document.getElementById('resolutionValue');
+    switch (parseInt(value)){
+        case 1:
+            resolutionValue.innerHTML = 'Low';
+            break;
+        case 2:
+            resolutionValue.innerHTML = 'Medium';
+            break;
+        case 3:
+            resolutionValue.innerHTML = 'High';
+    }
+}
+
+function showFPS(value){
+    console.log('Value = '+value);
+    document.getElementById('fpsValue').innerHTML = value;
+}
+
+function showBrightness(value){
+    console.log('Value = '+value);
+    document.getElementById('brightnessValue').innerHTML = value;
+}
+
+function showContrast(value){
+    console.log('Value = '+value);
+    document.getElementById('contrastValue').innerHTML = value;
 }
 
 
