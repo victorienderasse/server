@@ -939,6 +939,9 @@ function runConfig(cameraID){
     
     document.getElementById('modal-config-confirm').addEventListener('click','applyConfig('+cameraID+');');
     document.getElementById('resolution').setAttribute('oninput','updateConfigValue({value:this.value,input:this.id});');
+    document.getElementById('fps').setAttribute('oninput','updateConfigValue({value:this.value,input:this.id});');
+    document.getElementById('brightness').setAttribute('oninput','updateConfigValue({value:this.value,input:this.id});');
+    document.getElementById('contrast').setAttribute('oninput','updateConfigValue({value:this.value,input:this.id});');
 
     socket.emit('startConfig',cameraID);
 }
@@ -1164,10 +1167,22 @@ function showContrast(value){
 }
 
 function updateConfigValue(data){
-
     console.log('updateConfigValue');
-    console.log('Value = '+data.value);
-    console.log('Input = '+data.input);
+    
+    if(data.input == 'resolution'){
+        switch(parseInt(data.value)){
+            case 1:
+                document.getElementById(data.input+'Value').innerHTML = 'Low';
+                break;
+            case 2:
+                document.getElementById(data.input+'Value').innerHTML = 'Medium';
+                break;
+            case 3:
+                document.getElementById(data.input+'Value').innerHTML = 'High';
+        }
+    }else{
+        document.getElementById(data.input+'Value').innerHTML = data.value;
+    }
 }
 
 
