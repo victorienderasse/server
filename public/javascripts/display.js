@@ -215,9 +215,9 @@ socket.on('getConfig', function(data){
 
 
     var brightness = data.brightness - 50;
-    document.getElementById('brightness').setAttribute('value',''+brightness+'');
-    document.getElementById('contrast').setAttribute('value',''+data.contrast+'');
-    document.getElementById('fps').setAttribute('value',''+data.fps+'');
+    document.getElementById('brightness').setAttribute('value','"'+brightness+'"');
+    document.getElementById('contrast').setAttribute('value','"'+data.contrast+'"');
+    document.getElementById('fps').setAttribute('value','"'+data.fps+'"');
 
     document.getElementById('resolutionValue').innerHTML = resolution;
     document.getElementById('fps').innerHTML = data.fps;
