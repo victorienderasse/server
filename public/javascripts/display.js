@@ -954,9 +954,9 @@ function runConfig(cameraID){
     var name = document.getElementById('camera'+cameraID+'-nameH3').innerHTML;
     title.innerHTML = 'Settings - '+name;
 
-    var img = document.getElementById('previewImg'+cameraID);
-    if(img != 'undefined'){
-        document.getElementById('preview').removeChild(img);
+    var preview = document.getElementById('preview');
+    if(preview.firstChild){
+        preview.removeChild(preview.firstChild);
     }
     
     document.getElementById('modal-config-confirm').setAttribute('onclick','applyConfig({cameraID:'+cameraID+',action:"applyConfig"});');
