@@ -1214,7 +1214,6 @@ function updateConfigValue(data){
 //BTN TEST
 document.getElementById('btnTest').addEventListener('click',function(){
     console.log('TEST BTN');
-    
 });
 
 
