@@ -954,7 +954,13 @@ function runConfig(cameraID){
 
 
 function applyConfig(cameraID){
-
+    /*
+    -> Get data
+     */
+    console.log('applyConfig function');
+    var resolution = document.getElementById('resolution').value;
+    console.log('resolution : '+resolution);
+   
 }
 
 
