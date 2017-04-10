@@ -729,7 +729,11 @@ io.sockets.on('connection', function(socket){
               cameraID: camera.cameraID,
               type: data.type,
               once: data.once,
-              recordID: rows[0].recordID
+              recordID: rows[0].recordID,
+              resolution: camera.resolution,
+              fps: camera.fps,
+              brightness: camera.brightness,
+              contrast: camera.contrast
             };
 
             sendToCamera(data.cameraID,'timer',arg);
