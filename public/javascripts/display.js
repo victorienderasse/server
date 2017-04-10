@@ -242,7 +242,7 @@ document.getElementById('frequency').addEventListener('change',function(){
 document.getElementById('addCamera-btn').addEventListener('click',function(){
     console.log('addCamera-btn');
     var code = prompt('Code Camera :');
-    if((code != null) || (code != 'undefined')){
+    if((code != null) && (code != 'undefined')){
         var userID = document.getElementById('userID').innerHTML;
         socket.emit('addCamera',{code: code,userID:userID});
     }
