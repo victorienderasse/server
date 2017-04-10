@@ -953,6 +953,11 @@ function runConfig(cameraID){
     var title = document.getElementById('config-title');
     var name = document.getElementById('camera'+cameraID+'-nameH3').innerHTML;
     title.innerHTML = 'Settings - '+name;
+
+    var img = document.getElementById('previewImg'+cameraID);
+    if(img != 'undefined'){
+        document.getElementById('preview').removeChild(img);
+    }
     
     document.getElementById('modal-config-confirm').setAttribute('onclick','applyConfig({cameraID:'+cameraID+',action:"applyConfig"});');
     document.getElementById('modal-config-preview').setAttribute('onclick','applyConfig({cameraID:'+cameraID+',action:"previewConfig"});');
