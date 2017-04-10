@@ -998,10 +998,14 @@ function applyConfig(data){
     socket.emit(data.action,arg);
 
     if(data.action == 'previewConfig'){
+        var preview = document.getElementById('preview');
+        if(preview.firstChild){
+            preview.removeChild(preview.firstChild);
+        }
         var img = document.createElement('img');
         img.id = 'previewImg'+data.cameraID;
-        img.setAttribute('style','width:150px;height:100px');
-        document.getElementById('preview').appendChild(img);
+        img.setAttribute('style','width:200px;height:150px');
+        preview.appendChild(img);
     }
 }
 
