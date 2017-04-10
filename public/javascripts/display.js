@@ -969,7 +969,7 @@ function applyConfig(data){
     brightness = brightness + 50;
     
     var arg = {
-        cameraID: cameraID,
+        cameraID: data.cameraID,
         resolution: resolution,
         fps: fps,
         brightness: brightness,
