@@ -198,6 +198,10 @@ socket.on('displayCameraState',function(data){
 socket.on('getConfig', function(data){
     console.log('getConfig');
 
+    if(data.enable == 0 || data.state != 0){
+        document.getElementById('modal-config-preview').disabled = true;
+    }
+
     var resolution;
     switch(parseInt(data.resolution)){
         case 1:
@@ -223,6 +227,14 @@ socket.on('getConfig', function(data){
     document.getElementById('fpsValue').innerHTML = data.fps;
     document.getElementById('brightnessValue').innerHTML = brightness;
     document.getElementById('contrastValue').innerHTML = data.contrast;
+});
+
+
+socket.on('previewSend', function(cameraID){
+    var img = document.getElementById('previewImg'+cameraID);
+    if(img != null && img != 'undefined'){
+        img.src = '../cameras/camera'+cameraID+'/live/preview.jpg?v='+ new Date().getTime();
+    }
 });
 
 
@@ -977,12 +989,15 @@ function applyConfig(data){
     };
     
     socket.emit(data.action,arg);
+
+    if(data.action == 'previewConfig'){
+        var img = document.createElement('img');
+        img.id = 'previewImg'+data.cameraID;
+        img.setAttribute('style','width:150px;height:100px');
+        document.getElementById('preview').appendChild(img);
+    }
 }
 
-
-function previewConfig(cameraID){
-
-}
 
 
 function setName(cameraID){
