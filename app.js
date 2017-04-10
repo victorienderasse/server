@@ -297,7 +297,7 @@ io.sockets.on('connection', function(socket){
     setRecordPaused(cameraID);
     setState(cameraID, 1);
     getInfoCamera(cameraID, function(camera){
-      sendToCamera(cameraID,'startDetection',{cameraName: camera.name, cameraID: cameraID});
+      sendToCamera(cameraID,'startDetection',{cameraName: camera.name, cameraID: cameraID, resolution: camera.resolution, fps: camera.fps, brightness: camera.brightness, contrast: camera.contrast});
     });
   });
 
@@ -327,7 +327,7 @@ io.sockets.on('connection', function(socket){
     setRecordPaused(cameraID);
 
     getInfoCamera(cameraID, function(camera){
-      sendToCamera(cameraID,'startStream', {cameraID: cameraID, name: camera.name});
+      sendToCamera(cameraID,'startStream', {cameraID: cameraID, name: camera.name, resolution: camera.resolution, fps: camera.fps, brightness: camera.brightness, contrast: camera.contrast});
     });
 
   });
@@ -554,7 +554,7 @@ io.sockets.on('connection', function(socket){
     setState(cameraID,4);
 
     getInfoCamera(cameraID, function(camera){
-      sendToCamera(cameraID, 'startLiveRecording', {cameraID: cameraID, name: camera.name});
+      sendToCamera(cameraID, 'startLiveRecording', {cameraID: cameraID, name: camera.name, resolution: camera.resolution, fps: camera.fps, brightness: camera.brightness, contrast: camera.contrast});
     });
 
   });
@@ -785,7 +785,11 @@ io.sockets.on('connection', function(socket){
           cameraID: record.cameraID,
           type: record.type,
           once: Once,
-          recordID: recordID
+          recordID: recordID,
+          resolution: camera.resolution,
+          fps: camera.fps,
+          brightness: camera.brightness,
+          contrast: camera.contrast
         };
 
         sendToCamera(record.cameraID,'timer',arg);
@@ -1168,7 +1172,11 @@ io.sockets.on('connection', function(socket){
               cameraID: rows[i].cameraID,
               type: rows[i].type,
               once: Once,
-              recordID: rows[i].recordID
+              recordID: rows[i].recordID,
+              resolution: camera.resolution,
+              fps: camera.fps,
+              brightness: camera.brightness,
+              contrast: camera.contrast
             };
 
             sendToCamera(cameraID,'timer',arg);

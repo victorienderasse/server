@@ -459,7 +459,7 @@ function displayCamera(tbCamera){
         camera.appendChild(imgBtnDiv);
 
         if(tbCamera[i].enable == 0) {
-            camera.setAttribute('style', 'background-color:#FAECEC;');
+            camera.setAttribute('style', 'background-color:#FAECEC; border:1px solid #ddd;border-radius:4px;');
             timer.disabled = true;
             detection.disabled = true;
             liveBtn.disabled = true;
@@ -1010,7 +1010,6 @@ function applyConfig(data){
 }
 
 
-
 function setName(cameraID){
     /*
     -> display prompt to get new camera name
@@ -1186,11 +1185,6 @@ function removeReplay(data){
     Table.removeChild(document.getElementById('table-replay-tr'+data.replayID));
 
     socket.emit('removeReplay',{cameraID: data.cameraID, name: name});
-}
-
-
-function displayCameraState(data){
-
 }
 
 
