@@ -680,7 +680,7 @@ io.sockets.on('connection', function(socket){
 
   socket.on('previewConfig', function(data){
     console.log('previewConfig event');
-    //sendToCamera(data.cameraID,'getPreview',data);
+    sendToCamera(data.cameraID,'getPreview',data);
   });
   
   
