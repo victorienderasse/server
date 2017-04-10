@@ -686,7 +686,13 @@ io.sockets.on('connection', function(socket){
   
   socket.on('previewSend', function(cameraID){
     console.log('previewSend event');
-    io.emit('previewSend',cameraID);
+    /*
+    setTimeout(function(){
+      
+    },1000);
+    */
+    io.emit('updatePreview',cameraID);
+    
   });
   
   

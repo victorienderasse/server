@@ -230,7 +230,7 @@ socket.on('getConfig', function(data){
 });
 
 
-socket.on('previewSend', function(cameraID){
+socket.on('updatePreview', function(cameraID){
     var img = document.getElementById('previewImg'+cameraID);
     if(img != null && img != 'undefined'){
         img.src = '../cameras/camera'+cameraID+'/live/preview.jpg?v='+ new Date().getTime();
