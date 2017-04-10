@@ -200,6 +200,8 @@ socket.on('getConfig', function(data){
 
     if(data.enable == 0 || data.state != 0){
         document.getElementById('modal-config-preview').disabled = true;
+    }else{
+        document.getElementById('modal-config-preview').disabled = false;
     }
 
     var resolution;
