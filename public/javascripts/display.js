@@ -933,7 +933,7 @@ function runDetection(cameraID){
 function runConfig(cameraID){
     /*
     -> Update title of config modal
-    -> Set confirm btn
+    -> Set confirm and preview btn
     -> set oninput
      */
     console.log('runConfig function');
@@ -942,7 +942,8 @@ function runConfig(cameraID){
     var name = document.getElementById('camera'+cameraID+'-nameH3').innerHTML;
     title.innerHTML = 'Settings - '+name;
     
-    document.getElementById('modal-config-confirm').setAttribute('onclick','applyConfig('+cameraID+');');
+    document.getElementById('modal-config-confirm').setAttribute('onclick','applyConfig({cameraID:'+cameraID+',action:applyConfig});');
+    document.getElementById('modal-config-preview').setAttribute('onclick','applyConfig({cameraID:'+cameraID+',action:previewConfig);');
 
     document.getElementById('resolution').setAttribute('oninput','updateConfigValue({value:this.value,input:this.id});');
     document.getElementById('fps').setAttribute('oninput','updateConfigValue({value:this.value,input:this.id});');
@@ -956,10 +957,30 @@ function runConfig(cameraID){
 function applyConfig(cameraID){
     /*
     -> Get data
+    -> Set brightness good value
+    -> Send to server
      */
     console.log('applyConfig function');
     var resolution = document.getElementById('resolution').value;
-    console.log('resolution : '+resolution);
+    var fps = document.getElementById('fps').value;
+    var brightness = document.getElementById('brightness').value;
+    var contrast = document.getElementById('contrast').value;
+    
+    brightness = brightness + 50;
+    
+    var arg = {
+        cameraID: cameraID,
+        resolution: resolution,
+        fps: fps,
+        brightness: brightness,
+        contrast: contrast
+    };
+    
+    socket.emit(data.action,arg);
+}
+
+
+function previewConfig(cameraID){
 
 }
 
