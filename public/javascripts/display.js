@@ -954,7 +954,7 @@ function runConfig(cameraID){
 }
 
 
-function applyConfig(cameraID){
+function applyConfig(data){
     /*
     -> Get data
     -> Set brightness good value
