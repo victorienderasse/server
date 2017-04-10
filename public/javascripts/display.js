@@ -942,7 +942,7 @@ function runConfig(cameraID){
     var name = document.getElementById('camera'+cameraID+'-nameH3').innerHTML;
     title.innerHTML = 'Settings - '+name;
     
-    document.getElementById('modal-config-confirm').addEventListener('click','applyConfig('+cameraID+');');
+    document.getElementById('modal-config-confirm').setAttribute('onclick','applyConfig('+cameraID+');');
 
     document.getElementById('resolution').setAttribute('oninput','updateConfigValue({value:this.value,input:this.id});');
     document.getElementById('fps').setAttribute('oninput','updateConfigValue({value:this.value,input:this.id});');
@@ -960,7 +960,7 @@ function applyConfig(cameraID){
     console.log('applyConfig function');
     var resolution = document.getElementById('resolution').value;
     console.log('resolution : '+resolution);
-   
+
 }
 
 
