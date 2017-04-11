@@ -15,7 +15,7 @@ socket.on('QRCodeDone', function(userID){
         }
         img.src = '../images/qrcode'+data.userID+'.jpg';
     }else{
-        console.log('userID NOK');
+        console.log('userID NOK -> '+data.userID+' != '+userID);
     }
 
 });
