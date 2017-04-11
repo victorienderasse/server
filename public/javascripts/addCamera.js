@@ -13,7 +13,7 @@ socket.on('QRCodeDone', function(ID){
         if(img.firstChild){
             img.removeChild(img.firstChild);
         }
-        img.src = '../images/qrcode'+data.userID+'.jpg';
+        img.src = '../images/qrcode'+ID+'.jpg';
         document.getElementById('data').setAttribute('style','display:none');
         document.getElementById('qrcode').setAttribute('style','display;block');
     }else{
