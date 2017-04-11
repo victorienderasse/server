@@ -14,6 +14,8 @@ socket.on('QRCodeDone', function(ID){
             img.removeChild(img.firstChild);
         }
         img.src = '../images/qrcode'+data.userID+'.jpg';
+        document.getElementById('data').setAttribute('style','display:none');
+        document.getElementById('qrcode').setAttribute('style','display;block');
     }else{
         console.log('userID NOK -> '+ID+' != '+userID);
     }
