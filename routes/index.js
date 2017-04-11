@@ -23,7 +23,7 @@ router.get('/user', function(req,res){
 });
 
 router.get('/addCamera', function(req,res){
-  res.render('user', {userID: req.query.userID});
+  res.render('addCamera', {userID: req.query.userID});
 });
 
 router.use(function(req,res,next){
