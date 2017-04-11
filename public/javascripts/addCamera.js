@@ -4,18 +4,18 @@
 
 var userID = document.getElementById('userID').innerHTML;
 
-socket.on('QRCodeDone', function(userID){
+socket.on('QRCodeDone', function(ID){
 
     console.log('QRCodeDone');
 
-    if(data.userID == userID){
+    if(ID == userID){
         var img = document.getElementById('imgQRCode');
         if(img.firstChild){
             img.removeChild(img.firstChild);
         }
         img.src = '../images/qrcode'+data.userID+'.jpg';
     }else{
-        console.log('userID NOK -> '+data.userID+' != '+userID);
+        console.log('userID NOK -> '+ID+' != '+userID);
     }
 
 });
