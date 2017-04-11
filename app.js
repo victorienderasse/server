@@ -688,6 +688,18 @@ io.sockets.on('connection', function(socket){
     console.log('previewSend event');
     io.emit('updatePreview',cameraID);
   });
+
+
+  socket.on('setQRCode', function(data){
+    console.log('setQRCode');
+    const cmd = 'qr "'+data.userID+'_'+data.ssid+'_'+data.password+'" > ./public/images/qrcode'+data.userID+'.jpg';
+    exec(cmd, function(err){
+      if(err) throw err;
+    });
+    setTimeout(function(){
+      socket.emit('QRCodeDone', data.userID);
+    },1000);
+  });
   
   
   

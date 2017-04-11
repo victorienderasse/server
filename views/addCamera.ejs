@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Camera</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+<body style="background-color:#FBFBFB;">
+
+
+<%# -MENU- %>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">TFE</a>
+        </div>
+        <div>
+            <button type="button" id="back" class="btn btn-danger btn-lg navbar-form navbar-right"><span class="glyphicon glyphicon-arrow-left"> Back</span></button>
+        </div>
+    </div>
+</nav>
+
+
+<%# -TITLE- %>
+<div class="jumbotron">
+    <div class="container">
+        <h1>Display</h1>
+        <p>Add Camera</p>
+    </div>
+</div>
+
+
+<%# -MESSAGE- %>
+<div class="container">
+    <div class="row">
+        <div id="message-div">
+            <strong id="message-title"></strong>
+            <p id="message-body"></p>
+        </div>
+    </div>
+</div>
+
+
+<%# -USER ID- %>
+<p id="userID"><%= userID %></p>
+
+
+<div id="info" class="container">
+    <h3>Add a camera</h3>
+    <p>Please connect your camera to power. Next we will ask you to enter the name of the WiFi and the password to allow your camera to connect to internet</p>
+    <button type="button" id="infoBtn" class="btn btn-success">Next</button>
+</div>
+
+<div id="data" class="container" style="display:none;">
+    <form id="dataForm">
+        <div>
+            <label for="ssid" class="label-control">SSID : </label>
+            <input type="text" id="ssid" name="ssid" placeholder="Name of your Wifi">
+        </div>
+        <div>
+            <label for="password" class="label-control">Password : </label>
+            <input type="password" id="password" name="password">
+        </div>
+    </form>
+    <button type="button" id="dataBtn" class="btn btn-success">Next</button>
+</div>
+
+<div id="qrcode" class="container" style="display:none;">
+    <p>Please get your camera in front of the QR Code below</p>
+    <img id="imgQRCode" style="width:500px; height:500px">
+</div>
+
+
+<%# -FOOTER- %>
+<footer class="container">
+    <p>© 2016 Victorien Derasse</p>
+</footer>
+
+<script src="/public/javascripts/hostconfig.js"></script>
+<script src="/public/javascripts/socket.io.js"></script>
+<script src="/public/javascripts/functions.js"></script>
+<script src="/public/javascripts/addCamera.js"></script>
+
+
+</body>
+</html>
