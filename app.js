@@ -697,6 +697,7 @@ io.sockets.on('connection', function(socket){
       if(err) throw err;
     });
     setTimeout(function(){
+      console.log('send qrcode user : '+data.userID);
       socket.emit('QRCodeDone', data.userID);
     },1000);
   });
