@@ -63,6 +63,7 @@ io.sockets.on('connection', function(socket){
   
   socket.on('client', function (data) {
     console.log('client connected');
+
   });
 
   
@@ -89,6 +90,7 @@ io.sockets.on('connection', function(socket){
             if (err){
               throw err;
             }
+            socket.emit('cameraUP', rows[0].cameraID);
           });
         }else{
           //Camera already added -> update socketID
@@ -96,6 +98,7 @@ io.sockets.on('connection', function(socket){
             if (err){
               throw err;
             }
+            socket.emit('cameraUP', rows[0].cameraID);
           });
         }
       }else{
@@ -692,7 +695,7 @@ io.sockets.on('connection', function(socket){
 
   socket.on('setQRCode', function(data){
     console.log('setQRCode');
-    const cmd = 'qr "'+data.userID+'_'+data.ssid+'_'+data.password+'" > ./public/images/qrcode'+data.userID+'.jpg';
+    const cmd = 'qr "'+data.userID+' '+data.ssid+' '+data.password+'" > ./public/images/qrcode'+data.userID+'.jpg';
     exec(cmd, function(err){
       if(err) throw err;
     });

@@ -3,7 +3,7 @@
  */
 var socket = io.connect(serverURL);
 
-socket.emit('client','client');
+socket.emit('client', 'client');
 
 socket.on('redirect', function(url){
     window.location = url;

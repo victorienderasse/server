@@ -6,6 +6,8 @@
 
 var userID = document.getElementById('userID').innerHTML;
 
+
+
 socket.emit('getCamera',userID);
 
 //ACTION===============================================================================

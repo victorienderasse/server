@@ -11,6 +11,13 @@ socket.emit('getCamera',userID);
 
 //EVENTS-----------------------------------------------------------------------------------------------------------------
 
+socket.on('cameraUP', function(cameraID){
+    var camera = document.getElementById('camera'+cameraID);
+    if(camera != 'undefined' && camera != null){
+        camera.setAttribute('style','border:1px solid #ddd;border-radius:4px; background-color:#fff');
+    }
+});
+
 
 socket.on('sendCamera', function(tbCamera){
     console.log('sendCamera event');
