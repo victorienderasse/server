@@ -22,7 +22,7 @@ const server = http.createServer(app);
 const io = require('socket.io').listen(server);
 
 const connection = mysql.createConnection({
-  host : '192.168.1.51',
+  host : 'localhost',
   user : 'root',
   password : '221193m',
   database : 'TFE'
