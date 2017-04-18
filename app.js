@@ -15,16 +15,16 @@ const exec = require('child_process').exec;
 const twilio = require('twilio');
 
 const port = 3000;
-const serverURL = 'http://192.168.1.50:3000';
+const serverURL = 'http://192.168.1.51:3000';
 const app = express();
 
 const server = http.createServer(app);
 const io = require('socket.io').listen(server);
 
 const connection = mysql.createConnection({
-  host : '192.168.1.50',
+  host : '192.168.1.51',
   user : 'root',
-  password : '',
+  password : '221193m',
   database : 'TFE'
 });
 
