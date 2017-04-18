@@ -702,7 +702,7 @@ io.sockets.on('connection', function(socket){
     setTimeout(function(){
       console.log('send qrcode user : '+data.userID);
       socket.emit('QRCodeDone', data.userID);
-    },1000);
+    },5000);
   });
 
 
