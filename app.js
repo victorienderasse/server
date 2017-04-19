@@ -681,9 +681,6 @@ io.sockets.on('connection', function(socket){
 
   socket.on('getConfigRes', function(data){
     console.log('getConfigRes Event');
-    console.log('cameraName = '+data.cameraName);
-    console.log(data.cameraID);
-    console.log(data.width);
     io.emit('setConfig',data);
   });
   

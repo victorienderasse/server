@@ -203,43 +203,37 @@ socket.on('displayCameraState',function(data){
 
 
 socket.on('setConfig', function(data){
-    console.log('getConfig');
+    console.log('setConfig');
 
     var title = document.getElementById('config-title');
     if(title.innerHTML == 'Settings - '+data.cameraName){
-        console.log('ok');
-    }else{
-        console.log('NOK');
-        console.log(title.innerHTML +' != "Settings - '+data.cameraName+'"');
+
+        var resolution;
+        switch(parseInt(data.width)){
+            case 640:
+                resolution = 'Low';
+                document.getElementById('resolution').setAttribute('value','1');
+                break;
+            case 1200:
+                resolution = 'Medium';
+                document.getElementById('resolution').setAttribute('value','2');
+                break;
+            case 1600:
+                resolution = 'High';
+                document.getElementById('resolution').setAttribute('value','3');
+        }
+
+        document.getElementById('brightness').setAttribute('value',data.brightness);
+        document.getElementById('contrast').setAttribute('value',data.contrast);
+        document.getElementById('fps').setAttribute('value',data.fps);
+
+        document.getElementById('resolutionValue').innerHTML = resolution;
+        document.getElementById('fpsValue').innerHTML = data.fps;
+        document.getElementById('brightnessValue').innerHTML = data.brightness;
+        document.getElementById('contrastValue').innerHTML = data.contrast;
+
     }
 
-    /*
-    var resolution;
-    switch(parseInt(data.resolution)){
-        case 1:
-            resolution = 'Low';
-            document.getElementById('resolution').setAttribute('value','1');
-            break;
-        case 2:
-            resolution = 'Medium';
-            document.getElementById('resolution').setAttribute('value','2');
-            break;
-        case 3:
-            resolution = 'High';
-            document.getElementById('resolution').setAttribute('value','3');
-    }
-
-
-    var brightness = data.brightness - 50;
-    document.getElementById('brightness').setAttribute('value',brightness);
-    document.getElementById('contrast').setAttribute('value',data.contrast);
-    document.getElementById('fps').setAttribute('value',data.fps);
-
-    document.getElementById('resolutionValue').innerHTML = resolution;
-    document.getElementById('fpsValue').innerHTML = data.fps;
-    document.getElementById('brightnessValue').innerHTML = brightness;
-    document.getElementById('contrastValue').innerHTML = data.contrast;
-    */
 });
 
 
