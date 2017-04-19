@@ -205,12 +205,17 @@ socket.on('displayCameraState',function(data){
 socket.on('getConfig', function(data){
     console.log('getConfig');
 
-    if(data.enable == 0 || data.state != 0){
-        document.getElementById('modal-config-preview').disabled = true;
+    var camera = document.getElementById('modal-config-confirm');
+    var attr = camera.getAttribute('onclick');
+    console.log(attr);
+
+    if(attr == 'applyConfig({cameraID:'+data.cameraID+',action:"applyConfig"});'){
+        console.log('ok');
     }else{
-        document.getElementById('modal-config-preview').disabled = false;
+        console.log('NOK');
     }
 
+    /*
     var resolution;
     switch(parseInt(data.resolution)){
         case 1:
@@ -236,6 +241,7 @@ socket.on('getConfig', function(data){
     document.getElementById('fpsValue').innerHTML = data.fps;
     document.getElementById('brightnessValue').innerHTML = brightness;
     document.getElementById('contrastValue').innerHTML = data.contrast;
+    */
 });
 
 

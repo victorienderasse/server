@@ -667,7 +667,7 @@ io.sockets.on('connection', function(socket){
   socket.on('startConfig', function(cameraID){
     console.log('startConfig event');
 
-    sendToCamera(cameraID,'getConfig',null);
+    sendToCamera(cameraID,'getConfig',cameraID);
     /*
     getInfoCamera(cameraID, function(camera){
       socket.emit('getConfig',camera);
@@ -678,9 +678,7 @@ io.sockets.on('connection', function(socket){
 
   socket.on('getConfigRes', function(data){
     console.log('getConfigRes Event');
-    console.log('resolution = ('+data.height+','+data.width+')');
-    console.log('fps = '+data.fps);
-    console.log('brightness = '+data.brightness);
+    io.emit('getConfig',data);
   });
   
   
