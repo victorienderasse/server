@@ -687,10 +687,7 @@ io.sockets.on('connection', function(socket){
   
   socket.on('applyConfig', function(data){
     console.log('setConfig event');
-    const addConfig = 'UPDATE camera SET resolution = '+data.resolution+', fps = '+data.fps+', brightness = '+data.brightness+', contrast = '+data.contrast+' WHERE cameraID = '+data.cameraID;
-    connection.query(addConfig, function(err){
-      if(err) throw err;
-    });
+    sendToCamera(data.cameraID,'updateConfigFile',data);
   });
 
 

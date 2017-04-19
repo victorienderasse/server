@@ -990,8 +990,6 @@ function applyConfig(data){
     var brightness = document.getElementById('brightness').value;
     var contrast = document.getElementById('contrast').value;
     
-    brightness = parseInt(brightness) + 50;
-    
     var arg = {
         cameraID: data.cameraID,
         resolution: resolution,
