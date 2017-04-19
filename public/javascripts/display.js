@@ -210,6 +210,7 @@ socket.on('setConfig', function(data){
         console.log('ok');
     }else{
         console.log('NOK');
+        console.log(title.innerHTML +' != "Settings - '+data.cameraName+'"');
     }
 
     /*
