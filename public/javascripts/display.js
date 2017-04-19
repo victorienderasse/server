@@ -202,11 +202,11 @@ socket.on('displayCameraState',function(data){
 });
 
 
-socket.on('getConfig', function(data){
+socket.on('setConfig', function(data){
     console.log('getConfig');
 
     var title = document.getElementById('config-title');
-    if(title == 'Settings - '+data.cameraName){
+    if(title.innerHTML == 'Settings - '+data.cameraName){
         console.log('ok');
     }else{
         console.log('NOK');
