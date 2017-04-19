@@ -680,7 +680,7 @@ io.sockets.on('connection', function(socket){
 
   socket.on('getConfigRes', function(data){
     console.log('getConfigRes Event');
-    io.emit('getConfig',data);
+    //io.emit('getConfig',data);
   });
   
   
