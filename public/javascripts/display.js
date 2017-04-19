@@ -205,11 +205,8 @@ socket.on('displayCameraState',function(data){
 socket.on('getConfig', function(data){
     console.log('getConfig');
 
-    var camera = document.getElementById('modal-config-confirm');
-    var attr = camera.getAttribute('onclick');
-    console.log(attr);
-
-    if(attr == 'applyConfig({cameraID:'+data.cameraID+',action:"applyConfig"});'){
+    var title = document.getElementById('config-title');
+    if(title == 'Settings - '+data.cameraName){
         console.log('ok');
     }else{
         console.log('NOK');
