@@ -674,6 +674,14 @@ io.sockets.on('connection', function(socket){
     });
     */
   });
+
+
+  socket.on('getConfigRes', function(data){
+    console.log('getConfigRes Event');
+    console.log('resolution = ('+data.height+','+data.width+')');
+    console.log('fps = '+data.fps);
+    console.log('brightness = '+data.brightness);
+  });
   
   
   socket.on('applyConfig', function(data){
