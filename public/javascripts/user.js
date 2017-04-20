@@ -35,6 +35,7 @@ socket.on('getInfoUserRes', function(data){
         var name = document.createTextNode('camera'+data[i].cameraName);
         camera.appendChild(name);
         var btn = document.createElement('button');
+        btn.setAttribute('onclick','displayOption('+data[i].cameraID+');')
         var btnIcon = document.createElement('span');
         btnIcon.className = 'glyphicon glyphicon-chevron-down';
         btn.appendChild(btnIcon);
@@ -46,6 +47,7 @@ socket.on('getInfoUserRes', function(data){
         var serial = document.createTextNode(data[i].serial);
         serialDiv.appendChild(serial);
         var option = document.createElement('div');
+        option.id = 'optionCamera'+data[i].cameraID;
         option.className = 'optionCamera';
         option.appendChild(WifiDiv);
         option.appendChild(serialDiv);
@@ -66,6 +68,6 @@ function updateUser(){
 }
 
 
-function click(){
-    $('span').slideDown();
+function displayOption(cameraID){
+    $('#optionCamera'+cameraID).show('slow');
 }
