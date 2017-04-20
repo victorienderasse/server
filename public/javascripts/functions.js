@@ -5,6 +5,10 @@
 var socket = io.connect(serverURL);
 socket.emit('client');
 
+$(function{
+    $('#message').hide();
+});
+
 function redirectURL(url){
     console.log('redirectURL function');
     window.location = url;
@@ -35,10 +39,12 @@ function displayMessage(data){
     //add message and title
     document.getElementById('message-title').innerHTML = data.title;
     document.getElementById('message-body').innerHTML = data.message;
+    $('#message').show('slow');
 }
 
 
 function resetMessage(){
+    $('#message').hide('slow');
     document.getElementById('message-div').className = '';
     document.getElementById('message-title').innerHTML = '';
     document.getElementById('message-body').innerHTML = '';

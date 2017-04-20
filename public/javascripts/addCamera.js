@@ -16,16 +16,22 @@ socket.on('QRCodeDone', function(ID){
         img.src = '../images/qrcode'+ID+'.jpg';
         document.getElementById('data').setAttribute('style','display:none');
         document.getElementById('qrcode').setAttribute('style','display;block');
-    }else{
-        console.log('userID NOK -> '+ID+' != '+userID);
+
+        $('#loading').hide('slow', function(){
+            $('#qrcode').show('slow');
+        });
     }
 
 });
 
+$(function(){
+    $('#data, #qrcode, #loading').hide();
+});
 
 document.getElementById('infoBtn').addEventListener('click', function(){
-    document.getElementById('info').setAttribute('style','display:none;');
-    document.getElementById('data').setAttribute('style','display:block');
+    $('#info').hide('slow', function(){
+        $('#data').show('slow');
+    });
 });
 
 document.getElementById('dataBtn').addEventListener('click', function(){
@@ -35,7 +41,10 @@ document.getElementById('dataBtn').addEventListener('click', function(){
     
     if(ssid != '' && password != ''){
         socket.emit('setQRCode', {userID: userID, ssid: ssid, password: password});
+        $('#data').hide('slow', function(){
+            $('#loading').show('slow');
+        });
     }else{
-        console.log('erreur');
+        displayMessage({title:'Alerte',message:'Veuillez remplir tous les champs',action:'resetMessage'});
     }
 });

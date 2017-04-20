@@ -13,7 +13,6 @@ $(function(){
     });
 
     $('#displayForm').click(function(){
-        $(this).attr('id','')
         $('#user').hide('slow', function(){
             $('#form').show('slow');
         });

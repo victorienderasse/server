@@ -34,7 +34,7 @@
 
 
 <%# -MESSAGE- %>
-<div class="container">
+<div id="message" class="container">
     <div class="row">
         <div id="message-div">
             <strong id="message-title"></strong>
@@ -55,7 +55,7 @@
         <button type="button" id="infoBtn" class="btn btn-success">Next</button>
     </div>
 
-    <div id="data" class="container" style="display:none;">
+    <div id="data" class="container">
         <form id="dataForm">
             <div>
                 <label for="ssid" class="label-control">SSID : </label>
@@ -69,7 +69,11 @@
         <button type="button" id="dataBtn" class="btn btn-success">Next</button>
     </div>
 
-    <div id="qrcode" class="container" style="display:none;">
+    <div id="loading" class="container">
+        <h1>Please Wait..</h1>
+    </div>
+
+    <div id="qrcode" class="container">
         <p>Please get your camera in front of the QR Code below</p>
         <img src="" id="imgQRCode" style="width:500px; height:500px;">
     </div>
@@ -86,6 +90,7 @@
 
 <script src="/public/javascripts/hostconfig.js"></script>
 <script src="/public/javascripts/socket.io.js"></script>
+<script src="/public/javascripts/jquery.js"></script>
 <script src="/public/javascripts/functions.js"></script>
 <script src="/public/javascripts/addCamera.js"></script>
 
