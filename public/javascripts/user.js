@@ -40,6 +40,6 @@ function displayForm(){
 
 function updateUser(){
     $(function(){
-        $('#test').slideUp()
+        $('#test').slideToggle();
     });
 }
