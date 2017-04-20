@@ -6,7 +6,9 @@ var userID = document.getElementById('userID').innerHTML;
 //socket.emit('getInfoUser',userID);
 
 $(function(){
-    $('#test').html('test');
+    $('#test').fadeOut('slow', function(){
+        $(this).fadeIn('slow');
+    })
 });
 
 socket.on('getInfoUserRes', function(data){
