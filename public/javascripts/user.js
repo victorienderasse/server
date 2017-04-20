@@ -41,17 +41,20 @@ socket.on('getInfoUserRes', function(data){
         camera.appendChild(btn);
         var wifi = document.createTextNode('Add Wifi Network');
         var wifiIcon = document.createElement('span');
-        wifiIcon.className = 'glyphicon glyphicon-plus-sign';
+        wifiIcon.className = 'glyphicon glyphicon-plus';
         WifiDiv.appendChild(wifi);
         var serial = document.createTextNode(data[i].serial);
         serialDiv.appendChild(serial);
         var option = document.createElement('div');
+        option.className = 'optionCamera';
         option.appendChild(WifiDiv);
         option.appendChild(serialDiv);
 
         table.appendChild(camera);
         table.appendChild(option);
     }
+
+    $('.optionCamera').hide();
 
 });
 
