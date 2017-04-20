@@ -39,5 +39,7 @@ function displayForm(){
 
 
 function updateUser(){
-
+    $(function(){
+        $('#test').slideUp()
+    });
 }
