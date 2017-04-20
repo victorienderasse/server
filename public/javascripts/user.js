@@ -36,8 +36,8 @@ socket.on('getInfoUserRes', function(data){
         camera.appendChild(name);
         var btn = document.createElement('button');
         var btnIcon = document.createElement('span');
-        btnName.className = 'glyphicon glyphicon-chevron-down';
-        btn.appendChild(btnName);
+        btnIcon.className = 'glyphicon glyphicon-chevron-down';
+        btn.appendChild(btnIcon);
         camera.appendChild(btn);
         var wifi = document.createTextNode('Add Wifi Network');
         var wifiIcon = document.createElement('span');
