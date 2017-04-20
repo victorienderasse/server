@@ -45,11 +45,13 @@
 
 
 <%# -USER ID- %>
-<p id="userID"><%= userID %></p>
+<p id="userID" style="display:none;"><%= userID %></p>
 
-    <h1>USER PAGE</h1>
 
-<div id="user" class="container" style="background-color:#fff">
+
+<div id="user" class="container userCameraInfo" style="background-color:#fff">
+    <h1>Personal Information</h1>
+    <hr>
     <button type="button" id="displayForm">Update Info</button>
     <div id="infoUser" class="col-lg-8">
         <p id="userName"></p>
@@ -61,26 +63,26 @@
     </div>
 </div>
 
-<div id="form" class="container" style="background-color:#fff">
-    <div class="form-control">
+<div id="form" class="container userCameraInfo" style="background-color:#fff">
+    <div class="form-group">
         <label class="control-label" for="name">Name</label>
-        <input type="text" id="name" name="name">
+        <input type="text" class="form-control" id="name" name="name">
     </div>
-    <div class="form-control">
+    <div class="form-group">
         <label class="control-label" for="email">Email</label>
-        <input type="text" id="email" name="email">
+        <input type="text" class="form-control" id="email" name="email">
     </div>
-    <div class="form-control">
+    <div class="form-group">
         <label class="control-label" for="phone">Phone</label>
-        <input type="text" id="phone" name="phone">
+        <input type="text" class="form-control" id="phone" name="phone">
     </div>
-    <div class="form-control">
+    <div class="form-group">
         <label class="control-label" for="password">Password</label>
-        <input type="text" id="password" name="password">
+        <input type="text" class="form-control" id="password" name="password">
     </div>
-    <div class="form-control">
+    <div class="form-group">
         <label class="control-label" for="passwordConf">Confirm Password</label>
-        <input type="text" id="passwordConf" name="passwordConf">
+        <input type="text" class="form-control" id="passwordConf" name="passwordConf">
     </div>
     <button type="button" onclick="updateUser();">Confirm</button>
 </div>

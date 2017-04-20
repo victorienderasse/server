@@ -29,28 +29,56 @@ socket.on('getInfoUserRes', function(data){
 
     var table = document.getElementById('infoCamera');
     for(var i=0;i<data.length;i++){
+
+        //Camera
+
         var camera = document.createElement('div');
-        var WifiDiv = document.createElement('div');
-        var serialDiv = document.createElement('div');
-        var name = document.createTextNode('camera'+data[i].cameraName);
-        camera.appendChild(name);
+        var name = document.createTextNode(data[i].cameraName);
+        var state;
+        if(data[i].state == 1){
+            state = document.createTextNode('Online');
+            camera.setAttribute('style','width:100%; height:50px');
+        }else{
+            state = document.createTextNode('Offline');
+            camera.setAttribute('style','width:100%; height:50px; background-color:#FAECEC');
+        }
+        state.className = 'help-block navbar-right';
         var btn = document.createElement('button');
-        btn.setAttribute('onclick','displayOption('+data[i].cameraID+');')
+        btn.setAttribute('onclick','displayOption('+data[i].cameraID+');');
         var btnIcon = document.createElement('span');
         btnIcon.className = 'glyphicon glyphicon-chevron-down';
+        var hr = document.createElement('hr');
+
         btn.appendChild(btnIcon);
+        camera.appendChild(name);
+        camera.appendChild(state);
+        camera.appendChild(hr);
         camera.appendChild(btn);
+
+        //WIFI
+
+        var WifiDiv = document.createElement('div');
         var wifi = document.createTextNode('Add Wifi Network');
         var wifiIcon = document.createElement('span');
         wifiIcon.className = 'glyphicon glyphicon-plus';
+
         WifiDiv.appendChild(wifi);
+
+        //SERIAL
+
+        var serialDiv = document.createElement('div');
         var serial = document.createTextNode(data[i].serial);
         serialDiv.appendChild(serial);
+
+        //OPTION
+
         var option = document.createElement('div');
         option.id = 'optionCamera'+data[i].cameraID;
         option.className = 'optionCamera';
         option.appendChild(WifiDiv);
         option.appendChild(serialDiv);
+
+        //TABLE
 
         table.appendChild(camera);
         table.appendChild(option);
