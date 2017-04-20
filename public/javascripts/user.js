@@ -6,7 +6,7 @@ var userID = document.getElementById('userID').innerHTML;
 //socket.emit('getInfoUser',userID);
 
 $(function(){
-    $('userName').html(test);
+    $('userName').html('test');
 });
 
 socket.on('getInfoUserRes', function(data){
