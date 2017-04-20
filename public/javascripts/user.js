@@ -34,7 +34,7 @@ socket.on('getInfoUserRes', function(data){
         //Camera
 
         var camera = document.createElement('div');
-        camera.id = 'camera'.data[i].cameraID;
+        camera.id = 'camera'+data[i].cameraID;
         var name = document.createTextNode(data[i].cameraName);
         var state;
         if(data[i].state == 1){
