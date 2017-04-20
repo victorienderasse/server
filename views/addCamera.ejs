@@ -50,20 +50,19 @@
 <div class="container" style="text-align:center">
 
     <div id="info" class="container">
-        <h3>Add a camera</h3>
-        <p>Please connect your camera to power. Next we will ask you to enter the name of the WiFi and the password to allow your camera to connect to internet</p>
+        <h3>Please connect your camera to power. Next we will ask you to enter the name of the WiFi and the password to allow your camera to connect to internet</h3>
         <button type="button" id="infoBtn" class="btn btn-success">Next</button>
     </div>
 
     <div id="data" class="container">
         <form id="dataForm">
-            <div>
+            <div class="form-group">
                 <label for="ssid" class="label-control">SSID : </label>
-                <input type="text" id="ssid" name="ssid" placeholder="Name of your Wifi">
+                <input type="text" class="form-control" id="ssid" name="ssid" placeholder="Name of your Wifi">
             </div>
-            <div>
+            <div class="form-group">
                 <label for="password" class="label-control">Password : </label>
-                <input type="password" id="password" name="password">
+                <input type="password" class="form-control" id="password" name="password">
             </div>
         </form>
         <button type="button" id="dataBtn" class="btn btn-success">Next</button>
