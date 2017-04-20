@@ -5,7 +5,7 @@
 var socket = io.connect(serverURL);
 socket.emit('client');
 
-$(function{
+$(function(){
     $('#message').hide();
 });
 
