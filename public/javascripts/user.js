@@ -3,7 +3,7 @@
  */
 var userID = document.getElementById('userID').innerHTML;
 
-//socket.emit('getInfoUser',userID);
+socket.emit('getInfoUser',userID);
 
 $(function(){
     $('#option, #form').hide();
