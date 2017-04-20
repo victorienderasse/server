@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body style="background-color:#FBFBFB;">
 
@@ -50,7 +51,36 @@
     <h1>USER PAGE</h1>
 
 
-<div id="display"></div>
+<div id="displayUser" class="container row">
+    <button type="button" onclick="displayForm();">Update Info</button>
+    <div id="infoUser" class="col-lg-8">
+        <p><b id="userName"></b></p>
+        <p><b id="userEmail"></b></p>
+        <p><b id="userPhone"></b></p>
+    </div>
+    <div id="infoCamera" class="col-lg-4">
+        <table id="cameraList"></table>
+    </div>
+</div>
+
+<div id="displayForm" class="container row" style="display:none;">
+    <div class="form-control">
+        <label class="control-label" for="name"><input type="text" id="name" name="name"></label>
+    </div>
+    <div class="form-control">
+        <label class="control-label" for="email"><input type="text" id="email" name="email"></label>
+    </div>
+    <div class="form-control">
+        <label class="control-label" for="phone"><input type="text" id="phone" name="phone"></label>
+    </div>
+    <div class="form-control">
+        <label class="control-label" for="password"><input type="text" id="password" name="password"></label>
+    </div>
+    <div class="form-control">
+        <label class="control-label" for="passwordConf"><input type="text" id="passwordConf" name="passwordConf"></label>
+    </div>
+    <button type="button" onclick="updateUser();"></button>
+</div>
 
 
 <%# -FOOTER- %>
@@ -61,7 +91,7 @@
 <script src="/public/javascripts/hostconfig.js"></script>
 <script src="/public/javascripts/socket.io.js"></script>
 <script src="/public/javascripts/functions.js"></script>
-<script src="/public/javascripts/live.js"></script>
+<script src="/public/javascripts/user.js"></script>
 
 
 </body>

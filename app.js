@@ -723,6 +723,20 @@ io.sockets.on('connection', function(socket){
       if(err) throw err;
     });
   });
+
+
+  socket.on('getInfoUser', function(userID){
+    console.log('getInfoUser event');
+    const getInfo = 'SELECT user.name as userName, user.email, user.phone, camera.name as cameraName, camera.cameraID, camera.serial, camera.enable, camera.state FROM user INNER JOIN camera ON camera.userID = user.userID WHERE user.userID = '+userID;
+    connection.query(getInfo, function(err,rows){
+      if(err) throw err;
+      if(rows.length>0){
+        socket.emit('getInfoUserRes',rows);
+      }else{
+        console.log('Error getInfoUser, no user found');
+      }
+    });
+  });
   
   
   
