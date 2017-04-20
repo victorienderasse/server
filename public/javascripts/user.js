@@ -13,6 +13,7 @@ $(function(){
     });
 
     $('#displayForm').click(function(){
+        $(this).attr('id','')
         $('#user').hide('slow', function(){
             $('#form').show('slow');
         });
@@ -33,6 +34,7 @@ socket.on('getInfoUserRes', function(data){
         //Camera
 
         var camera = document.createElement('div');
+        camera.id = 'camera'.data[i].cameraID;
         var name = document.createTextNode(data[i].cameraName);
         var state;
         if(data[i].state == 1){
@@ -44,8 +46,9 @@ socket.on('getInfoUserRes', function(data){
         }
         state.className = 'help-block navbar-right';
         var btn = document.createElement('button');
-        btn.setAttribute('onclick','displayOption('+data[i].cameraID+');');
+        //btn.setAttribute('onclick','displayOption('+data[i].cameraID+');');
         var btnIcon = document.createElement('span');
+        btnIcon.id = 'btnIcon-camera'+data[i].cameraID;
         btnIcon.className = 'glyphicon glyphicon-chevron-down';
         var hr = document.createElement('hr');
 
@@ -89,13 +92,18 @@ socket.on('getInfoUserRes', function(data){
 });
 
 
-function updateUser(){
-    $(function(){
-        $('#test').slideToggle();
-    });
-}
 
 
 function displayOption(cameraID){
-    $('#optionCamera'+cameraID).show('slow');
+    $('#optionCamera'+cameraID).show('slow', function(){
+        $(this).attr('onclick','hideOption('+cameraID+')');
+        $('#btnIcon-camera'+cameraID).toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
+    });
+}
+
+function hideOption(cameraID){
+    $('#optionCamera'+cameraID).hide('slow', function(){
+        $(this).attr('onclick','displayOption('+cameraID+')');
+        $('#btnIcon-camera'+cameraID).toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
+    });
 }
