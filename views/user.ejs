@@ -29,7 +29,6 @@
     <div class="container">
         <h1>Display</h1>
         <p>Interface utilisateur</p>
-        <span id="test">Mon objet test</span>
     </div>
 </div>
 
@@ -50,20 +49,19 @@
 
     <h1>USER PAGE</h1>
 
-
-<div id="displayUser" class="container row">
-    <button type="button" onclick="displayForm();">Update Info</button>
+<div id="user" class="container row">
+    <button type="button" id="displayForm">Update Info</button>
     <div id="infoUser" class="col-lg-8">
-        <p><b id="userName"></b></p>
-        <p><b id="userEmail"></b></p>
-        <p><b id="userPhone"></b></p>
+        <p id="userName">Victorien</p>
+        <p id="userEmail">Victorienderasse@tamere.be</p>
+        <p id="userPhone">06666666668</p>
     </div>
     <div id="infoCamera" class="col-lg-4">
-        <table id="cameraList"></table>
+
     </div>
 </div>
 
-<div id="displayForm" class="container row" style="display:none;">
+<div id="form" class="container">
     <div class="form-control">
         <label class="control-label" for="name">Name</label>
         <input type="text" id="name" name="name">
@@ -84,7 +82,7 @@
         <label class="control-label" for="passwordConf">Confirm Password</label>
         <input type="text" id="passwordConf" name="passwordConf">
     </div>
-    <button type="button" onclick="updateUser();"></button>
+    <button type="button" onclick="updateUser();">Confirm</button>
 </div>
 
 
