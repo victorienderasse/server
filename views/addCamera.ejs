@@ -57,16 +57,18 @@
     </div>
 
     <div id="data" class="container">
-        <form id="dataForm" class="col-lg-offset-3 col-lg-6">
-            <div class="form-group">
-                <label for="ssid" class="label-control">Nom du réseau : </label>
-                <input type="text" class="form-control" id="ssid" name="ssid" placeholder="par ex. B-box2.4">
-            </div>
-            <div class="form-group">
-                <label for="password" class="label-control">Mot de passe : </label>
-                <input type="password" class="form-control" id="password" name="password">
-            </div>
-        </form>
+        <div class="row col-lg-offset-3 col-lg-6">
+            <form id="dataForm">
+                <div class="form-group">
+                    <label for="ssid" class="label-control">Nom du réseau : </label>
+                    <input type="text" class="form-control" id="ssid" name="ssid" placeholder="par ex. B-box2.4">
+                </div>
+                <div class="form-group">
+                    <label for="password" class="label-control">Mot de passe : </label>
+                    <input type="password" class="form-control" id="password" name="password">
+                </div>
+            </form>
+        </div>
         <div class="row" style="text-align:center;">
             <button type="button" id="dataBtn" class="btn btn-success">Afficher le QR code</button>
         </div>
@@ -88,9 +90,7 @@
 
 
 <%# -FOOTER- %>
-<footer class="container">
-    <p>© 2016 Victorien Derasse</p>
-</footer>
+
 
 <script src="/public/javascripts/hostconfig.js"></script>
 <script src="/public/javascripts/socket.io.js"></script>
