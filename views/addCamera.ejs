@@ -52,6 +52,7 @@
     <div id="info" class="container">
         <h3>Pour connecter votre nouvelle caméra à internet, veuillez brancher celle-ci au secteur</h3>
         <h3>Une fois fait, cliquez sur continuer afin d'enregistrer le nom du réseau et le mot de passe</h3>
+        <br>
         <button type="button" id="infoBtn" class="btn btn-success">Continuer</button>
     </div>
 
@@ -66,7 +67,9 @@
                 <input type="password" class="form-control" id="password" name="password">
             </div>
         </form>
-        <button type="button" id="dataBtn" class="btn btn-success">Afficher le QR code</button>
+        <div class="row" style="text-align:center;">
+            <button type="button" id="dataBtn" class="btn btn-success">Afficher le QR code</button>
+        </div>
     </div>
 
     <div id="loading" class="container">
@@ -75,6 +78,7 @@
 
     <div id="qrcode" class="container">
         <h3>Veuillez placer votre caméra en face du QR code une fois la LED rouge allumée et attendre la confirmation</h3>
+        <br>
         <img src="" id="imgQRCode" style="width:500px; height:500px;">
     </div>
 
