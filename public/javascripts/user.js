@@ -135,7 +135,7 @@ socket.on('updateUserRes', function(isOK){
         },3000);
     }else{
         document.getElementById('updateUser').innerHTML = 'Confirmer';
-        displayMessage({title:'Alerte',message'Erreur, l\'email est déjà utilisée'});
+        displayMessage({title:'Alerte',message:'Erreur, l\'email est déjà utilisée'});
     }
 });
 
