@@ -70,17 +70,15 @@ socket.on('getInfoUserRes', function(data){
         btn.id = 'btn-camera'+data[i].cameraID;
         btn.setAttribute('onclick','displayOption('+data[i].cameraID+');');
         btn.className = 'btn btn-lg';
-        //btn.setAttribute('style','position:absolute; right:0; border-left: 2px solid #ECECEC; border: 0px;');
         var btnIcon = document.createElement('span');
         btnIcon.id = 'btnIcon-camera'+data[i].cameraID;
         btnIcon.className = 'glyphicon glyphicon-chevron-down';
-        //btnIcon.setAttribute('style','margin-right:0px')
         var stateTitle = document.createElement('span');
         stateTitle.setAttribute('style','font-style:oblique; font-size: 15px; position:absolute; left:200px; margin-top:20px');
         var state;
         if(data[i].state != 2){
             state = document.createTextNode('Online');
-            btn.setAttribute('style','border:0px; background-color:#fff; position:absolute; right:20px;; border-left:1px #ECECEC;');
+            btn.setAttribute('style','border:0px; background-color:#fff; position:absolute; right:20px;;');
             camera.setAttribute('style','width:100%; height:50px; border-style:outset');
         }else{
             state = document.createTextNode('Offline');
@@ -98,25 +96,47 @@ socket.on('getInfoUserRes', function(data){
 
         //WIFI
 
-        var WifiDiv = document.createElement('div');
+        var wifiDiv = document.createElement('div');
+        wifiDiv.setAttribute('style','height:40px');
+        var wifiSpan = document.createElement('span');
+        wifiSpan.setAttribute('style','font-size: 20px;position:absolute; left:60px; margin-top:10px;');
         var wifi = document.createTextNode('Add Wifi Network');
+        var wifiBtn = document.createElement('button');
+        wifiBtn.className = 'btn btn-lg';
+        wifiBtn.setAttribute('style','border:0px; background-color:#fff; position:absolute; right:20px;;');
+        wifiBtn.setAttribute('onclick','addWifi('+data[i].cameraID+');');
         var wifiIcon = document.createElement('span');
         wifiIcon.className = 'glyphicon glyphicon-plus';
 
-        WifiDiv.appendChild(wifi);
+        wifiSpan.appendChild(wifi);
+        wifiBtn.appendChild(wifiIcon);
+        wifiDiv.appendChild(wifiSpan);
+        wifiDiv.appendChild(wifiBtn);
 
         //SERIAL
 
         var serialDiv = document.createElement('div');
+        serialDiv.setAttribute('style','height:40px');
+        var serialSpan = document.createElement('span');
+        serialSpan.setAttribute('style','font-weight:bold; font-size:20px; position:absolute; left:280px; margin-top:10px');
         var serial = document.createTextNode(data[i].serial);
         serialDiv.appendChild(serial);
+        var serialTitleSpan = document.createElement('span');
+        serialTitleSpan.setAttribute('style','font-size:20px; position:absolute; left:60px; margin-top:10px')
+        var serialTitle = document.createTextNode('Numéro de série : ');
+
+        serialSpan.appendChild(serial);
+        serialTitleSpan.appendChild(serialTitle);
+        serialDiv.appendChild(serialTitleSpan);
+        serialDiv.appendChild(serialSpan);
 
         //OPTION
 
         var option = document.createElement('div');
         option.id = 'optionCamera'+data[i].cameraID;
         option.className = 'optionCamera';
-        option.appendChild(WifiDiv);
+        option.setAttribute('style','');
+        option.appendChild(wifiDiv);
         option.appendChild(serialDiv);
 
         //TABLE
