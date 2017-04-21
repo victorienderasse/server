@@ -39,7 +39,7 @@ socket.on('getInfoUserRes', function(data){
         btn.id = 'btn-camera'+data[i].cameraID;
         btn.setAttribute('onclick','displayOption('+data[i].cameraID+');');
         btn.className = 'btn btn-lg';
-        btn.setAttribute('style','margin-right:0px')
+        btn.setAttribute('style','padding-right:0px')
         var btnIcon = document.createElement('span');
         btnIcon.id = 'btnIcon-camera'+data[i].cameraID;
         btnIcon.className = 'glyphicon glyphicon-chevron-down';
@@ -55,6 +55,7 @@ socket.on('getInfoUserRes', function(data){
         }
         state.className = 'help-block navbar-right';
         var hr = document.createElement('hl');
+        hr.setAttribute('style','width:2px; color:#000');
 
         btn.appendChild(btnIcon);
         camera.appendChild(name);
