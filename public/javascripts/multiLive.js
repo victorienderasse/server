@@ -9,17 +9,13 @@ var userID = document.getElementById('userID').innerHTML;
 $(function(){
     $('#back').click(function(){
         redirectURL(serverURL+'/display?userID='+userID);
+        socket.emit('stopMultiLive',userID);
     });
 });
 
 socket.emit('getCamera',userID);
 
 //ACTION===============================================================================
-
-document.getElementById('back-multiLive').addEventListener('click',function(){
-    redirectURL(serverURL+'/display?userID='+userID);
-    socket.emit('stopMultiLive',userID);
-});
 
 
 //EVENTS===============================================================================

@@ -260,7 +260,7 @@ document.getElementById('frequency').addEventListener('change',function(){
 //Add camera
 document.getElementById('addCamera-btn').addEventListener('click',function(){
     console.log('addCamera-btn');
-    redirectURL(serverURL+'addCamera?userID='+userID);
+    redirectURL(serverURL+'/addCamera?userID='+userID);
 });
 
 //MultiLive
