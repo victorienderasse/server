@@ -118,6 +118,9 @@ socket.on('getInfoUserRes', function(data){
         wifiBtn.className = 'btn btn-lg';
         wifiBtn.setAttribute('style','border:0px; background-color:#fff; position:absolute; right:20px;;');
         wifiBtn.setAttribute('onclick','addWifi('+data[i].cameraID+');');
+        if(data[i].state == 0){
+            wifiBtn.disabled = true;
+        }
         var wifiIcon = document.createElement('span');
         wifiIcon.className = 'glyphicon glyphicon-plus';
 
