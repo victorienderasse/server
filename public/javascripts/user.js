@@ -35,20 +35,23 @@ socket.on('getInfoUserRes', function(data){
         var camera = document.createElement('div');
         camera.id = 'camera'+data[i].cameraID;
         var name = document.createTextNode(data[i].cameraName);
-        var state;
-        if(data[i].state == 1){
-            state = document.createTextNode('Online');
-            camera.setAttribute('style','width:100%; height:50px');
-        }else{
-            state = document.createTextNode('Offline');
-            camera.setAttribute('style','width:100%; height:50px; background-color:#FAECEC');
-        }
-        state.className = 'help-block navbar-right';
         var btn = document.createElement('button');
-        //btn.setAttribute('onclick','displayOption('+data[i].cameraID+');');
+        btn.setAttribute('onclick','displayOption('+data[i].cameraID+');');
+        btn.className = 'btn btn-lg';
         var btnIcon = document.createElement('span');
         btnIcon.id = 'btnIcon-camera'+data[i].cameraID;
         btnIcon.className = 'glyphicon glyphicon-chevron-down';
+        var state;
+        if(data[i].state == 1){
+            state = document.createTextNode('Online');
+            btn.setAttribute('style','border:opx');
+            camera.setAttribute('style','width:100%; height:50px');
+        }else{
+            state = document.createTextNode('Offline');
+            btn.setAttribute('style','border:opx; background-color:#FAECEC');
+            camera.setAttribute('style','width:100%; height:50px; background-color:#FAECEC');
+        }
+        state.className = 'help-block navbar-right';
         var hr = document.createElement('hr');
 
         btn.appendChild(btnIcon);

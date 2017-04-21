@@ -25,9 +25,7 @@ socket.on('QRCodeDone', function(ID){
 });
 
 $(function(){
-    $('#data, #qrcode, #loading').hide(function(){
-        $(this).removeAttr('style');
-    });
+    $('#data, #qrcode, #loading').hide();
     
 });
 
