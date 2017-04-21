@@ -38,6 +38,9 @@ socket.on('newCameraConnectionRes', function(userID){
 $(function(){
     $('#data, #qrcode, #loading').hide();
     
+    $('#back').click(function(){
+        redirectURL(serverURL+'/display?userID='+userID);
+    });
 });
 
 document.getElementById('infoBtn').addEventListener('click', function(){
