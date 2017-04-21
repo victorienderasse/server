@@ -91,7 +91,7 @@ socket.on('getInfoUserRes', function(data){
         var stateTitle = document.createElement('span');
         stateTitle.setAttribute('style','font-style:oblique; font-size: 15px; position:absolute; left:200px; margin-top:20px');
         var state;
-        if(data[i].state != 2){
+        if(data[i].state == 1){
             state = document.createTextNode('Online');
             btn.setAttribute('style','border:0px; background-color:#fff; position:absolute; right:20px;;');
             camera.setAttribute('style','width:100%; height:50px; border-style:outset');
