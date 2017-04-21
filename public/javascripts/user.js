@@ -65,7 +65,11 @@ socket.on('getInfoUserRes', function(data){
     $('#userName').html('<b>'+data[0].userName+'</b>');
     $('#userEmail').html('<b>'+data[0].email+'</b>');
     $('#userPhone').html('<b>'+data[0].phone+'</b>');
-    $('#nbCamera').html('<h4>Vous possédez '+data.length+' caméras</h4>');
+    if(data.length>0){
+        $('#nbCamera').html('<h4>Vous possédez '+data.length+' caméras</h4>');
+    }else{
+        $('#nbCamera').html('<h4>Vous ne possédez aucune caméras</h4>');
+    }
 
 
     var table = document.getElementById('infoCamera');
@@ -118,8 +122,11 @@ socket.on('getInfoUserRes', function(data){
         wifiBtn.className = 'btn btn-lg';
         wifiBtn.setAttribute('style','border:0px; background-color:#fff; position:absolute; right:20px;;');
         wifiBtn.setAttribute('onclick','addWifi('+data[i].cameraID+');');
-        if(data[i].state == 0){
+        if(data[i].enable == 0){
             wifiBtn.disabled = true;
+            wifiBtn.title = 'Veuillez allumer la caméra pour ajouter un nouveau réseau WiFi';
+        }else{
+            wifiBtn.title = 'Cliquer pour ajouter un nouveau réseaux Wifi';
         }
         var wifiIcon = document.createElement('span');
         wifiIcon.className = 'glyphicon glyphicon-plus';
@@ -207,5 +214,5 @@ function changeName(cameraID){
 
 
 function addWifi(cameraID){
-    
+    console.log('addWifi btn');
 }

@@ -3,6 +3,32 @@
  */
 
 var userID = document.getElementById('userID').innerHTML;
+var serial;
+
+
+$(function(){
+    $('#data, #qrcode, #loading, #connectionOK').hide();
+
+    $('#back').click(function(){
+        redirectURL(serverURL+'/display?userID='+userID);
+    });
+    
+    $('#reboot').click(function(){
+        socket.emit('rebootBySerial',serial);
+    });
+    
+    $('#noReboot').click(function(){
+        redirectURL(serverURL+'/user?userID='+userID);
+    });
+    
+});
+
+document.getElementById('infoBtn').addEventListener('click', function(){
+    $('#info').hide('slow', function(){
+        $('#data').show('slow');
+    });
+});
+
 
 socket.on('QRCodeDone', function(ID){
 
@@ -35,19 +61,17 @@ socket.on('newCameraConnectionRes', function(userID){
     },5000);
 });
 
-$(function(){
-    $('#data, #qrcode, #loading, #connectionOK').hide();
 
-    $('#back').click(function(){
-        redirectURL(serverURL+'/display?userID='+userID);
+socket.on('addWifiRes', function(data){
+    console.log('addWifiRes event');
+    serial = data.serial;
+    $('#qrcode').hide('slow', function(){
+        $('#addWifiDiv').show('slow');
     });
 });
 
-document.getElementById('infoBtn').addEventListener('click', function(){
-    $('#info').hide('slow', function(){
-        $('#data').show('slow');
-    });
-});
+
+
 
 document.getElementById('dataBtn').addEventListener('click', function(){
     var form = document.getElementById('dataForm');
