@@ -6,7 +6,11 @@
 
 var userID = document.getElementById('userID').innerHTML;
 
-
+$(function(){
+    $('#back').click(function(){
+        redirectURL(serverURL+'/display?userID='+userID);
+    });
+});
 
 socket.emit('getCamera',userID);
 

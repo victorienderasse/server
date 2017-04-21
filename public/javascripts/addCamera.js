@@ -24,6 +24,17 @@ socket.on('QRCodeDone', function(ID){
 
 });
 
+
+socket.on('newCameraConnectionRes', function(userID){
+    console.log('newCameraConnectionRes event');
+    $('#qrcode').hide('slow', function(){
+        $('#connectionOK').show('slow');
+    });
+    setTimeout(function(){
+        redirectURL(serverURL+'/display?userID='+userID);
+    },5000);
+});
+
 $(function(){
     $('#data, #qrcode, #loading').hide();
     

@@ -11,6 +11,10 @@ $(function(){
     $('#affiche').click(function(){
         $('#option').first().show('slow');
     });
+    
+    $('#back').click(function(){
+        redirectURL(serverURL+'/display?userID='+userID);
+    });
 
     $('#displayForm').click(function(){
         $('#user').hide('slow', function(){
@@ -44,6 +48,14 @@ $(function(){
             }
         }
     });
+
+
+    $('#updateUserCancel').click(function(){
+        $('#form').hide('slow', function(){
+            $('#user').show('slow');
+        });
+    });
+
 });
 
 
@@ -65,6 +77,7 @@ socket.on('getInfoUserRes', function(data){
         camera.id = 'camera'+data[i].cameraID;
         var nameTitle = document.createElement('span');
         nameTitle.id = 'name-camera'+data[i].cameraID;
+        nameTitle.title = 'Cliquer pour changer le nom de la caméra';
         nameTitle.setAttribute('style','font-weight: bold; font-size: 20px;position:absolute; left:40px; margin-top:10px;');
         nameTitle.setAttribute('onclick','changeName('+data[i].cameraID+');');
         var name = document.createTextNode(data[i].cameraName);
@@ -193,5 +206,5 @@ function changeName(cameraID){
 
 
 function addWifi(cameraID){
-
+    
 }

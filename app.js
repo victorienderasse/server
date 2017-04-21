@@ -721,6 +721,7 @@ io.sockets.on('connection', function(socket){
     const addCamera = 'INSERT INTO camera SET userID = '+data.userID+', serial = "'+data.serial+'", name = "camera_'+data.serial+'", enable = 0, state = 0';
     connection.query(addCamera, function(err){
       if(err) throw err;
+      io.emit('newCameraConnectionRes',userID);
     });
   });
 
