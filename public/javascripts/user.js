@@ -36,6 +36,7 @@ socket.on('getInfoUserRes', function(data){
         camera.id = 'camera'+data[i].cameraID;
         var name = document.createTextNode(data[i].cameraName);
         var btn = document.createElement('button');
+        btn.id = 'btn-camera'+data[i].cameraID;
         btn.setAttribute('onclick','displayOption('+data[i].cameraID+');');
         btn.className = 'btn btn-lg';
         var btnIcon = document.createElement('span');
@@ -98,7 +99,7 @@ socket.on('getInfoUserRes', function(data){
 
 function displayOption(cameraID){
     $('#optionCamera'+cameraID).show('slow', function(){
-        $(this).attr('onclick','hideOption('+cameraID+')');
+        $('#btn-camera'+cameraID).attr('onclick','hideOption('+cameraID+')');
         $('#btnIcon-camera'+cameraID).toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
     });
 }
