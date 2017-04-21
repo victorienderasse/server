@@ -75,6 +75,7 @@ socket.on('getInfoUserRes', function(data){
 
         var camera = document.createElement('div');
         camera.id = 'camera'+data[i].cameraID;
+        camera.setAttribute('style','width:100%; height:50px; border-style:outset');
         var nameTitle = document.createElement('span');
         nameTitle.id = 'name-camera'+data[i].cameraID;
         nameTitle.title = 'Cliquer pour changer le nom de la caméra';
@@ -83,6 +84,7 @@ socket.on('getInfoUserRes', function(data){
         var name = document.createTextNode(data[i].cameraName);
         var btn = document.createElement('button');
         btn.id = 'btn-camera'+data[i].cameraID;
+        btn.setAttribute('style','border:0px; background-color:#fff; position:absolute; right:20px;;');
         btn.setAttribute('onclick','displayOption('+data[i].cameraID+');');
         btn.className = 'btn btn-lg';
         var btnIcon = document.createElement('span');
@@ -93,12 +95,8 @@ socket.on('getInfoUserRes', function(data){
         var state;
         if(data[i].state == 1){
             state = document.createTextNode('Online');
-            btn.setAttribute('style','border:0px; background-color:#fff; position:absolute; right:20px;;');
-            camera.setAttribute('style','width:100%; height:50px; border-style:outset');
         }else{
             state = document.createTextNode('Offline');
-            btn.setAttribute('style','border:opx; background-color:#FAECEC');
-            camera.setAttribute('style','width:100%; height:50px; background-color:#FAECEC');
         }
         state.className = 'help-block navbar-right';
 
