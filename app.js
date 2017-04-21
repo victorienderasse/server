@@ -123,6 +123,16 @@ io.sockets.on('connection', function(socket){
     });
   });
 
+
+  socket.on('getCameraUP', function(userID){
+    console.log('getCameraUP event');
+    var getCameraUP = 'SELECT * FROM camera WHERE userID = '+userID+' AND enable = 1 AND state = 0';
+    connection.query(getCameraUP, function(err, rows){
+      if(err)throw err;
+      socket.emit('getCameraUPRes',rows);
+    });
+  });
+
   
   socket.on('disconnect', function(){
     console.log('disconnected');

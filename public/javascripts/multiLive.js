@@ -13,17 +13,22 @@ $(function(){
     });
 });
 
-socket.emit('getCamera',userID);
+socket.emit('getCameraUP',userID);
 
 //ACTION===============================================================================
 
 
 //EVENTS===============================================================================
 
-socket.on('sendCamera', function(tbCamera){
+socket.on('getCameraUPRes', function(tbCamera){
     console.log('sendCamera event');
-    displayCamera(tbCamera);
-    startStream(tbCamera);
+    if(tbCamera.length>0){
+        displayCamera(tbCamera);
+        startStream(tbCamera);
+    }else{
+        displayMessage({title:'alerte', message:'Aucune caméra disponible.'});
+    }
+    
 });
 
 
