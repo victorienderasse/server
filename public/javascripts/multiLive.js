@@ -26,7 +26,7 @@ socket.on('getCameraUPRes', function(tbCamera){
         displayCamera(tbCamera);
         startStream(tbCamera);
     }else{
-        displayMessage({title:'alerte', message:'Aucune caméra disponible.'});
+        displayMessage({title:'Alerte', message:'Aucune caméra disponible.'});
     }
     
 });
