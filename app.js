@@ -745,7 +745,7 @@ io.sockets.on('connection', function(socket){
     const checkEmail = 'SELECT email FROM user WHERE email = "'+data.email+'"';
     connection.query(checkEmail, function(err, rows){
       if(err) throw err;
-      if(rows > 0){
+      if(rows.length > 0){
         console.log('rows > 0');
         if(rows[0].userID != data.userID){
           socket.emit('updateUserRes',false);
