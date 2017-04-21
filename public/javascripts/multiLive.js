@@ -9,7 +9,9 @@ var userID = document.getElementById('userID').innerHTML;
 $(function(){
     $('#back').click(function(){
         redirectURL(serverURL+'/display?userID='+userID);
-        socket.emit('stopMultiLive',userID);
+        if(document.getElementById('multiLive').firstChild){
+            socket.emit('stopMultiLive',userID);
+        }
     });
 });
 
