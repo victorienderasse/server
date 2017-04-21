@@ -745,12 +745,16 @@ io.sockets.on('connection', function(socket){
     connection.query(checkEmail, function(err, rows){
       if(err) throw err;
       if(rows > 0){
+        console.log('rows > 0');
         if(rows[0].userID != data.userID){
           socket.emit('updateUserRes',false);
+          console.log('ID != ID');
         }else{
           socket.emit('updateUserRes',true);
+          onsole.log('ID == ID');
         }
       }
+      console.log('rows == 0');
     });
   });
   

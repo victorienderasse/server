@@ -128,6 +128,7 @@ socket.on('getInfoUserRes', function(data){
 
 
 socket.on('updateUserRes', function(isOK){
+    console.log('updateUserRes ebent');
     if(isOK){
         displayMessage({title:'Bravo',message:'Vos informations ont correctemment été modifiés'});
         setTimeout(function(){
