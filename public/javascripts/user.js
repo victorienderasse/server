@@ -39,7 +39,7 @@ socket.on('getInfoUserRes', function(data){
         btn.id = 'btn-camera'+data[i].cameraID;
         btn.setAttribute('onclick','displayOption('+data[i].cameraID+');');
         btn.className = 'btn btn-lg';
-        btn.setAttribute('style','padding-right:0px; border-left: 1px solid #ECECEC');
+        btn.setAttribute('style','padding-right:0px; border-left: 1px solid #ECECEC; border: none; outline: none;');
         var btnIcon = document.createElement('span');
         btnIcon.id = 'btnIcon-camera'+data[i].cameraID;
         btnIcon.className = 'glyphicon glyphicon-chevron-down';
@@ -47,7 +47,7 @@ socket.on('getInfoUserRes', function(data){
         if(data[i].state != 2){
             state = document.createTextNode('Online');
             btn.setAttribute('style','border:0px; background-color:#fff');
-            camera.setAttribute('style','width:100%; height:50px; border:1px solid #000; border-radius:5%');
+            camera.setAttribute('style','width:100%; height:50px; border:1px solid #000; border-style:outset');
         }else{
             state = document.createTextNode('Offline');
             btn.setAttribute('style','border:opx; background-color:#FAECEC');
@@ -100,15 +100,13 @@ socket.on('getInfoUserRes', function(data){
 
 
 function displayOption(cameraID){
-    $('#optionCamera'+cameraID).show('slow', function(){
-        $('#btn-camera'+cameraID).attr('onclick','hideOption('+cameraID+')');
-        $('#btnIcon-camera'+cameraID).toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
-    });
+    $('#btnIcon-camera'+cameraID).toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
+    $('#btn-camera'+cameraID).attr('onclick','hideOption('+cameraID+')');
+    $('#optionCamera'+cameraID).show('slow');
 }
 
 function hideOption(cameraID){
-    $('#optionCamera'+cameraID).hide('slow', function(){
-        $('#btn-camera'+cameraID).attr('onclick','displayOption('+cameraID+')');
-        $('#btnIcon-camera'+cameraID).toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
-    });
+    $('#btn-camera'+cameraID).attr('onclick','displayOption('+cameraID+')');
+    $('#btnIcon-camera'+cameraID).toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
+    $('#optionCamera'+cameraID).hide('slow');
 }
