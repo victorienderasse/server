@@ -64,7 +64,9 @@ socket.on('getInfoUserRes', function(data){
         var camera = document.createElement('div');
         camera.id = 'camera'+data[i].cameraID;
         var nameTitle = document.createElement('span');
+        nameTitle.id = 'name-camera'+data[i].cameraID;
         nameTitle.setAttribute('style','font-weight: bold; font-size: 20px;position:absolute; left:40px; margin-top:10px;');
+        nameTitle.setAttribute('onclick','changeName('+data[i].cameraID+');');
         var name = document.createTextNode(data[i].cameraName);
         var btn = document.createElement('button');
         btn.id = 'btn-camera'+data[i].cameraID;
@@ -177,4 +179,19 @@ function hideOption(cameraID){
     $('#btn-camera'+cameraID).attr('onclick','displayOption('+cameraID+')');
     $('#btnIcon-camera'+cameraID).toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
     $('#optionCamera'+cameraID).hide('slow');
+}
+
+
+function changeName(cameraID){
+    var newName = prompt('Nouveu Nom : ');
+    if(newName != '' && newName != null){
+        var name = document.createTextNode(newName);
+        document.getElementById('name-camera'+cameraID).replaceChild(name,document.getElementById('name-camera'+cameraID).firstChild);
+        socket.emit('changeCameraName',{cameraID: cameraID, name:newName});
+    }
+}
+
+
+function addWifi(cameraID){
+
 }
