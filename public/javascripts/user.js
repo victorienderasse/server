@@ -135,7 +135,7 @@ socket.on('updateUserRes', function(isOK){
     if(isOK){
         displayMessage({title:'Bravo',message:'Vos informations ont correctemment été modifiés'});
         setTimeout(function(){
-            redirect(serverURL+'/user?userID='+userID);
+            redirectURL(serverURL+'/user?userID='+userID);
         },3000);
     }else{
         document.getElementById('updateUser').innerHTML = 'Confirmer';
