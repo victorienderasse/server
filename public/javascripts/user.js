@@ -22,20 +22,21 @@ $(function(){
     });
 
     $('#updateUser').click(function(){
-        $('this').html('En cours ..');
-        console.log($('#name').text());
-        if($('#name').text() == '' || $('#email').text() == '' || $('#phone').text() == '' || $('#password').text() == '' || $('#passwordConf').text() == ''){
+        document.getElementById('updateUser').innerHTML = 'En cours ..';
+        if($('#name').val() == '' || $('#email').val() == '' || $('#phone').val() == '' || $('#password').val() == '' || $('#passwordConf').val() == ''){
+            document.getElementById('updateUser').innerHTML = 'Confirmer';
             displayMessage({title:'Alerte', message:'Erreur, merci de remplir tous les champs', action:'resetMessage'});
         }else{
-            if($('#password').text() != $('#passwordConf').text()){
+            if($('#password').val() != $('#passwordConf').val()){
+                document.getElementById('updateUser').innerHTML = 'Confirmer';
                 displayMessage({title:'Alerte', message:'Erreur, Les mots de passes indiquer sont différents', action:'resetMessage'});
             }else{
                 socket.emit('updateUser',{
                     userID: userID,
-                    name: $('#name').text(),
-                    email: $('#email').text(),
-                    phone: $('#phone').text(),
-                    password: $('#password')
+                    name: $('#name').val(),
+                    email: $('#email').val(),
+                    phone: $('#phone').val(),
+                    password: $('#password').val()
                 });
             }
         }
@@ -126,8 +127,16 @@ socket.on('getInfoUserRes', function(data){
 });
 
 
-socket.on('updateUserRes', function(){
-
+socket.on('updateUserRes', function(isOK){
+    if(isOK){
+        displayMessage({title:'Bravo',message:'Vos informations ont correctemment été modifiés'});
+        setTimeout(function(){
+            redirect(serverURL+'/user?userID='+userID);
+        },3000);
+    }else{
+        document.getElementById('updateUser').innerHTML = 'Confirmer';
+        displayMessage({title:'Alerte',message'Erreur, l\'email est déjà utilisée'});
+    }
 });
 
 
