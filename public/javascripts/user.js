@@ -6,7 +6,7 @@ var userID = document.getElementById('userID').innerHTML;
 socket.emit('getInfoUser',userID);
 
 $(function(){
-    $('#option, #form').hide();
+    $('#form').hide();
 
     $('#affiche').click(function(){
         $('#option').first().show('slow');
@@ -16,8 +16,31 @@ $(function(){
         $('#user').hide('slow', function(){
             $('#form').show('slow');
         });
-    })
+        $('#name').attr('value',$('#userName').text());
+        $('#email').attr('value',$('#userEmail').text());
+        $('#phone').attr('value',$('#userPhone').text());
+    });
+
+    $('#updateUser').click(function(){
+        $('this').text('En cours ..');
+        if($('#name').text() == '' || $('#email').text() == '' || $('#phone').text() == '' || $('#password').text() == '' || $('#passwordConf').text() == ''){
+            displayMessage({title:'Alerte', message:'Erreur, merci de remplir tous les champs', action:'resetMessage'});
+        }else{
+            if($('#password').text() != $('#passwordConf').text()){
+                displayMessage({title:'Alerte', message:'Erreur, Les mots de passes indiquer sont différents', action:'resetMessage'});
+            }else{
+                socket.emit('updateUser',{
+                    userID: userID,
+                    name: $('#name').text(),
+                    email: $('#email').text(),
+                    phone: $('#phone').text(),
+                    password: $('#password')
+                });
+            }
+        }
+    });
 });
+
 
 socket.on('getInfoUserRes', function(data){
     console.log('getInfoUserRes event');
@@ -25,6 +48,7 @@ socket.on('getInfoUserRes', function(data){
     $('#userName').html('<b>'+data[0].userName+'</b>');
     $('#userEmail').html('<b>'+data[0].email+'</b>');
     $('#userPhone').html('<b>'+data[0].phone+'</b>');
+    $('#nbCamera').html('<h4>Vous possédez '+data.length+' caméras</h4>');
 
 
     var table = document.getElementById('infoCamera');
@@ -34,6 +58,8 @@ socket.on('getInfoUserRes', function(data){
 
         var camera = document.createElement('div');
         camera.id = 'camera'+data[i].cameraID;
+        var nameTitle = document.createElement('span');
+        nameTitle.setAttribute('style','font-weight: bold; font-size: 20px;position:absolute; left:40px; margin-top:10px;');
         var name = document.createTextNode(data[i].cameraName);
         var btn = document.createElement('button');
         btn.id = 'btn-camera'+data[i].cameraID;
@@ -44,10 +70,12 @@ socket.on('getInfoUserRes', function(data){
         btnIcon.id = 'btnIcon-camera'+data[i].cameraID;
         btnIcon.className = 'glyphicon glyphicon-chevron-down';
         //btnIcon.setAttribute('style','margin-right:0px')
+        var stateTitle = document.createElement('span');
+        stateTitle.setAttribute('style','font-style:oblique; font-size: 15px; position:absolute; left:200px; margin-top:20px');
         var state;
         if(data[i].state != 2){
             state = document.createTextNode('Online');
-            btn.setAttribute('style','border:0px; background-color:#fff; margin-right:0px; border-left:1px #ECECEC;');
+            btn.setAttribute('style','border:0px; background-color:#fff; position:absolute; right:20px;; border-left:1px #ECECEC;');
             camera.setAttribute('style','width:100%; height:50px; border-style:outset');
         }else{
             state = document.createTextNode('Offline');
@@ -55,13 +83,12 @@ socket.on('getInfoUserRes', function(data){
             camera.setAttribute('style','width:100%; height:50px; background-color:#FAECEC');
         }
         state.className = 'help-block navbar-right';
-        var hr = document.createElement('hl');
-        hr.setAttribute('style','width:2px; color:#000');
 
         btn.appendChild(btnIcon);
-        camera.appendChild(name);
-        camera.appendChild(state);
-        camera.appendChild(hr);
+        nameTitle.appendChild(name);
+        stateTitle.appendChild(state);
+        camera.appendChild(nameTitle);
+        camera.appendChild(stateTitle);
         camera.appendChild(btn);
 
         //WIFI
@@ -94,6 +121,11 @@ socket.on('getInfoUserRes', function(data){
     }
 
     $('.optionCamera').hide();
+
+});
+
+
+socket.on('updateUserRes', function(){
 
 });
 

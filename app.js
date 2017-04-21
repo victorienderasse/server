@@ -739,6 +739,12 @@ io.sockets.on('connection', function(socket){
   });
   
   
+  socket.on('updateUser', function(data){
+    console.log('updateUser event');
+    
+  });
+  
+  
   
 //FUNCTIONS----------------------------------------------------------------------------------------------
 
