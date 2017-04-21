@@ -745,16 +745,16 @@ io.sockets.on('connection', function(socket){
     connection.query(checkEmail, function(err, rows){
       if(err) throw err;
       if(rows.length > 0){
-        console.log('rows > 0');
         if(rows[0].userID != data.userID){
           socket.emit('updateUserRes',false);
-          console.log(data.userID+' != '+rows[0].userID);
         }else{
           socket.emit('updateUserRes',true);
-          onsole.log('ID == ID');
+          updateInfoUser(data);
         }
+      }else{
+        socket.emit('updateUserRes',true);
+        updateInfoUser(data);
       }
-      console.log('rows == 0');
     });
   });
   
@@ -1255,6 +1255,16 @@ io.sockets.on('connection', function(socket){
           }
         });
       }
+    });
+  }
+
+
+  function updateInfoUser(data){
+    console.log('updateInfoUser function');
+    var password = passHash.generate(data.password);
+    const updateUser = 'UPDATE user SET name = "'+data.name+'", email = "'+data.email+'", password = "'+password+'", phone = "'+data.phone+'" WHERE userID = '+data.userID;
+    connection.query(updateUser, function (err){
+      if(err)throw err;
     });
   }
 
