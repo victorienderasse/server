@@ -54,7 +54,7 @@ socket.on('getInfoUserRes', function(data){
             camera.setAttribute('style','width:100%; height:50px; background-color:#FAECEC');
         }
         state.className = 'help-block navbar-right';
-        var hr = document.createElement('hr');
+        var hr = document.createElement('hl');
 
         btn.appendChild(btnIcon);
         camera.appendChild(name);
