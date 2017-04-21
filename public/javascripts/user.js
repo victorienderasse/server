@@ -140,7 +140,7 @@ socket.on('updateUserRes', function(isOK){
     }else{
         document.getElementById('updateUser').innerHTML = 'Confirmer';
         document.getElementById('updateUser').disabled = true;
-        displayMessage({title:'Alerte',message:'Erreur, l\'email est déjà utilisée'});
+        displayMessage({title:'Alerte',message:'Erreur, l\'email est déjà utilisée',action:'resetMessage'});
     }
 });
 

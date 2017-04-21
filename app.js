@@ -741,15 +741,14 @@ io.sockets.on('connection', function(socket){
   
   socket.on('updateUser', function(data){
     console.log('updateUser event');
-    console.log(data.email);
-    const checkEmail = 'SELECT email FROM user WHERE email = "'+data.email+'"';
+    const checkEmail = 'SELECT email, userID FROM user WHERE email = "'+data.email+'"';
     connection.query(checkEmail, function(err, rows){
       if(err) throw err;
       if(rows.length > 0){
         console.log('rows > 0');
         if(rows[0].userID != data.userID){
           socket.emit('updateUserRes',false);
-          console.log('ID != ID');
+          console.log(data.userID+' != '+rows[0].userID);
         }else{
           socket.emit('updateUserRes',true);
           onsole.log('ID == ID');
