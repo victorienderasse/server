@@ -22,7 +22,8 @@ $(function(){
     });
 
     $('#updateUser').click(function(){
-        $('this').text('En cours ..');
+        $('this').html('En cours ..');
+        console.log($('#name').text());
         if($('#name').text() == '' || $('#email').text() == '' || $('#phone').text() == '' || $('#password').text() == '' || $('#passwordConf').text() == ''){
             displayMessage({title:'Alerte', message:'Erreur, merci de remplir tous les champs', action:'resetMessage'});
         }else{
