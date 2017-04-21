@@ -23,12 +23,15 @@ $(function(){
 
     $('#updateUser').click(function(){
         document.getElementById('updateUser').innerHTML = 'En cours ..';
+        document.getElementById('updateUser').disabled = true;
         if($('#name').val() == '' || $('#email').val() == '' || $('#phone').val() == '' || $('#password').val() == '' || $('#passwordConf').val() == ''){
             document.getElementById('updateUser').innerHTML = 'Confirmer';
+            document.getElementById('updateUser').disabled = false;
             displayMessage({title:'Alerte', message:'Erreur, merci de remplir tous les champs', action:'resetMessage'});
         }else{
             if($('#password').val() != $('#passwordConf').val()){
                 document.getElementById('updateUser').innerHTML = 'Confirmer';
+                document.getElementById('updateUser').disabled = false;
                 displayMessage({title:'Alerte', message:'Erreur, Les mots de passes indiquer sont différents', action:'resetMessage'});
             }else{
                 socket.emit('updateUser',{
@@ -136,6 +139,7 @@ socket.on('updateUserRes', function(isOK){
         },3000);
     }else{
         document.getElementById('updateUser').innerHTML = 'Confirmer';
+        document.getElementById('updateUser').disabled = true;
         displayMessage({title:'Alerte',message:'Erreur, l\'email est déjà utilisée'});
     }
 });
