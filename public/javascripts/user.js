@@ -39,13 +39,14 @@ socket.on('getInfoUserRes', function(data){
         btn.id = 'btn-camera'+data[i].cameraID;
         btn.setAttribute('onclick','displayOption('+data[i].cameraID+');');
         btn.className = 'btn btn-lg';
+        btn.setAttribute('style','margin-right:0px')
         var btnIcon = document.createElement('span');
         btnIcon.id = 'btnIcon-camera'+data[i].cameraID;
         btnIcon.className = 'glyphicon glyphicon-chevron-down';
         var state;
         if(data[i].state == 1){
             state = document.createTextNode('Online');
-            btn.setAttribute('style','border:opx');
+            btn.setAttribute('style','border:0px');
             camera.setAttribute('style','width:100%; height:50px');
         }else{
             state = document.createTextNode('Offline');
@@ -106,7 +107,7 @@ function displayOption(cameraID){
 
 function hideOption(cameraID){
     $('#optionCamera'+cameraID).hide('slow', function(){
-        $(this).attr('onclick','displayOption('+cameraID+')');
+        $('#btn-camera'+cameraID).attr('onclick','displayOption('+cameraID+')');
         $('#btnIcon-camera'+cameraID).toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
     });
 }
