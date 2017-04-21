@@ -52,6 +52,6 @@ th, td {
   border-radius: 10%;
 }
 
-input[type='button']::-moz-focus-inner{
-  border: 0px
+button:focus{
+  outline: 0;
 }
