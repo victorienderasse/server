@@ -741,7 +741,7 @@ io.sockets.on('connection', function(socket){
   
   socket.on('updateUser', function(data){
     console.log('updateUser event');
-    const checkEmail =  'SELECT email FROM user WHERE email = '+data.email;
+    const checkEmail = 'SELECT email FROM user WHERE email = '+data.email;
     connection.query(checkEmail, function(err, rows){
       if(err) throw err;
       if(rows > 0){
