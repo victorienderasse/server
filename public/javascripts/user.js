@@ -47,7 +47,7 @@ socket.on('getInfoUserRes', function(data){
         if(data[i].state != 2){
             state = document.createTextNode('Online');
             btn.setAttribute('style','border:0px; background-color:#fff');
-            camera.setAttribute('style','width:100%; height:50px; border:1px solid #000; border-style:outset');
+            camera.setAttribute('style','width:100%; height:50px; border-style:outset');
         }else{
             state = document.createTextNode('Offline');
             btn.setAttribute('style','border:opx; background-color:#FAECEC');
