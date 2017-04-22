@@ -15,6 +15,7 @@ $(function(){
     
     $('#reboot').click(function(){
         socket.emit('reboot',cameraID);
+        redirectURL(serverURL+'/user?userID='+userID);
     });
     
     $('#noReboot').click(function(){
