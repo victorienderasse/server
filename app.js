@@ -770,19 +770,21 @@ io.sockets.on('connection', function(socket){
   });
 
 
-  socket.on('addWifi',function(data){
+  socket.on('addWifi', function(cameraID){
+    console.log('addWifi event');
+    sendToCamera(cameraID,'addWifi',cameraID);
+  });
+
+
+  socket.on('addWifiDone',function(data){
     console.log('addWifi event');
     io.emit('addWifiRes',data);
   });
 
 
-  socket.on('rebootBySerial', function(serial){
+  socket.on('reboot', function(cameraID){
     console.log('rebootBySerial event');
-    const getCameraID = 'SELECT cameraID FROM camera WHERE serial = "'+serial+'"';
-    connection.query(getCameraID, function(err,rows){
-      if(err)throw err;
-      sendToCamera(rows[0].cameraID,'reboot',null);
-    });
+    sendToCamera(cameraID,'reboot',null);
   });
 
   

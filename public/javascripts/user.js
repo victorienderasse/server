@@ -97,7 +97,7 @@ socket.on('getInfoUserRes', function(data){
         var stateTitle = document.createElement('span');
         stateTitle.setAttribute('style','font-style:oblique; font-size: 15px; position:absolute; left:200px; margin-top:20px');
         var state;
-        if(data[i].state == 1){
+        if(data[i].enable == 1){
             state = document.createTextNode('Online');
         }else{
             state = document.createTextNode('Offline');
@@ -122,9 +122,9 @@ socket.on('getInfoUserRes', function(data){
         wifiBtn.className = 'btn btn-lg';
         wifiBtn.setAttribute('style','border:0px; background-color:#fff; position:absolute; right:20px;;');
         wifiBtn.setAttribute('onclick','addWifi('+data[i].cameraID+');');
-        if(data[i].enable == 0){
+        if(data[i].enable == 0 || data[i].state != 0){
             wifiBtn.disabled = true;
-            wifiBtn.title = 'Veuillez allumer la caméra pour ajouter un nouveau réseau WiFi';
+            wifiBtn.title = 'Veuillez allumer la caméra ou arrêter le processus en cours pour ajouter un nouveau réseau WiFi';
         }else{
             wifiBtn.title = 'Cliquer pour ajouter un nouveau réseaux Wifi';
         }
@@ -215,4 +215,6 @@ function changeName(cameraID){
 
 function addWifi(cameraID){
     console.log('addWifi btn');
+    socket.emit('addWifi',cameraID);
+    redirectURL(serverURL+'/addCamera?userID='+userID);
 }

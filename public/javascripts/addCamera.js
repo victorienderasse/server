@@ -3,7 +3,7 @@
  */
 
 var userID = document.getElementById('userID').innerHTML;
-var serial;
+var cameraID;
 
 
 $(function(){
@@ -14,7 +14,7 @@ $(function(){
     });
     
     $('#reboot').click(function(){
-        socket.emit('rebootBySerial',serial);
+        socket.emit('reboot',cameraID);
     });
     
     $('#noReboot').click(function(){
@@ -64,7 +64,7 @@ socket.on('newCameraConnectionRes', function(userID){
 
 socket.on('addWifiRes', function(data){
     console.log('addWifiRes event');
-    serial = data.serial;
+    cameraID = data.cameraID;
     $('#qrcode').hide('slow', function(){
         $('#addWifiDiv').show('slow');
     });
