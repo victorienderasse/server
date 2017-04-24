@@ -15,7 +15,7 @@ router.get('/', function(req, res) {
   if(req.session.userID){
     res.redirect('/display');
   }else{
-    res.render('index',{title:});
+    res.render('index');
   }
 });
 
