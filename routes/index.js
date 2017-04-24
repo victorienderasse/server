@@ -89,7 +89,7 @@ router.get('/admin', function(req,res){
   res.render('admin', {});
 });
 
-router.post('/multiLive', function(req,res){
+router.get('/multiLive', function(req,res){
   if(!req.session.userID){
     res.redirect('/');
   }else{
@@ -97,7 +97,8 @@ router.post('/multiLive', function(req,res){
   }
 });
 
-router.post('/user', function(req,res){
+router.get('/user', function(req,res){
+  console.log('user post');
   if(!req.session.userID){
     res.redirect('/');
   }else{
@@ -105,7 +106,7 @@ router.post('/user', function(req,res){
   }
 });
 
-router.post('/addCamera', function(req,res){
+router.get('/addCamera', function(req,res){
   if(!req.session.userID){
     res.redirect('/');
   }else{
