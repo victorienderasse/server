@@ -56,6 +56,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use('/', routes);
 app.use(session);
+app.use(connection);
+app.use(passHash);
 
 //Receive data from client------------------------------------------------------------------
 
