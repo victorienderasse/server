@@ -56,8 +56,8 @@ app.use(session({
   resave: true,
   saveUnitialized: true
 }));
-app.use(connection());
-app.use(passHash());
+app.use(connection);
+app.use(passHash);
 
 //Receive data from client------------------------------------------------------------------
 
