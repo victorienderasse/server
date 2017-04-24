@@ -125,11 +125,11 @@ router.get('/purchase', function(req,res){
 });
 
 router.use(function(req,res,next){
-  res.redirect('/error');
+  res.redirect('/noPage');
 });
 
-router.get('/error', function(req,res){
-  res.render('error');
+router.get('/noPage', function(req,res){
+  res.render('noPage');
 });
 
 module.exports = router;

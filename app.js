@@ -381,7 +381,7 @@ io.sockets.on('connection', function(socket){
   });
 
 
-  socket.on('signin2', function(data){
+  socket.on('signin', function(data){
     const emailExist = 'SELECT email, userID FROM user WHERE email = "'+data.email+'"';
     connection.query(emailExist, function(err,rows){
       if(err)throw err;
@@ -396,39 +396,6 @@ io.sockets.on('connection', function(socket){
           connection.query(getUserID, function(err,rows2){
             if(err)throw err;
             socket.emit('signinRes',{userID: rows2[0].userID, emailExist:false});
-          });
-        });
-      }
-    });
-  });
-  
-  
-  socket.on('signin', function(data){
-    console.log('signin event');
-    var password = passHash.generate(data.password);
-    const checkEmail = 'SELECT email FROM user WHERE email = "'+data.email+'"';
-    connection.query(checkEmail, function(err, rows){
-      if (err){
-        throw err;
-      }
-      console.log('no error chack email');
-      if (rows.length>0){
-        console.log('email exist');
-        socket.emit('message', {title: 'Alerte', message: 'Error Email already exist', action: ''});
-      }else{
-        console.log('email don\'t exist');
-        const signin = 'INSERT INTO user SET name = "'+data.name+'", email = "'+data.email+'", password = "'+password+'"';
-        connection.query(signin, function(err){
-          if (err){
-            throw err;
-          }
-          console.log('login success');
-          const getUserID = 'SELECT userID FROM user WHERE email = "'+data.email+'"';
-          connection.query(getUserID, function(err,rows){
-            if (err){
-              throw err;
-            }
-            socket.emit('redirect',serverURL+'/display?userID='+rows[0].userID);
           });
         });
       }

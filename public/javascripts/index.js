@@ -17,6 +17,19 @@ $(function(){
 
     });
 
+
+    $('#signin-confirm-btn').click(function(){
+        console.log('signin btn');
+        var signinForm = document.getElementById('signin-form');
+        const password = signinForm.signinPassword.value;
+        const confPassword = signinForm.signinPasswordConf.value;
+        if (password != confPassword) {
+            displayMessage({title:'Alerte',message:'Password non identique'});
+        }else{
+            socket.emit('signin',{name: signinForm.signinName.value, email: signinForm.signinEmail.value, phone:signinForm.signinPhone.value, password: password});
+        }
+    });
+
 });
 
 
@@ -55,22 +68,6 @@ socket.on('signinRes', function(data){
         $.post(serverURL+'/login',{userID:data.userID}, function(data){
             window.location.href = '/display';
         });
-    }
-});
-
-
-//Button-------------------------------
-
-//Sign In
-document.getElementById('signin-confirm-btn').addEventListener('click',function(){
-    console.log('signin btn');
-    var signinForm = document.getElementById('signin-form');
-    const password = signinForm.signinPassword.value;
-    const confPassword = signinForm.signinPasswordConf.value;
-    if (password != confPassword) {
-        displayMessage({title:'Alerte',message:'Password non identique'});
-    }else{
-        socket.emit('signin2',{name: signinForm.signinName.value, email: signinForm.signinEmail.value, phone:signinForm.signinPhone.value, password: password});
     }
 });
 
