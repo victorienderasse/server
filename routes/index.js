@@ -8,7 +8,7 @@ var connection = mysql.createConnection({
   database : 'TFE'
 });
 var passHash = require('password-hash');
-var sess;
+
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -41,7 +41,7 @@ router.post('/login', function(req,res){
 });
 
 router.get('/logout', function(req,res){
-  req.session.userID = null;
+  req.session.destroy();
   res.redirect('/');
 });
 
@@ -126,7 +126,11 @@ router.get('/purchase', function(req,res){
 });
 
 router.use(function(req,res,next){
-  res.redirect('/');
+  res.redirect('/error');
+});
+
+router.get('/error', function(req,res){
+  res.render('error');
 });
 
 module.exports = router;

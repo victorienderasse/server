@@ -277,7 +277,7 @@ document.getElementById('user-btn').addEventListener('click',function(){
 
 //Disconnect
 document.getElementById('disconnect-btn').addEventListener('click', function(){
-    window.location = serverURL;
+    window.location = serverURL+'/logout';
 });
 
 
