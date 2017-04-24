@@ -29,7 +29,11 @@ document.getElementById('signin-confirm-btn').addEventListener('click',function(
         displayMessage({title:'Alerte',message:'Password non identique'});
     }else{
         console.log('method post');
-        $.post(serverURL+'/signin',{name:'test',email:'test',password:password,passwordConf:confPassword});
+        $.post(serverURL+'/signin',{name:'test',email:'test',password:password,passwordConf:confPassword}, function(data){
+            if(data == 'done'){
+                window.location.href = '/display';
+            }
+        });
         /*
         socket.emit('signin', {
             name: signinForm.name.value,
