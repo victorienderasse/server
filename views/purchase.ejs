@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Camera</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+<body style="background-color:#FBFBFB;">
+
+
+<%# -MENU- %>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">TFE</a>
+        </div>
+        <div>
+            <button type="button" id="back" class="btn btn-danger btn-lg navbar-form navbar-right"><span class="glyphicon glyphicon-arrow-left">Retour</span></button>
+        </div>
+    </div>
+</nav>
+
+
+<%# -TITLE- %>
+<div class="jumbotron">
+    <div class="container">
+        <h1>Display</h1>
+        <p>Add Camera</p>
+    </div>
+</div>
+
+
+<%# -MESSAGE- %>
+<div id="message" class="container">
+    <div class="row">
+        <div id="message-div">
+            <strong id="message-title"></strong>
+            <p id="message-body"></p>
+        </div>
+    </div>
+</div>
+
+
+<div class="container" id="purchase-select">
+    <div class="row">
+        <div id="info" class="col-lg-5">
+            <img src="../images/zelda1.png" width="500px">
+            <div id="description" style="font-size: 20px">
+                <p>Caméra multi-fonction super trop bien, franchement moi j'hésiterai pas, elle va te changer la vie, les voleurs ils vont plus oser te voler ils vont se dirent wolala il a une trop belle caméra t'es ouf ont cambriole pas ça tema l'engin !</p>
+            </div>
+        </div>
+        <div id="purchase" class="col-lg-offset-2 col-lg-5">
+            <div class="form-group row">
+                <div class="col-lg-6">
+                    <label for="nbCamera">Nombre de camera(s) : </label>
+                </div>
+                <div class="col-lg-6">
+                    <input type="number" oninput="updatePrice(this.value);" class="form-control" min="1" max="20" id="nbCamera" name="nbCamera" value="1">
+                </div>
+            </div>
+            <hr>
+            <div id="price" class="row">
+                <div class="col-lg-6">
+                    <span id="nbPrice">1 x 50€</span>
+                </div>
+                <div class="col-lg-6" style="font-size: 20px;;text-align:right;font-weight: bold;">
+                    <span id="sumPrice">50€</span>
+                </div>
+            </div>
+            <div class="row" style="text-align:right;margin:20px;">
+                <button type="button" id="confirm" class="btn btn-lg btn-success">Confirmer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container" id="purchase-bill" style="display: none;">
+    <div class="row">
+        <div>
+            <h1>Bon de commande tout ça tout ça</h1>
+            <button id="ok">OK</button>
+        </div>
+    </div>
+</div>
+
+
+<script src="/public/javascripts/hostconfig.js"></script>
+<script src="/public/javascripts/socket.io.js"></script>
+<script src="/public/javascripts/jquery.js"></script>
+<script src="/public/javascripts/functions.js"></script>
+<script src="/public/javascripts/purchase.js"></script>
+
+
+
+</body>
+</html>

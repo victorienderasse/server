@@ -9,7 +9,7 @@ $(function(){
     $('#form').hide();
 
     $('#affiche').click(function(){
-        $('#option').first().show('slow');
+        $('#option').slideToggle('slow');
     });
     
     $('#back').click(function(){
@@ -117,7 +117,7 @@ socket.on('getInfoUserRes', function(data){
         wifiDiv.setAttribute('style','height:40px');
         var wifiSpan = document.createElement('span');
         wifiSpan.setAttribute('style','font-size: 20px;position:absolute; left:60px; margin-top:10px;');
-        var wifi = document.createTextNode('Add Wifi Network');
+        var wifi = document.createTextNode('Ajouter un réseau WiFi');
         var wifiBtn = document.createElement('button');
         wifiBtn.className = 'btn btn-lg';
         wifiBtn.setAttribute('style','border:0px; background-color:#fff; position:absolute; right:20px;;');
@@ -158,7 +158,7 @@ socket.on('getInfoUserRes', function(data){
         var option = document.createElement('div');
         option.id = 'optionCamera'+data[i].cameraID;
         option.className = 'optionCamera';
-        option.setAttribute('style','');
+        option.setAttribute('style','display: none;');
         option.appendChild(wifiDiv);
         option.appendChild(serialDiv);
 
@@ -192,14 +192,7 @@ socket.on('updateUserRes', function(isOK){
 
 function displayOption(cameraID){
     $('#btnIcon-camera'+cameraID).toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
-    $('#btn-camera'+cameraID).attr('onclick','hideOption('+cameraID+')');
-    $('#optionCamera'+cameraID).show('slow');
-}
-
-function hideOption(cameraID){
-    $('#btn-camera'+cameraID).attr('onclick','displayOption('+cameraID+')');
-    $('#btnIcon-camera'+cameraID).toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
-    $('#optionCamera'+cameraID).hide('slow');
+    $('#optionCamera'+cameraID).toggle('slow');
 }
 
 

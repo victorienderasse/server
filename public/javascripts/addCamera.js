@@ -7,7 +7,6 @@ var cameraID;
 
 
 $(function(){
-    $('#data, #qrcode, #loading, #connectionOK').hide();
 
     $('#back').click(function(){
         redirectURL(serverURL+'/display?userID='+userID);

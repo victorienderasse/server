@@ -39,7 +39,7 @@ function displayMessage(data){
     //add message and title
     document.getElementById('message-title').innerHTML = data.title;
     document.getElementById('message-body').innerHTML = data.message;
-    $('#message').show('slow');
+    $('#message').slideToggle('slow');
 }
 
 

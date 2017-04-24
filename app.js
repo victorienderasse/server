@@ -28,7 +28,7 @@ const connection = mysql.createConnection({
   database : 'TFE'
 });
 
-const session = require('express-session')({
+var session = require('express-session')({
   secret: "tfe-secret",
   resave: true,
   saveUnitialized: true
