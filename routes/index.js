@@ -16,17 +16,16 @@ router.get('/', function(req, res) {
 });
 
 router.post('/login', function(req,res){
-  console.log('login event');
-  console.log('email: '+req.body.email);
-  console.log('password: '+req.body.password);
   
   const getPassword = 'SELECT * FROM user WHERE email = "'+req.body.email+'"';
   connection.query(getPassword,function(err,rows){
     if (err)throw err;
     if (rows.length>0){
-      console.log('password2: '+rows[0].password);
       if (passHash.verify(req.body.password, rows[0].password)){
+        req.session.user = 1;
         req.session.email = req.body.email;
+        console.log(req.session.user);
+        console.log(req.session.email);
         res.redirect('display');
       }
     }else{

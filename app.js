@@ -49,13 +49,13 @@ app.use('/public/images', express.static(path.join(__dirname, 'public/videos')))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use('/', routes);
 app.use(session({
   secret: "tfe-secret",
   resave: true,
-  saveUnitialized: true
+  saveUninitialized: true
 }));
 
+app.use('/', routes);
 
 //Receive data from client------------------------------------------------------------------
 
