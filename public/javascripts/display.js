@@ -260,13 +260,13 @@ document.getElementById('frequency').addEventListener('change',function(){
 //Add camera
 document.getElementById('addCamera-btn').addEventListener('click',function(){
     console.log('addCamera-btn');
-    redirectURL(serverURL+'/addCamera?userID='+userID);
+    redirectURL(serverURL+'/addCamera');
 });
 
 //MultiLive
 document.getElementById('multiLive-btn').addEventListener('click',function(){
     console.log('multiLive-btn');
-    redirectURL(serverURL+'/multiLive?userID='+userID);
+    redirectURL(serverURL+'/multiLive');
 });
 
 //User

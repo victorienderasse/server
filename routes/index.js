@@ -78,12 +78,9 @@ router.post('/signin', function(req,res){
 });
 
 router.get('/display', function(req,res){
-  console.log('display');
   if(!req.session.userID){
-    console.log('display error userID');
     res.redirect('/');
   }else{
-    console.log('display render ok');
     res.render('display', {userID: req.session.userID});
   }
 });
@@ -96,7 +93,7 @@ router.post('/multiLive', function(req,res){
   if(!req.session.userID){
     res.redirect('/');
   }else{
-    res.render('multiLive', {userID: req.query.userID});
+    res.render('multiLive', {userID: req.session.userID});
   }
 });
 
@@ -104,7 +101,7 @@ router.post('/user', function(req,res){
   if(!req.session.userID){
     res.redirect('/');
   }else{
-    res.render('user', {userID: req.query.userID});
+    res.render('user', {userID: req.session.userID});
   }
 });
 
@@ -112,7 +109,7 @@ router.post('/addCamera', function(req,res){
   if(!req.session.userID){
     res.redirect('/');
   }else{
-    res.render('addCamera', {userID: req.query.userID});
+    res.render('addCamera', {userID: req.session.userID});
   }
 });
 
