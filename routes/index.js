@@ -22,6 +22,7 @@ router.get('/', function(req, res) {
 router.post('/login', function(req,res){
   
   req.session.userID = req.body.userID;
+  console.log('userID: '+req.body.userID);
   res.redirect('/display');
   /*
   const getPassword = 'SELECT * FROM user WHERE email = "'+req.body.email+'"';
