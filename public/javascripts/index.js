@@ -26,13 +26,16 @@ document.getElementById('signin-confirm-btn').addEventListener('click',function(
     const password = signinForm.password.value;
     const confPassword = signinForm.confPassword.value;
     if (password != confPassword) {
-        console.log('erreur passwd');
+        displayMessage({title:'Alerte',message:'Password non identique'});
     }else{
+        $.post(serverURL+'/signin',{name:'test',email:'test',password:password,passwordConf:confPassword});
+        /*
         socket.emit('signin', {
             name: signinForm.name.value,
             email: signinForm.email.value,
             password: signinForm.password.value
         });
+        */
     }
 });
 

@@ -12,7 +12,11 @@ var sess;
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { name: 'Index' });
+  if(req.session.userID){
+    res.redirect('/display');
+  }else{
+    res.render('index',{title:});
+  }
 });
 
 router.post('/login', function(req,res){
@@ -34,36 +38,30 @@ router.post('/login', function(req,res){
 
 router.post('signin', function(req,res){
 
+  console.log('email: '+req.body.email);
 
+  /*
   console.log('signin event');
-  var password = passHash.generate(data.password);
-  const checkEmail = 'SELECT email FROM user WHERE email = "'+data.email+'"';
+  var password = passHash.generate(req.body.password);
+  const checkEmail = 'SELECT email FROM user WHERE email = "'+req.body.email+'"';
   connection.query(checkEmail, function(err, rows){
-    if (err){
-      throw err;
-    }
-    console.log('no error chack email');
+    if (err)throw err;
     if (rows.length>0){
-      console.log('email exist');
-      socket.emit('message', {title: 'Alerte', message: 'Error Email already exist', action: ''});
+      res.redirect('/');
     }else{
-      console.log('email don\'t exist');
-      const signin = 'INSERT INTO user SET name = "'+data.name+'", email = "'+data.email+'", password = "'+password+'"';
+      const signin = 'INSERT INTO user SET name = "'+req.body.name+'", email = "'+req.body.email+'", password = "'+password+'"';
       connection.query(signin, function(err){
-        if (err){
-          throw err;
-        }
-        console.log('login success');
-        const getUserID = 'SELECT userID FROM user WHERE email = "'+data.email+'"';
+        if (err)throw err;
+        const getUserID = 'SELECT userID FROM user WHERE email = "'+req.body.email+'"';
         connection.query(getUserID, function(err,rows){
-          if (err){
-            throw err;
-          }
-          socket.emit('redirect',serverURL+'/display?userID='+rows[0].userID);
+          if (err)throw err;
+          req.session.userID = rows[0].userID;
+          res.redirect('/display');
         });
       });
     }
   });
+  */
   
   
   
