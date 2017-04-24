@@ -37,7 +37,7 @@ document.getElementById('signin-confirm-btn').addEventListener('click',function(
 });
 
 //Login
-document.getElementById('login-btn').addEventListener('click', function(){
+document.getElementById('login-').addEventListener('click', function(){
     console.log('login btn');
     loginForm = document.getElementById('login-form');
     socket.emit('login', {
