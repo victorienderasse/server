@@ -36,16 +36,6 @@ document.getElementById('signin-confirm-btn').addEventListener('click',function(
     }
 });
 
-//Login
-document.getElementById('login-').addEventListener('click', function(){
-    console.log('login btn');
-    loginForm = document.getElementById('login-form');
-    socket.emit('login', {
-        email: loginForm.email.value,
-        password: loginForm.password.value
-    });
-});
-
 
 //Functions ---------------------------------------------
 

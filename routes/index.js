@@ -32,13 +32,47 @@ router.post('/login', function(req,res){
   })
 });
 
+router.post('signin', function(req,res){
+
+
+  console.log('signin event');
+  var password = passHash.generate(data.password);
+  const checkEmail = 'SELECT email FROM user WHERE email = "'+data.email+'"';
+  connection.query(checkEmail, function(err, rows){
+    if (err){
+      throw err;
+    }
+    console.log('no error chack email');
+    if (rows.length>0){
+      console.log('email exist');
+      socket.emit('message', {title: 'Alerte', message: 'Error Email already exist', action: ''});
+    }else{
+      console.log('email don\'t exist');
+      const signin = 'INSERT INTO user SET name = "'+data.name+'", email = "'+data.email+'", password = "'+password+'"';
+      connection.query(signin, function(err){
+        if (err){
+          throw err;
+        }
+        console.log('login success');
+        const getUserID = 'SELECT userID FROM user WHERE email = "'+data.email+'"';
+        connection.query(getUserID, function(err,rows){
+          if (err){
+            throw err;
+          }
+          socket.emit('redirect',serverURL+'/display?userID='+rows[0].userID);
+        });
+      });
+    }
+  });
+  
+  
+  
+});
+
 router.get('/display', function(req,res){
-  console.log('post display');
-  console.log('userID: '+req.session.userID);
   if(!req.session.userID){
     res.redirect('/');
   }else{
-    console.log(' render display');
     res.render('display', {userID: req.session.userID});
   }
 });
@@ -48,8 +82,7 @@ router.get('/admin', function(req,res){
 });
 
 router.post('/multiLive', function(req,res){
-  sess = req.session;
-  if(!sess.email){
+  if(!req.session.userID){
     res.redirect('/');
   }else{
     res.render('multiLive', {userID: req.query.userID});
@@ -57,8 +90,7 @@ router.post('/multiLive', function(req,res){
 });
 
 router.post('/user', function(req,res){
-  sess = req.session;
-  if(!sess.email){
+  if(!req.session.userID){
     res.redirect('/');
   }else{
     res.render('user', {userID: req.query.userID});
@@ -66,8 +98,7 @@ router.post('/user', function(req,res){
 });
 
 router.post('/addCamera', function(req,res){
-  sess = req.session;
-  if(!sess.email){
+  if(!req.session.userID){
     res.redirect('/');
   }else{
     res.render('addCamera', {userID: req.query.userID});

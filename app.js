@@ -414,26 +414,6 @@ io.sockets.on('connection', function(socket){
   });
 
   
-  socket.on('login', function(data){
-    console.log('login event');
-    const getPassword = 'SELECT * FROM user WHERE email = "'+data.email+'"';
-    connection.query(getPassword,function(err,rows){
-      if (err){
-        throw err;
-      }
-      if (rows.length>0){
-        if (passHash.verify(data.password, rows[0].password)){
-          socket.emit('redirect',serverURL+'/display?userID='+rows[0].userID);
-        }else{
-          socket.emit('message',{title: 'Alerte', message: 'Erreur: Le password entré est incorrect', action: 'empty-login'});
-        }
-      }else{
-          socket.emit('message',{title: 'Alerte', message: 'Erreur: Cette adresse email est introuvable', action: 'empty-login'});
-      }
-    })
-  });
-
-  
   socket.on('addCamera', function(data){
     console.log('add screen event');
     const checkCode = 'SELECT * FROM camera WHERE code = "'+data.code+'"';

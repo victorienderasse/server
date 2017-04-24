@@ -17,6 +17,9 @@
             <a class="navbar-brand" href="#">TFE</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse" style="height:0.8px;">
+            <div class="navbar-form navbar-right">
+                <button id="signin-btn" type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-signin">Inscription</button>
+            </div>
             <form action="/login" method="post" id="login-form" class="navbar-form navbar-right">
                 <div class="form-group">
                     <label for="email" class="control-label"><input id="email" name="email" type="text" class="form-control" placeholder="Email"></label>
@@ -24,9 +27,8 @@
                 <div class="form-group">
                     <label for="password" class="control-label"><input id="password" name="password" type="password" class="form-control" placeholder="Password"></label>
                 </div>
-                <button id="login-btn" type="submit" class="btn btn-primary">Log In</button>
+                <button id="login-btn" type="submit" class="btn btn-primary">Connection</button>
             </form>
-            <button id="signin-btn" type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-signin">Sign In</button>
         </div>
     </div>
 </nav>
@@ -87,27 +89,31 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-header">Signin</h4>
+                <h3 class="modal-header" style="text-align:center">Inscription</h3>
             </div>
             <div class="modal-body form-group" style="text-align:center;">
                 <form id="signin-form" class="form">
                     <div class="form-group">
-                        <label for="name" class="control-label">Name : <input id="name" name="name" type="text"></label>
+                        <label for="name">Nom : </label>
+                        <input id="name" class="form-control" name="name" type="text">
                     </div>
                     <div class="form-group">
-                        <label for="email" class="control-label">Email : <input id="email" name="email" type="text"></label>
+                        <label for="email">Email : </label>
+                        <input id="email" class="form-control" name="email" type="text">
                     </div>
                     <div class="form-group">
-                        <label for="password" class="control-label">Password : <input id="password" name="password" type="password"></label>
+                        <label for="password">Mot de passe : </label>
+                        <input id="password" class="form-control" name="password" type="password">
                     </div>
                     <div class="form-group">
-                        <label for="confPassword" class="control-label">Confirm Password : <input id="confPassword" name="confPassword" type="password"></label>
+                        <label for="confPassword">Confirmer le mot de passe : </label>
+                        <input id="confPassword" class="form-control" name="confPassword" type="password">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="signin-confirm-btn" type="button" class="btn btn-primary" data-dismiss="modal">Signin</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id="signin-confirm-btn" type="button" class="btn btn-primary" data-dismiss="modal">Continuer</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
             </div>
         </div>
     </div>
