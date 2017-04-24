@@ -28,6 +28,7 @@ document.getElementById('signin-confirm-btn').addEventListener('click',function(
     if (password != confPassword) {
         displayMessage({title:'Alerte',message:'Password non identique'});
     }else{
+        console.log('method post');
         $.post(serverURL+'/signin',{name:'test',email:'test',password:password,passwordConf:confPassword});
         /*
         socket.emit('signin', {
