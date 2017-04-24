@@ -65,12 +65,12 @@ socket.on('signinRes', function(data){
 document.getElementById('signin-confirm-btn').addEventListener('click',function(){
     console.log('signin btn');
     var signinForm = document.getElementById('signin-form');
-    const password = signinForm.password.value;
-    const confPassword = signinForm.confPassword.value;
+    const password = signinForm.signinPassword.value;
+    const confPassword = signinForm.signinPasswordConf.value;
     if (password != confPassword) {
         displayMessage({title:'Alerte',message:'Password non identique'});
     }else{
-        socket.emit('signin2',{name: signinForm.name.value, email: signinForm.email.value, phone:signinForm.phone.value, password: signinForm.password.value});
+        socket.emit('signin2',{name: signinForm.signinName.value, email: signinForm.signinEmail.value, phone:signinForm.signinPhone.value, password: password});
     }
 });
 
