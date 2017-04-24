@@ -19,6 +19,8 @@ router.post('/login', function(req,res){
   console.log('login event');
   hash = req.passHash;
   sess = req.session;
+  console.log('email: '+req.body.email);
+  console.log('password: '+req.body.password);
   
   const getPassword = 'SELECT * FROM user WHERE email = "'+req.body.email+'"';
   connection.query(getPassword,function(err,rows){

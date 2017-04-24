@@ -47,7 +47,7 @@ app.use('/public/images', express.static(path.join(__dirname, 'public/cameras'))
 app.use('/public/images', express.static(path.join(__dirname, 'public/videos')));
 //app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use('/', routes);
 app.use(session({
