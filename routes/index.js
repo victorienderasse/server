@@ -1,6 +1,14 @@
 var express = require('express');
 var router = express.Router();
-var sess, connect, hash;
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+  host : 'localhost',
+  user : 'root',
+  password : '221193m',
+  database : 'TFE'
+});
+var passHash = require('password-hash');
+var sess;
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -9,15 +17,14 @@ router.get('/', function(req, res) {
 
 router.post('/login', function(req,res){
   console.log('login event');
-  connect = req.connection;
   hash = req.passHash;
   sess = req.session;
   
   const getPassword = 'SELECT * FROM user WHERE email = "'+req.body.email+'"';
-  connect.query(getPassword,function(err,rows){
+  connection.query(getPassword,function(err,rows){
     if (err)throw err;
     if (rows.length>0){
-      if (hash.verify(req.body.password, rows[0].password)){
+      if (passHash.verify(req.body.password, rows[0].password)){
         sess.email = req.body.email;
         res.redirect('display');
       }

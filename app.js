@@ -13,6 +13,7 @@ const mysql = require('mysql');
 const routes = require('./routes/index');
 const exec = require('child_process').exec;
 const twilio = require('twilio');
+var session = require('express-session');
 
 const port = 3000;
 const serverURL = 'http://192.168.1.51:3000';
@@ -27,8 +28,6 @@ const connection = mysql.createConnection({
   password : '221193m',
   database : 'TFE'
 });
-
-var session = require('express-session');
 
 const client = new twilio.RestClient('AC175fe55d0a0d00d7094c00338f548ec5','956f723bfa80087e696300e1358f46cb');
 
@@ -56,8 +55,7 @@ app.use(session({
   resave: true,
   saveUnitialized: true
 }));
-app.use(connection);
-app.use(passHash);
+
 
 //Receive data from client------------------------------------------------------------------
 
