@@ -22,11 +22,8 @@ router.post('/login', function(req,res){
     if (err)throw err;
     if (rows.length>0){
       if (passHash.verify(req.body.password, rows[0].password)){
-        req.session.user = 1;
-        req.session.email = req.body.email;
-        console.log(req.session.user);
-        console.log(req.session.email);
-        res.redirect('display');
+        req.session.userID = rows[0].userID;
+        res.redirect('display',{userID:req.session.userID});
       }
     }else{
       res.redirect('/');
@@ -35,11 +32,10 @@ router.post('/login', function(req,res){
 });
 
 router.post('/display', function(req,res){
-  sess = req.session;
-  if(!sess.email){
+  if(!req.session.userID){
     res.redirect('/');
   }else{
-    res.render('display', {userID: req.query.userID});
+    res.render('display', {userID: req.session.userID});
   }
 });
 
