@@ -8,6 +8,72 @@
 //Ask camera to server
 socket.emit('getCamera',userID);
 
+$(function(){
+
+    $('#frequency').change(function(){
+        if($(this).val() == '*'){
+            $('#frequencyEnd').toggle('slow');
+        }
+    });
+
+    $('#addCamera-btn').click(function(){
+        redirectURL(serverURL+'/addCamera');
+    });
+
+    $('#multiLive-btn').click(function(){
+        redirectURL(serverURL+'/multiLive');
+    });
+
+    $('#user-btn').click(function(){
+        redirectURL(serverURL+'/user');
+    });
+
+    $('#disconnect-btn').click(function(){
+        redirectURL(serverURL+'/logout');
+    });
+
+});
+
+
+//Actions--------------------------------------
+
+//set frequencyEnd select on Change
+/*
+document.getElementById('frequency').addEventListener('change',function(){
+    var frequency = document.getElementById('timer-form').frequency.value;
+    if(frequency == '*'){
+        document.getElementById('frequencyEnd').style.display = 'none';
+    }else{
+        document.getElementById('frequencyEnd').style.display = 'block';
+    }
+});
+*/
+
+/*
+//Add camera
+document.getElementById('addCamera-btn').addEventListener('click',function(){
+    console.log('addCamera-btn');
+    redirectURL(serverURL+'/addCamera');
+});
+
+//MultiLive
+document.getElementById('multiLive-btn').addEventListener('click',function(){
+    console.log('multiLive-btn');
+    redirectURL(serverURL+'/multiLive');
+});
+
+//User
+document.getElementById('user-btn').addEventListener('click',function(){
+    console.log('user-btn');
+    redirectURL(serverURL+'/user');
+});
+
+//Disconnect
+document.getElementById('disconnect-btn').addEventListener('click', function(){
+    window.location = serverURL+'/logout';
+});
+*/
+
 
 //EVENTS-----------------------------------------------------------------------------------------------------------------
 
@@ -245,40 +311,7 @@ socket.on('updatePreview', function(cameraID){
 });
 
 
-//Actions--------------------------------------
 
-//set frequencyEnd select on Change
-document.getElementById('frequency').addEventListener('change',function(){
-    var frequency = document.getElementById('timer-form').frequency.value;
-    if(frequency == '*'){
-        document.getElementById('frequencyEnd').style.display = 'none';
-    }else{
-        document.getElementById('frequencyEnd').style.display = 'block';
-    }
-});
-
-//Add camera
-document.getElementById('addCamera-btn').addEventListener('click',function(){
-    console.log('addCamera-btn');
-    redirectURL(serverURL+'/addCamera');
-});
-
-//MultiLive
-document.getElementById('multiLive-btn').addEventListener('click',function(){
-    console.log('multiLive-btn');
-    redirectURL(serverURL+'/multiLive');
-});
-
-//User
-document.getElementById('user-btn').addEventListener('click',function(){
-    console.log('user-btn');
-    redirectURL(serverURL+'/user');
-});
-
-//Disconnect
-document.getElementById('disconnect-btn').addEventListener('click', function(){
-    window.location = serverURL+'/logout';
-});
 
 
 
