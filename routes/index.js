@@ -40,12 +40,16 @@ router.post('/login', function(req,res){
   */
 });
 
+router.get('/logout', function(req,res){
+  req.session.userID = null;
+  res.redirect('/');
+});
+
 router.post('/signin', function(req,res){
 
   console.log('signin post');
   console.log('email: '+req.body.email);
   req.session.userID = 1;
-  res.end('done');
 
   /*
   console.log('signin event');
