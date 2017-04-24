@@ -23,7 +23,7 @@ router.post('/login', function(req,res){
     if (rows.length>0){
       if (passHash.verify(req.body.password, rows[0].password)){
         req.session.userID = rows[0].userID;
-        res.redirect('display',{userID:req.session.userID});
+        res.redirect('/display',{userID:req.session.userID});
       }
     }else{
       res.redirect('/');
@@ -33,9 +33,9 @@ router.post('/login', function(req,res){
 
 router.post('/display', function(req,res){
   if(!req.session.userID){
-    res.redirect(200,'/');
+    res.redirect('/');
   }else{
-    res.render(200,'display', {userID: req.session.userID});
+    res.render('display', {userID: req.session.userID});
   }
 });
 
