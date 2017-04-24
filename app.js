@@ -28,11 +28,7 @@ const connection = mysql.createConnection({
   database : 'TFE'
 });
 
-var session = require('express-session')({
-  secret: "tfe-secret",
-  resave: true,
-  saveUnitialized: true
-});
+var session = require('express-session');
 
 const client = new twilio.RestClient('AC175fe55d0a0d00d7094c00338f548ec5','956f723bfa80087e696300e1358f46cb');
 
@@ -55,9 +51,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use('/', routes);
-app.use(session);
-app.use(connection);
-app.use(passHash);
+app.use(session({
+  secret: "tfe-secret",
+  resave: true,
+  saveUnitialized: true
+}));
+app.use(connection());
+app.use(passHash());
 
 //Receive data from client------------------------------------------------------------------
 
