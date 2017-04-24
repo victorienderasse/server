@@ -35,16 +35,12 @@ socket.on('redirect', function(url){
 socket.on('loginRes', function(data){
     console.log('loginRes event');
     if(data.emailExist){
-        console.log('email exist');
         if(data.passwordWrong){
-            console.log('password error');
             displayMessage({title:'Alerte',message:'Le mot de passe est incorrect'});
         }else{
-            console.log('everything fine');
-            //$.post(serverURL+'/login',{userID:data.userID});
+            $.post(serverURL+'/login',{userID:data.userID});
         }
     }else{
-        console.log('email no exist');
         displayMessage({title:'Alerte',message:'Email inexistante'});
     }
 });
