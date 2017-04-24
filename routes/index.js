@@ -76,6 +76,7 @@ router.post('/signin', function(req,res){
 });
 
 router.get('/display', function(req,res){
+  console.log('display');
   if(!req.session.userID){
     res.redirect('/');
   }else{
