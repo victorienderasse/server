@@ -4,6 +4,21 @@
 
 //Event--------------------------------
 
+$(function(){
+
+    $('#login-btn').click(function(){
+        var email = $('#loginEmail').val();
+        var password = $('#loginPassword').val();
+        if(email != '' && password != ''){
+            socket.emit('login',{email:email, password:password});
+        }else{
+            displayMessage({title:'Alerte',message:'Veuillez remplir tous les champs'});
+        }
+
+    });
+
+});
+
 
 //Display error messages
 socket.on('message',function(data){
@@ -14,6 +29,20 @@ socket.on('message',function(data){
 
 socket.on('redirect', function(url){
     redirectURL(url);
+});
+
+
+socket.on('loginRes', function(data){
+    console.log('loginRes event');
+    if(!data.emailExist){
+        displayMessage({title:'Alerte',message:'Email inexistante'});
+    }else{
+        if(data.passwordWrong){
+            displayMessage({title:'Alerte',message:'Le mot de passe est incorrect'});
+        }else{
+            $.post(serverURL+'/login',{userID:data.userID});
+        }
+    }
 });
 
 
@@ -43,6 +72,8 @@ document.getElementById('signin-confirm-btn').addEventListener('click',function(
         */
     }
 });
+
+
 
 
 //Functions ---------------------------------------------

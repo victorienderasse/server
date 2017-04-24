@@ -20,12 +20,12 @@
             <div class="navbar-form navbar-right">
                 <button id="signin-btn" type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-signin">Inscription</button>
             </div>
-            <form action="/login" method="post" id="login-form" class="navbar-form navbar-right">
+            <form id="login-form" class="navbar-form navbar-right">
                 <div class="form-group">
-                    <label for="email" class="control-label"><input id="email" name="email" type="text" class="form-control" placeholder="Email"></label>
+                    <label for="loginEmail" class="control-label"><input id="loginEmail" name="loginEmail" type="text" class="form-control" placeholder="Email"></label>
                 </div>
                 <div class="form-group">
-                    <label for="password" class="control-label"><input id="password" name="password" type="password" class="form-control" placeholder="Password"></label>
+                    <label for="loginPassword" class="control-label"><input id="loginPassword" name="loginPassword" type="password" class="form-control" placeholder="Password"></label>
                 </div>
                 <button id="login-btn" type="submit" class="btn btn-primary">Connection</button>
             </form>
@@ -45,7 +45,7 @@
 
 
 <%# -MESSAGE- %>
-<div class="container">
+<div class="container" id="message">
     <div class="row">
         <div id="message-div">
             <strong id="message-title"></strong>
@@ -94,20 +94,20 @@
             <div class="modal-body form-group" style="text-align:center;">
                 <form id="signin-form" class="form">
                     <div class="form-group">
-                        <label for="name">Nom : </label>
-                        <input id="name" class="form-control" name="name" type="text">
+                        <label for="signinName">Nom : </label>
+                        <input id="signinName" class="form-control" name="signinName" type="text">
                     </div>
                     <div class="form-group">
-                        <label for="email">Email : </label>
-                        <input id="email" class="form-control" name="email" type="text">
+                        <label for="signinEmail">Email : </label>
+                        <input id="signinEmail" class="form-control" name="signinEmail" type="text">
                     </div>
                     <div class="form-group">
-                        <label for="password">Mot de passe : </label>
-                        <input id="password" class="form-control" name="password" type="password">
+                        <label for="signinPassword">Mot de passe : </label>
+                        <input id="signinPassword" class="form-control" name="signinPassword" type="password">
                     </div>
                     <div class="form-group">
-                        <label for="confPassword">Confirmer le mot de passe : </label>
-                        <input id="confPassword" class="form-control" name="confPassword" type="password">
+                        <label for="signinPasswordConf">Confirmer le mot de passe : </label>
+                        <input id="signinPasswordConf" class="form-control" name="signinPasswordConf" type="password">
                     </div>
                 </form>
             </div>

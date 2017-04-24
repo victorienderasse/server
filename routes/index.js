@@ -21,6 +21,9 @@ router.get('/', function(req, res) {
 
 router.post('/login', function(req,res){
   
+  req.session.userID = req.body.userID;
+  res.redirect('/display');
+  /*
   const getPassword = 'SELECT * FROM user WHERE email = "'+req.body.email+'"';
   connection.query(getPassword,function(err,rows){
     if (err)throw err;
@@ -33,7 +36,8 @@ router.post('/login', function(req,res){
     }else{
       res.redirect('/');
     }
-  })
+  });
+  */
 });
 
 router.post('/signin', function(req,res){

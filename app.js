@@ -414,6 +414,23 @@ io.sockets.on('connection', function(socket){
   });
 
   
+  socket.on('login', function(data){
+    console.log('login event');
+    const emailExist = 'SELECT * FROM user WHERE email = "'+data.email+'"';
+    connection.query(emailExist, function(err,rows){
+      if(err)throw err;
+      if(rows.length>0){
+        if (passHash.verify(data.password, rows[0].password)){
+          socket.emit('loginRes',{userID:rows[0].userID,email:data.email, password:data.password,emailExist:true,passwordWrong:false});
+        }else{
+          socket.emit('loginRes',{email:data.email, password:data.password,emailExist:true,passwordWrong:true});
+        }
+      }else{
+        socket.emit('loginRes',{email:data.email, password:data.password,emailExist:false,passwordWrong:null});
+      }
+    });
+  });
+  
   socket.on('addCamera', function(data){
     console.log('add screen event');
     const checkCode = 'SELECT * FROM camera WHERE code = "'+data.code+'"';
