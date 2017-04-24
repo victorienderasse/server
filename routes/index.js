@@ -80,10 +80,11 @@ router.post('/signin', function(req,res){
 
 router.get('/display', function(req,res){
   console.log('display');
-  console.log('userID: '+req.session.userID);
   if(!req.session.userID){
+    console.log('display error userID');
     res.redirect('/');
   }else{
+    console.log('display render ok');
     res.render('display', {userID: req.session.userID});
   }
 });
