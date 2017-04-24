@@ -392,8 +392,12 @@ io.sockets.on('connection', function(socket){
         const addUser = 'INSERT INTO user SET name = "'+data.name+'", email = "'+data.email+'", phone = "'+data.phone+'", password = "'+password+'"';
         connection.query(addUser, function(err){
           if(err)throw err;
-          socket.emit('signinRes',{userID: rows[0].userID, emailExist:false});
-        })
+          const getUserID = 'SELECT userID FROM user WHERE email = "'+data.email+'"';
+          connection.query(getUserID, function(err,rows2){
+            if(err)throw err;
+            socket.emit('signinRes',{userID: rows2[0].userID, emailExist:false});
+          });
+        });
       }
     });
   });
