@@ -125,7 +125,7 @@ router.get('/purchase', function(req,res){
 });
 
 router.use(function(req,res,next){
-  res.redirect('/noPage');
+  res.redirect('/');
 });
 
 router.get('/noPage', function(req,res){
