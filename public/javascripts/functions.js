@@ -40,6 +40,9 @@ function displayMessage(data){
     document.getElementById('message-title').innerHTML = data.title;
     document.getElementById('message-body').innerHTML = data.message;
     $('#message').slideToggle('slow');
+    setTimeout(function(){
+        resetMessage();
+    },5000);
 }
 
 
