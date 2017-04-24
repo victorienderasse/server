@@ -5,7 +5,7 @@
 
 $(function(){
     $('#back').click(function(){
-        redirectURL(serverURL+'/display?userID='+userID);
+        redirectURL(serverURL+'/display');
         if(document.getElementById('multiLive').firstChild){
             socket.emit('stopMultiLive',userID);
         }

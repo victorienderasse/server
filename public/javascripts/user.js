@@ -12,7 +12,7 @@ $(function(){
     });
     
     $('#back').click(function(){
-        redirectURL(serverURL+'/display?userID='+userID);
+        redirectURL(serverURL+'/display');
     });
 
     $('#displayForm').click(function(){

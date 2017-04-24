@@ -4,7 +4,7 @@
 $(function(){
 
     $('#back').click(function(){
-        redirectURL(serverURL+'/display?userID='+userID);
+        redirectURL(serverURL+'/');
     });
 
     $('#confirm, #ok').click(function(){
