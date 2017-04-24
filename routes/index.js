@@ -33,8 +33,9 @@ router.post('/login', function(req,res){
   })
 });
 
-router.post('/display', function(req,res){
+router.get('/display', function(req,res){
   console.log('post display');
+  console.log('userID: '+req.session.userID);
   if(!req.session.userID){
     res.redirect('/');
   }else{
