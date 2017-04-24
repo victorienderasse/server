@@ -17,8 +17,6 @@ router.get('/', function(req, res) {
 
 router.post('/login', function(req,res){
   console.log('login event');
-  hash = req.passHash;
-  sess = req.session;
   console.log('email: '+req.body.email);
   console.log('password: '+req.body.password);
   
@@ -27,7 +25,7 @@ router.post('/login', function(req,res){
     if (err)throw err;
     if (rows.length>0){
       if (passHash.verify(req.body.password, rows[0].password)){
-        sess.email = req.body.email;
+        req.session.email = req.body.email;
         res.redirect('display');
       }
     }else{
