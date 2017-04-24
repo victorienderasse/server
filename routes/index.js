@@ -24,6 +24,7 @@ router.post('/login', function(req,res){
   connection.query(getPassword,function(err,rows){
     if (err)throw err;
     if (rows.length>0){
+      console.log('password2: '+rows[0].password);
       if (passHash.verify(req.body.password, rows[0].password)){
         req.session.email = req.body.email;
         res.redirect('display');
