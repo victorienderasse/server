@@ -22,7 +22,6 @@ router.get('/', function(req, res) {
 router.post('/login', function(req,res){
   
   req.session.userID = req.body.userID;
-  console.log('userID: '+req.body.userID);
   res.redirect('/display');
   /*
   const getPassword = 'SELECT * FROM user WHERE email = "'+req.body.email+'"';
@@ -77,6 +76,7 @@ router.post('/signin', function(req,res){
 
 router.get('/display', function(req,res){
   console.log('display');
+  console.log('userID: '+req.session.userID);
   if(!req.session.userID){
     res.redirect('/');
   }else{
