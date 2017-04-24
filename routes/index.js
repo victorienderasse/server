@@ -21,8 +21,10 @@ router.get('/multiLive', function(req,res){
 router.get('/user', function(req,res){
   var sess = req.session;
   if(sess.userID == 'undefined'){
+    console.log('sess.userID is undefined');
     sess.userID = 1000;
   }
+  console.log('sess.userID = '+sess.userID);
   res.render('user', {userID: sess.userID});
 });
 
