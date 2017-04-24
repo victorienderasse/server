@@ -24,8 +24,7 @@ router.post('/login', function(req,res){
       if (passHash.verify(req.body.password, rows[0].password)){
         req.session.userID = rows[0].userID;
         console.log('userID: '+req.session.userID);
-        res.redirect(200,'/display',{userID:req.session.userID});
-        console.log('redirect to display end');
+        res.redirect('/display');
       }
     }else{
       res.redirect('/');
