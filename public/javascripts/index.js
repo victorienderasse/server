@@ -38,10 +38,23 @@ socket.on('loginRes', function(data){
         if(data.passwordWrong){
             displayMessage({title:'Alerte',message:'Le mot de passe est incorrect'});
         }else{
-            $.post(serverURL+'/login',{userID:data.userID});
+            $.post(serverURL+'/login',{userID:data.userID},function(data){
+                window.location.href = '/display';
+            });
         }
     }else{
         displayMessage({title:'Alerte',message:'Email inexistante'});
+    }
+});
+
+
+socket.on('signinRes', function(data){
+    if(data.emailExist){
+        displayMessage({title:'Alerte',message:'Email déjà utilisé'});
+    }else{
+        $.post(serverURL+'/login',{userID:data.userID}, function(data){
+            window.location.href = '/display';
+        });
     }
 });
 
@@ -57,19 +70,7 @@ document.getElementById('signin-confirm-btn').addEventListener('click',function(
     if (password != confPassword) {
         displayMessage({title:'Alerte',message:'Password non identique'});
     }else{
-        console.log('method post');
-        $.post(serverURL+'/signin',{name:'test',email:'test',password:password,passwordConf:confPassword}, function(data){
-            if(data == 'done'){
-                window.location.href = '/display';
-            }
-        });
-        /*
-        socket.emit('signin', {
-            name: signinForm.name.value,
-            email: signinForm.email.value,
-            password: signinForm.password.value
-        });
-        */
+        socket.emit('signin2',{name: signinForm.name.value, email: signinForm.email.value, phone:signinForm.phone.value, password: signinForm.password.value});
     }
 });
 

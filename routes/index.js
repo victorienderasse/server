@@ -22,7 +22,8 @@ router.get('/', function(req, res) {
 router.post('/login', function(req,res){
   
   req.session.userID = req.body.userID;
-  res.redirect('/display');
+  res.send('ok');
+  
   /*
   const getPassword = 'SELECT * FROM user WHERE email = "'+req.body.email+'"';
   connection.query(getPassword,function(err,rows){
@@ -73,9 +74,7 @@ router.post('/signin', function(req,res){
     }
   });
   */
-  
-  
-  
+
 });
 
 router.get('/display', function(req,res){

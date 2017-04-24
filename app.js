@@ -381,6 +381,24 @@ io.sockets.on('connection', function(socket){
   });
 
 
+  socket.on('signin2', function(data){
+    const emailExist = 'SELECT email, userID FROM user WHERE email = "'+data.email+'"';
+    connection.query(emailExist, function(err,rows){
+      if(err)throw err;
+      if(rows.length>0){
+        socket.emit('signinRes',{emailExist:true});
+      }else{
+        var password = passHash.generate(data.password);
+        const addUser = 'INSERT INTO user SET name = "'+data.name+'", email = "'+data.email+'", phone = "'+data.phone+'", password = "'+password+'"';
+        connection.query(addUser, function(err){
+          if(err)throw err;
+          socket.emit('signinRes',{userID: rows[0].userID, emailExist:false});
+        })
+      }
+    });
+  });
+  
+  
   socket.on('signin', function(data){
     console.log('signin event');
     var password = passHash.generate(data.password);
