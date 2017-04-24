@@ -6,30 +6,44 @@ router.get('/', function(req, res) {
   res.render('index', { name: 'Index' });
 });
 
-router.get('/display', function(req,res){
-  res.render('display', {userID: req.query.userID});
+router.post('/display', function(req,res){
+  var sess = req.session;
+  if(!sess.email){
+    res.redirect('/');
+  }else{
+    res.render('display', {userID: req.query.userID});
+  }
 });
 
 router.get('/admin', function(req,res){
   res.render('admin', {});
 });
 
-router.get('/multiLive', function(req,res){
-  res.render('multiLive', {userID: req.query.userID});
-});
-
-router.get('/user', function(req,res){
+router.post('/multiLive', function(req,res){
   var sess = req.session;
-  if(sess.userID == 'undefined'){
-    console.log('sess.userID is undefined');
-    sess.userID = 1000;
+  if(!sess.email){
+    res.redirect('/');
+  }else{
+    res.render('multiLive', {userID: req.query.userID});
   }
-  console.log('sess.userID = '+sess.userID);
-  res.render('user', {userID: sess.userID});
 });
 
-router.get('/addCamera', function(req,res){
-  res.render('addCamera', {userID: req.query.userID});
+router.post('/user', function(req,res){
+  var sess = req.session;
+  if(!sess.email){
+    res.redirect('/');
+  }else{
+    res.render('user', {userID: req.query.userID});
+  }
+});
+
+router.post('/addCamera', function(req,res){
+  var sess = req.session;
+  if(!sess.email){
+    res.redirect('/');
+  }else{
+    res.render('addCamera', {userID: req.query.userID});
+  }
 });
 
 router.get('/contact', function(req,res){

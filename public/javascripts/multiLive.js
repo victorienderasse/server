@@ -3,9 +3,6 @@
  */
 //Connection to the server
 
-
-var userID = document.getElementById('userID').innerHTML;
-
 $(function(){
     $('#back').click(function(){
         redirectURL(serverURL+'/display?userID='+userID);

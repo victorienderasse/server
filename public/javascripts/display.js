@@ -3,7 +3,7 @@
  */
 
 
-var userID = document.getElementById('userID').innerHTML;
+//var userID = document.getElementById('userID').innerHTML;
 
 //Ask camera to server
 socket.emit('getCamera',userID);
@@ -272,7 +272,7 @@ document.getElementById('multiLive-btn').addEventListener('click',function(){
 //User
 document.getElementById('user-btn').addEventListener('click',function(){
     console.log('user-btn');
-    redirectURL(serverURL+'/user?userID='+userID);
+    redirectURL(serverURL+'/user');
 });
 
 //Disconnect

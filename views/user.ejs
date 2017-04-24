@@ -49,11 +49,6 @@
 </div>
 
 
-<%# -USER ID- %>
-<p id="userID" style="display:none;"><%= userID %></p>
-
-
-
 <div id="user" class="container userCameraInfo" style="background-color:#fff;">
     <h1>Informations Personnelles</h1>
     <hr>
@@ -97,7 +92,9 @@
 
 
 
-
+<script>
+    var userID = '<%=userID%>';
+</script>
 <script src="/public/javascripts/hostconfig.js"></script>
 <script src="/public/javascripts/socket.io.js"></script>
 <script src="/public/javascripts/jquery.js"></script>

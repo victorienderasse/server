@@ -46,10 +46,6 @@
 </div>
 
 
-<%# -USER ID- %>
-<p id="userID"><%= userID %></p>
-
-
 <%# -MESSAGE- %>
 <div class="container" id="message">
     <div class="row">
@@ -353,6 +349,9 @@
 </div>
 
 <%# -SCRIPTS- %>
+<script>
+    var userID = '<%=userID%>';
+</script>
 <script src="/public/javascripts/hostconfig.js"></script>
 <script src="/public/javascripts/socket.io.js"></script>
 <script src="/public/javascripts/jquery.js"></script>

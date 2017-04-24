@@ -1,7 +1,6 @@
 /**
  * Created by Victorien on 19-04-17.
  */
-var userID = document.getElementById('userID').innerHTML;
 
 socket.emit('getInfoUser',userID);
 

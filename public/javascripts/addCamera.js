@@ -2,7 +2,6 @@
  * Created by Victorien on 11-04-17.
  */
 
-var userID = document.getElementById('userID').innerHTML;
 var cameraID;
 
 

@@ -48,6 +48,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/public/javascripts', express.static(path.join(__dirname, 'public/javascripts')));
 app.use('/public/stylesheets', express.static(path.join(__dirname, 'public/stylesheets')));
 app.use('/public/images', express.static(path.join(__dirname, 'public/images')));
+app.use('/public/images', express.static(path.join(__dirname, 'public/cameras')));
+app.use('/public/images', express.static(path.join(__dirname, 'public/videos')));
 //app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
