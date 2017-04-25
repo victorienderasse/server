@@ -11,7 +11,7 @@ socket.emit('getCamera',userID);
 socket.emit('getUserName',userID);
 
 socket.on('getUserNameRes', function(name){
-    $('#user').text(name);
+    $('#user').text(' '+name);
 });
 
 $(function(){
