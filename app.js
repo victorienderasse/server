@@ -774,7 +774,13 @@ io.sockets.on('connection', function(socket){
     console.log('rebootBySerial event');
     sendToCamera(cameraID,'reboot',null);
   });
-
+  
+  
+  socket.on('getUserName', function(userID){
+    getInfoUser(userID, function(user){
+      socket.emit('getUserNameRes',user.name);
+    });
+  });
   
   
   
