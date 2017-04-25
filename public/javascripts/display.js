@@ -11,7 +11,7 @@ socket.emit('getCamera',userID);
 socket.emit('getUserName',userID);
 
 socket.on('getUserNameRes', function(name){
-    $('#user').text(' '+name);
+    $('#user-btn').html('<span class="glyphicon glyphicon-user"></span> '+name);
 });
 
 $(function(){
