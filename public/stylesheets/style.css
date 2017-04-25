@@ -78,8 +78,13 @@ button:focus{
   border: 0;
   background-color:#6CB4CE;
   font-size:20px;
-  margin:4px;
+  margin-top:4px;
+  margin-left:10px;
   height:100%;
+}
+
+.btn-menu-txt{
+  margin:0;
 }
 
 .btn-menu:hover{
