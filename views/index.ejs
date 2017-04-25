@@ -7,45 +7,40 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
+
 </head>
 <body style="background-color:#FBFBFB;">
 
 <%# -MENU- %>
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-inverse navbar-fixed-top" id="menu">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">TFE</a>
+            <a class="" href="#"><img src="/public/images/logo.png" width="70px"></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse" style="height:0.8px;">
             <div class="navbar-form navbar-right">
-                <button id="signin-btn" type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-signin">Inscription</button>
+                <button id="signin-btn" type="button" class="btn-menu" data-toggle="modal" data-target="#modal-signin">Inscription</button>
             </div>
             <div id="login-form" class="navbar-form navbar-right">
                 <div class="form-group">
-                    <label for="loginEmail" class="control-label"><input id="loginEmail" name="loginEmail" type="text" class="form-control" placeholder="Email"></label>
+                    <label for="loginEmail"></label>
+                    <input id="loginEmail" name="loginEmail" type="text" class="form-control" placeholder="Email">
                 </div>
                 <div class="form-group">
-                    <label for="loginPassword" class="control-label"><input id="loginPassword" name="loginPassword" type="password" class="form-control" placeholder="Password"></label>
+                    <label for="loginPassword"></label>
+                    <input id="loginPassword" name="loginPassword" type="password" class="form-control" placeholder="Password">
                 </div>
-                <button id="login-btn" class="btn btn-primary">Connection</button>
+                <button id="login-btn" class="btn-menu">Connection</button>
             </div>
         </div>
     </div>
 </nav>
 
 
-<%# -TITLE- %>
-<div id="titre-section" class="jumbotron">
-    <div class="container">
-        <h1 id="titre">TFE</h1>
-        <p>Bienvenue sur la page d'accueil de mon Travail de fin d'étude</p>
-        <p>Ce projet est en cours de développement</p>
-    </div>
-</div>
-
-
 <%# -MESSAGE- %>
-<div class="container" id="message">
+<div class="container" id="message" style="margin-top:60px">
     <div class="row">
         <div id="message-div">
             <strong id="message-title"></strong>
@@ -55,31 +50,57 @@
 </div>
 
 
-<%# -INFO PROJET- %>
-<div class="container">
-    <div class="row">
-        <div class="col-lg-4">
-            <h2>Live</h2>
-            <p>Regardez en direct ce que filment vos caméras. Accédez à autant de caméras que vous souhaitez avoir</p>
-        </div>
-        <div class="col-lg-4">
-            <h2>Détection de mouvements</h2>
-            <p>Grâce à un système de détection de mouvement, vous serez avertie immédiatement dès qu'un objet sera détecter par vos caméras. Aussi, un enregistrement se déclenchera automatiquement</p>
-        </div>
-        <div class="col-lg-4">
-            <h2>Planification</h2>
-            <p>Planifier vos enregistrement facilement. Enregistrement en continue ou en mode détection de mouvement, à vous de choisir !</p>
-        </div>
+<div id="intro">
+    <div id="intro-text" class="container" style="color:#000; text-align:center; font-size:50px;">
+        <p>On verra le texte plus tard ..</p>
     </div>
 </div>
 
+<div id="live" class="row">
+    <h2 class="index-title">Live</h2>
+    <div class="col-lg-offset-2 col-lg-4 index-text" >
+        <img src="/public/images/live-index.png">
+    </div>
+    <div class="col-lg-5 index-text">
+        <p>Regardez en direct ce que filment vos caméras. Accédez à autant de caméras que vous souhaitez avoir</p>
+    </div>
+</div>
+
+<div id="detection" class="row">
+    <div class="col-lg-offset-2 col-lg-8 index-text">
+        <h2 class="index-title">Détection de mouvements</h2>
+        <p>Grâce à un système de détection de mouvement, vous serez avertie immédiatement dès qu'un objet sera détecter par vos caméras. Aussi, un enregistrement se déclenchera automatiquement</p>
+    </div>
+</div>
+
+<div id="planification" class="row">
+    <div class="col-lg-offset-2 col-lg-8 index-text">
+        <h2>Planification</h2>
+        <p>Planifier vos enregistrement facilement. Enregistrement en continue ou en mode détection de mouvement, à vous de choisir !</p>
+    </div>
+</div>
 
 <hr>
 
 
 <%# -FOOTER- %>
-<footer class="container">
-    <p>© 2016 Victorien Derasse</p>
+<footer class="container row">
+    <div class="col-lg-offset-2 col-lg-4" style="padding-top:100px;">
+        <p><h2>Nous contactez</h2></p>
+        <form class="form">
+            <div class="form-group">
+                <label for="footer-email">Email</label>
+                <input type="text" name="footer-email" id="footer-email" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="footer-message">Votre message</label>
+                <textarea id="footer-message" name="footer-message" class="form-control"></textarea>
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-offset-1 col-lg-4" style="padding-top:100px;">
+        <p>© 2016 Victorien Derasse</p>
+    </div>
 </footer>
 
 

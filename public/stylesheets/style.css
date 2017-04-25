@@ -54,3 +54,35 @@ th, td {
 button:focus{
   outline: 0 !important;
 }
+
+.index-intro{
+  overflow:  ;
+}
+
+.index-text{
+  text-align:center;
+  font-size:25px;
+  padding-top:3%;
+}
+
+.index-text-color{
+
+}
+
+.index-title{
+  text-align: center;
+}
+
+.btn-menu{
+  color:#fff;
+  border: 0;
+  background-color:#6CB4CE;
+  font-size:16px;
+  margin:3px;
+  height:100%;
+}
+
+.btn-menu:hover{
+  border-bottom: 3px solid #2F7284;
+}
+
