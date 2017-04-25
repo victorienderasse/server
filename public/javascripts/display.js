@@ -8,6 +8,12 @@
 //Ask camera to server
 socket.emit('getCamera',userID);
 
+socket.emit('getUserName',userID);
+
+socket.on('getUserNameRes', function(data){
+    
+});
+
 $(function(){
 
     $('#frequency').change(function(){

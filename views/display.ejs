@@ -12,20 +12,20 @@
 
 
 <%# -MENU- %>
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-inverse navbar-fixed-top" style="background-color:#6CB4CE;min-height: 60px;">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">TFE</a>
+            <a class="" href="#"><img src="/public/images/logo.png" width="70px"></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse" style="height:0.8px;">
-            <form id="addScreen-form" class="navbar-form navbar-right">
-                <button type="button" id="addCamera-btn" title="Add Camera" style="border-radius:100%" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span></button>
-            </form>
-            <form class="navbar-form navbar-right">
-                <button type="button" id="user-btn" title="User Interface" style="border-radius:100%" class="btn btn-success"><span class="glyphicon glyphicon-user"></span></button>
+            <div id="addScreen-form" class="navbar-form navbar-right">
+                <button type="button" id="disconnect-btn" title="Log Out" style="border-radius:100%" class="btn-menu"><span class="glyphicon glyphicon-log-out"></span></button>
+            </div>
+            <div class="navbar-form navbar-right">
+                <button type="button" id="user-btn" title="User Interface" style="border-radius:100%" class="btn-menu"><span class="glyphicon glyphicon-user"></span></button>
                 <button type="button" id="multiLive-btn" title="Multi-Live" style="border-radius:100%" class="btn btn-primary"><span class="glyphicon glyphicon-blackboard"></span></button>
-                <button type="button" id="disconnect-btn" title="Log Out" style="border-radius:100%" class="btn btn-danger"><span class="glyphicon glyphicon-log-out"></span></button>
-            </form>
+                <button type="button" id="addCamera-btn" title="Add Camera" style="border-radius:100%" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
         </div>
     </div>
 </nav>
@@ -37,12 +37,6 @@
         <h1>Display</h1>
         <p>Interface utilisateur</p>
     </div>
-</div>
-
-
-<%# - BTN TEST- %>
-<div>
-    <button id="btnTest" type="button">TEST <span class="glyphicon glyphicon-facetime-video"></span></button>
 </div>
 
 
