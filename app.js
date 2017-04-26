@@ -245,7 +245,6 @@ io.sockets.on('connection', function(socket){
   
   socket.on('applyRecord', function(recordID){
     console.log('applyRecord event');
-    //set old record to client
 
         getInfoRecord(recordID, function(record){
 
@@ -419,7 +418,8 @@ io.sockets.on('connection', function(socket){
       }
     });
   });
-  
+
+
   socket.on('addCamera', function(data){
     console.log('add screen event');
     const checkCode = 'SELECT * FROM camera WHERE code = "'+data.code+'"';
@@ -912,7 +912,7 @@ io.sockets.on('connection', function(socket){
 
 
   function sendToCamera(cameraID, event, data){
-    
+    console.log('sendToCamera function');
     getInfoCamera(cameraID, function(camera){
       io.to(camera.socketID).emit(event,data);
     });
