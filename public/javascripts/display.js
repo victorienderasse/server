@@ -16,12 +16,6 @@ socket.on('getUserNameRes', function(name){
 
 $(function(){
 
-    $('#frequency').change(function(){
-        if($(this).val() == '*'){
-            $('#frequencyEnd').toggle('slow');
-        }
-    });
-
     $('#addCamera-btn').click(function(){
         redirectURL(serverURL+'/addCamera');
     });
@@ -44,7 +38,6 @@ $(function(){
 //Actions--------------------------------------
 
 //set frequencyEnd select on Change
-/*
 document.getElementById('frequency').addEventListener('change',function(){
     var frequency = document.getElementById('timer-form').frequency.value;
     if(frequency == '*'){
@@ -53,7 +46,7 @@ document.getElementById('frequency').addEventListener('change',function(){
         document.getElementById('frequencyEnd').style.display = 'block';
     }
 });
-*/
+
 
 /*
 //Add camera
