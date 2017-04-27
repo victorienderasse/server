@@ -141,13 +141,17 @@ socket.on('setReplays',function(data){
 
     for(var i=0;i<data.tbReplay.length;i++){
 
+        //ROW
+        var row = document.createElement('div');
+        row.className = 'row';
+
         //REPLAY
         var replay = document.createElement('div');
         replay.id = 'replay'+i;
         if(i==0){
-            replay.className = 'row replaySelected';
+            replay.className = 'replaySelected';
          }else{
-            replay.className = 'row replay';
+            replay.className = 'replay';
         }
 
         //BTN
@@ -161,7 +165,7 @@ socket.on('setReplays',function(data){
         nameDiv.title = 'Cliquer pour voir la vidéo';
         nameDiv.setAttribute('onclick','playReplay({cameraID:'+data.cameraID+',replayID:'+i+'});');
         var name = document.createElement('span');
-        name.id = 'name-replay-'+i;
+        name.id = 'name-replay'+i;
         name.setAttribute('style','font-weight: bold;');
         var txt = document.createTextNode(data.tbReplay[i]);
 
@@ -192,8 +196,9 @@ socket.on('setReplays',function(data){
         btnDiv.appendChild(removeBtn);
 
         replay.appendChild(btnDiv);
+        row.appendChild(replay);
 
-        document.getElementById('files-replay').appendChild(replay);
+        document.getElementById('files-replay').appendChild(row);
 
         //---------------------------------------------------------------------
         /*
