@@ -105,3 +105,12 @@ button:focus{
   border-style:outset;
 }
 
+.modal-content-add{
+  border: 3px solid #6CB4CE;
+}
+
+.modal-header-added{
+  background-color:#6CB4CE;
+  color:#fff;
+}
+
