@@ -1051,7 +1051,7 @@ function runConfig(cameraID){
 
     var title = document.getElementById('config-title');
     var name = document.getElementById('camera'+cameraID+'-nameH3').innerHTML;
-    title.innerHTML = 'Configuration  '+name;
+    title.innerHTML = 'Configuration - '+name;
 
     var preview = document.getElementById('preview');
     if(preview.firstChild){
