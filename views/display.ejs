@@ -90,25 +90,29 @@
 
                 <div class="container">
                     <div id="addRecord" class="row">
-                        <h3>Ajouter une planification</h3>
-                        <div class="col-lg-6">
-                            <label for="begin"><b>Début</b></label>
-                            <select id="frequency" name="frequency" class="form-control">
-                                <option value="1">Monday</option>
-                                <option value="2">Tuesday</option>
-                                <option value="3">Wednesday</option>
-                                <option value="4">Thursday</option>
-                                <option value="5">Friday</option>
-                                <option value="6">Saturday</option>
-                                <option value="7">Sunday</option>
-                                <option value="*">Every Day</option>
-                            </select>
+                        <div class="row">
+                            <h3>Ajouter une planification</h3>
                         </div>
-                        <div class="col-lg-6">
-                            <label></label>
-                            <input type="range" min="0" max="23" class="form-control">
-                            :
-                            <input type="range" min="0" max="55" step="5" class="form-control">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label for="begin"><b>Début</b></label>
+                                <select id="frequency" name="frequency" class="form-control">
+                                    <option value="1">Monday</option>
+                                    <option value="2">Tuesday</option>
+                                    <option value="3">Wednesday</option>
+                                    <option value="4">Thursday</option>
+                                    <option value="5">Friday</option>
+                                    <option value="6">Saturday</option>
+                                    <option value="7">Sunday</option>
+                                    <option value="*">Every Day</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-6">
+                                <label></label>
+                                <input type="number" min="0" max="23" class="form-control">
+                                :
+                                <input type="number" min="0" max="55" step="5" class="form-control">
+                            </div>
                         </div>
                     </div>
                     <div id="myRecord" class="row">
