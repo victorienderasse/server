@@ -183,6 +183,7 @@ socket.on('setReplays',function(data){
         removeBtn.appendChild(removeIcon);
         btnDiv.appendChild(removeBtn);
 
+        replay.appendChild(btnDiv);
 
         document.getElementById('files-replay').appendChild(replay);
 
