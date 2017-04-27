@@ -155,7 +155,10 @@ socket.on('setReplays',function(data){
         var nameDiv = document.createElement('div');
         nameDiv.className = 'col-lg-8';
         var name = document.createElement('span');
+        name.id = 'replay'+i;
+        name.title = 'Cliquer pour voir la vidéo';
         name.setAttribute('style','font-weight: bold;');
+        name.setAttribute('onclick','playReplay({cameraID:'+data.cameraID+',replayID:'+i+'});');
         var txt = document.createTextNode(data.tbReplay[i]);
 
         name.appendChild(txt);
@@ -1221,8 +1224,8 @@ function resetLiveMessage(){
 
 
 function playReplay(data){
-    var replay = document.getElementById('table-replay-'+data.replayID).firstChild;
-    var name = replay.innerHTML;
+    //var replay = document.getElementById('table-replay-'+data.replayID).firstChild;
+    var name = document.getElementById('replay'+data.replayID).innerHTML;
     console.log('play replay : '+name);
 
     var playerDiv = document.getElementById('player-replay-div');
