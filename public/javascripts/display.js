@@ -151,7 +151,7 @@ socket.on('setReplays',function(data){
         btnDiv.className = 'col-lg-4';
 
         //NAME
-        var nameDiv = documet.createElement('div');
+        var nameDiv = document.createElement('div');
         nameDiv.className = 'col-lg-8';
         var name = document.createElement('span');
         name.setAttribute('style','font-weight: bold;');
