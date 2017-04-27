@@ -143,8 +143,12 @@ socket.on('setReplays',function(data){
 
         //REPLAY
         var replay = document.createElement('div');
-        replay.setAttribute('style','width:100%; height:50px; margin-left:10px; border-style:outset');
-        replay.className = 'row';
+        replay.id = 'replay'+i;
+        if(i==0){
+            replay.className = 'row replaySelected';
+         }else{
+            replay.className = 'row replay';
+        }
 
         //BTN
         var btnDiv = document.createElement('div');
@@ -154,11 +158,11 @@ socket.on('setReplays',function(data){
         //NAME
         var nameDiv = document.createElement('div');
         nameDiv.className = 'col-lg-8';
+        nameDiv.title = 'Cliquer pour voir la vidéo';
+        nameDiv.setAttribute('onclick','playReplay({cameraID:'+data.cameraID+',replayID:'+i+'});');
         var name = document.createElement('span');
-        name.id = 'replay'+i;
-        name.title = 'Cliquer pour voir la vidéo';
+        name.id = 'name-replay-'+i;
         name.setAttribute('style','font-weight: bold;');
-        name.setAttribute('onclick','playReplay({cameraID:'+data.cameraID+',replayID:'+i+'});');
         var txt = document.createTextNode(data.tbReplay[i]);
 
         name.appendChild(txt);
@@ -1225,8 +1229,11 @@ function resetLiveMessage(){
 
 function playReplay(data){
     //var replay = document.getElementById('table-replay-'+data.replayID).firstChild;
-    var name = document.getElementById('replay'+data.replayID).innerHTML;
+    var name = document.getElementById('name-replay'+data.replayID).innerHTML;
     console.log('play replay : '+name);
+
+
+    $('.replaySelected , #replay'+replayID).toggleClass('replay replaySelected');
 
     var playerDiv = document.getElementById('player-replay-div');
     var video = document.createElement('video');
