@@ -291,10 +291,21 @@ io.sockets.on('connection', function(socket){
     -> send it to client
      */
     console.log('getReplays event');
-    fs.readdir('./public/cameras/camera'+cameraID+'/videos/', function(err, files){
-      if(err){
-        throw err;
-      }
+    var dir = './public/cameras/camera'+cameraID+'/videos/';
+    fs.readdir(dir, function(err, files){
+      if(err) throw err;
+      files = files.map(function(fileName){
+        return{
+          name: fileName,
+          time: fs.statSync(dir + '/' + fileName).mtime.getTime()
+        };
+      })
+          .sort(function(a,b){
+            return a.time - b.time;
+          })
+          .map(function(v){
+            return v.name;
+          });
       socket.emit('setReplays',{tbReplay: files, cameraID: cameraID});
     });
   });
@@ -514,7 +525,7 @@ io.sockets.on('connection', function(socket){
         client.messages.create({
           to: "'"+rows[0].phone+"'",
           from: '+32460207648',
-          body: 'Bonjour '+rows[0].name+' ! Votre caméra "'+rows[0].cameraName+'" vient tout huste de détecter un mouvement à la date : '+data.timestr+'. Un enregistrement à été démarré. Vous serez en mesure de le visionner d\'ici quelques secondes sur le site web. Bisous !'
+          body: 'Bonjour '+rows[0].name+' ! Votre caméra "'+rows[0].cameraName+'" vient tout juste de détecter un mouvement à la date : '+data.timestr+'. Un enregistrement à été démarré. Vous serez en mesure de le visionner d\'ici quelques secondes sur le site web. Bisous !'
         }, function(error){
           if(error){
             console.log('Error send SMS');

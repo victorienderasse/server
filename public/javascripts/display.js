@@ -140,6 +140,10 @@ socket.on('setReplays',function(data){
     var table = document.getElementById('table-replay');
 
     for(var i=0;i<data.tbReplay.length;i++){
+
+        var replay = document.createElement('div');
+        replay.setAttribute('style','width:100%; height:40px')
+
         var tr = document.createElement('tr');
         var name = document.createElement('td');
         var edit = document.createElement('td');
