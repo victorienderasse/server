@@ -141,9 +141,44 @@ socket.on('setReplays',function(data){
 
     for(var i=0;i<data.tbReplay.length;i++){
 
+        //REPLAY
         var replay = document.createElement('div');
-        replay.setAttribute('style','width:100%; height:40px')
+        replay.setAttribute('style','width:100%; height:40px; border-style:outset');
 
+        //NAME
+        var name = document.createElement('span');
+        name.setAttribute('style','font-weight: bold;');
+        var txt = document.createTextNode(data.tbReplay[i]);
+
+        name.appendChild(txt);
+        replay.appendChild(name);
+
+        //EDIT
+        var editBtn = document.createElement('button');
+        editBtn.className = 'btn';
+        editBtn.setAttribute('style','border:0;background-color;#fff;');
+        var editIcon = document.createElement('span');
+        editIcon.title = 'Cliquer pour renommer le fichier';
+        editIcon.className = 'glyphicon glyphicon-edit';
+
+        editBtn.appendChild(editIcon);
+        replay.appendChild(editBtn);
+
+        //REMOVE
+        var removeBtn = document.createElement('button');
+        removeBtn.className = 'btn';
+        removeBtn.setAttribute('style','border:0;background-color;#fff;');
+        removeBtn.title = 'Cliquer pour supprimer le fichier';
+        var removeIcon = document.createElement('span');
+        removeIcon.className = 'glyphicon glyphicon-remove-circle';
+
+        removeBtn.appendChild(removeIcon);
+        replay.appendChild(removeBtn);
+
+        document.getElementById('files-replay').appendChild(replay);
+
+        //---------------------------------------------------------------------
+        /*
         var tr = document.createElement('tr');
         var name = document.createElement('td');
         var edit = document.createElement('td');
@@ -154,7 +189,7 @@ socket.on('setReplays',function(data){
         var nameText = document.createTextNode(data.tbReplay[i]);
 
         tr.className = 'form-group';
-        tr.setAttribute('style','background-color:#F1E9E9;')
+        tr.setAttribute('style','background-color:#F1E9E9;');
         tr.id = 'table-replay-tr'+i;
         name.id = 'table-replay-'+i;
         name.title = 'Click to play';
@@ -174,6 +209,7 @@ socket.on('setReplays',function(data){
         tr.appendChild(edit);
         tr.appendChild(remove);
         table.appendChild(tr);
+        */
     }
 
     var video = document.createElement('video');
