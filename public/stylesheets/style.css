@@ -106,7 +106,7 @@ button:focus{
 }
 
 .modal-content-add{
-  border: 3px solid #6CB4CE;
+  border: 3px solid #6CB4CE !important;
 }
 
 .modal-header-added{
