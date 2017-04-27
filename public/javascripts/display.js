@@ -303,8 +303,10 @@ socket.on('setConfig', function(data){
 
 
 socket.on('updatePreview', function(cameraID){
+    console.log('update preview evnet');
     var img = document.getElementById('previewImg'+cameraID);
     if(img != null && img != 'undefined'){
+        console.log('previex ok');
         img.src = '../cameras/camera'+cameraID+'/live/preview.jpg?v='+ new Date().getTime();
     }
 });
