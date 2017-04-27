@@ -144,36 +144,45 @@ socket.on('setReplays',function(data){
         //REPLAY
         var replay = document.createElement('div');
         replay.setAttribute('style','width:100%; height:40px; border-style:outset');
+        replay.className = 'row';
+
+        //BTN
+        var btnDiv = document.createElement('div');
+        btnDiv.className = 'col-lg-4';
 
         //NAME
+        var nameDiv = documet.createElement('div');
+        nameDiv.className = 'col-lg-8';
         var name = document.createElement('span');
         name.setAttribute('style','font-weight: bold;');
         var txt = document.createTextNode(data.tbReplay[i]);
 
         name.appendChild(txt);
-        replay.appendChild(name);
+        nameDiv.appendChild(name);
+        replay.appendChild(nameDiv);
 
         //EDIT
         var editBtn = document.createElement('button');
         editBtn.className = 'btn';
-        editBtn.setAttribute('style','border:0;background-color;#fff;');
+        editBtn.setAttribute('style','border:0;background-color:#fff;');
         var editIcon = document.createElement('span');
         editIcon.title = 'Cliquer pour renommer le fichier';
         editIcon.className = 'glyphicon glyphicon-edit';
 
         editBtn.appendChild(editIcon);
-        replay.appendChild(editBtn);
+        btnDiv.appendChild(editBtn);
 
         //REMOVE
         var removeBtn = document.createElement('button');
         removeBtn.className = 'btn';
-        removeBtn.setAttribute('style','border:0;background-color;#fff;');
+        removeBtn.setAttribute('style','border:0;background-color:#fff;');
         removeBtn.title = 'Cliquer pour supprimer le fichier';
         var removeIcon = document.createElement('span');
         removeIcon.className = 'glyphicon glyphicon-remove-circle';
 
         removeBtn.appendChild(removeIcon);
-        replay.appendChild(removeBtn);
+        btnDiv.appendChild(removeBtn);
+
 
         document.getElementById('files-replay').appendChild(replay);
 
