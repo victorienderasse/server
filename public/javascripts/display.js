@@ -306,7 +306,7 @@ socket.on('updatePreview', function(cameraID){
     console.log('update preview event');
     var img = document.getElementById('previewImg'+cameraID);
     if(img != null && img != 'undefined'){
-        img.src = '/public/cameras/camera'+cameraID+'/live/preview.jpg?v='+ new Date().getTime();
+        img.src = '../cameras/camera'+cameraID+'/live/preview.jpg?v='+ new Date().getTime();
     }
 });
 
