@@ -95,7 +95,7 @@
                         </div>
 
                         <div id="begin" class="row">
-                            <div class="row" style="text-align:left;">
+                            <div class="row" style="text-align:left; text-decoration: underline;">
                                 <div class="col-lg-offset-2">
                                     <h4>Début</h4>
                                 </div>
@@ -126,7 +126,7 @@
                         </div>
 
                         <div id="end" class="row">
-                            <div class="row" style="text-align:left;">
+                            <div class="row" style="text-align:left;text-decoration: underline;">
                                 <div class="col-lg-offset-2">
                                     <h4>Fin</h4>
                                 </div>
@@ -156,6 +156,17 @@
                             </div>
                         </div>
 
+                        <div class="row" id="option">
+                            <div class="col-lg-offset-1 col-lg-5 form-group">
+                                <label for="timerDetection">Détection de mouvement </label>
+                                <input type="checkbox" id="timerDetection" name="timerDetection" class="form-control">
+                            </div>
+                            <div class="col-lg-5 form-group">
+                                <label for="timerOnce">Une seule fois </label>
+                                <input type="checkbox" id="timerOnce" name="timerOnce" class="form-control">
+                            </div>
+                        </div>
+
                     </div>
                     <div id="myRecord" class="row">
 
@@ -164,7 +175,16 @@
 
 
 
-
+                <section class="row">
+                    <div class="form-group col-lg-offset-2">
+                        <label for="timerDetection" class="control-label">Détection de mouvement : </label>
+                        <input id="timerDetection" name="timerDetection" type="checkbox">
+                    </div>
+                    <div class="form-group col-lg-offset-2">
+                        <label for="timerOnce" class="control-label"> Une seule fois : </label>
+                        <input id="timerOnce" name="timerOnce" type="checkbox">
+                    </div>
+                </section>
 
 
 
