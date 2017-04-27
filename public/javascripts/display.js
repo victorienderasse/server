@@ -163,11 +163,10 @@ socket.on('setReplays',function(data){
         var nameDiv = document.createElement('div');
         nameDiv.className = 'col-lg-8';
         nameDiv.title = 'Cliquer pour voir la vidéo';
-        nameDiv.setAttribute('style','width:100%; height:100%;')
         nameDiv.setAttribute('onclick','playReplay({cameraID:'+data.cameraID+',replayID:'+i+'});');
         var name = document.createElement('span');
         name.id = 'name-replay'+i;
-        name.setAttribute('style','font-weight: bold;');
+        name.setAttribute('style','font-weight: bold; width:100%; height:100%;');
         var txt = document.createTextNode(data.tbReplay[i]);
 
         name.appendChild(txt);
