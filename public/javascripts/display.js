@@ -143,7 +143,7 @@ socket.on('setReplays',function(data){
 
         //REPLAY
         var replay = document.createElement('div');
-        replay.setAttribute('style','width:100%; height:40px; border-style:outset');
+        replay.setAttribute('style','width:100%; height:50px; border-style:outset');
         replay.className = 'row';
 
         //BTN
