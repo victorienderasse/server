@@ -929,7 +929,7 @@ function runReplay(cameraID){
     title.innerHTML = 'Replay - '+name;
 
 
-    var table = document.getElementById('table-replay');
+    var table = document.getElementById('files-replay');
     while(table.firstChild){
         table.removeChild(table.firstChild);
     }
