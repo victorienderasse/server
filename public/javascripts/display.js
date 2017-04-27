@@ -743,7 +743,7 @@ function runTimer(cameraID){
     
     var title = document.getElementById('timer-title');
     var name = document.getElementById('camera'+cameraID+'-nameH3').innerHTML;
-    title.innerHTML = 'Timer - '+name;
+    title.innerHTML = 'Planifications - '+name;
 
     var timerBtn = document.getElementById('timer-confirm-btn');
     timerBtn.setAttribute('onclick','applyTimer('+cameraID+');');
@@ -949,7 +949,7 @@ function runReplay(cameraID){
 
     var title = document.getElementById('replay-title');
     var name = document.getElementById('camera'+cameraID+'-nameH3').innerHTML;
-    title.innerHTML = 'Replay - '+name;
+    title.innerHTML = 'Enregistrements - '+name;
 
 
     var table = document.getElementById('files-replay');
@@ -1051,7 +1051,7 @@ function runConfig(cameraID){
 
     var title = document.getElementById('config-title');
     var name = document.getElementById('camera'+cameraID+'-nameH3').innerHTML;
-    title.innerHTML = 'Settings - '+name;
+    title.innerHTML = 'Configuration - '+name;
 
     var preview = document.getElementById('preview');
     if(preview.firstChild){

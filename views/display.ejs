@@ -87,11 +87,11 @@
                 <h3 id ="timer-title" style="text-align:center;" class="modal-header"></h3>
             </div>
             <div class="modal-body">
-                <p><b>Add new timer </b></p>
+                <p><h3>Ajouter une planification</h3></p>
                 <form id="timer-form">
                     <section class="row form-group">
                         <div id="begin" class="col-lg-offset-2 col-lg-4">
-                            <label for="begin" class="control-label">Begin :</label>
+                            <label for="begin" class="control-label">Heure début :</label>
                             <div class="form-group">
                                 <select name="beginHour">
                                     <option value="0">00</option>
@@ -137,7 +137,7 @@
                             </div>
                         </div>
                         <div id="end" class="col-lg-offset-2 col-lg-4">
-                            <label for="end" class="control-label">End :</label>
+                            <label for="end" class="control-label">Heure fin :</label>
                             <div class="form-group">
                                 <select name="endHour">
                                     <option value="0">00</option>
@@ -186,7 +186,7 @@
                     <section class="row">
                         <div id="frequency" class="col-lg-offset-2 col-lg-3 form-group">
                             <label for="frequency" class="control-label">
-                                Frequency :
+                                Jour début :
                                 <select id="frequency" name="frequency" class="form-control">
                                     <option value="1">Monday</option>
                                     <option value="2">Tuesday</option>
@@ -201,7 +201,7 @@
                         </div>
                         <div id="frequencyEnd" class="col-lg-offset-2 col-lg-3 form-group">
                             <label for="frequencyEnd" class="control-label">
-                                Frequency End :
+                                Jour fin :
                                 <select id="frequencyEnd" name="frequencyEnd" class="form-control">
                                     <option value="1">Monday</option>
                                     <option value="2">Tuesday</option>
@@ -216,11 +216,11 @@
                     </section>
                     <section class="row">
                         <div class="form-group col-lg-offset-2">
-                            <label for="timerDetection" class="control-label"> Motion detection : </label>
+                            <label for="timerDetection" class="control-label">Détection de mouvement : </label>
                             <input id="timerDetection" name="timerDetection" type="checkbox">
                         </div>
                         <div class="form-group col-lg-offset-2">
-                            <label for="timerOnce" class="control-label"> Just once : </label>
+                            <label for="timerOnce" class="control-label"> Une seule fois : </label>
                             <input id="timerOnce" name="timerOnce" type="checkbox">
                         </div>
                     </section>
@@ -228,16 +228,16 @@
                 <div id="timer-records-div">
                     <hr>
                     <p>
-                        <b>Your timers</b>
+                        <b>Vos planifications</b>
                         <button id="stopRecording" type="button" title="Click to stop the running record" style="display: none;" class="btn btn-warning">Stop</button>
                     </p>
                     <table id="timer-records-table" class="table table-hover table-striped table-responsive">
                         <thead>
                             <tr>
-                                <th><b>Begin</b></th>
-                                <th><b>Time</b></th>
-                                <th><b>End</b></th>
-                                <th><b>Time</b></th>
+                                <th><b>Jour début</b></th>
+                                <th><b>Heure début</b></th>
+                                <th><b>Jour fin</b></th>
+                                <th><b>Heure fin</b></th>
                                 <th><b>Type</b></th>
                             </tr>
                         </thead>
@@ -246,8 +246,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="timer-confirm-btn" type="button" class="btn btn-success" data-dismiss="modal">Accept</button>
-                <button id="timer-close-btn" type="button" class="btn btn-default" data-dismiss="modal" onclick="emptyTimerForm();">Close</button>
+                <button id="timer-confirm-btn" type="button" class="btn btn-success" data-dismiss="modal">Ajouter</button>
+                <button id="timer-close-btn" type="button" class="btn btn-default" data-dismiss="modal" onclick="emptyTimerForm();">Fermer</button>
             </div>
         </div>
     </div>
@@ -269,7 +269,7 @@
                 <div id="player-replay-div" class="col-lg-7"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
             </div>
         </div>
     </div>
@@ -296,8 +296,8 @@
                 <div id="live-stream"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="modal-live-record" class="btn btn-danger">Record</button>
-                <button type="button" id="modal-live-close" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="modal-live-record" class="btn btn-danger">Enregistrer</button>
+                <button type="button" id="modal-live-close" class="btn btn-default" data-dismiss="modal">Fermer</button>
             </div>
         </div>
     </div>
@@ -318,23 +318,23 @@
                     <input type="range" id="resolution" name="resolution" min="1" max="3">
                 </div>
                 <div class="form-group">
-                    <label for="fps" class="control-label">Frame Rate : <span id="fpsValue"></span></label>
+                    <label for="fps" class="control-label">Images par seconde : <span id="fpsValue"></span></label>
                     <input id="fps" name="fps" type="range" min="1" max="25" oninput="showFPS(this.value);">
                 </div>
                 <div class="form-group">
-                    <label for="brightness" class="control-label">Brightness : <span id="brightnessValue"></span></label>
+                    <label for="brightness" class="control-label">Luminosité : <span id="brightnessValue"></span></label>
                     <input type="range" id="brightness" name="brightness" min="0" max="100" step="5" oninput="showBrightness(this.value);">
                 </div>
                 <div class="form-group">
-                    <label for="contrast" class="control-label">Contrast : <span id="contrastValue"></span></label>
+                    <label for="contrast" class="control-label">Contraste : <span id="contrastValue"></span></label>
                     <input type="range" id="contrast" name="contrast" min="0" step="5" max="100" oninput="showContrast(this.value);">
                 </div>
                 <div id="preview"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="modal-config-preview" class="btn btn-primary">Preview</button>
-                <button type="button" id="modal-config-confirm" class="btn btn-success" data-dismiss="modal">Confirm</button>
-                <button type="button" id="modal-live-close" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="modal-config-preview" class="btn btn-primary">Prévisualisation</button>
+                <button type="button" id="modal-config-confirm" class="btn btn-success" data-dismiss="modal">Confirmer</button>
+                <button type="button" id="modal-live-close" class="btn btn-default" data-dismiss="modal">Fermer</button>
             </div>
         </div>
     </div>
