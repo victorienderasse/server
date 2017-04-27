@@ -88,7 +88,7 @@
             </div>
             <div class="modal-body">
 
-                <div class="">
+                <div>
                     <div id="addRecord" class="row">
                         <div class="row">
                             <h3>Ajouter une planification</h3>
@@ -170,8 +170,25 @@
                         </div>
 
                     </div>
-                    <div id="myRecord" class="row">
 
+                    <div id="myRecord" class="row">
+                        <div class="row">
+                            <h3>Vos planifications</h3>
+                        </div>
+                        <div class="row">
+                            <table id="timer-records-table" class="table table-hover table-striped table-responsive">
+                                <thead>
+                                <tr>
+                                    <th><b>Jour début</b></th>
+                                    <th><b>Heure début</b></th>
+                                    <th><b>Jour fin</b></th>
+                                    <th><b>Heure fin</b></th>
+                                    <th><b>Type</b></th>
+                                </tr>
+                                </thead>
+                                <tbody id="timer-records-tbody"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
@@ -325,7 +342,6 @@
                     <hr>
                     <p>
                         <h3>Vos planifications</h3>
-                        <button id="stopRecording" type="button" title="Click to stop the running record" style="display: none;" class="btn btn-warning">Stop</button>
                     </p>
                     <table id="timer-records-table" class="table table-hover table-striped table-responsive">
                         <thead>
