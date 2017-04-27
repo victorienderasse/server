@@ -143,11 +143,12 @@ socket.on('setReplays',function(data){
 
         //REPLAY
         var replay = document.createElement('div');
-        replay.setAttribute('style','width:100%; height:50px; border-style:outset');
+        replay.setAttribute('style','width:100%; height:50px; margin-left:10px; border-style:outset');
         replay.className = 'row';
 
         //BTN
         var btnDiv = document.createElement('div');
+        btnDiv.setAttribute('style','margin-top:5px;');
         btnDiv.className = 'col-lg-4';
 
         //NAME
