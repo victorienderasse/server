@@ -560,6 +560,7 @@ function displayCamera(tbCamera){
             timer.disabled = true;
             detection.disabled = true;
             liveBtn.disabled = true;
+            config.disabled = true;
         }else{
             switch(tbCamera[i].state){
                 case 1:
