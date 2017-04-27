@@ -87,6 +87,74 @@
                 <h3 id ="timer-title" style="text-align:center;" class="modal-header"></h3>
             </div>
             <div class="modal-body">
+
+                <div class="container">
+                    <div id="addRecord" class="row">
+                        <h3>Ajouter une planification</h3>
+                        <div class="col-lg-6 form-group">
+                            <label for="begin"><b>Début</b></label>
+                            <select id="frequency" name="frequency" class="form-control">
+                                <option value="1">Monday</option>
+                                <option value="2">Tuesday</option>
+                                <option value="3">Wednesday</option>
+                                <option value="4">Thursday</option>
+                                <option value="5">Friday</option>
+                                <option value="6">Saturday</option>
+                                <option value="7">Sunday</option>
+                                <option value="*">Every Day</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            <label></label>
+                            <select name="beginHour" class="form-control">
+                                <option value="0">00</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                                <option value="7">07</option>
+                                <option value="8">08</option>
+                                <option value="9">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                            </select>
+                            :
+                            <select name="beginMinute" class="form-control">
+                                <option value="0">00</option>
+                                <option value="5">05</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="30">30</option>
+                                <option value="35">35</option>
+                                <option value="40">40</option>
+                                <option value="45">45</option>
+                                <option value="50">50</option>
+                                <option value="55">55</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="myRecord" class="row">
+
+                    </div>
+                </div>
+
+
                 <p><h3>Ajouter une planification</h3></p>
                 <form id="timer-form">
                     <section class="row form-group">
@@ -228,7 +296,7 @@
                 <div id="timer-records-div">
                     <hr>
                     <p>
-                        <b>Vos planifications</b>
+                        <h3>Vos planifications</h3>
                         <button id="stopRecording" type="button" title="Click to stop the running record" style="display: none;" class="btn btn-warning">Stop</button>
                     </p>
                     <table id="timer-records-table" class="table table-hover table-striped table-responsive">
@@ -332,7 +400,7 @@
                 <div id="preview"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="modal-config-preview" class="btn btn-primary">Prévisualisation</button>
+                <button type="button" id="modal-config-preview" class="btn btn-primary">Voir</button>
                 <button type="button" id="modal-config-confirm" class="btn btn-success" data-dismiss="modal">Confirmer</button>
                 <button type="button" id="modal-live-close" class="btn btn-default" data-dismiss="modal">Fermer</button>
             </div>
