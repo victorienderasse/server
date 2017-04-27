@@ -504,7 +504,7 @@ io.sockets.on('connection', function(socket){
   
   socket.on('motionDetected', function(data){
     console.log('MotionDetected event');
-    const getInfoClient = 'SELECT user.userID, user.name as userName, user.phone, user.email, camera.name AS cameraName FROM user INNER JOIN camera ON camera.userID=user.userID WHERE cameraID = '+data.cameraID;
+    const getInfoClient = 'SELECT user.userID, user.name, user.phone, user.email, camera.name AS cameraName FROM user INNER JOIN camera ON camera.userID=user.userID WHERE cameraID = '+data.cameraID;
     connection.query(getInfoClient, function(err,rows){
       if(err){
         throw err;
@@ -514,7 +514,7 @@ io.sockets.on('connection', function(socket){
         client.messages.create({
           to: "'"+rows[0].phone+"'",
           from: '+32460207648',
-          body: 'Hi '+rows[0].userName+' ! The camera "'+rows[0].cameraName+'" just detected motion at '+data.timestr+'. A record has been started. You will be able to see it in few minutes on the website. Bisous !'
+          body: 'Bonjour '+rows[0].name+' ! Votre caméra "'+rows[0].cameraName+'" vient tout huste de détecter un mouvement à la date : '+data.timestr+'. Un enregistrement à été démarré. Vous serez en mesure de le visionner d\'ici quelques secondes sur le site web. Bisous !'
         }, function(error){
           if(error){
             console.log('Error send SMS');
