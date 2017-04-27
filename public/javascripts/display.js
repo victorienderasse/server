@@ -1238,7 +1238,7 @@ function playReplay(data){
     console.log('play replay : '+name);
 
 
-    $('.replaySelected , #replay'+replayID).toggleClass('replay replaySelected');
+    $('.replaySelected , #replay'+data.replayID).toggleClass('replay replaySelected');
 
     var playerDiv = document.getElementById('player-replay-div');
     var video = document.createElement('video');
