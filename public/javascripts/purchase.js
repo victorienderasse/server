@@ -108,8 +108,7 @@ function displayProduct(tbProduct){
         var imageTD = document.createElement('td');
         var image = document.createElement('img');
         image.src = '../images/logo.png';
-        image.width = '250px';
-        image.height = '150px';
+        image.setAttribute('style','width:250px; height:150px;');
 
         imageTD.appendChild(image);
 
@@ -121,22 +120,7 @@ function displayProduct(tbProduct){
 
         //DESCIPTION
         var description = document.createElement('td');
-        var descriptionTXT;
-        if(tbProduct[i].stock > 5){
-            description.setAttribute('style','color:#93E18C');
-            descriptionTXT = document.createTextNode('Disponible');
-        }else{
-            if(tbProduct[i].stock > 0 && tbProduct[i].stock <= 5){
-                description.setAttribute('style','color:#C9AE89');
-                descriptionTXT = document.createTextNode('Bientôt en rupture de stock');
-            }else{
-                description.setAttribute('style','color:#AC3A3A');
-                descriptionTXT = document.createTextNode('Indisponible');
-            }
-        }
-
-
-        document.createTextNode(tbProduct[i].description);
+        var descriptionTXT= document.createTextNode(tbProduct[i].description);
 
         description.appendChild(descriptionTXT);
 
@@ -148,7 +132,20 @@ function displayProduct(tbProduct){
 
         //STOCK
         var stock = document.createElement('td');
-        var stockTXT = document.createTextNode(tbProduct[i].stock);
+        var stockTXT;
+        if(tbProduct[i].stock > 5){
+            stock.setAttribute('style','color:#93E18C');
+            stockTXT = document.createTextNode('Disponible');
+        }else{
+            if(tbProduct[i].stock > 0 && tbProduct[i].stock <= 5){
+                stock.setAttribute('style','color:#C9AE89');
+                stockTXT = document.createTextNode('Bientôt en rupture de stock');
+            }else{
+                stock.setAttribute('style','color:#AC3A3A');
+                stockTXT = document.createTextNode('Indisponible');
+            }
+        }
+
         stock.appendChild(stockTXT);
 
         //NB
@@ -192,8 +189,11 @@ function displayProduct(tbProduct){
 function updateNB(value,productID){
     console.log('updateNB function');
     var price = $('#price-product'+productID).text();
+    console.log('price: '+price);
     var totalProduct = parseFloat(value) * parseFloat(price);
+    console.log('total product: '+totalProduct);
     total = total + totalProduct;
+    console.log('total: '+total);
     $('#total').text(total);
     $('#total-product'+productID).text(totalProduct+' €');
 }
