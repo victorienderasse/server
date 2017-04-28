@@ -413,6 +413,7 @@ function displayCamera(tbCamera){
         name.id = 'camera'+tbCamera[i].cameraID+'-name';
         name.title = 'Click to update your camera name';
         var hrName = document.createElement('hr');
+        hrName.setAttribute('style','margin-left:10px; margin-right: 10px;');
 
         nameH3.appendChild(name);
         nameDiv.appendChild(nameH3);
