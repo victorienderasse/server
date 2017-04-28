@@ -173,7 +173,7 @@ function displayProduct(tbProduct){
         nbInput.max = 20;
         nbInput.value = 0;
         nbInput.id = 'nb-product'+tbProduct[i].productID;
-        nbInput.setAttribute('oninput','updateNB(this.value,'+i+');');
+        nbInput.setAttribute('oninput','updateNB({value:this.value, productID:'+i+'});');
 
         nbDiv.appendChild(nbInput)
         nb.appendChild(nbDiv);
@@ -207,11 +207,11 @@ function displayProduct(tbProduct){
 }
 
 
-function updateNB(value,productID){
+function updateNB(data){
     console.log('updateNB function');
-    var price = document.getElementById('price-product'+productID).innerHTML;
+    var price = document.getElementById('price-product'+data.productID).innerHTML;
     console.log('price: '+price);
-    var totalProduct = parseFloat(value) * parseFloat(price);
+    var totalProduct = parseFloat(data.value) * parseFloat(price);
     console.log('total product: '+totalProduct);
     total = total + totalProduct;
     console.log('total: '+total);
