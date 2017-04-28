@@ -144,7 +144,8 @@ function displayProduct(tbProduct){
         var price = document.createElement('td');
         var priceDiv = document.createElement('div');
         price.id = 'price-product'+tbProduct[i].productID;
-        var priceTXT = document.createTextNode(tbProduct[i].price+' €');
+        var myPrice = (tbProduct[i].price).toFixed(2);
+        var priceTXT = document.createTextNode(myPrice+' €');
 
         //priceDiv.appendChild(priceTXT);
         price.appendChild(priceTXT);
@@ -226,13 +227,13 @@ function updateNB(productID, value){
         myProduct[productID].amount = value;
         total = parseFloat(total) - (parseFloat(amount) * parseFloat(price));
     }
-    console.log('total before: '+total);
-    total = Math.round(total*Math.pow(10,2))/Math.pow(10,2);
-    console.log('total after: '+total);
+
+    total = (Math.round(total*Math.pow(10,2))/Math.pow(10,2)).toFixed(2);
+
 
     $('#total').text(total);
 
-    var totalProduct = parseFloat(value) * parseFloat(price);
+    var totalProduct = (parseFloat(value) * parseFloat(price)).toFixed(2);
     $('#total-product'+productID).text(totalProduct+' €');
 
 }
