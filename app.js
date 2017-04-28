@@ -92,7 +92,8 @@ io.sockets.on('connection', function(socket){
             if (err){
               throw err;
             }
-            socket.emit('cameraUP', rows[0].cameraID);
+            console.log('setCameraUp');
+            io.emit('cameraUP', rows[0].cameraID);
           });
         }else{
           //Camera already added -> update socketID
@@ -100,7 +101,8 @@ io.sockets.on('connection', function(socket){
             if (err){
               throw err;
             }
-            socket.emit('cameraUP', rows[0].cameraID);
+            console.log('setCameraUp');
+            io.emit('cameraUP', rows[0].cameraID);
           });
         }
       }else{
