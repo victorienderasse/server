@@ -644,6 +644,7 @@ function displayCamera(tbCamera,callback){
 
     }
 
+    console.log('display camera done');
     callback('done');
 
 }
