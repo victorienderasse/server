@@ -97,7 +97,9 @@ socket.on('updateCameraEnable', function(data){
 socket.on('sendCamera', function(tbCamera){
     console.log('sendCamera event');
     //displayScreens(tbCamera);
-    displayCamera(tbCamera);
+    displayCamera(tbCamera, function(){
+        applySmallImage(tbCamera);
+    });
 });
 
 
@@ -390,6 +392,25 @@ socket.on('updatePreview', function(cameraID){
 
 //Functions-----------------------------------
 
+function applySmallImage(tbCamera){
+
+    console.log('applySmallImage function');
+    var noImage = '../images/logo.png';
+
+    for(var i=0;i<tbCamera.length;i++){
+        var camera = $('#camera'+tbCamera[i].cameraID+'-live');
+        console.log('camera'+i);
+        urlImage = '../cameras/camera'+tbCamera[i].cameraID+'/live/stream_camera_'+tbCamera[i].cameraID+'.jpg';
+        $.get(urlImage)
+            .done(function(){
+                console.log('image exists');
+                camera.src = urlImage;
+            }).fail(function(){
+            console.log('image not exists');
+            camera = noImage;
+        });
+    }
+}
 
 function displayCamera(tbCamera){
 
