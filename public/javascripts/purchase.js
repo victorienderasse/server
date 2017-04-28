@@ -106,7 +106,7 @@ function displayProduct(tbProduct){
 
         //IMAGE
         var imageTD = document.createElement('td');
-        var image = document.getElementById('img');
+        var image = document.createElement('img');
         image.src = '../images/logo.png';
         image.width = '250px';
         image.height = '150px';
