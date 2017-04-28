@@ -206,20 +206,16 @@ function displayProduct(tbProduct){
         tableProduct.appendChild(product);
 
     }
-
-
-    console.log('myProduct = '+myProduct);
-    console.log('price product 1: '+myProduct[2].price);
-
-
 }
 
 
 function updateNB(productID, value){
     console.log('updateNB function');
-    var price = document.getElementById('price-product'+productID).innerHTML;
+    var price = myProduct[productID].price;
+    var oldValue = myProduct[productID].amount;
     console.log('price: '+price);
-    console.log(value);
+    console.log('old Value: '+oldValue);
+    console.log('New value: '+value);
     var totalProduct = parseFloat(value) * parseFloat(price);
     console.log('total product: '+totalProduct);
     total = total + totalProduct;
