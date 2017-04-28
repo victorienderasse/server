@@ -104,6 +104,15 @@ function displayProduct(tbProduct){
         var product = document.createElement('tr');
         product.id = 'product'+tbProduct[i].productID;
 
+        //IMAGE
+        var imageTD = document.createElement('td');
+        var image = document.getElementById('img');
+        image.src = '../images/logo.png';
+        image.width = '250px';
+        image.height = '150px';
+
+        imageTD.appendChild(image);
+
         //NAME
         var name = document.createElement('td');
         var nameTXT = document.createTextNode(tbProduct[i].name);
@@ -112,13 +121,29 @@ function displayProduct(tbProduct){
 
         //DESCIPTION
         var description = document.createElement('td');
-        var descriptionTXT = document.createTextNode(tbProduct[i].description);
+        var descriptionTXT;
+        if(tbProduct[i].stock > 5){
+            description.setAttribute('style','color:#93E18C');
+            descriptionTXT = document.createTextNode('Disponible');
+        }else{
+            if(tbProduct[i].stock > 0 && tbProduct[i].stock <= 5){
+                description.setAttribute('style','color:#C9AE89');
+                descriptionTXT = document.createTextNode('Bientôt en rupture de stock');
+            }else{
+                description.setAttribute('style','color:#AC3A3A');
+                descriptionTXT = document.createTextNode('Indisponible');
+            }
+        }
+
+
+        document.createTextNode(tbProduct[i].description);
 
         description.appendChild(descriptionTXT);
 
         //PRICE
         var price = document.createElement('td');
-        var priceTXT = document.createTextNode(tbProduct[i].price);
+        price.id = 'price-product'+tbProduct[i].productID;
+        var priceTXT = document.createTextNode(tbProduct[i].price+' €');
         price.appendChild(priceTXT);
 
         //STOCK
@@ -132,16 +157,20 @@ function displayProduct(tbProduct){
         nbInput.type = 'number';
         nbInput.min = 0;
         nbInput.max = 20;
+        nbInput.value = 0;
         nbInput.id = 'nb-product'+tbProduct[i].productID;
+        nbInput.setAttribute('oninput','updateNB(this.value,'+i+');');
 
         nb.appendChild(nbInput);
 
         //TOTAL
         var total = document.createElement('td');
+        total.id = 'total-product'+tbProduct[i].productID;
         var totalTXT = document.createTextNode('0.00 €');
         total.appendChild(totalTXT);
 
 
+        product.appendChild(imageTD);
         product.appendChild(name);
         product.appendChild(description);
         product.appendChild(price);
@@ -157,6 +186,16 @@ function displayProduct(tbProduct){
 
 
 
+}
+
+
+function updateNB(value,productID){
+    console.log('updateNB function');
+    var price = $('#price-product'+productID).text();
+    var totalProduct = parseFloat(value) * parseFloat(price);
+    total = total + totalProduct;
+    $('#total').text(total);
+    $('#total-product'+productID).text(totalProduct+' €');
 }
 
 
