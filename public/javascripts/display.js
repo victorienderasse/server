@@ -187,8 +187,9 @@ socket.on('setReplays',function(data){
         var editBtn = document.createElement('button');
         editBtn.className = 'btn';
         editBtn.setAttribute('style','border:0;background-color:#fff;');
+        editBtn.title = 'Cliquer pour renommer le fichier';
+        editBtn.setAttribute('onclick','editReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
         var editIcon = document.createElement('span');
-        editIcon.title = 'Cliquer pour renommer le fichier';
         editIcon.className = 'glyphicon glyphicon-edit';
 
         editBtn.appendChild(editIcon);
@@ -199,6 +200,7 @@ socket.on('setReplays',function(data){
         removeBtn.className = 'btn';
         removeBtn.setAttribute('style','border:0;background-color:#fff;');
         removeBtn.title = 'Cliquer pour supprimer le fichier';
+        removeBtn.setAttribute('onclick','removeReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
         var removeIcon = document.createElement('span');
         removeIcon.className = 'glyphicon glyphicon-remove-circle';
 
@@ -210,39 +212,6 @@ socket.on('setReplays',function(data){
 
         document.getElementById('files-replay').appendChild(row);
 
-        //---------------------------------------------------------------------
-        /*
-        var tr = document.createElement('tr');
-        var name = document.createElement('td');
-        var edit = document.createElement('td');
-        var remove = document.createElement('td');
-        var editIcon = document.createElement('span');
-        var removeIcon = document.createElement('span');
-        var bold = document.createElement('b');
-        var nameText = document.createTextNode(data.tbReplay[i]);
-
-        tr.className = 'form-group';
-        tr.setAttribute('style','background-color:#F1E9E9;');
-        tr.id = 'table-replay-tr'+i;
-        name.id = 'table-replay-'+i;
-        name.title = 'Click to play';
-        name.setAttribute('onclick','playReplay({cameraID:'+data.cameraID+', replayID: '+i+'});');
-        editIcon.className = 'glyphicon glyphicon-edit';
-        editIcon.title = 'Click to rename the replay';
-        editIcon.setAttribute('onclick','editReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
-        removeIcon.className = 'glyphicon glyphicon-remove-circle';
-        removeIcon.title = 'Click to delete the replay';
-        removeIcon.setAttribute('onclick','removeReplay({cameraID: '+data.cameraID+', replayID: '+i+'});');
-
-        edit.appendChild(editIcon);
-        remove.appendChild(removeIcon);
-        bold.appendChild(nameText);
-        name.appendChild(bold);
-        tr.appendChild(name);
-        tr.appendChild(edit);
-        tr.appendChild(remove);
-        table.appendChild(tr);
-        */
     }
 
     var video = document.createElement('video');
@@ -618,7 +587,7 @@ function displayCamera(tbCamera){
 
 
     }
-    
+
 }
 
 
@@ -1275,8 +1244,8 @@ function playReplay(data){
 
 
 function editReplay(data){
-    var replay = document.getElementById('table-replay-'+data.replayID).firstChild;
-    var name = replay.innerHTML;
+    //var replay = document.getElementById('table-replay-'+data.replayID).firstChild;
+    var name = document.getElementById('name-replay'+data.replayID).innerHTML;
     console.log('edit replay '+name);
 
     var newName = prompt('New name : ',name);
@@ -1294,8 +1263,8 @@ function editReplay(data){
 
 
 function removeReplay(data){
-    var replay = document.getElementById('table-replay-'+data.replayID).firstChild;
-    var name = replay.innerHTML;
+    //var replay = document.getElementById('table-replay-'+data.replayID).firstChild;
+    var name = document.getElementById('name-replay'+data.replayID).innerHTML;
     console.log('remove replay '+name);
 
     var Table = document.getElementById('table-replay');
