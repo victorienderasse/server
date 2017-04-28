@@ -106,32 +106,46 @@ function displayProduct(tbProduct){
 
         //IMAGE
         var imageTD = document.createElement('td');
+        var imageDiv = document.createElement('div');
+        imageDiv.id = 'image-div-product'+tbProduct[i].productID;
         var image = document.createElement('img');
         image.src = '../images/logo.png';
         image.setAttribute('style','width:250px; height:150px;');
 
-        imageTD.appendChild(image);
+        imageDiv.appendChild(image);
+        imageTD.appendChild(imageDiv);
 
         //NAME
         var name = document.createElement('td');
+        var nameDiv = document.createElement('div');
+        nameDiv.id = 'name-product'+tbProduct[i].productID;
         var nameTXT = document.createTextNode(tbProduct[i].name);
 
-        name.appendChild(nameTXT);
+        nameDiv.appendChild(nameTXT);
+        name.appendChild(nameDiv);
 
         //DESCIPTION
         var description = document.createElement('td');
+        var descriptionDiv = document.createElement('div');
+        descriptionDiv.id = 'description-product'+tbProduct[i].productID;
         var descriptionTXT= document.createTextNode(tbProduct[i].description);
 
-        description.appendChild(descriptionTXT);
+        descriptionDiv.appendChild(descriptionTXT);
+        description.appendChild(descriptionDiv);
 
         //PRICE
         var price = document.createElement('td');
-        price.id = 'price-product'+tbProduct[i].productID;
+        var priceDiv = document.createElement('div');
+        priceDiv.id = 'price-product'+tbProduct[i].productID;
         var priceTXT = document.createTextNode(tbProduct[i].price+' €');
-        price.appendChild(priceTXT);
+
+        priceDiv.appendChild(priceTXT);
+        price.appendChild(priceDiv);
 
         //STOCK
         var stock = document.createElement('td');
+        var stockDiv = document.createElement('div');
+        stockDiv.id = 'stock-product'+tbProduct[i].productID;
         var stockTXT;
         if(tbProduct[i].stock > 5){
             stock.setAttribute('style','color:#93E18C');
@@ -146,10 +160,13 @@ function displayProduct(tbProduct){
             }
         }
 
-        stock.appendChild(stockTXT);
+        stockDiv.appendChild(stockTXT);
+        stock.appendChild(stockDiv);
 
         //NB
         var nb = document.createElement('td');
+        var nbDiv = document.createElement('div');
+        nbDiv.id = 'nb-product'+tbProduct[i].productID;
         var nbInput = document.createElement('input');
         nbInput.type = 'number';
         nbInput.min = 0;
@@ -158,13 +175,17 @@ function displayProduct(tbProduct){
         nbInput.id = 'nb-product'+tbProduct[i].productID;
         nbInput.setAttribute('oninput','updateNB(this.value,'+i+');');
 
-        nb.appendChild(nbInput);
+        nbDiv.appendChild(nbInput)
+        nb.appendChild(nbDiv);
 
         //TOTAL
         var total = document.createElement('td');
-        total.id = 'total-product'+tbProduct[i].productID;
+        var totalDiv = document.createElement('div');
+        totalDiv.id = 'total-product'+tbProduct[i].productID;
         var totalTXT = document.createTextNode('0.00 €');
-        total.appendChild(totalTXT);
+
+        totalDiv.appendChild(totalTXT);
+        total.appendChild(totalDiv);
 
 
         product.appendChild(imageTD);
@@ -188,14 +209,14 @@ function displayProduct(tbProduct){
 
 function updateNB(value,productID){
     console.log('updateNB function');
-    var price = $('#price-product'+productID).html();
+    var price = $('#price-product'+productID).text();
     console.log('price: '+price);
     var totalProduct = parseFloat(value) * parseFloat(price);
     console.log('total product: '+totalProduct);
     total = total + totalProduct;
     console.log('total: '+total);
-    $('#total').html(total);
-    $('#total-product'+productID).html(totalProduct+' €');
+    $('#total').text(total);
+    $('#total-product'+productID).text(totalProduct+' €');
 }
 
 
