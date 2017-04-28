@@ -413,7 +413,7 @@ function applySmallImage(tbCamera){
     }
 }
 
-function displayCamera(tbCamera){
+function displayCamera(tbCamera,callback){
 
 
     var nbRow = 0;
@@ -446,7 +446,7 @@ function displayCamera(tbCamera){
         var liveDiv = document.createElement('div');
         liveDiv.id = 'camera'+tbCamera[i].cameraID+'-liveDiv';
         liveDiv.className = 'col-lg-6';
-        liveDiv.setAttribute('style','margin-bottom:2%;');
+        liveDiv.setAttribute('style','margin-bottom:2%; margin-top:2%;');
         var liveBtn = document.createElement('button');
         liveBtn.id = 'camera'+tbCamera[i].cameraID+'-liveBtn';
         liveBtn.setAttribute('style','border:0px; background-color:#fff;');
@@ -640,6 +640,8 @@ function displayCamera(tbCamera){
 
 
     }
+
+    callback('done');
 
 }
 
