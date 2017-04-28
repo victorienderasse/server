@@ -77,9 +77,11 @@ document.getElementById('disconnect-btn').addEventListener('click', function(){
 //EVENTS-----------------------------------------------------------------------------------------------------------------
 
 socket.on('cameraUP', function(cameraID){
+    console.log('cameraUP event');
     var camera = document.getElementById('camera'+cameraID);
     if(camera != 'undefined' && camera != null){
-        camera.setAttribute('style','border:1px solid #ddd;border-radius:4px; background-color:#fff');
+        console.log('set camera up');
+        camera.setAttribute('style','border:1px solid #ddd;border-radius:4%; background-color:#fff');
     }
 });
 
