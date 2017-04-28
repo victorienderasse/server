@@ -216,6 +216,7 @@ function updateNB(productID, value){
     console.log('price: '+price);
     console.log('old Value: '+oldValue);
     console.log('New value: '+value);
+    myProduct[productID].amount = value;
     var totalProduct = parseFloat(value) * parseFloat(price);
     console.log('total product: '+totalProduct);
     total = total + totalProduct;
