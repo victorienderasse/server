@@ -1,15 +1,19 @@
 /**
  * Created by Victorien on 22-04-17.
  */
+
+var userID = 1;
+
 $(function(){
 
     $('#back').click(function(){
         redirectURL(serverURL+'/');
     });
 
-    $('#confirm, #ok').click(function(){
+    $('#confirm-select').click(function(){
         $('#purchase-select').slideToggle('slow');
         $('#purchase-bill').slideToggle('slow');
+        socket.emit('purchaseConfirm',{userID:userID, nbCamera: $('#nbCamera').val()});
     });
 
 });

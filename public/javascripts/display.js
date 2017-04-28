@@ -20,6 +20,10 @@ $(function(){
         redirectURL(serverURL+'/addCamera');
     });
 
+    $('#buyCamera-btn').click(function(){
+        redirectURL(serverURL+'/purchase');
+    });
+
     $('#multiLive-btn').click(function(){
         redirectURL(serverURL+'/multiLive');
     });

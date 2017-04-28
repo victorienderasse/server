@@ -792,6 +792,16 @@ io.sockets.on('connection', function(socket){
       socket.emit('getUserNameRes',user.name);
     });
   });
+
+
+  socket.on('purchaseConfirm', function(data){
+    console.log('purchage confirm');
+    var datetime = new Date();
+    console.log('nbCamera: '+data.nbCamera);
+    console.log('userID: '+data.userID);
+    console.log('datetime: '+datetime);
+    //const newPurchase = 'INSER INTO purchase SET userID = '+data.userID+', nbCamera = '+data.nbCamera+', state = 0, date = ';
+  });
   
   
   
