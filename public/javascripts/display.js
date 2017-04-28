@@ -76,12 +76,18 @@ document.getElementById('disconnect-btn').addEventListener('click', function(){
 
 //EVENTS-----------------------------------------------------------------------------------------------------------------
 
-socket.on('cameraUP', function(cameraID){
+socket.on('updateCameraEnable', function(cameraID){
     console.log('cameraUP event');
-    var camera = document.getElementById('camera'+cameraID);
+    var camera = $('#camera'+cameraID);
     if(camera != 'undefined' && camera != null){
+        var config = $('#camera'+cameraID+'-config');
+        if(config.disabled){
+            config.disabled = false;
+        }else{
+            config.disabled = true;
+        }
         console.log('set camera up');
-        camera.setAttribute('style','border:1px solid #ddd;border-radius:4%; background-color:#fff');
+        camera.toggleClass('cameraUP cameraDown');
     }
 });
 
@@ -550,20 +556,19 @@ function displayCamera(tbCamera){
         var hr = document.createElement('hr');
         var camera = document.createElement('div');
         camera.id = 'camera'+tbCamera[i].cameraID;
-        camera.setAttribute('style','border:1px solid #ddd;border-radius:4px; background-color:#fff');
-
 
         camera.appendChild(nameDiv);
         camera.appendChild(hr);
         camera.appendChild(imgBtnDiv);
 
         if(tbCamera[i].enable == 0) {
-            camera.setAttribute('style', 'background-color:#FAECEC; border:1px solid #ddd;border-radius:4px;');
+            camera.className = 'cameraDown';
             timer.disabled = true;
             detection.disabled = true;
             liveBtn.disabled = true;
             config.disabled = true;
         }else{
+            camera.className = 'cameraUP';
             switch(tbCamera[i].state){
                 case 1:
                     liveBtn.disabled = true;

@@ -93,7 +93,7 @@ io.sockets.on('connection', function(socket){
               throw err;
             }
             console.log('setCameraUp');
-            io.emit('cameraUP', rows[0].cameraID);
+            io.emit('updateCameraEnable', rows[0].cameraID);
           });
         }else{
           //Camera already added -> update socketID
@@ -102,7 +102,7 @@ io.sockets.on('connection', function(socket){
               throw err;
             }
             console.log('setCameraUp');
-            io.emit('cameraUP', rows[0].cameraID);
+            io.emit('updateCameraEnable', rows[0].cameraID);
           });
         }
       }else{
@@ -147,9 +147,8 @@ io.sockets.on('connection', function(socket){
         //camera disconnected -> set enable to false and state to unused
         var disable = 'UPDATE camera SET enable = 0, state = 0 WHERE cameraID = '+rows[0].cameraID;
         connection.query(disable, function (err) {
-          if(err){
-            throw err;
-          }
+          if(err)throw err;
+          io.emit('updateCameraEnable', rows[0].cameraID);
         });
       }
     });
