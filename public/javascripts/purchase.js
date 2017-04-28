@@ -223,8 +223,9 @@ function updateNB(productID, value){
         myProduct[productID].amount = value;
         total = parseFloat(total) - (parseFloat(value) * parseFloat(price));
     }
-
+    console.log('total before: '+total);
     total = Math.round(total*Math.pow(10,2))/Math.pow(10,2);
+    console.log('total after: '+total);
 
     $('#total').text(total);
 
