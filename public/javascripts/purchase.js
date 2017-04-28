@@ -219,12 +219,12 @@ function updateNB(productID, value){
         total = parseFloat(total) + (parseFloat(value) * parseFloat(price));
     }else{
         myProduct[productID].amount = value;
-        total = parseFloat(total) - (parseFloat(value) * parseFloat(price));
+        total = (parseFloat(total) - (parseFloat(value) * parseFloat(price))).toFixed(2);
     }
 
     $('#total').text(total);
 
-    var totalProduct = parseFloat(value) * parseFloat(price);
+    var totalProduct = (parseFloat(value) * parseFloat(price)).toFixed(2);
     $('#total-product'+productID).text(totalProduct+' €');
 
 }
