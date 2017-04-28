@@ -564,13 +564,11 @@ function displayCamera(tbCamera){
         camera.appendChild(imgBtnDiv);
 
         if(tbCamera[i].enable == 0) {
-            camera.className = 'cameraDown';
             timer.disabled = true;
             detection.disabled = true;
             liveBtn.disabled = true;
             config.disabled = true;
         }else{
-            camera.className = 'cameraUP';
             switch(tbCamera[i].state){
                 case 1:
                     liveBtn.disabled = true;
@@ -597,13 +595,21 @@ function displayCamera(tbCamera){
             row.id = 'row'+nbRow;
             row.className = 'row';
             row.setAttribute('style','margin-bottom:3%;');
-            camera.addClass('col-lg-offset-1 col-lg-4');
+            if(tbCamera[i].enable == 0){
+                camera.className = 'cameraDown col-lg-offset-1 col-lg-4';
+            }else{
+                camera.className = 'cameraUP col-lg-offset-1 col-lg-4';
+            }
             row.appendChild(camera);
             display.appendChild(row);
         }else{
             row = document.getElementById('row'+nbRow);
             row.setAttribute('style','margin-bottom:3%;');
-            camera.addClass('col-lg-offset-2 col-lg-4');
+            if(tbCamera[i].enable == 0){
+                camera.className = 'cameraDown col-lg-offset-2 col-lg-';
+            }else{
+                camera.className = 'cameraUP col-lg-offset-2 col-lg-';
+            }
             row.appendChild(camera);
         }
 
