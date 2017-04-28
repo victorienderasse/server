@@ -213,16 +213,20 @@ function updateNB(productID, value){
     console.log('updateNB function');
     var price = myProduct[productID].price;
     var oldValue = myProduct[productID].amount;
-    console.log('price: '+price);
-    console.log('old Value: '+oldValue);
-    console.log('New value: '+value);
-    myProduct[productID].amount = value;
-    var totalProduct = parseFloat(value) * parseFloat(price);
-    console.log('total product: '+totalProduct);
-    total = total + totalProduct;
-    console.log('total: '+total);
+    var amount;
+    if(parseInt(value) >= parseInt(oldValue)){
+        myProduct[productID].amount = value;
+        total = parseFloat(total) + (parseFloat(value) * parseFloat(price));
+    }else{
+        myProduct[productID].amount = value;
+        total = parseFloat(total) - (parseFloat(value) * parseFloat(price));
+    }
+
     $('#total').text(total);
+
+    var totalProduct = parseFloat(value) * parseFloat(price);
     $('#total-product'+productID).text(totalProduct+' €');
+
 }
 
 
