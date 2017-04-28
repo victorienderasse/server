@@ -213,15 +213,18 @@ function updateNB(productID, value){
     console.log('updateNB function');
     var price = myProduct[productID].price;
     var oldValue = myProduct[productID].amount;
+    var amount;
     console.log('oldValue: '+oldValue+' et value: '+value);
     if(parseInt(value) >= parseInt(oldValue)){
         console.log('ajout');
+        amount = value - oldValue;
         myProduct[productID].amount = value;
-        total = parseFloat(total) + (parseFloat(value) * parseFloat(price));
+        total = parseFloat(total) + (parseFloat(amount) * parseFloat(price));
     }else{
         console.log('soustrait');
+        amount = oldValue - value;
         myProduct[productID].amount = value;
-        total = parseFloat(total) - (parseFloat(value) * parseFloat(price));
+        total = parseFloat(total) - (parseFloat(amount) * parseFloat(price));
     }
     console.log('total before: '+total);
     total = Math.round(total*Math.pow(10,2))/Math.pow(10,2);
