@@ -4,6 +4,7 @@
 
 var userID = 1;
 var total = 0.0;
+var myProduct = [];
 
 $(function(){
 
@@ -99,6 +100,12 @@ function displayProduct(tbProduct){
     var tableProduct = document.getElementById('table-product-list');
 
     for(var i=0;i<tbProduct.length;i++){
+
+        //MY PRODUCT
+        myProduct[tbProduct[i].productID] = {
+            amount:0,
+            price:tbProduct[i].price
+        };
 
         //PRODUCT
         var product = document.createElement('tr');
@@ -201,7 +208,7 @@ function displayProduct(tbProduct){
     }
 
 
-
+    console.log('myProduct = '+myProduct);
 
 
 }
