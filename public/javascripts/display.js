@@ -405,16 +405,18 @@ function displayCamera(tbCamera){
         var nameDiv = document.createElement('div');
         nameDiv.id = 'camera'+tbCamera[i].cameraID+'-nameDiv';
         nameDiv.className = 'row';
-        nameDiv.setAttribute('style','text-align:center;');
+        nameDiv.setAttribute('style','text-align:center; background-color:#6CB4CE; color:#fff;');
         var nameH3 = document.createElement('h3');
         nameH3.id = 'camera'+tbCamera[i].cameraID+'-nameH3';
         nameH3.setAttribute('onclick','setName('+tbCamera[i].cameraID+');');
         var name = document.createTextNode(tbCamera[i].name);
         name.id = 'camera'+tbCamera[i].cameraID+'-name';
         name.title = 'Click to update your camera name';
+        var hrName = document.createElement('hr');
 
         nameH3.appendChild(name);
         nameDiv.appendChild(nameH3);
+        nameDiv.appendChild(hrName);
 
         //IMG==================================================================
 
@@ -560,7 +562,7 @@ function displayCamera(tbCamera){
         camera.id = 'camera'+tbCamera[i].cameraID;
 
         camera.appendChild(nameDiv);
-        camera.appendChild(hr);
+        //camera.appendChild(hr);
         camera.appendChild(imgBtnDiv);
 
         if(tbCamera[i].enable == 0) {
