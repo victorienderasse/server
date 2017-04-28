@@ -106,6 +106,7 @@ function displayProduct(tbProduct){
 
         //IMAGE
         var imageTD = document.createElement('td');
+        var imageDiv = document.createElement()
         var image = document.createElement('img');
         image.src = '../images/logo.png';
         image.setAttribute('style','width:250px; height:150px;');
@@ -188,14 +189,14 @@ function displayProduct(tbProduct){
 
 function updateNB(value,productID){
     console.log('updateNB function');
-    var price = $('#price-product'+productID).text();
+    var price = $('#price-product'+productID).html();
     console.log('price: '+price);
     var totalProduct = parseFloat(value) * parseFloat(price);
     console.log('total product: '+totalProduct);
     total = total + totalProduct;
     console.log('total: '+total);
-    $('#total').text(total);
-    $('#total-product'+productID).text(totalProduct+' €');
+    $('#total').html(total);
+    $('#total-product'+productID).html(totalProduct+' €');
 }
 
 
