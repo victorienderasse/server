@@ -209,6 +209,7 @@ function displayProduct(tbProduct){
 
 
     console.log('myProduct = '+myProduct);
+    console.log('price product 1: '+myProduct[2].price);
 
 
 }
