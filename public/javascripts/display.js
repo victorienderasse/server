@@ -153,11 +153,11 @@ socket.on('setReplays',function(data){
 
         //ROW
         var row = document.createElement('div');
+        row.id = 'replay'+i;
         row.className = 'row';
 
         //REPLAY
         var replay = document.createElement('div');
-        replay.id = 'replay'+i;
         if(i==0){
             replay.className = 'replaySelected';
          }else{
