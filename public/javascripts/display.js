@@ -606,9 +606,9 @@ function displayCamera(tbCamera){
             row = document.getElementById('row'+nbRow);
             row.setAttribute('style','margin-bottom:3%;');
             if(tbCamera[i].enable == 0){
-                camera.className = 'cameraDown col-lg-offset-2 col-lg-';
+                camera.className = 'cameraDown col-lg-offset-2 col-lg-4';
             }else{
-                camera.className = 'cameraUP col-lg-offset-2 col-lg-';
+                camera.className = 'cameraUP col-lg-offset-2 col-lg-4';
             }
             row.appendChild(camera);
         }
