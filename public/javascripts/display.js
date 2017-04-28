@@ -97,10 +97,7 @@ socket.on('updateCameraEnable', function(data){
 socket.on('sendCamera', function(tbCamera){
     console.log('sendCamera event');
     //displayScreens(tbCamera);
-    displayCamera(tbCamera, function(){
-        console.log('before applyImage');
-        //applySmallImage(tbCamera);
-    });
+    displayCamera(tbCamera);
 });
 
 
@@ -393,30 +390,7 @@ socket.on('updatePreview', function(cameraID){
 
 //Functions-----------------------------------
 
-function applySmallImage(tbCamera){
-
-    console.log('applySmallImage function');
-    var noImage = '../images/logo.png';
-
-    for(var i=0;i<tbCamera.length;i++){
-        var camera = $('#camera'+tbCamera[i].cameraID+'-live');
-        console.log('camera id :'+camera.id);
-        console.log('camera'+i);
-        var urlImage = '../cameras/camera'+tbCamera[i].cameraID+'/live/stream_camera_'+tbCamera[i].cameraID+'.jpg';
-        console.log('urlImage: '+urlImage);
-        var img = new Image();
-        img.src = urlImage;
-        if(!img.complete || img.height === 0){
-            console.log('image not exists');
-            camera.src = noImage;
-        }else{
-            console.log('image exists');
-            camera.src = urlImage;
-        }
-    }
-}
-
-function displayCamera(tbCamera,callback){
+function displayCamera(tbCamera){
 
 
     var nbRow = 0;
@@ -461,7 +435,7 @@ function displayCamera(tbCamera,callback){
         live.src = '../cameras/camera'+tbCamera[i].cameraID+'/live/stream_camera_'+tbCamera[i].cameraID+'.jpg';
         live.setAttribute('onerror','javascript:this.src="../images/logo.png"');
         live.title = 'Click to start live';
-        live.setAttribute('style','border:5px solid #ddd;border-radius:8px;height:100%;width:100%');
+        live.setAttribute('style','border:5px solid #ddd;border-radius:8px;height:150px;width:220px;');
         live.setAttribute('alt','Click to display live session');
 
         liveBtn.appendChild(live);
@@ -644,10 +618,7 @@ function displayCamera(tbCamera,callback){
 
 
     }
-
-    console.log('display camera done');
-    callback('done');
-
+    
 }
 
 
