@@ -800,7 +800,7 @@ io.sockets.on('connection', function(socket){
     console.log('nbCamera: '+data.nbCamera);
     console.log('userID: '+data.userID);
     console.log('datetime: '+datetime);
-    const newPurchase = 'INSER INTO purchase SET userID = '+data.userID+', nbCamera = '+data.nbCamera+', state = 0';
+    const newPurchase = 'INSERT INTO purchase SET userID = '+data.userID+', nbCamera = '+data.nbCamera+', state = 0, date = NOW()';
     connection.query(newPurchase, function(err){
       if(err)throw err;
     });
