@@ -19,6 +19,7 @@
         </div>
         <div>
             <button type="button" id="back" class="btn-menu navbar-form navbar-right"><span class="glyphicon glyphicon-arrow-left"></span> Retour</button>
+            <button type="button" id="purchaseList-btn" class="btn-menu navbar-form navbar-right"><span class="glyphicon glyphicon-hourglass"></span> Mes commandes</button>
         </div>
     </div>
 </nav>
@@ -44,7 +45,25 @@
 </div>
 
 
-<div class="container" id="purchase-select">
+<div class="container" id="product-list">
+    <div class="row">
+        <table class="table">
+            <thead>
+            <tr>
+                <td><b>Produit</b></td>
+                <td><b>Description</b></td>
+                <td><b>Prix unitaire</b></td>
+                <td><b>Stock</b></td>
+                <td><b>Quantité</b></td>
+                <td><b>Total</b></td>
+            </tr>
+            </thead>
+            <tbody id="table-product-list"></tbody>
+        </table>
+    </div>
+</div>
+
+<div class="container" id="purchase-select" style="display: none;">
     <div class="row">
         <div id="info" class="col-lg-5">
             <img src="../images/zelda1.png" width="500px">
@@ -86,8 +105,29 @@
                 <p>Interface de paiement</p>
             </div>
             <button id="confirm-bill">Confirmer</button>
-            <button id="continue-bill">Continuer mes achats</button>
+            <button id="continue-bill">Payer plus tard</button>
         </div>
+    </div>
+</div>
+
+
+<div class="container" id="purchase-list" style="display: none;">
+    <div class="row">
+        <h3>Mes commandes</h3>
+        <hr>
+        <table>
+            <thead>
+            <tr>
+                <td><b>Produit</b></td>
+                <td><b>Nombre</b></td>
+                <td><b>Prix unitaire</b></td>
+                <td><b>Total</b></td>
+                <td><b>Etat</b></td>
+                <td><b>Date commande</b></td>
+            </tr>
+            </thead>
+            <tbody id="table-purchase-list"></tbody>
+        </table>
     </div>
 </div>
 

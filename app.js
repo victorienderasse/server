@@ -792,15 +792,20 @@ io.sockets.on('connection', function(socket){
       socket.emit('getUserNameRes',user.name);
     });
   });
+  
+  
+  socket.on('getProduct', function(){
+    const getProduct = 'SELECT * FROM product';
+    connection.query(getProduct, function(err,rows){
+      if(err)throw err;
+      socket.emit('getProductRes',rows);
+    });
+  });
 
 
   socket.on('purchaseConfirm', function(data){
     console.log('purchage confirm');
-    var datetime = new Date();
-    console.log('nbCamera: '+data.nbCamera);
-    console.log('userID: '+data.userID);
-    console.log('datetime: '+datetime);
-    const newPurchase = 'INSERT INTO purchase SET userID = '+data.userID+', nbCamera = '+data.nbCamera+', state = 0, date = NOW()';
+    const newPurchase = 'INSERT INTO purchase SET userID = '+data.userID+', nbCamera = '+data.nbCamera+', state = '+data.state+', date = NOW()';
     connection.query(newPurchase, function(err){
       if(err)throw err;
     });
