@@ -76,18 +76,20 @@ document.getElementById('disconnect-btn').addEventListener('click', function(){
 
 //EVENTS-----------------------------------------------------------------------------------------------------------------
 
-socket.on('updateCameraEnable', function(cameraID){
+socket.on('updateCameraEnable', function(data){
     console.log('cameraUP event');
-    var camera = $('#camera'+cameraID);
+    var camera = $('#camera'+data.cameraID);
     if(camera != 'undefined' && camera != null){
-        var config = $('#camera'+cameraID+'-config');
-        if(config.disabled){
+        var config = $('#camera'+data.cameraID+'-config');
+        if(data.enable){
             config.disabled = false;
+            camera.addClass('cameraUP');
+            camera.removeClass('cameraDown');
         }else{
             config.disabled = true;
+            camera.addClass('cameraDown');
+            camera.removeClass('cameraUP');
         }
-        console.log('set camera up');
-        camera.toggleClass('cameraUP cameraDown');
     }
 });
 

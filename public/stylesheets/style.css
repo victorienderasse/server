@@ -116,12 +116,12 @@ button:focus{
 }
 
 .cameraUP{
-  border:1px solid #ddd;
-  background-color:#fff;
+  border:1px solid #aaa;
+  background-color:#555;
 }
 
 .cameraDown{
   background-color:#FAECEC;
-  border:1px solid #ddd;
+  border:1px solid #555;
 }
 
