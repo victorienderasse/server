@@ -260,8 +260,9 @@ socket.on('updateLiveRecordingBtn', function(cameraID){
 
 socket.on('editReplayOK', function(data){
     console.log('editReplayOK event');
-    var replay = document.getElementById('table-replay-'+data.replayID).firstChild;
-    replay.innerHTML = data.name;
+    //var replay = document.getElementById('table-replay-'+data.replayID).firstChild;
+    document.getElementById('name-replay'+data.replayID).innerHTML = data.name;
+    //replay.innerHTML = data.name;
 });
 
 
@@ -1267,8 +1268,9 @@ function removeReplay(data){
     var name = document.getElementById('name-replay'+data.replayID).innerHTML;
     console.log('remove replay '+name);
 
-    var Table = document.getElementById('table-replay');
-    Table.removeChild(document.getElementById('table-replay-tr'+data.replayID));
+    var replay = document.getElementById('replay'+data.replayID);
+    document.getElementById('files-replay').removeChild(replay);
+    //Table.removeChild(document.getElementById('table-replay-tr'+data.replayID));
 
     socket.emit('removeReplay',{cameraID: data.cameraID, name: name});
 }
