@@ -402,14 +402,13 @@ function applySmallImage(tbCamera){
         var camera = $('#camera'+tbCamera[i].cameraID+'-live');
         console.log('camera'+i);
         var urlImage = '../cameras/camera'+tbCamera[i].cameraID+'/live/stream_camera_'+tbCamera[i].cameraID+'.jpg';
-        $.get(urlImage)
-            .done(function(){
-                console.log('image exists');
-                camera.src = urlImage;
-            }).fail(function(){
-            console.log('image not exists');
-            camera = noImage;
-        });
+        var img = new Image()
+        img.src = urlImage;
+        if(!img.complete || img.height === 0){
+            camera.src = noImage;
+        }else{
+            camera.src = urlImage;
+        }
     }
 }
 
