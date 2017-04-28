@@ -400,9 +400,11 @@ function applySmallImage(tbCamera){
 
     for(var i=0;i<tbCamera.length;i++){
         var camera = $('#camera'+tbCamera[i].cameraID+'-live');
+        console.log('camera id :'+camera.id);
         console.log('camera'+i);
         var urlImage = '../cameras/camera'+tbCamera[i].cameraID+'/live/stream_camera_'+tbCamera[i].cameraID+'.jpg';
-        var img = new Image()
+        console.log('urlImage: '+urlImage);
+        var img = new Image();
         img.src = urlImage;
         if(!img.complete || img.height === 0){
             console.log('image not exists');
