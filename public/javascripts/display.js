@@ -405,8 +405,10 @@ function applySmallImage(tbCamera){
         var img = new Image()
         img.src = urlImage;
         if(!img.complete || img.height === 0){
+            console.log('image not exists');
             camera.src = noImage;
         }else{
+            console.log('image exists');
             camera.src = urlImage;
         }
     }
