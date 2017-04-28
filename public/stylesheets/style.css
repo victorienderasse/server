@@ -110,13 +110,13 @@ button:focus{
 
 .cameraUP{
   background-color:#fff;
-  border:1px groove #fff;
+  border:3px groove #6CB4CE;
   margin-top:3%;
 }
 
 .cameraDown{
   background-color:#FAECEC;
-  border:1px groove #fff;
+  border:3px groove #6CB4CE;
   margin-top:3%;
 }
 
