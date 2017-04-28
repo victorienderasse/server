@@ -136,11 +136,11 @@ function displayProduct(tbProduct){
         //PRICE
         var price = document.createElement('td');
         var priceDiv = document.createElement('div');
-        priceDiv.id = 'price-product'+tbProduct[i].productID;
+        price.id = 'price-product'+tbProduct[i].productID;
         var priceTXT = document.createTextNode(tbProduct[i].price+' €');
 
-        priceDiv.appendChild(priceTXT);
-        price.appendChild(priceDiv);
+        //priceDiv.appendChild(priceTXT);
+        price.appendChild(priceTXT);
 
         //STOCK
         var stock = document.createElement('td');
@@ -209,7 +209,7 @@ function displayProduct(tbProduct){
 
 function updateNB(value,productID){
     console.log('updateNB function');
-    var price = $('#price-product'+productID).text();
+    var price = document.getElementById('price-product'+productID).innerHTML;
     console.log('price: '+price);
     var totalProduct = parseFloat(value) * parseFloat(price);
     console.log('total product: '+totalProduct);
