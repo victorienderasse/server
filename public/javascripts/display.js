@@ -99,7 +99,7 @@ socket.on('sendCamera', function(tbCamera){
     //displayScreens(tbCamera);
     displayCamera(tbCamera, function(){
         console.log('before applyImage');
-        applySmallImage(tbCamera);
+        //applySmallImage(tbCamera);
     });
 });
 
@@ -458,7 +458,8 @@ function displayCamera(tbCamera,callback){
         liveBtn.setAttribute('data-target','#modal-live');
         var live = document.createElement('img');
         live.id = 'camera'+tbCamera[i].cameraID+'-live';
-        //live.src = '../cameras/camera'+tbCamera[i].cameraID+'/live/stream_camera_'+tbCamera[i].cameraID+'.jpg';
+        live.src = '../cameras/camera'+tbCamera[i].cameraID+'/live/stream_camera_'+tbCamera[i].cameraID+'.jpg';
+        live.setAttribute('onerror','javascript:this.src="../images/logo.png"');
         live.title = 'Click to start live';
         live.setAttribute('style','border:5px solid #ddd;border-radius:8px;height:100%;width:100%');
         live.setAttribute('alt','Click to display live session');
