@@ -16,9 +16,6 @@ a {
   margin: 50 px
 }
 
-.camera-disable{
-  background-color: #F1C4C4;
-}
 
 th, td {
   border-bottom: 3px solid #ffffff;
@@ -37,10 +34,6 @@ th, td {
 .btn-multiLive{
   width:50%;
   margin:3%;
-}
-
-.camera-display{
-  margin-top:3%;
 }
 
 .btn-display{
@@ -116,12 +109,14 @@ button:focus{
 }
 
 .cameraUP{
-  border:1px solid #aaa;
-  background-color:#555;
+  background-color:#fff;
+  border:1px solid #555;
+  margin-top:3%;
 }
 
 .cameraDown{
   background-color:#FAECEC;
   border:1px solid #555;
+  margin-top:3%;
 }
 
