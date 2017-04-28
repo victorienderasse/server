@@ -153,11 +153,12 @@ socket.on('setReplays',function(data){
 
         //ROW
         var row = document.createElement('div');
-        row.id = 'replay'+i;
+
         row.className = 'row';
 
         //REPLAY
         var replay = document.createElement('div');
+        replay.id = 'replay'+i;
         if(i==0){
             replay.className = 'replaySelected';
          }else{
@@ -1269,7 +1270,8 @@ function removeReplay(data){
     console.log('remove replay '+name);
 
     var replay = document.getElementById('replay'+data.replayID);
-    document.getElementById('files-replay').removeChild(replay);
+    replay.parentNode.removeChild(replay);
+    //document.getElementById('files-replay').removeChild(replay);
     //Table.removeChild(document.getElementById('table-replay-tr'+data.replayID));
 
     socket.emit('removeReplay',{cameraID: data.cameraID, name: name});
