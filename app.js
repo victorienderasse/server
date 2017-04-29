@@ -805,6 +805,9 @@ io.sockets.on('connection', function(socket){
       if(err)throw err;
     });
   });
+
+
+  socket.on('getPurchase', function(userID))
   
   
   

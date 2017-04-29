@@ -104,7 +104,8 @@ function displayProduct(tbProduct){
         //MY PRODUCT
         myProduct[tbProduct[i].productID] = {
             amount:0,
-            price:tbProduct[i].price
+            price:tbProduct[i].price,
+            stock: tbProduct[i].stock
         };
 
         //PRODUCT
@@ -150,20 +151,37 @@ function displayProduct(tbProduct){
         //priceDiv.appendChild(priceTXT);
         price.appendChild(priceTXT);
 
+        //NB
+        var nb = document.createElement('td');
+        var nbDiv = document.createElement('div');
+        nbDiv.id = 'nb-product'+tbProduct[i].productID;
+        var nbInput = document.createElement('input');
+        nbInput.className = 'form-control';
+        nbInput.type = 'number';
+        nbInput.min = 0;
+        nbInput.max = tbProduct[i].stock;
+        nbInput.value = 0;
+        nbInput.id = 'nb-product'+tbProduct[i].productID;
+        nbInput.setAttribute('oninput','updateNB('+tbProduct[i].productID+',this.value);');
+
+        nbDiv.appendChild(nbInput);
+        nb.appendChild(nbDiv);
+
+
         //STOCK
         var stock = document.createElement('td');
         var stockDiv = document.createElement('div');
         stockDiv.id = 'stock-product'+tbProduct[i].productID;
         var stockTXT;
         if(tbProduct[i].stock > 5){
-            stock.setAttribute('style','color:#93E18C');
+            stockDiv.setAttribute('style','color:#37643D');
             stockTXT = document.createTextNode('Disponible');
         }else{
             if(tbProduct[i].stock > 0 && tbProduct[i].stock <= 5){
-                stock.setAttribute('style','color:#C9AE89');
+                stockDiv.setAttribute('style','color:#C9AE89');
                 stockTXT = document.createTextNode('Bientôt en rupture de stock');
             }else{
-                stock.setAttribute('style','color:#AC3A3A');
+                stockDiv.setAttribute('style','color:#AC3A3A');
                 stockTXT = document.createTextNode('Indisponible');
             }
         }
@@ -171,20 +189,6 @@ function displayProduct(tbProduct){
         stockDiv.appendChild(stockTXT);
         stock.appendChild(stockDiv);
 
-        //NB
-        var nb = document.createElement('td');
-        var nbDiv = document.createElement('div');
-        nbDiv.id = 'nb-product'+tbProduct[i].productID;
-        var nbInput = document.createElement('input');
-        nbInput.type = 'number';
-        nbInput.min = 0;
-        nbInput.max = 20;
-        nbInput.value = 0;
-        nbInput.id = 'nb-product'+tbProduct[i].productID;
-        nbInput.setAttribute('oninput','updateNB('+tbProduct[i].productID+',this.value);');
-
-        nbDiv.appendChild(nbInput)
-        nb.appendChild(nbDiv);
 
         //TOTAL
         var total = document.createElement('td');
@@ -219,13 +223,13 @@ function updateNB(productID, value){
     if(parseInt(value) >= parseInt(oldValue)){
         console.log('ajout');
         amount = value - oldValue;
-        myProduct[productID].amount = value;
         total = parseFloat(total) + (parseFloat(amount) * parseFloat(price));
+        myProduct[productID].stock = parseInt(myProduct[productID].stock) - parseInt(amount);
     }else{
         console.log('soustrait');
         amount = oldValue - value;
-        myProduct[productID].amount = value;
         total = parseFloat(total) - (parseFloat(amount) * parseFloat(price));
+        myProduct[productID].stock = parseInt(myProduct[productID].stock) + parseInt(amount);
     }
 
     total = (Math.round(total*Math.pow(10,2))/Math.pow(10,2)).toFixed(2);
@@ -235,6 +239,22 @@ function updateNB(productID, value){
 
     var totalProduct = (parseFloat(value) * parseFloat(price)).toFixed(2);
     $('#total-product'+productID).text(totalProduct+' €');
+
+    var stock = document.getElementById('stock-product'+productID);
+    if(myProduct[productID].stock > 5){
+        stock.innerHTML = 'Disponible';
+        stock.setAttribute('style','color:#37643D');
+    }else{
+        if (myProduct[productID].stock >0){
+            stock.innerHTML = 'Bientôt en rupture de stock';
+            stock.setAttribute('style','color:#C9AE89');
+        }else{
+            stock.innerHTML = 'Indisponible';
+            stock.setAttribute('style','color:#AC3A3A');
+        }
+    }
+
+    myProduct[productID].amount = value;
 
 }
 
