@@ -807,7 +807,9 @@ io.sockets.on('connection', function(socket){
   });
 
 
-  socket.on('getPurchase', function(userID))
+  socket.on('getPurchase', function(userID){
+
+  });
   
   
   
