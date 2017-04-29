@@ -85,10 +85,10 @@ socket.on('updateCameraEnable', function(data){
     var camera = $('#camera'+data.cameraID);
     if(camera != 'undefined' && camera != null){
         console.log('camera update enable');
-        var config = $('#camera'+data.cameraID+'-config');
-        var timer = $('#camera'+data.cameraID+'-timer');
-        var live = $('#camera'+data.cameraID+'-liveBtn');
-        var detection = $('#camera'+data.cameraID+'-detection');
+        var config = document.getElementById('camera'+data.cameraID+'-config');
+        var timer = document.getElementById('camera'+data.cameraID+'-timer');
+        var live = document.getElementsByClassName('camera'+data.cameraID+'-liveBtn');
+        var detection = document.getElementById('camera'+data.cameraID+'-detection');
         if(data.enable){
             console.log('config.id: '+config.id);
             config.disabled = false;
@@ -106,7 +106,6 @@ socket.on('updateCameraEnable', function(data){
             camera.removeClass('cameraUP');
         }
     }
-    console.log('not concerned');
 });
 
 
