@@ -90,7 +90,7 @@ socket.on('updateCameraEnable', function(data){
         var live = document.getElementsByClassName('camera'+data.cameraID+'-liveBtn');
         var detection = document.getElementById('camera'+data.cameraID+'-detection');
         if(data.enable){
-            console.log('config.id: '+config.id);
+            console.log('live.id: '+live.id);
             config.disabled = false;
             timer.disabled = false;
             live.disabled = false;
@@ -98,6 +98,7 @@ socket.on('updateCameraEnable', function(data){
             camera.addClass('cameraUP');
             camera.removeClass('cameraDown');
         }else{
+            console.log('live.id: '+live.id);
             config.disabled = true;
             timer.disabled = true;
             live.disabled = true;
