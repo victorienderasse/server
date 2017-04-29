@@ -86,6 +86,7 @@ socket.on('updateCameraEnable', function(data){
     if(camera != 'undefined' && camera != null){
         var config = $('#camera'+data.cameraID+'-config');
         if(data.enable){
+            displayCameraState({cameraID:data.cameraID,state:0});
             config.disabled = false;
             camera.addClass('cameraUP');
             camera.removeClass('cameraDown');
@@ -272,46 +273,7 @@ socket.on('editReplayOK', function(data){
 
 
 socket.on('displayCameraState',function(data){
-    /*
-     -> get camera data.cameraID
-     -> getstate data.state
-     -> switch
-     */
-    var camera = document.getElementById('camera'+data.cameraID);
-    if(camera != 'undefined' && camera != null){
-        var timer = document.getElementById('camera'+data.cameraID+'-timer');
-        var live = document.getElementById('camera'+data.cameraID+'-liveBtn');
-        var detection = document.getElementById('camera'+data.cameraID+'-detection');
-
-        switch(data.state){
-            case 1:
-                live.disabled = true;
-                timer.disabled = true;
-                detection.disabled = false;
-                detection.firstElementChild.className = 'glyphicon glyphicon-stop';
-                break;
-            case 2:
-                timer.disabled = true;
-                detection.disabled = true;
-                live.disabled = true;
-                break;
-            case 3:
-                detection.disabled = true;
-                live.disabled = true;
-                timer.disabled = false;
-                break;
-            case 4:
-                timer.disabled = true;
-                detection.disabled = true;
-                live.disabled = true;
-                break;
-            default:
-                timer.disabled = false;
-                detection.disabled = false;
-                detection.firstElementChild.className = 'glyphicon glyphicon-facetime-video';
-                live.disabled = false;
-        }
-    }
+    displayCameraState({cameraID:data.cameraID, state:data.state});
 });
 
 
@@ -319,7 +281,7 @@ socket.on('setConfig', function(data){
     console.log('setConfig');
 
     var title = document.getElementById('config-title');
-    if(title.innerHTML == 'Settings - '+data.cameraName){
+    if(title.innerHTML == 'Configuration - '+data.cameraName){
 
         var resolution;
         switch(parseInt(data.width)){
@@ -1298,6 +1260,52 @@ function updateConfigValue(data){
         }
     }else{
         document.getElementById(data.input+'Value').innerHTML = data.value;
+    }
+}
+
+
+function displayCameraState(data){
+    console.log('displayCameraState function');
+
+    /*
+     -> get camera data.cameraID
+     -> getstate data.state
+     -> switch
+     */
+    var camera = document.getElementById('camera'+data.cameraID);
+    if(camera != 'undefined' && camera != null){
+        var timer = document.getElementById('camera'+data.cameraID+'-timer');
+        var live = document.getElementById('camera'+data.cameraID+'-liveBtn');
+        var detection = document.getElementById('camera'+data.cameraID+'-detection');
+
+        switch(data.state){
+            case 1:
+                live.disabled = true;
+                timer.disabled = true;
+                detection.disabled = false;
+                detection.firstElementChild.className = 'glyphicon glyphicon-stop';
+                break;
+            case 2:
+                timer.disabled = true;
+                detection.disabled = true;
+                live.disabled = true;
+                break;
+            case 3:
+                detection.disabled = true;
+                live.disabled = true;
+                timer.disabled = false;
+                break;
+            case 4:
+                timer.disabled = true;
+                detection.disabled = true;
+                live.disabled = true;
+                break;
+            default:
+                timer.disabled = false;
+                detection.disabled = false;
+                detection.firstElementChild.className = 'glyphicon glyphicon-facetime-video';
+                live.disabled = false;
+        }
     }
 }
 

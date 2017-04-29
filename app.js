@@ -677,14 +677,9 @@ io.sockets.on('connection', function(socket){
     console.log('startConfig event');
 
     getInfoCamera(cameraID, function(camera){
-      console.log('camera name = '+camera.name);
       sendToCamera(cameraID,'getConfig', {cameraID: cameraID, cameraName: camera.name});
     });
-    /*
-    getInfoCamera(cameraID, function(camera){
-      socket.emit('getConfig',camera);
-    });
-    */
+    
   });
 
 
