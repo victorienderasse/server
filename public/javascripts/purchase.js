@@ -214,7 +214,6 @@ function displayProduct(tbProduct){
 }
 
 
-
 function updateNB(productID, value){
     console.log('updateNB function');
     var price = myProduct[productID].price;
