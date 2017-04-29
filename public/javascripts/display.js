@@ -87,7 +87,7 @@ socket.on('updateCameraEnable', function(data){
         console.log('camera update enable');
         var config = document.getElementById('camera'+data.cameraID+'-config');
         var timer = document.getElementById('camera'+data.cameraID+'-timer');
-        var live = document.getElementsByClassName('camera'+data.cameraID+'-liveBtn');
+        var live = document.getElementsByClassName('camera3-liveBtn');
         var detection = document.getElementById('camera'+data.cameraID+'-detection');
         if(data.enable){
             console.log('live.id: '+live.id);
