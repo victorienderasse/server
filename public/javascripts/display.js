@@ -85,13 +85,21 @@ socket.on('updateCameraEnable', function(data){
     var camera = $('#camera'+data.cameraID);
     if(camera != 'undefined' && camera != null){
         var config = $('#camera'+data.cameraID+'-config');
+        var timer = $('#camera'+data.cameraID+'-timer');
+        var live = $('#camera'+data.cameraID+'-liveBtn');
+        var detection = $('#camera'+data.cameraID+'-detection');
         if(data.enable){
-            displayCameraState({cameraID:data.cameraID,state:0});
             config.disabled = false;
+            timer.disabled = false;
+            live.disabled = false;
+            detection.disabled = false;
             camera.addClass('cameraUP');
             camera.removeClass('cameraDown');
         }else{
             config.disabled = true;
+            timer.disabled = true;
+            live.disabled = true;
+            detection.disabled = true;
             camera.addClass('cameraDown');
             camera.removeClass('cameraUP');
         }
