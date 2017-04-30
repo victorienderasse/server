@@ -271,7 +271,7 @@ function displayOrder(){
     for(var i=1; i<myProduct.length;i++){
         if(myProduct[i].amount > 0){
 
-            tot = (tot + (parseFloat(myProduct[i].amount) * parseFloat(myProduct[i].price))).toFixed(2);
+            tot = (tot + (parseFloat(myProduct[i].amount) * parseFloat(myProduct[i].price)));
 
             //NAME
             var nameDiv = document.createElement('div');
