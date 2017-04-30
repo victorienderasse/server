@@ -300,6 +300,7 @@ function displayOrder(){
             //PURCHASE
             var purchase = document.createElement('div');
             purchase.className = 'row';
+            purchase.setAttribute('style','height:75px;');
 
             purchase.appendChild(nameDiv);
             purchase.appendChild(nbDiv);
@@ -314,7 +315,7 @@ function displayOrder(){
 
     var totalDiv = document.createElement('div');
     totalDiv.className = 'row col-lg-offset-8';
-    totalDiv.setAttribute('style','font-size:30px; font-weight:bolder;');
+    totalDiv.setAttribute('style','font-size:30px; font-weight:bolder; margin-bottom:20px;');
     var total = document.createTextNode('Total: '+tot.toFixed(2)+' €');
     totalDiv.appendChild(total);
 
