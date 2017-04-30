@@ -47,7 +47,12 @@
 
 <div class="container" id="product-list">
     <div class="row">
-        <h3>Total : <span id="total">0.0</span>€</h3>
+        <div>
+            <h3>Total : <span id="total">0.00</span> €</h3>
+        </div>
+        <div class="col-lg-offset-10 col-lg-2">
+            <button type="button" id="confirm-order" class="btn btn-success btn-lg">Continuer</button>
+        </div>
     </div>
     <div class="row">
         <table class="table" style="background-color: #fff;">
@@ -65,49 +70,16 @@
             <tbody id="table-product-list"></tbody>
         </table>
     </div>
-</div>
 
-<div class="container" id="purchase-select" style="display: none;">
-    <div class="row">
-        <div id="info" class="col-lg-5">
-            <img src="../images/zelda1.png" width="500px">
-            <div id="description" style="font-size: 20px">
-                <p>Caméra multi-fonction super trop bien, franchement moi j'hésiterai pas, elle va te changer la vie, les voleurs ils vont plus oser te voler ils vont se dirent wolala il a une trop belle caméra t'es ouf on cambriole pas ça tema l'engin !</p>
-            </div>
-        </div>
-        <div id="purchase" class="col-lg-offset-2 col-lg-5">
-            <div class="form-group row">
-                <div class="col-lg-6">
-                    <label for="nbCamera">Nombre de camera(s) : </label>
-                </div>
-                <div class="col-lg-6">
-                    <input type="number" oninput="updatePrice(this.value);" class="form-control" min="1" max="20" id="nbCamera" name="nbCamera" value="1">
-                </div>
-            </div>
-            <hr>
-            <div id="price" class="row">
-                <div class="col-lg-6">
-                    <span id="nbPrice">1 x 50€</span>
-                </div>
-                <div class="col-lg-6" style="font-size: 20px;;text-align:right;font-weight: bold;">
-                    <span id="sumPrice">50€</span>
-                </div>
-            </div>
-            <div class="row" style="text-align:right;margin:20px;">
-                <button type="button" id="confirm-select" class="btn btn-lg btn-success">Confirmer</button>
-            </div>
-        </div>
-    </div>
 </div>
 
 
-<div class="container" id="purchase-bill" style="display: none;">
+
+<div class="container" id="order-bill" style="display: none;">
     <div class="row">
         <div>
-            <h1>Payement</h1>
-            <div>
-                <p>Interface de paiement</p>
-            </div>
+            <h2>Votre commande</h2>
+            <div id="order"></div>
             <button id="confirm-bill">Confirmer</button>
             <button id="continue-bill">Payer plus tard</button>
         </div>
@@ -115,7 +87,8 @@
 </div>
 
 
-<div class="container" id="purchase-list" style="display: none;">
+
+<div class="container" id="order-list" style="display: none;">
     <div class="row">
         <h3>Mes commandes</h3>
         <hr>

@@ -5,6 +5,7 @@
 var userID = 1;
 var total = 0.0;
 var myProduct = [];
+var myCmd = []
 
 $(function(){
 
@@ -12,9 +13,10 @@ $(function(){
         redirectURL(serverURL+'/');
     });
 
-    $('#confirm-select').click(function(){
-        $('#purchase-select').slideToggle('slow');
-        $('#purchase-bill').slideToggle('slow');
+    $('#confirm-order').click(function(){
+        displayOrder();
+        $('#order-bill').slideToggle('slow');
+        $('#product-list').slideToggle('slow');
     });
     
     $('#continue-bill').click(function(){
@@ -105,7 +107,9 @@ function displayProduct(tbProduct){
         myProduct[tbProduct[i].productID] = {
             amount:0,
             price:tbProduct[i].price,
-            stock: tbProduct[i].stock
+            stock: tbProduct[i].stock,
+            name:tbProduct[i].name,
+            description:tbProduct[i].description
         };
 
         //PRODUCT
@@ -259,8 +263,55 @@ function updateNB(productID, value){
 }
 
 
-function updatePrice(value){
-    $('#nbPrice').text(value+' x 50€');
-    var price = value * 50;
-    $('#sumPrice').text(price+'€');
+function displayOrder(){
+
+    var order = document.getElementById('order');
+    var tot = 0.0;
+
+    for(var i=1; i<myProduct.length;i++){
+        if(myProduct[i].amount > 0){
+
+            tot = (tot + (parseFloat(myProduct[i].amount) * parseFloat(myProduct[i].price))).toFixed(2);
+
+            //NAME
+            var nameDiv = document.createElement('div');
+            nameDiv.className = 'col-lg-4';
+            var name = document.createTextNode(myProduct[i].name);
+
+            nameDiv.appendChild(name);
+
+            //NB
+            var nbDiv = document.createElement('div');
+            nbDiv.className = 'col-lg-4';
+            var nb = document.createTextNode(myProduct[i].amount+' x '+myProduct[i].price+' €');
+
+            nbDiv.appendChild(nb);
+
+            //TOTALPRODUCT
+            var totalProductDiv = document.createElement('div');
+            totalProductDiv.className = 'col-lg-4';
+            var totalProduct = document.createTextNode((parseFloat(myProduct[i].amount) * parseFloat(myProduct[i].price)).toFixed(2)+' €');
+
+            totalProductDiv.appendChild(totalProduct);
+
+            //PURCHASE
+            var purchase = document.createElement('div');
+            purchase.className = 'row';
+
+            purchase.appendChild(nameDiv);
+            purchase.appendChild(nbDiv);
+            purchase.appendChild(totalProductDiv);
+            
+            order.appendChild(purchase);
+
+        }
+    }
+
+    var totalDiv = document.createElement('div');
+    totalDiv.classList = 'row col-lg-offset-8';
+    var totalH1 = document.createTextNode('Total: '+tot+' €');
+    totalDiv.appendChild(total);
+
+    order.appendChild(totalDiv);
+
 }
