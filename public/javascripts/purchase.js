@@ -275,8 +275,8 @@ function displayOrder(){
 
             //NAME
             var nameDiv = document.createElement('div');
-            nameDiv.className = 'col-lg-4';
-            nameDiv.setAttribute('style','font-size:20px;');
+            nameDiv.className = 'col-lg-3 col-lg-offset-1';
+            nameDiv.setAttribute('style','font-size:20px;text-align:left;');
             var name = document.createTextNode(myProduct[i].name);
 
             nameDiv.appendChild(name);
