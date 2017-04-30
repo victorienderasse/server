@@ -276,6 +276,7 @@ function displayOrder(){
             //NAME
             var nameDiv = document.createElement('div');
             nameDiv.className = 'col-lg-4';
+            nameDiv.setAttribute('style','font-size:20px;');
             var name = document.createTextNode(myProduct[i].name);
 
             nameDiv.appendChild(name);
@@ -283,13 +284,15 @@ function displayOrder(){
             //NB
             var nbDiv = document.createElement('div');
             nbDiv.className = 'col-lg-4';
-            var nb = document.createTextNode(myProduct[i].amount+' x '+myProduct[i].price+' €');
+            nbDiv.setAttribute('style','font-size:15px; font-weight:lighter;');
+            var nb = document.createTextNode(myProduct[i].amount+' x '+myProduct[i].price.toFixed(2)+' €');
 
             nbDiv.appendChild(nb);
 
             //TOTALPRODUCT
             var totalProductDiv = document.createElement('div');
             totalProductDiv.className = 'col-lg-4';
+            totalProductDiv.setAttribute('style','font-size:20px; font-weight:bold;');
             var totalProduct = document.createTextNode((parseFloat(myProduct[i].amount) * parseFloat(myProduct[i].price)).toFixed(2)+' €');
 
             totalProductDiv.appendChild(totalProduct);
@@ -307,11 +310,15 @@ function displayOrder(){
         }
     }
 
+    var hr = document.createElement('hr');
+
     var totalDiv = document.createElement('div');
     totalDiv.className = 'row col-lg-offset-8';
-    var total = document.createTextNode('Total: '+tot+' €');
+    totalDiv.setAttribute('style','font-size:30px; font-weight:bolder;');
+    var total = document.createTextNode('Total: '+tot.toFixed(2)+' €');
     totalDiv.appendChild(total);
 
+    order.appendChild(hr);
     order.appendChild(totalDiv);
 
 }
