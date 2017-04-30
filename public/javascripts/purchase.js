@@ -301,15 +301,15 @@ function displayOrder(){
             purchase.appendChild(nameDiv);
             purchase.appendChild(nbDiv);
             purchase.appendChild(totalProductDiv);
-            
+
             order.appendChild(purchase);
 
         }
     }
 
     var totalDiv = document.createElement('div');
-    totalDiv.classList = 'row col-lg-offset-8';
-    var totalH1 = document.createTextNode('Total: '+tot+' €');
+    totalDiv.className = 'row col-lg-offset-8';
+    var total = document.createTextNode('Total: '+tot+' €');
     totalDiv.appendChild(total);
 
     order.appendChild(totalDiv);
