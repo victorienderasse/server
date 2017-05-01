@@ -803,7 +803,7 @@ io.sockets.on('connection', function(socket){
     const addOrder = 'INSERT INTO TFE.order SET userID = '+data.userID+', state = 0, date = NOW()';
     connection.query(addOrder, function(err){
       if(err)throw err;
-      const getOrderID = 'SELECT orderID FROM TFE.order WHERE userID = '+data.userID+' ORDER BY orderID LIMIT 1';
+      const getOrderID = 'SELECT orderID FROM TFE.order WHERE userID = '+data.userID+' ORDER BY orderID DESC LIMIT 1';
       connection.query(getOrderID, function(err,rows){
         if(err)throw err;
         var addPurchase;
