@@ -810,7 +810,7 @@ io.sockets.on('connection', function(socket){
   socket.on('addOrder', function(data){
     console.log('addOrder event');
     const addOrder = 'INSERT INTO order (userID, state, date) VALUES ('+data.userID+', 0, CURRENT_TIMESTAMP)';
-    connection(addOrder, function(err){
+    connection.query(addOrder, function(err){
       if(err)throw err;
       const getOrderID = 'SELECT orderID FROM order WHERE userID = '+data.userID+' ORDER BY orderID LIMIT 1';
       connection.query(getOrderID, function(err,rows){
