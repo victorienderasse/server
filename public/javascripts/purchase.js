@@ -404,6 +404,7 @@ function displayOrderList(tbOrder){
             }else{
                 state = document.createTextNode('Non payé');
                 var stateLink = document.createElement('a');
+                stateLink.setAttribute('onclick','payOrder('+tbOrder[i].orderID+');');
                 stateLink.appendChild(state);
                 stateDiv.appendChild(stateLink);
             }
@@ -478,16 +479,21 @@ function displayOrderList(tbOrder){
 
         }
 
-
     }
 }
 
 
-function displayOrderBody(orderID){
-    $('#body-orderList'+orderID).slideToggle('slow');
-    $('#btnIcon-orderList'+orderID).toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
+function displayOrderBody(id){
+    $('#body-orderList'+id).slideToggle('slow');
+    $('#btnIcon-orderList'+id).toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
 }
 
+
+function payOrder(id){
+    orderID = id;
+    $('#order-list').toggle('slow');
+    $('#buy-interface').toggle('slow');
+}
 
 
 
