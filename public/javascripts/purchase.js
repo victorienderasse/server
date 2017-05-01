@@ -323,8 +323,8 @@ function displayOrder(){
 
 function displayOrderList(tbOrder){
     var lastOrder = 0;
-    var totalOrder, body;
-    var priceProduct, nameProduct, totPr;
+    var totalOrder = 0.0;
+    var priceProduct, nameProduct, totPr,body;
     var orderList = document.getElementById('orderList');
 
     for(var i=0; i<tbOrder.length;i++){
@@ -425,7 +425,7 @@ function displayOrderList(tbOrder){
             var head = document.createElement('div');
             head.id = 'head-orderList'+tbOrder[i].orderID;
             head.className = 'row';
-            head.setAttribute('style','height:60px;');
+            head.setAttribute('style','height:60px; border-style:outset;');
 
             head.appendChild(idDiv);
             head.appendChild(totalOrderDiv);
@@ -444,7 +444,6 @@ function displayOrderList(tbOrder){
             var order = document.createElement('div');
             order.id = 'orderList'+tbOrder[i].orderID;
             order.className = 'row';
-            order.setAttribute('style','border-style:outset;');
 
             order.appendChild(head);
             order.appendChild(body);
@@ -454,7 +453,7 @@ function displayOrderList(tbOrder){
         }else{
 
             //TOTAL
-            totalOrder = (totalOrder + (parseFloat(priceProduct) * parseFloat(tbOrder[i].nbProduct))).toFixed(2);
+            totalOrder = (parseFloat(totalOrder) + (parseFloat(priceProduct) * parseFloat(tbOrder[i].nbProduct))).toFixed(2);
             document.getElementById('total-orderList'+tbOrder[i].orderID).innerHTML = totalOrder+' €';
 
             body = document.getElementById('body-orderList'+tbOrder[i].orderID);
