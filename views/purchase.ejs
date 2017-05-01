@@ -45,6 +45,7 @@
 </div>
 
 
+<%# -LA LISTE DES PRODUITS- %>
 <div class="container" id="product-list">
     <div class="row">
         <div>
@@ -74,14 +75,14 @@
 </div>
 
 
-
+<%# -RESUMER DE LA COMMANDE- %>
 <div class="container" id="order-bill" style="display: none;">
     <div class="row">
             <div class="row">
                 <div class="col-lg-6">
                     <h2 style="text-decoration:underline;">Votre commande</h2>
                 </div>
-                <div class="col-lg-offset-2">
+                <div class="col-lg-offset-2 col-lg-4">
                     <button id="confirm-bill" class="btn btn-lg btn-success">Confirmer</button>
                     <button id="continue-bill" class="btn btn-lg btn-primary">Continuer mes achats</button>
                 </div>
@@ -91,7 +92,7 @@
 </div>
 
 
-
+<%# -HISTORIQUE DES COIMMANDES- %>
 <div class="container" id="order-list" style="display: none;">
     <div class="row">
         <h3>Mes commandes</h3>
@@ -109,6 +110,17 @@
             </thead>
             <tbody id="table-purchase-list"></tbody>
         </table>
+    </div>
+</div>
+
+
+<%# -INTERFACE DE PAIEMENTS- %>
+<div class="container" id="buy-interface" style="display: none;">
+    <div class="row">
+        <h2>Paiement</h2>
+        <p>Interface de paiement</p>
+        <button id="buy-confirm">Confirmer</button>
+        <button id="buy-later">Annuler</button>
     </div>
 </div>
 

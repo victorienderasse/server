@@ -807,10 +807,37 @@ io.sockets.on('connection', function(socket){
   });
 
 
-  socket.on('getPurchase', function(userID){
-
+  socket.on('addOrder', function(data){
+    console.log('addOrder event');
+    const addOrder = 'INSERT INTO order SET userID = '+data.userID+', state = 0, date = NOW()';
+    connection(addOrder, function(err){
+      if(err)throw err;
+      const getOrderID = 'SELECT orderID FROM order WHERE userID = '+data.userID+' ORDER BY orderID LIMIT 1';
+      connection.query(getOrderID, function(err,rows){
+        if(err)throw err;
+        var addPurchase;
+        for(var i=0;i<data.order.length;i++){
+          if(data.order[i].amount > 0){
+            addPurchase = 'INSERT INTO purchase SET productID = '+data.order[i].productID+', orderID = '+rows[0].orderID+', nbProduct = '+data.order[i].amount;
+          }
+        }
+        socket.emit('addOrderRes',rows[0].orderID);
+      });
+    });
   });
-  
+
+
+  socket.on('orderPaid', function(orderID){
+    console.log('orderPaid event');
+    const setOrderstate = 'UPDATE order SET state = 1 WHERE orderID = 'orderID;
+    connection.query(setOrderstate, function(err){
+      if(err)throw err;
+      socket.emit('displayMessage',{title:'Bravo', message:'Merci pour votre achat !'});
+      setTimeout(function() {
+        socket.emit('redirect', serverURL + '/display');
+      },5000);
+    });
+  });
   
   
 //FUNCTIONS----------------------------------------------------------------------------------------------

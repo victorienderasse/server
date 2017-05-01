@@ -5,7 +5,7 @@
 var userID = 1;
 var total = 0.0;
 var myProduct = [];
-var myCmd = []
+var orderID;
 
 $(function(){
 
@@ -20,21 +20,35 @@ $(function(){
     });
     
     $('#continue-bill').click(function(){
-        socket.emit('purchaseConfirm',{userID:userID, nbCamera: $('#nbCamera').val(), state:0});
-        redirectURL(serverURL+'/display');
+        $('#order-bill').slideToggle('slow');
+        $('#product-list').slideToggle('slow');
+        var order = document.getElementById('order');
+        while(order.firstChild){
+            order.removeChild(order.firstChild);
+        }
     });
     
     $('#confirm-bill').click(function(){
-        var orderOK = true;
-        if(orderOK){
-            socket.emit('purchaseConfirm',{userID:userID, nbCamera: $('#nbCamera').val(), state:1});
-        }else{
-            displayMessage({title:'Alerte',message:'Erreur lors du paiement'});
-        }
+        
+        socket.emit('addOrder',{userID:userID, order:myProduct});
+        
     });
 
     $('#purchaseList-btn').click(function(){
         socket.emit('getPurchase',userID);
+    });
+
+    $('#buy-confirm').click(function(){
+        var buy = true;
+        if(buy){
+            socket.emit('orderPaid',orderID);
+        }else{
+            displayMessage({title:'Alerte', message:'Erreur paiement'});
+        }
+    });
+    
+    $('#buy-later').click(function(){
+        redirectURL(serverURL+'/display');
     });
 
 });
@@ -43,6 +57,14 @@ socket.emit('getProduct');
 
 socket.on('getProductRes', function(tbProduct){
     displayProduct(tbProduct);
+});
+
+
+socket.on('addOrderRes', function(id){
+    console.log('addOrderRes event');
+    orderID = id;
+    $('#order-bill').toggle('slow');
+    $('#buy-interface').toggle('slow');
 });
 
 
@@ -109,7 +131,7 @@ function displayProduct(tbProduct){
             price:tbProduct[i].price,
             stock: tbProduct[i].stock,
             name:tbProduct[i].name,
-            description:tbProduct[i].description
+            productID:tbProduct[i].productID
         };
 
         //PRODUCT
@@ -220,20 +242,25 @@ function displayProduct(tbProduct){
 
 function updateNB(productID, value){
     console.log('updateNB function');
-    var price = myProduct[productID].price;
-    var oldValue = myProduct[productID].amount;
-    var amount;
+    for(var i=0;i<myProduct.length;i++){
+        if(myProduct[i].productID == productID){
+            ind = i;
+        }
+    }
+    var price = myProduct[ind].price;
+    var oldValue = myProduct[ind].amount;
+    var amount,ind;
     console.log('oldValue: '+oldValue+' et value: '+value);
     if(parseInt(value) >= parseInt(oldValue)){
         console.log('ajout');
         amount = value - oldValue;
         total = parseFloat(total) + (parseFloat(amount) * parseFloat(price));
-        myProduct[productID].stock = parseInt(myProduct[productID].stock) - parseInt(amount);
+        myProduct[ind].stock = parseInt(myProduct[ind].stock) - parseInt(amount);
     }else{
         console.log('soustrait');
         amount = oldValue - value;
         total = parseFloat(total) - (parseFloat(amount) * parseFloat(price));
-        myProduct[productID].stock = parseInt(myProduct[productID].stock) + parseInt(amount);
+        myProduct[ind].stock = parseInt(myProduct[ind].stock) + parseInt(amount);
     }
 
     total = (Math.round(total*Math.pow(10,2))/Math.pow(10,2)).toFixed(2);
@@ -245,11 +272,11 @@ function updateNB(productID, value){
     $('#total-product'+productID).text(totalProduct+' €');
 
     var stock = document.getElementById('stock-product'+productID);
-    if(myProduct[productID].stock > 5){
+    if(myProduct[ind].stock > 5){
         stock.innerHTML = 'Disponible';
         stock.setAttribute('style','color:#37643D');
     }else{
-        if (myProduct[productID].stock >0){
+        if (myProduct[ind].stock >0){
             stock.innerHTML = 'Bientôt en rupture de stock';
             stock.setAttribute('style','color:#C9AE89');
         }else{
@@ -258,7 +285,7 @@ function updateNB(productID, value){
         }
     }
 
-    myProduct[productID].amount = value;
+    myProduct[ind].amount = value;
 
 }
 
@@ -268,7 +295,7 @@ function displayOrder(){
     var order = document.getElementById('order');
     var tot = 0.0;
 
-    for(var i=1; i<myProduct.length;i++){
+    for(var i=0; i<myProduct.length;i++){
         if(myProduct[i].amount > 0){
 
             tot = (tot + (parseFloat(myProduct[i].amount) * parseFloat(myProduct[i].price)));

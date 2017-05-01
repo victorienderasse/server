@@ -9,6 +9,10 @@ $(function(){
     $('#message').hide();
 });
 
+socket.on('displayMessage', function(data){
+   displayMessage(data); 
+});
+
 function redirectURL(url){
     console.log('redirectURL function');
     window.location = url;
