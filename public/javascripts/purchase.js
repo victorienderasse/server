@@ -37,6 +37,8 @@ $(function(){
 
     $('#orderList-btn').click(function(){
         socket.emit('getOrder',userID);
+        $('#product-list').toggle('slow');
+        $('#order-list').toggle('slow');
     });
 
     $('#buy-confirm').click(function(){
