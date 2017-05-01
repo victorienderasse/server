@@ -6,6 +6,7 @@ var userID = 1;
 var total = 0.0;
 var myProduct = [];
 var orderID;
+var orderList;
 
 $(function(){
 
@@ -55,6 +56,7 @@ $(function(){
 
 socket.emit('getProduct');
 
+
 socket.on('getProductRes', function(tbProduct){
     displayProduct(tbProduct);
 });
@@ -70,58 +72,16 @@ socket.on('addOrderRes', function(id){
 
 socket.on('getOrderRes', function(tbOrder){
     console.log('getOrderRes event');
-    console.log('orderID: '+tbOrder[0].orderID+' et nbProduct: '+tbOrder[0].nbProduct);
-});
-
-
-socket.on('getPurchaseRes', function(tbPurchase){
-    console.log('getPurchaseRes event');
-    var purchaseList = $('#table-purchase-list');
-    for(var i=0;i<tbPurchase.length;i++){
-
-        //PURCHASE
-        var purchase = document.createElement('tr');
-        purchase.id = 'purchase'+tbPurchase[i].purchaseID;
-        purchase.className = 'purchase';
-
-        //PRODUCT
-        var product = document.createElement('td');
-
-        //AMOUNT
-        var amount = document.createElement('td');
-
-        //UNIT PRICE
-        var unitPrice = document.createElement('td');
-
-        //TOTAL
-        var total = document.createElement('td');
-
-        //STATE
-        var state = document.createElement('td');
-
-        //DATE
-        var date = document.createElement('td');
-
-        //BTN
-        var btn = document.createElement('td');
-        if(tbPurchase[i].state == 0){
-            var removeBtn = document.createElement('button');
-            var editBtn = document.createElement('button');
-        }
-
-
-
-
-        purchase.appendChild(product);
-        purchase.appendChild(amount);
-        purchase.appendChild(unitPrice);
-        purchase.appendChild(total);
-        purchase.appendChild(state);
-        purchase.appendChild(date);
-        purchase.appendChild(btn);
-
+    if(rows.length>0){
+        displayOrderList(tbOrder);
+    }else{
+        displayMessage({title:'Info', message:'Vous n\'avez encore passé aucune commande'});
     }
+
 });
+
+
+
 
 
 function displayProduct(tbProduct){
@@ -226,6 +186,7 @@ function displayProduct(tbProduct){
         var total = document.createElement('td');
         var totalDiv = document.createElement('div');
         totalDiv.id = 'total-product'+tbProduct[i].productID;
+        totalDiv.setAttribute('style','width:80px;');
         var totalTXT = document.createTextNode('0.00 €');
 
         totalDiv.appendChild(totalTXT);
@@ -298,7 +259,7 @@ function updateNB(productID, value){
 
 function displayOrder(){
 
-    var order = document.getElementById('order');
+    var order = document.getElementById('orderReview');
     var tot = 0.0;
 
     for(var i=0; i<myProduct.length;i++){
@@ -356,3 +317,139 @@ function displayOrder(){
     order.appendChild(totalDiv);
 
 }
+
+
+function displayOrderList(tbOrder){
+    var lastOrder = 0;
+    var totalOrder, body;
+    var priceProduct, nameProduct, totPr;
+    var orderList = document.getElementById('orderList');
+
+    for(var i=0; i<tbOrder.length;i++){
+
+        for(var j=0;j<myProduct.length;j++){
+            if(myProduct[j].productID == tbOrder[i].productID){
+                priceProduct = myProduct[j].price;
+                nameProduct = myProduct[j].name;
+            }
+        }
+
+        //PRODUIT
+        var productDiv = document.createElement('div');
+        var product = document.createTextNode(nameProduct);
+
+        productDiv.appendChild(product);
+
+        //NB x PRICE
+        var nbDiv = document.createElement('div');
+        var nb = document.createTextNode(tbOrder[i].nbProduct+' x '+priceProduct+' €');
+
+        nbDiv.appendChild(nb);
+
+        //TOAL PRODUCT
+        var totalProductDiv = document.createElement('div');
+        totPr = (parseFloat(priceProduct) * parseFloat(tbOrder[i].nbProduct)).toFixed(2);
+        var totalProduct = document.createTextNode(totPr+' €');
+
+        totalProductDiv.appendChild(totalProduct);
+
+        //PURCHASE
+        var purchase = document.createElement('div');
+
+        purchase.appendChild(productDiv);
+        purchase.appendChild(nbDiv);
+        purchase.appendChild(totalProductDiv);
+
+
+        if(tbOrder[i].orderID != lastOrder){
+            //new Order
+            lastOrder = tbOrder[i].orderID;
+
+            //ORDER ID
+            var idDiv = document.createElement('div');
+            var id = document.createTextNode(tbOrder[i].orderID+'. ');
+
+            idDiv.appendChild(id);
+
+            //TOTAL ORDER
+            var totalOrderDiv = document.createElement('div');
+            totalOrderDiv.id = 'total-orderList'+tbOrder[i].orderID;
+            totalOrder = 0.00;
+            var totalOrderTXT = document.createTextNode(totalOrder+' €');
+
+            totalOrderDiv.appendChild(totalOrderTXT);
+
+            //STATE
+            var stateDiv = document.createElement('div');
+            var statelink = document.createTextNode('a');
+            var state;
+            if(tbOrder[i].state == 1){
+                state = document.createTextNode('Payé');
+            }else{
+                state = document.createTextNode('Non payé');
+            }
+
+            statelink.appendChild(state);
+            stateDiv.appendChild(statelink);
+
+            //DATE
+            var dateDiv = document.createElement('div');
+            var date = document.createTextNode(tbOrder[i].date);
+
+            dateDiv.appendChild(date);
+
+            //BTN
+            var btnDiv = document.createElement('div');
+            var btn = document.createElement('button');
+            var btnIcon = document.createElement('span');
+            btnIcon.className = 'glyphicon glyphicon-chevron-down';
+
+            btn.appendChild(btnIcon);
+            btnDiv.appendChild(btn);
+
+            //ORDER HEAD
+            var head = document.createElement('div');
+            head.id = 'head-orderList'+tbOrder[i].orderID;
+
+            head.appendChild(idDiv);
+            head.appendChild(totalOrderDiv);
+            head.appendChild(stateDiv);
+            head.appendChild(dateDiv);
+            head.appendChild(btnDiv);
+
+            //BODY LIST
+            body = document.createElement('div');
+            body.id = 'body-orderList'+tbOrder[i].orderID;
+
+            body.appendChild(purchase);
+
+            //ORDER
+            var order = document.createElement('div');
+            order.id = 'orderList'+tbOrder[i].orderID;
+
+            order.appendChild(head);
+            order.appendChild(body);
+
+            orderList.appendChild(order);
+
+        }else{
+
+            //TOTAL
+            totalOrder = (totalOrder + (parseFloat(priceProduct) * parseFloat(tbOrder[i].nbProduct))).toFixed(2);
+            document.getElementById('total-orderList'+tbOrder[i].orderID).innerHTML = totalOrder+' €';
+
+            body = document.getElementById('body-orderList'+tbOrder[i].orderID);
+            body.appendChild(purchase);
+
+        }
+
+
+    }
+}
+
+
+
+
+
+
+
