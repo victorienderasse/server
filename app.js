@@ -817,8 +817,13 @@ io.sockets.on('connection', function(socket){
         if(err)throw err;
         var addPurchase;
         for(var i=0;i<data.order.length;i++){
+          console.log('purchase loop');
           if(data.order[i].amount > 0){
+            console.log('addPurchase');
             addPurchase = 'INSERT INTO purchase SET productID = '+data.order[i].productID+', orderID = '+rows[0].orderID+', nbProduct = '+data.order[i].amount;
+            connection.query(addPurchase, function(err){
+              if(err)throw err;
+            });
           }
         }
         socket.emit('addOrderRes',rows[0].orderID);
