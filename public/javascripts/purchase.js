@@ -383,7 +383,7 @@ function displayOrderList(tbOrder){
 
             //STATE
             var stateDiv = document.createElement('div');
-            var statelink = document.createTextNode('a');
+            var stateLink = document.createTextNode('a');
             var state;
             if(tbOrder[i].state == 1){
                 state = document.createTextNode('Payé');
@@ -391,8 +391,8 @@ function displayOrderList(tbOrder){
                 state = document.createTextNode('Non payé');
             }
 
-            statelink.appendChild(state);
-            stateDiv.appendChild(statelink);
+            stateLink.appendChild(state);
+            stateDiv.appendChild(stateLink);
 
             //DATE
             var dateDiv = document.createElement('div');
