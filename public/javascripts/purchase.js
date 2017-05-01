@@ -431,6 +431,7 @@ function displayOrderList(tbOrder){
             btn.setAttribute('style','border:0px; background-color:#fff;');
             btn.setAttribute('onclick','displayOrderBody('+tbOrder[i].orderID+');');
             var btnIcon = document.createElement('span');
+            btnIcon.id = 'btnIcon-orderList'+tbOrder[i].orderID;
             btnIcon.className = 'glyphicon glyphicon-chevron-down';
 
             btn.appendChild(btnIcon);
@@ -483,7 +484,8 @@ function displayOrderList(tbOrder){
 
 
 function displayOrderBody(orderID){
-    $('#body-orderList'+orderID).toggle('slow');
+    $('#body-orderList'+orderID).slideToggle('slow');
+    $('#btnIcon-orderList'+orderID).toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
 }
 
 
