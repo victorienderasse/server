@@ -834,7 +834,7 @@ io.sockets.on('connection', function(socket){
 
   socket.on('orderPaid', function(orderID){
     console.log('orderPaid event');
-    const setOrderstate = 'UPDATE order SET state = 1 WHERE orderID = '+orderID;
+    const setOrderstate = 'UPDATE TFE.order SET state = 1 WHERE orderID = '+orderID;
     connection.query(setOrderstate, function(err){
       if(err)throw err;
       socket.emit('displayMessage',{title:'Bravo', message:'Merci pour votre achat !'});
