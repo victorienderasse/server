@@ -378,7 +378,7 @@ function displayOrderList(tbOrder){
             //ORDER ID
             var idDiv = document.createElement('div');
             idDiv.className = 'col-lg-2';
-            idDiv.setAttribute('style','font-size:15px;');
+            idDiv.setAttribute('style','font-size:20px;');
             var id = document.createTextNode(tbOrder[i].orderID+'. ');
 
             idDiv.appendChild(id);
@@ -432,7 +432,7 @@ function displayOrderList(tbOrder){
             //ORDER HEAD
             var head = document.createElement('div');
             head.id = 'head-orderList'+tbOrder[i].orderID;
-            head.className = 'row';
+            head.className = 'row orderList';
             head.setAttribute('style','height:60px; border-style:outset;');
 
             head.appendChild(idDiv);
@@ -444,7 +444,7 @@ function displayOrderList(tbOrder){
             //BODY LIST
             body = document.createElement('div');
             body.id = 'body-orderList'+tbOrder[i].orderID;
-            body.className = 'row';
+            body.className = 'row orderList';
 
             body.appendChild(purchase);
 
