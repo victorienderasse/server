@@ -74,7 +74,7 @@ socket.on('addOrderRes', function(id){
 
 socket.on('getOrderRes', function(tbOrder){
     console.log('getOrderRes event');
-    if(rows.length>0){
+    if(tbOrder.length>0){
         displayOrderList(tbOrder);
     }else{
         displayMessage({title:'Info', message:'Vous n\'avez encore passé aucune commande'});
