@@ -413,9 +413,13 @@ function displayOrderList(tbOrder){
 
             var myDate = tbOrder[i].date;
             var year = myDate.slice(0,4);
-            var month = myDate.slice(5,6);
-            var day = myDate.slice(8,9);
-            var time = myDate.slice(11,15);
+            console.log('year: '+year);
+            var month = myDate.slice(5,7);
+            console.log('month: '+month);
+            var day = myDate.slice(8,10);
+            console.log('day: '+day);
+            var time = myDate.slice(11,16);
+            console.log('time: '+time);
             console.log('date: Le '+day+'/'+month+'/'+year+' à '+time);
 
             var dateDiv = document.createElement('div');
