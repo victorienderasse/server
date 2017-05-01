@@ -838,7 +838,7 @@ io.sockets.on('connection', function(socket){
 
   socket.on('getOrder', function(userID){
     console.log('getOrder event');
-    const getOrder = 'SELECT * FROM TFE.order INNER JOIN TFE.purchase ON TFE.order.orderID = TFE.purchase.orderID WHERE userID = 'userID;
+    const getOrder = 'SELECT * FROM TFE.order INNER JOIN TFE.purchase ON TFE.order.orderID = TFE.purchase.orderID WHERE userID = '+userID;
     connection.query(getOrder, function(err, rows){
       if(err)throw err;
       socket.emit('getOrderRes', rows);
