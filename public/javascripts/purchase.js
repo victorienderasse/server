@@ -375,6 +375,7 @@ function displayOrderList(tbOrder){
 
             //ORDER ID
             var idDiv = document.createElement('div');
+            idDiv.className = 'col-lg-2';
             var id = document.createTextNode(tbOrder[i].orderID+'. ');
 
             idDiv.appendChild(id);
@@ -382,6 +383,7 @@ function displayOrderList(tbOrder){
             //TOTAL ORDER
             var totalOrderDiv = document.createElement('div');
             totalOrderDiv.id = 'total-orderList'+tbOrder[i].orderID;
+            totalOrderDiv.className = 'col-lg-3';
             totalOrder = (parseFloat(priceProduct) * parseFloat(tbOrder[i].nbProduct)).toFixed(2);
             var totalOrderTXT = document.createTextNode(totalOrder+' €');
 
@@ -389,6 +391,7 @@ function displayOrderList(tbOrder){
 
             //STATE
             var stateDiv = document.createElement('div');
+            stateDiv.className = 'col-lg-2';
             var state;
             if(tbOrder[i].state == 1){
                 state = document.createTextNode('Payé');
@@ -403,12 +406,14 @@ function displayOrderList(tbOrder){
 
             //DATE
             var dateDiv = document.createElement('div');
+            dateDiv.className = 'col-lg-3';
             var date = document.createTextNode(tbOrder[i].date);
 
             dateDiv.appendChild(date);
 
             //BTN
             var btnDiv = document.createElement('div');
+            btnDiv.className = 'col-lg-2';
             var btn = document.createElement('button');
             var btnIcon = document.createElement('span');
             btnIcon.className = 'glyphicon glyphicon-chevron-down';
