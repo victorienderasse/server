@@ -126,7 +126,7 @@ function displayProduct(tbProduct){
     for(var i=0;i<tbProduct.length;i++){
 
         //MY PRODUCT
-        myProduct[tbProduct[i].productID] = {
+        myProduct[i] = {
             amount:0,
             price:tbProduct[i].price,
             stock: tbProduct[i].stock,
