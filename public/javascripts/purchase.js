@@ -339,7 +339,7 @@ function displayOrderList(tbOrder){
         //PRODUIT
         var productDiv = document.createElement('div');
         productDiv.className = 'col-lg-offset-1 col-lg-4';
-        productDiv.setAttribute('style','text-align:left; font-weight:bold; font-size:20px');
+        productDiv.setAttribute('style','text-align:left; font-size:20px');
         var product = document.createTextNode(nameProduct);
 
         productDiv.appendChild(product);
@@ -347,6 +347,7 @@ function displayOrderList(tbOrder){
         //NB x PRICE
         var nbDiv = document.createElement('div');
         nbDiv.className = 'col-lg-4';
+        nbDiv.setAttribute('style','font-size:15px;');
         var nb = document.createTextNode(tbOrder[i].nbProduct+' x '+priceProduct+' €');
 
         nbDiv.appendChild(nb);
@@ -354,6 +355,7 @@ function displayOrderList(tbOrder){
         //TOAL PRODUCT
         var totalProductDiv = document.createElement('div');
         totalProductDiv.className = 'col-lg-3';
+        totalProductDiv.setAttribute('style','font-weight:bold; font-size:25px;');
         totPr = (parseFloat(priceProduct) * parseFloat(tbOrder[i].nbProduct)).toFixed(2);
         var totalProduct = document.createTextNode(totPr+' €');
 
@@ -376,6 +378,7 @@ function displayOrderList(tbOrder){
             //ORDER ID
             var idDiv = document.createElement('div');
             idDiv.className = 'col-lg-2';
+            idDiv.setAttribute('style','font-size:15px;');
             var id = document.createTextNode(tbOrder[i].orderID+'. ');
 
             idDiv.appendChild(id);
@@ -384,6 +387,7 @@ function displayOrderList(tbOrder){
             var totalOrderDiv = document.createElement('div');
             totalOrderDiv.id = 'total-orderList'+tbOrder[i].orderID;
             totalOrderDiv.className = 'col-lg-3';
+            totalOrderDiv.setAttribute('style','font-weight:bolder; font-size:30px;');
             totalOrder = (parseFloat(priceProduct) * parseFloat(tbOrder[i].nbProduct)).toFixed(2);
             var totalOrderTXT = document.createTextNode(totalOrder+' €');
 
@@ -392,6 +396,7 @@ function displayOrderList(tbOrder){
             //STATE
             var stateDiv = document.createElement('div');
             stateDiv.className = 'col-lg-2';
+            stateDiv.setAttribute('style','font-size:20px;');
             var state;
             if(tbOrder[i].state == 1){
                 state = document.createTextNode('Payé');
@@ -407,6 +412,7 @@ function displayOrderList(tbOrder){
             //DATE
             var dateDiv = document.createElement('div');
             dateDiv.className = 'col-lg-3';
+            dateDiv.setAttribute('style','font-style:italic; font-size:15px;font-weight:lighter;');
             var date = document.createTextNode(tbOrder[i].date);
 
             dateDiv.appendChild(date);
@@ -415,6 +421,8 @@ function displayOrderList(tbOrder){
             var btnDiv = document.createElement('div');
             btnDiv.className = 'col-lg-2';
             var btn = document.createElement('button');
+            btn.className = 'btn btn-lg';
+            btn.setAttribute('style','border:0px; background-color:#fff;');
             var btnIcon = document.createElement('span');
             btnIcon.className = 'glyphicon glyphicon-chevron-down';
 
