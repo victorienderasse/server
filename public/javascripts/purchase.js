@@ -338,18 +338,22 @@ function displayOrderList(tbOrder){
 
         //PRODUIT
         var productDiv = document.createElement('div');
+        productDiv.className = 'col-lg-offset-1 col-lg-4';
+        productDiv.setAttribute('style','text-align:left; font-weight:bold; font-size:20px');
         var product = document.createTextNode(nameProduct);
 
         productDiv.appendChild(product);
 
         //NB x PRICE
         var nbDiv = document.createElement('div');
+        nbDiv.className = 'col-lg-4';
         var nb = document.createTextNode(tbOrder[i].nbProduct+' x '+priceProduct+' €');
 
         nbDiv.appendChild(nb);
 
         //TOAL PRODUCT
         var totalProductDiv = document.createElement('div');
+        totalProductDiv.className = 'col-lg-3';
         totPr = (parseFloat(priceProduct) * parseFloat(tbOrder[i].nbProduct)).toFixed(2);
         var totalProduct = document.createTextNode(totPr+' €');
 
@@ -357,6 +361,8 @@ function displayOrderList(tbOrder){
 
         //PURCHASE
         var purchase = document.createElement('div');
+        purchase.className = 'row';
+        purchase.setAttribute('style','height:50px;');
 
         purchase.appendChild(productDiv);
         purchase.appendChild(nbDiv);
@@ -376,23 +382,24 @@ function displayOrderList(tbOrder){
             //TOTAL ORDER
             var totalOrderDiv = document.createElement('div');
             totalOrderDiv.id = 'total-orderList'+tbOrder[i].orderID;
-            totalOrder = 0.00;
+            totalOrder = (parseFloat(priceProduct) * parseFloat(tbOrder[i].nbProduct)).toFixed(2);
             var totalOrderTXT = document.createTextNode(totalOrder+' €');
 
             totalOrderDiv.appendChild(totalOrderTXT);
 
             //STATE
             var stateDiv = document.createElement('div');
-            var stateLink = document.createElement('a');
             var state;
             if(tbOrder[i].state == 1){
                 state = document.createTextNode('Payé');
+                stateDiv.appendChild(state);
             }else{
                 state = document.createTextNode('Non payé');
+                var stateLink = document.createElement('a');
+                stateLink.appendChild(state);
+                stateDiv.appendChild(stateLink);
             }
 
-            stateLink.appendChild(state);
-            stateDiv.appendChild(stateLink);
 
             //DATE
             var dateDiv = document.createElement('div');
@@ -412,6 +419,8 @@ function displayOrderList(tbOrder){
             //ORDER HEAD
             var head = document.createElement('div');
             head.id = 'head-orderList'+tbOrder[i].orderID;
+            head.className = 'row';
+            head.setAttribute('style','height:60px;');
 
             head.appendChild(idDiv);
             head.appendChild(totalOrderDiv);
@@ -422,12 +431,15 @@ function displayOrderList(tbOrder){
             //BODY LIST
             body = document.createElement('div');
             body.id = 'body-orderList'+tbOrder[i].orderID;
+            body.className = 'row';
 
             body.appendChild(purchase);
 
             //ORDER
             var order = document.createElement('div');
             order.id = 'orderList'+tbOrder[i].orderID;
+            order.className = 'row';
+            order.setAttribute('style','border-style:outset;');
 
             order.appendChild(head);
             order.appendChild(body);
