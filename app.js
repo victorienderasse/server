@@ -809,7 +809,7 @@ io.sockets.on('connection', function(socket){
 
   socket.on('addOrder', function(data){
     console.log('addOrder event');
-    const addOrder = 'INSERT INTO order SET userID = '+data.userID+', state = 0, date = NOW()';
+    const addOrder = 'INSERT INTO order (userID, state, date) VALUES ('+data.userID+', 0, CURRENT_TIMESTAMP)';
     connection(addOrder, function(err){
       if(err)throw err;
       const getOrderID = 'SELECT orderID FROM order WHERE userID = '+data.userID+' ORDER BY orderID LIMIT 1';
