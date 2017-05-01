@@ -34,8 +34,8 @@ $(function(){
         
     });
 
-    $('#purchaseList-btn').click(function(){
-        socket.emit('getPurchase',userID);
+    $('#orderList-btn').click(function(){
+        socket.emit('getOrder',userID);
     });
 
     $('#buy-confirm').click(function(){
@@ -65,6 +65,12 @@ socket.on('addOrderRes', function(id){
     orderID = id;
     $('#order-bill').toggle('slow');
     $('#buy-interface').toggle('slow');
+});
+
+
+socket.on('getOrderRes', function(tbOrder){
+    console.log('getOrderRes event');
+    console.log('orderID: '+tbOrder[0].orderID+' et nbProduct: '+tbOrder[0].nbProduct);
 });
 
 

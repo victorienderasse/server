@@ -798,15 +798,6 @@ io.sockets.on('connection', function(socket){
   });
 
 
-  socket.on('purchaseConfirm', function(data){
-    console.log('purchage confirm');
-    const newPurchase = 'INSERT INTO purchase SET userID = '+data.userID+', nbCamera = '+data.nbCamera+', state = '+data.state+', date = NOW()';
-    connection.query(newPurchase, function(err){
-      if(err)throw err;
-    });
-  });
-
-
   socket.on('addOrder', function(data){
     console.log('addOrder event');
     const addOrder = 'INSERT INTO TFE.order SET userID = '+data.userID+', state = 0, date = NOW()';
@@ -841,6 +832,16 @@ io.sockets.on('connection', function(socket){
       setTimeout(function() {
         socket.emit('redirect', serverURL + '/display');
       },5000);
+    });
+  });
+
+
+  socket.on('getOrder', function(userID){
+    console.log('getOrder event');
+    const getOrder = 'SELECT * FROM TFE.order INNER JOIN TFE.purchase ON TFE.order.orderID = TFE.purchase.orderID WHERE userID = 'userID;
+    connection.query(getOrder, function(err, rows){
+      if(err)throw err;
+      socket.emit('getOrderRes', rows);
     });
   });
   
