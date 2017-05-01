@@ -410,22 +410,16 @@ function displayOrderList(tbOrder){
 
 
             //DATE
-
             var myDate = tbOrder[i].date;
             var year = myDate.slice(0,4);
-            console.log('year: '+year);
             var month = myDate.slice(5,7);
-            console.log('month: '+month);
             var day = myDate.slice(8,10);
-            console.log('day: '+day);
             var time = myDate.slice(11,16);
-            console.log('time: '+time);
-            console.log('date: Le '+day+'/'+month+'/'+year+' à '+time);
 
             var dateDiv = document.createElement('div');
             dateDiv.className = 'col-lg-3';
             dateDiv.setAttribute('style','font-style:italic; font-size:15px;font-weight:lighter;');
-            var date = document.createTextNode(tbOrder[i].date);
+            var date = document.createTextNode('Le '+day+'/'+month+'/'+year+' à '+time);
 
             dateDiv.appendChild(date);
 
@@ -435,6 +429,7 @@ function displayOrderList(tbOrder){
             var btn = document.createElement('button');
             btn.className = 'btn btn-lg';
             btn.setAttribute('style','border:0px; background-color:#fff;');
+            btn.setAttribute('onclick','displayOrderBody('+tbOrder[i].orderID+');');
             var btnIcon = document.createElement('span');
             btnIcon.className = 'glyphicon glyphicon-chevron-down';
 
@@ -457,6 +452,7 @@ function displayOrderList(tbOrder){
             body = document.createElement('div');
             body.id = 'body-orderList'+tbOrder[i].orderID;
             body.className = 'row orderList';
+            body.setAttribute('style','display: none;');
 
             body.appendChild(purchase);
 
@@ -483,6 +479,11 @@ function displayOrderList(tbOrder){
 
 
     }
+}
+
+
+function displayOrderBody(orderID){
+    $('#body-orderList'+orderID).toggle('slow');
 }
 
 
