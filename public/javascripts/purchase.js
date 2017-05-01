@@ -355,7 +355,7 @@ function displayOrderList(tbOrder){
         //TOAL PRODUCT
         var totalProductDiv = document.createElement('div');
         totalProductDiv.className = 'col-lg-3';
-        totalProductDiv.setAttribute('style','font-weight:bold; font-size:25px;');
+        totalProductDiv.setAttribute('style','font-weight:bold; font-size:20px;');
         totPr = (parseFloat(priceProduct) * parseFloat(tbOrder[i].nbProduct)).toFixed(2);
         var totalProduct = document.createTextNode(totPr+' €');
 
@@ -387,7 +387,7 @@ function displayOrderList(tbOrder){
             var totalOrderDiv = document.createElement('div');
             totalOrderDiv.id = 'total-orderList'+tbOrder[i].orderID;
             totalOrderDiv.className = 'col-lg-3';
-            totalOrderDiv.setAttribute('style','font-weight:bolder; font-size:30px;');
+            totalOrderDiv.setAttribute('style','font-weight:bolder; font-size:25px;');
             totalOrder = (parseFloat(priceProduct) * parseFloat(tbOrder[i].nbProduct)).toFixed(2);
             var totalOrderTXT = document.createTextNode(totalOrder+' €');
 
@@ -410,6 +410,14 @@ function displayOrderList(tbOrder){
 
 
             //DATE
+
+            var myDate = tbOrder[i].date;
+            var year = myDate.slice(0,4);
+            var month = myDate.slice(5,6);
+            var day = myDate.slice(8,9);
+            var time = myDate.slice(11,15);
+            console.log('date: Le '+day+'/'+month+'/'+year+' à '+time);
+
             var dateDiv = document.createElement('div');
             dateDiv.className = 'col-lg-3';
             dateDiv.setAttribute('style','font-style:italic; font-size:15px;font-weight:lighter;');
