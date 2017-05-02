@@ -57,15 +57,16 @@ $(function(){
     });
 
     $('#magasinBtn, #cmd').click(function(){
+        if($('#cmd').hasClass('purchaseBtnSelected')){
+            console.log('getOrder');
+            socket.emit('getOrder',userID);
+        }else{
+            console.log('nop bitch');
+        }
         $('#magasin').toggle();
         $('#order-list').toggle();
         $('#magasinBtn, #cmd').toggleClass('purchaseBtnSelected purchaseBtn', function(){
-            if($('#cmd').hasClass('purchaseBtnSelected')){
-                console.log('getOrder');
-                socket.emit('getOrder',userID);
-            }else{
-                console.log('nop bitch');
-            }
+
         });
     });
 
