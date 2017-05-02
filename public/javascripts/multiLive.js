@@ -23,7 +23,7 @@ socket.on('getCameraUPRes', function(tbCamera){
     console.log('sendCamera event');
     if(tbCamera.length>0){
         displayCamera(tbCamera);
-        startStream(tbCamera);
+        //startStream(tbCamera);
     }else{
         displayMessage({title:'Alerte', message:'Aucune caméra disponible.'});
     }
@@ -66,7 +66,7 @@ function displayCamera(tbCamera){
             var img = document.createElement('img');
             img.id = 'player'+tbCamera[i].cameraID;
             img.src = '../images/zelda1.png';
-            img.className = 'img-multiLive'
+            img.className = 'img-multiLive';
 
             var imgDiv = document.createElement('div');
             imgDiv.id = 'player'+tbCamera[i].cameraID+'-imgDiv';

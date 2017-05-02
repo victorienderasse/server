@@ -51,22 +51,26 @@ $(function(){
         redirectURL(serverURL+'/display');
     });
 
-    $('#magasinBtn, #cmd').click(function(){
-        if($('#cmd').hasClass('purchaseBtn')){
+    $('#cmd').click(function(){
+        if($(this).hasClass('purchaseBtn')){
             console.log('getOrder');
             socket.emit('getOrder',userID);
-        }else{
-            console.log('nop bitch');
+            $('#magasin').toggle();
+            $('#order-list').toggle();
+            $('#magasinBtn, #cmd').toggleClass('purchaseBtnSelected purchaseBtn');
+        }
+    });
+
+    $('#magasinBtn').click(function(){
+        if($(this).hasClass('purchaseBtn')){
+            $('#magasin').toggle();
+            $('#order-list').toggle();
+            $('#magasinBtn, #cmd').toggleClass('purchaseBtnSelected purchaseBtn');
             var orderList = document.getElementById('orderList');
             while(orderList.firstChild){
                 orderList.removeChild(orderList.firstChild);
             }
         }
-        $('#magasin').toggle();
-        $('#order-list').toggle();
-        $('#magasinBtn, #cmd').toggleClass('purchaseBtnSelected purchaseBtn', function(){
-
-        });
     });
 
 });
