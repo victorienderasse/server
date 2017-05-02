@@ -56,6 +56,11 @@ $(function(){
         redirectURL(serverURL+'/display');
     });
 
+    $('#magasin, #cmd').click(function(){
+        $('#magasin').toggle();
+        $('#cmd').toggle();
+    });
+
 });
 
 socket.emit('getProduct');
