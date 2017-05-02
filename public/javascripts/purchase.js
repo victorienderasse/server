@@ -62,6 +62,10 @@ $(function(){
             socket.emit('getOrder',userID);
         }else{
             console.log('nop bitch');
+            var orderList = document.getElementById('orderList');
+            while(orderList.firstChild){
+                orderList.removeChild(orderList.firstChild);
+            }
         }
         $('#magasin').toggle();
         $('#order-list').toggle();
