@@ -57,7 +57,7 @@ $(function(){
     });
 
     $('#magasinBtn, #cmd').click(function(){
-        if($('#cmd').hasClass('purchaseBtnSelected')){
+        if($('#cmd').hasClass('purchaseBtn')){
             console.log('getOrder');
             socket.emit('getOrder',userID);
         }else{
