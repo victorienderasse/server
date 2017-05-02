@@ -61,6 +61,7 @@ $(function(){
         $('#order-list').toggle();
         $('#magasinBtn, #cmd').toggleClass('purchaseBtnSelected purchaseBtn', function(){
             if($('#cmd').hasClass('purchaseBtnSelected')){
+                console.log('getOrder');
                 socket.emit('getOrder',userID);
             }
         });
