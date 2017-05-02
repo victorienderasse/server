@@ -56,9 +56,9 @@ $(function(){
         redirectURL(serverURL+'/display');
     });
 
-    $('#magasin, #cmd').click(function(){
+    $('#magasinBtn, #cmd').click(function(){
         $('#magasin').toggle();
-        $('#cmd').toggle();
+        $('#order-list').toggle();
     });
 
 });
