@@ -18,12 +18,14 @@ $(function(){
         displayOrder();
         $('#order-bill').slideToggle('slow');
         $('#product-list').slideToggle('slow');
+        $('#orderlist-btn').hide();
     });
     
     $('#continue-bill').click(function(){
         $('#order-bill').slideToggle('slow');
         $('#product-list').slideToggle('slow');
-        var order = document.getElementById('order');
+        $('#orderlist-btn').show();
+        var order = document.getElementById('orderReview');
         while(order.firstChild){
             order.removeChild(order.firstChild);
         }
@@ -404,7 +406,8 @@ function displayOrderList(tbOrder){
             }else{
                 state = document.createTextNode('Non payé');
                 var stateLink = document.createElement('a');
-                stateLink.setAttribute('onclick','payOrder('+tbOrder[i].orderID+');');
+                stateLink.href = '#';
+;               stateLink.setAttribute('onclick','payOrder('+tbOrder[i].orderID+');');
                 stateLink.appendChild(state);
                 stateDiv.appendChild(stateLink);
             }
