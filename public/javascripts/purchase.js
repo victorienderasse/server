@@ -63,6 +63,8 @@ $(function(){
             if($('#cmd').hasClass('purchaseBtnSelected')){
                 console.log('getOrder');
                 socket.emit('getOrder',userID);
+            }else{
+                console.log('nop bitch');
             }
         });
     });
