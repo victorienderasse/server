@@ -59,6 +59,7 @@ $(function(){
     $('#magasinBtn, #cmd').click(function(){
         $('#magasin').toggle();
         $('#order-list').toggle();
+        $('this').toggleClass('purchaseBtnSelected');
     });
 
 });

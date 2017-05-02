@@ -134,3 +134,8 @@ button:focus{
   height:60px;
 }
 
+
+.purchaseBtnSelected{
+  border-bottom: 3px solid #2F7284;
+}
+
