@@ -64,6 +64,7 @@ $(function(){
 
 });
 
+
 socket.emit('getProduct');
 
 
