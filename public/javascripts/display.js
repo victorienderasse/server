@@ -97,8 +97,8 @@ socket.on('sendCamera', function(data){
         document.getElementById('sharedCameras').innerHTML = 'Vos caméras partagés';
     }
 
-    displayCamera(data.cameras,'cameras');
-    displayCamera(data.sharedCameras,'sharedCameras');
+    displayCamera({cameras:data.cameras, type:'cameras'});
+    displayCamera({cameras:data.sharedCameras, type:'sharedCameras'});
 
 });
 
@@ -324,13 +324,14 @@ socket.on('updatePreview', function(cameraID){
 
 //Functions-----------------------------------
 
-function displayCamera(tbCamera,type){
+function displayCamera(data){
 
 
+    var tbCamera = data.cameras;
     var nbRow = 0;
     var size = tbCamera.length;
     var display;
-    if(type == 'camera'){
+    if(data.type == 'camera'){
         display = document.getElementById('display');
     }else{
         display = document.getElementById('displaySharedCameras');
