@@ -866,6 +866,7 @@ io.sockets.on('connection', function(socket){
             if(rows.length>0){
               console.log('associer camera à user');
               const shareCameraToUser = 'INSERT INTO sharedCamera SET userID = '+rows[0].userID+', cameraID = '+data.cameraID;
+              console.log(shareCameraToUser);
               connection.query(shareCameraToUser, function(err){
                 if(err)throw err;
                 socket.emit('displayMessage',{title:'Bravo',message:'Votre caméra a été partagée avec '+rows[0].name+' !'});

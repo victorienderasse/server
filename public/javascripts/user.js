@@ -237,5 +237,5 @@ function shareCamera(cameraID){
     console.log('shareCamera');
     var email = prompt('Entrez l\'adresse email de la personne avec qui vous souhiatez partager la caméra : ');
     var password = prompt('Merci de confirmer votre mot de passe');
-    socket.emit('shareCamera',{email:email, password: password, userID:userID});
+    socket.emit('shareCamera',{email:email, password: password, userID:userID, cameraID:cameraID});
 }
