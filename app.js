@@ -737,6 +737,17 @@ io.sockets.on('connection', function(socket){
 
   socket.on('getInfoUser', function(userID){
     console.log('getInfoUser event');
+    
+    getInfoUser(userID, function(user){
+      const getCameraInfo = 'SELECT * FROM camera WHERE userID = '+userID;
+      connection.query(getCameraInfo, function(err,cameras){
+        if(err)throw err;
+        socket.emit('getInfoUserRes',{user:user,cameras:cameras});
+      });
+    });
+    
+    
+    
     const getInfo = 'SELECT user.name as userName, user.email, user.phone, camera.name as cameraName, camera.cameraID, camera.serial, camera.enable, camera.state FROM user INNER JOIN camera ON camera.userID = user.userID WHERE user.userID = '+userID;
     connection.query(getInfo, function(err,rows){
       if(err) throw err;

@@ -61,42 +61,45 @@ $(function(){
 socket.on('getInfoUserRes', function(data){
     console.log('getInfoUserRes event');
 
-    $('#userName').html('<b>'+data[0].userName+'</b>');
-    $('#userEmail').html('<b>'+data[0].email+'</b>');
-    $('#userPhone').html('<b>'+data[0].phone+'</b>');
-    if(data.length>0){
-        $('#nbCamera').html('<h4>Vous possédez '+data.length+' caméras</h4>');
+    var user = data.user;
+    var tbCamera = data.cameras;
+
+    $('#userName').html('<b>'+user.name+'</b>');
+    $('#userEmail').html('<b>'+user.email+'</b>');
+    $('#userPhone').html('<b>'+user.phone+'</b>');
+    if(tbCamera.length>0){
+        $('#nbCamera').html('<h4>Vous possédez '+tbCamera.length+' caméras</h4>');
     }else{
         $('#nbCamera').html('<h4>Vous ne possédez aucune caméras</h4>');
     }
 
 
     var table = document.getElementById('infoCamera');
-    for(var i=0;i<data.length;i++){
+    for(var i=0;i<tbCamera.length;i++){
 
         //Camera
 
         var camera = document.createElement('div');
-        camera.id = 'camera'+data[i].cameraID;
+        camera.id = 'camera'+tbCamera[i].cameraID;
         camera.setAttribute('style','width:100%; height:50px; border-style:outset');
         var nameTitle = document.createElement('span');
-        nameTitle.id = 'name-camera'+data[i].cameraID;
+        nameTitle.id = 'name-camera'+tbCamera[i].cameraID;
         nameTitle.title = 'Cliquer pour changer le nom de la caméra';
         nameTitle.setAttribute('style','font-weight: bold; font-size: 20px;position:absolute; left:40px; margin-top:10px;');
-        nameTitle.setAttribute('onclick','changeName('+data[i].cameraID+');');
-        var name = document.createTextNode(data[i].cameraName);
+        nameTitle.setAttribute('onclick','changeName('+tbCamera[i].cameraID+');');
+        var name = document.createTextNode(tbCamera[i].cameraName);
         var btn = document.createElement('button');
-        btn.id = 'btn-camera'+data[i].cameraID;
+        btn.id = 'btn-camera'+tbCamera[i].cameraID;
         btn.setAttribute('style','border:0px; background-color:#fff; position:absolute; right:20px;;');
-        btn.setAttribute('onclick','displayOption('+data[i].cameraID+');');
+        btn.setAttribute('onclick','displayOption('+tbCamera[i].cameraID+');');
         btn.className = 'btn btn-lg';
         var btnIcon = document.createElement('span');
-        btnIcon.id = 'btnIcon-camera'+data[i].cameraID;
+        btnIcon.id = 'btnIcon-camera'+tbCamera[i].cameraID;
         btnIcon.className = 'glyphicon glyphicon-chevron-down';
         var stateTitle = document.createElement('span');
         stateTitle.setAttribute('style','font-style:oblique; font-size: 15px; position:absolute; left:200px; margin-top:20px');
         var state;
-        if(data[i].enable == 1){
+        if(tbCamera[i].enable == 1){
             state = document.createTextNode('Online');
         }else{
             state = document.createTextNode('Offline');
@@ -120,8 +123,8 @@ socket.on('getInfoUserRes', function(data){
         var wifiBtn = document.createElement('button');
         wifiBtn.className = 'btn btn-lg';
         wifiBtn.setAttribute('style','border:0px; background-color:#fff; position:absolute; right:20px;');
-        wifiBtn.setAttribute('onclick','addWifi('+data[i].cameraID+');');
-        if(data[i].enable == 0 || data[i].state != 0){
+        wifiBtn.setAttribute('onclick','addWifi('+tbCamera[i].cameraID+');');
+        if(tbCamera[i].enable == 0 || tbCamera[i].state != 0){
             wifiBtn.disabled = true;
             wifiBtn.title = 'Veuillez allumer la caméra ou arrêter le processus en cours pour ajouter un nouveau réseau WiFi';
         }else{
@@ -141,7 +144,7 @@ socket.on('getInfoUserRes', function(data){
         serialDiv.setAttribute('style','height:40px');
         var serialSpan = document.createElement('span');
         serialSpan.setAttribute('style','font-weight:bold; font-size:20px; position:absolute; left:280px; margin-top:10px');
-        var serial = document.createTextNode(data[i].serial);
+        var serial = document.createTextNode(tbCamera[i].serial);
         serialDiv.appendChild(serial);
         var serialTitleSpan = document.createElement('span');
         serialTitleSpan.setAttribute('style','font-size:20px; position:absolute; left:60px; margin-top:10px')
@@ -163,7 +166,7 @@ socket.on('getInfoUserRes', function(data){
         sharedBtn.title = 'Cliquer pour partager cette caméra avec quelqu\'un d\'autre';
         sharedBtn. className = 'btn btn-lg';
         sharedBtn.setAttribute('style','border:0px; background-color:#fff; position:absolute; right:20px;');
-        sharedBtn.setAttribute('onclick','shareCamera('+data[i].cameraID+');');
+        sharedBtn.setAttribute('onclick','shareCamera('+tbCamera[i].cameraID+');');
         var sharedIcon = document.createElement('span');
         sharedIcon.className = 'glyphicon glyphicon-share';
 
@@ -175,7 +178,7 @@ socket.on('getInfoUserRes', function(data){
         //OPTION
 
         var option = document.createElement('div');
-        option.id = 'optionCamera'+data[i].cameraID;
+        option.id = 'optionCamera'+tbCamera[i].cameraID;
         option.className = 'optionCamera';
         option.setAttribute('style','display: none;');
         option.appendChild(wifiDiv);
