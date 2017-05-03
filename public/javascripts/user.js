@@ -87,7 +87,7 @@ socket.on('getInfoUserRes', function(data){
         nameTitle.title = 'Cliquer pour changer le nom de la caméra';
         nameTitle.setAttribute('style','font-weight: bold; font-size: 20px;position:absolute; left:40px; margin-top:10px;');
         nameTitle.setAttribute('onclick','changeName('+tbCamera[i].cameraID+');');
-        var name = document.createTextNode(tbCamera[i].cameraName);
+        var name = document.createTextNode(tbCamera[i].name);
         var btn = document.createElement('button');
         btn.id = 'btn-camera'+tbCamera[i].cameraID;
         btn.setAttribute('style','border:0px; background-color:#fff; position:absolute; right:20px;;');
