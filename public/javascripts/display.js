@@ -52,31 +52,6 @@ document.getElementById('frequency').addEventListener('change',function(){
 });
 
 
-/*
-//Add camera
-document.getElementById('addCamera-btn').addEventListener('click',function(){
-    console.log('addCamera-btn');
-    redirectURL(serverURL+'/addCamera');
-});
-
-//MultiLive
-document.getElementById('multiLive-btn').addEventListener('click',function(){
-    console.log('multiLive-btn');
-    redirectURL(serverURL+'/multiLive');
-});
-
-//User
-document.getElementById('user-btn').addEventListener('click',function(){
-    console.log('user-btn');
-    redirectURL(serverURL+'/user');
-});
-
-//Disconnect
-document.getElementById('disconnect-btn').addEventListener('click', function(){
-    window.location = serverURL+'/logout';
-});
-*/
-
 
 //EVENTS-----------------------------------------------------------------------------------------------------------------
 
@@ -110,10 +85,21 @@ socket.on('updateCameraEnable', function(data){
 });
 
 
-socket.on('sendCamera', function(tbCamera){
+socket.on('sendCamera', function(data){
     console.log('sendCamera event');
-    //displayScreens(tbCamera);
-    displayCamera(tbCamera);
+    if(data.cameras.length>0){
+        document.getElementById('cameras').innerHTML = 'Vos caméras';
+    }else{
+        document.getElementById('cameras').innerHTML = 'Vous n\'avez aucune caméras';
+    }
+
+    if(data.sharedCameras.length>0){
+        document.getElementById('sharedCameras').innerHTML = 'Vos caméras partagés';
+    }
+
+    displayCamera(data.cameras,'cameras');
+    displayCamera(data.sharedCameras,'sharedCameras');
+
 });
 
 
@@ -338,12 +324,18 @@ socket.on('updatePreview', function(cameraID){
 
 //Functions-----------------------------------
 
-function displayCamera(tbCamera){
+function displayCamera(tbCamera,type){
 
 
     var nbRow = 0;
     var size = tbCamera.length;
-    var display = document.getElementById('display');
+    var display;
+    if(type == 'camera'){
+        display = document.getElementById('display');
+    }else{
+        display = document.getElementById('displaySharedCameras');
+    }
+
 
     for(var i=0;i<tbCamera.length;i++){
 
@@ -358,7 +350,7 @@ function displayCamera(tbCamera){
         nameH3.setAttribute('onclick','setName('+tbCamera[i].cameraID+');');
         var name = document.createTextNode(tbCamera[i].name);
         name.id = 'camera'+tbCamera[i].cameraID+'-name';
-        name.title = 'Click to update your camera name';
+        name.title = 'Cliquer pour modifier le nom de la caméra';
         var hrName = document.createElement('hr');
         hrName.setAttribute('style','margin-left:30px; margin-right: 30px;');
 
@@ -383,7 +375,7 @@ function displayCamera(tbCamera){
         live.id = 'camera'+tbCamera[i].cameraID+'-live';
         live.src = '../cameras/camera'+tbCamera[i].cameraID+'/live/stream_camera_'+tbCamera[i].cameraID+'.jpg';
         live.setAttribute('onerror','javascript:this.src="../images/logo.png"');
-        live.title = 'Click to start live';
+        live.title = 'Cliquer pour démarrer le direct';
         live.setAttribute('style','border:5px solid #ddd;border-radius:8px;height:150px;width:220px;');
         live.setAttribute('alt','Click to display live session');
 
@@ -398,7 +390,7 @@ function displayCamera(tbCamera){
         var replay = document.createElement('button');
         replay.id = 'camera'+tbCamera[i].cameraID+'-replay';
         replay.className = 'btn btn-lg btn-success btn-display';
-        replay.title = 'Click to open the replay interface';
+        replay.title = 'Cliquer pour voir vos enregistrements';
         replay.setAttribute('style','border-radius:100%;margin-left:20%');
         replay.setAttribute('onclick','runReplay('+tbCamera[i].cameraID+');');
         replay.setAttribute('data-toggle','modal');
@@ -418,7 +410,7 @@ function displayCamera(tbCamera){
         var timer = document.createElement('button');
         timer.id = 'camera'+tbCamera[i].cameraID+'-timer';
         timer.className = 'btn btn-lg btn-primary btn-display';
-        timer.title = 'Click to open the timer interface';
+        timer.title = 'Cliquer pour gérer ou ajouter des planifications';
         timer.setAttribute('style','border-radius:100%');
         timer.setAttribute('onclick','runTimer('+tbCamera[i].cameraID+');');
         timer.setAttribute('data-toggle','modal');
@@ -438,7 +430,7 @@ function displayCamera(tbCamera){
         var detection = document.createElement('button');
         detection.id = 'camera'+tbCamera[i].cameraID+'-detection';
         detection.className = 'btn btn-lg btn-danger btn-display';
-        detection.title = 'Click to start the motion detector';
+        detection.title = 'Cliquer pour démarrer une session de détection de mouvement';
         detection.setAttribute('style','border-radius:100%;margin-left:20%');
         detection.setAttribute('onclick','runDetection('+tbCamera[i].cameraID+');');
         var detectionIcon = document.createElement('span');
@@ -456,7 +448,7 @@ function displayCamera(tbCamera){
         var config = document.createElement('button');
         config.id = 'camera'+tbCamera[i].cameraID+'-config';
         config.className = 'btn btn-lg btn-warning btn-display';
-        config.title = 'Click to update camera settings';
+        config.title = 'Cliquer pour afficher les paramètres de la caméra';
         config.setAttribute('style','border-radius:100%');
         config.setAttribute('onclick','runConfig('+tbCamera[i].cameraID+');');
         config.setAttribute('data-toggle','modal');
@@ -788,54 +780,54 @@ function displayRecords(tbRecord){
         var frequency, frequencyEnd;
         switch(tbRecord[i].frequency){
             case '1':
-                frequency = document.createTextNode('Monday');
+                frequency = document.createTextNode('Lundi');
                 break;
             case '2':
-                frequency = document.createTextNode('Tuesday');
+                frequency = document.createTextNode('Mardi');
                 break;
             case '3':
-                frequency = document.createTextNode('Wednesday');
+                frequency = document.createTextNode('Mercredi');
                 break;
             case '4':
-                frequency = document.createTextNode('Thursday');
+                frequency = document.createTextNode('Jeudi');
                 break;
             case '5':
-                frequency = document.createTextNode('Friday');
+                frequency = document.createTextNode('Vendredi');
                 break;
             case '6':
-                frequency = document.createTextNode('Saturday');
+                frequency = document.createTextNode('Samedi');
                 break;
             case '7':
-                frequency = document.createTextNode('Sunday');
+                frequency = document.createTextNode('Dimanche');
                 break;
             default:
-                frequency = document.createTextNode('Every Day');
+                frequency = document.createTextNode('Tous les jours');
                 break;
         }
         switch(tbRecord[i].frequencyEnd){
             case '1':
-                frequencyEnd = document.createTextNode('Monday');
+                frequencyEnd = document.createTextNode('Lundi');
                 break;
             case '2':
-                frequencyEnd = document.createTextNode('Tuesday');
+                frequencyEnd = document.createTextNode('Mardi');
                 break;
             case '3':
-                frequencyEnd = document.createTextNode('Wednesday');
+                frequencyEnd = document.createTextNode('Mercredi');
                 break;
             case '4':
-                frequencyEnd = document.createTextNode('Thursday');
+                frequencyEnd = document.createTextNode('Jeudi');
                 break;
             case '5':
-                frequencyEnd = document.createTextNode('Friday');
+                frequencyEnd = document.createTextNode('Vendredi');
                 break;
             case '6':
-                frequencyEnd = document.createTextNode('Saturday');
+                frequencyEnd = document.createTextNode('Samedi');
                 break;
             case '7':
-                frequencyEnd = document.createTextNode('Sunday');
+                frequencyEnd = document.createTextNode('Dimanche');
                 break;
             default:
-                frequencyEnd = document.createTextNode('Every Day');
+                frequencyEnd = document.createTextNode('Tous les jours');
                 break;
         }
 
@@ -866,10 +858,10 @@ function displayRecords(tbRecord){
         //Add Attributes
         record.id = 'record-'+tbRecord[i].recordID;
         applyBtn.id = 'record-'+tbRecord[i].recordID+'-apply';
-        applyBtn.title = 'Click to apply this record';
+        applyBtn.title = 'Cliquer pour activer la planification';
         applyBtn.setAttribute('onclick','applyRecord('+ tbRecord[i].recordID +');');
         removeBtn.id = 'record-'+tbRecord[i].recordID+'-remove';
-        removeBtn.title = 'Click to delete this record';
+        removeBtn.title = 'Cliquer pour supprimer la planification';
         removeBtn.setAttribute('onclick', 'deleteRecord('+ tbRecord[i].recordID +');');
         applyBtn.className = 'btn btn-primary';
         removeBtn.className = 'close';
@@ -1262,13 +1254,13 @@ function updateConfigValue(data){
     if(data.input == 'resolution'){
         switch(parseInt(data.value)){
             case 1:
-                document.getElementById(data.input+'Value').innerHTML = 'Low';
+                document.getElementById(data.input+'Value').innerHTML = 'Faible';
                 break;
             case 2:
-                document.getElementById(data.input+'Value').innerHTML = 'Medium';
+                document.getElementById(data.input+'Value').innerHTML = 'Moyenne';
                 break;
             case 3:
-                document.getElementById(data.input+'Value').innerHTML = 'High';
+                document.getElementById(data.input+'Value').innerHTML = 'Haute';
         }
     }else{
         document.getElementById(data.input+'Value').innerHTML = data.value;

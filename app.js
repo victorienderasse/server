@@ -115,15 +115,13 @@ io.sockets.on('connection', function(socket){
   socket.on('getCamera', function(userID){
     console.log('getCamera event -> userID : '+userID);
     var sendCamera = 'SELECT * FROM camera WHERE userID = '+userID;
-    connection.query(sendCamera, function (err,rows) {
-      if (err){
-        throw err;
-      }
-      if (rows.length>0){
-        socket.emit('sendCamera', rows);
-      }else{
-        socket.emit('message', {title:'Alerte', message: 'Vous n\'avez aucune caméra', action:''});
-      }
+    connection.query(sendCamera, function (err,cameras) {
+      if (err) throw err;
+      const getSharedCamera = 'SELECT camera.cameraID, camera.state, camera.enable, camera.name  FROM sharedCamera INNER JOIN camera ON sharedCamera.cameraID = camera.cameraID WHERE sharedCamera.userID = '+userID;
+      connection.query(getSharedCamera, function(err,sharedCameras){
+        if(err)throw err;
+        socket.emit('sendCamera', {cameras: cameras, sharedCameras:sharedCameras});
+      });
     });
   });
 
