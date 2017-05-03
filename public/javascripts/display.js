@@ -88,13 +88,13 @@ socket.on('updateCameraEnable', function(data){
 socket.on('sendCamera', function(data){
     console.log('sendCamera event');
     if(data.cameras.length>0){
-        document.getElementById('cameras').innerHTML = 'Vos caméras';
+        document.getElementById('cameras').innerHTML = '<h2>Vos caméras</h2>';
     }else{
-        document.getElementById('cameras').innerHTML = 'Vous n\'avez aucune caméras';
+        document.getElementById('cameras').innerHTML = '<h2>Vous n\'avez aucune caméras</h2>';
     }
 
     if(data.sharedCameras.length>0){
-        document.getElementById('sharedCameras').innerHTML = 'Vos caméras partagés';
+        document.getElementById('sharedCameras').innerHTML = '<h2>Vos caméras partagés</h2>';
     }
 
     displayCamera({cameras:data.cameras, sharedCamera:false});
@@ -333,9 +333,9 @@ function displayCamera(data){
     var display;
     console.log('type: '+data.type);
     if(data.sharedCamera){
-        display = document.getElementById('display');
-    }else{
         display = document.getElementById('displaySharedCameras');
+    }else{
+        display = document.getElementById('display');
     }
 
 
