@@ -60,7 +60,7 @@ function displayCamera(tbCamera){
 
     for(var i=0;i<tbCamera.length;i++){
 
-        if(tbCamera[i].enable == 1){
+        if(tbCamera[i].enable == 1 && tbCamera[i].state == 0){
             //IMG
 
             var img = document.createElement('img');

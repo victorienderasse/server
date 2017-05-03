@@ -119,7 +119,7 @@ socket.on('getInfoUserRes', function(data){
         var wifi = document.createTextNode('Ajouter un réseau WiFi');
         var wifiBtn = document.createElement('button');
         wifiBtn.className = 'btn btn-lg';
-        wifiBtn.setAttribute('style','border:0px; background-color:#fff; position:absolute; right:20px;;');
+        wifiBtn.setAttribute('style','border:0px; background-color:#fff; position:absolute; right:20px;');
         wifiBtn.setAttribute('onclick','addWifi('+data[i].cameraID+');');
         if(data[i].enable == 0 || data[i].state != 0){
             wifiBtn.disabled = true;
@@ -152,6 +152,26 @@ socket.on('getInfoUserRes', function(data){
         serialDiv.appendChild(serialTitleSpan);
         serialDiv.appendChild(serialSpan);
 
+        //SHARED CAMERA
+
+        var sharedDiv = document.createElement('div');
+        sharedDiv.setAttribute('style','height:40px');
+        var sharedSpan = document.createElement('span');
+        sharedSpan.setAttribute('style','font-size: 20px;position:absolute; left:60px; margin-top:10px;');
+        var shared = document.createTextNode('Partager cette caméra');
+        var sharedBtn = document.createElement('button');
+        sharedBtn.title = 'Cliquer pour partager cette caméra avec quelqu\'un d\'autre';
+        sharedBtn. className = 'btn btn-lg';
+        sharedBtn.setAttribute('style','border:0px; background-color:#fff; position:absolute; right:20px;');
+        sharedBtn.setAttribute('onclick','shareCamera('+data[i].cameraID+');');
+        var sharedIcon = document.createElement('span');
+        sharedIcon.className = 'glyphicon glyphicon-share';
+
+        sharedSpan.appendChild(shared);
+        sharedBtn.appendChild(sharedIcon);
+        sharedDiv.appendChild(sharedSpan);
+        sharedDiv.appendChild(sharedBtn);
+
         //OPTION
 
         var option = document.createElement('div');
@@ -159,6 +179,7 @@ socket.on('getInfoUserRes', function(data){
         option.className = 'optionCamera';
         option.setAttribute('style','display: none;');
         option.appendChild(wifiDiv);
+        option.appendChild(sharedDiv);
         option.appendChild(serialDiv);
 
         //TABLE
@@ -209,4 +230,12 @@ function addWifi(cameraID){
     console.log('addWifi btn');
     socket.emit('addWifi',cameraID);
     redirectURL(serverURL+'/addCamera?userID='+userID);
+}
+
+
+function shareCamera(cameraID){
+    console.log('shareCamera');
+    var email = prompt('Entrez l\'adresse email de la personne avec qui vous souhiatez partager la caméra : ');
+    var password = prompt('Merci de confirmer votre mot de passe');
+    socket.emit('shareCamera',{email:email, password: password, userID:userID});
 }

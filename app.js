@@ -129,9 +129,16 @@ io.sockets.on('connection', function(socket){
   socket.on('getCameraUP', function(userID){
     console.log('getCameraUP event');
     var getCameraUP = 'SELECT * FROM camera WHERE userID = '+userID+' AND enable = 1 AND state = 0';
-    connection.query(getCameraUP, function(err, rows){
+    connection.query(getCameraUP, function(err, cameras){
       if(err)throw err;
-      socket.emit('getCameraUPRes',rows);
+      const getSharedCamera = 'SELECT camera.name, camera.cameraID, camera.enable, camera.state FROM sharedCamera INNER JOIN camera on sharedCamera.cameraID = camera.cameraID WHERE sharedCamera.userID = '+userID;
+      connection.query(getSharedCamera, function(err,sharedCameras){
+        if(err)throw err;
+        for(var i=0;i<sharedCameras.length;i++){
+          cameras.push(sharedCameras[i]);
+        }
+        socket.emit('getCameraUPRes',cameras);
+      });
     });
   });
 
@@ -840,6 +847,39 @@ io.sockets.on('connection', function(socket){
     connection.query(getOrder, function(err, rows){
       if(err)throw err;
       socket.emit('getOrderRes', rows);
+    });
+  });
+
+
+  socket.on('shareCamera', function(data){
+    console.log('shareCamera event');
+    getInfoUser(data.userID, function(user){
+      if(passHash.verify(data.password, user.password)){
+        console.log('password ok');
+        if(data.email == user.email){
+          console.log('error same user');
+          socket.emit('displayMessage',{title:'Alerte',message:'Vous ne pouvez pas partager cette caméra avec vous-même !'});
+        }else{
+          const getUserFromEmail = 'SELECT * FROM user WHERE email = '+data.email;
+          connection.query(getUserFromEmail, function(err,rows){
+            if(err)throw err;
+            if(rows.length>0){
+              console.log('associer camera à user');
+              const shareCameraToUser = 'INSERT INTO sharedCamera SET userID = '+rows[0].userID+', cameraID = '+data.cameraID;
+              connection.query(shareCameraToUser, function(err){
+                if(err)throw err;
+                socket.emit('displayMessage',{title:'Bravo',message:'Votre caméra a été partagée avec '+rows[0].name+' !'});
+              });
+            }else{
+              console.log('send mail');
+              socket.emit('displayMessage',{title:'Info',message:'Un email a été envoyé à la personne car celle-ci n\'a pas encore de compte'});
+            }
+          });
+        }
+      }else{
+        console.log('erreur password');
+        socket.emit('displayMessage',{title:'Alerte', message:'Mot de passe erroné'});
+      }
     });
   });
   
