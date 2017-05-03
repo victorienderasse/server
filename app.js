@@ -860,7 +860,7 @@ io.sockets.on('connection', function(socket){
           console.log('error same user');
           socket.emit('displayMessage',{title:'Alerte',message:'Vous ne pouvez pas partager cette caméra avec vous-même !'});
         }else{
-          const getUserFromEmail = 'SELECT * FROM user WHERE email = '+data.email;
+          const getUserFromEmail = 'SELECT * FROM user WHERE email = "'+data.email+'"';
           connection.query(getUserFromEmail, function(err,rows){
             if(err)throw err;
             if(rows.length>0){
