@@ -80,7 +80,8 @@ io.sockets.on('connection', function(socket){
       if(rows.length > 0) {
         console.log('camera exist');
         const setSocketID = 'UPDATE camera SET socketID = "'+socket.id+'", enable = 1 WHERE cameraID = '+rows[0].cameraID;
-        if(rows[0].socketID == null){
+        if(rows[0].socketID == null || rows[0].socketID == '' || rows[0].socketID == 'undefined'){
+          console.log('first connection');
           //First connection -> Create camera folder
           const createFolder = 'mkdir -p /home/victorien/TFE/source/server/public/cameras/camera'+rows[0].cameraID+'/videos /home/victorien/TFE/source/server/public/cameras/camera'+rows[0].cameraID+'/live';
           exec(createFolder, function(error,stdout, stderr){
@@ -96,6 +97,7 @@ io.sockets.on('connection', function(socket){
             io.emit('updateCameraEnable', {cameraID:rows[0].cameraID, enable:true});
           });
         }else{
+          console.log('not first connection');
           //Camera already added -> update socketID
           connection.query(setSocketID, function(err){
             if (err){
