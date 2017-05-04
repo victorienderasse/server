@@ -726,11 +726,13 @@ io.sockets.on('connection', function(socket){
 
 
   socket.on('newCameraConnection', function(data){
+    console.log('serial: '+data.serial);
+    console.log('userID: '+data.userID);
     console.log('newCameraConnection event');
     const addCamera = 'INSERT INTO camera SET userID = '+data.userID+', serial = "'+data.serial+'", name = "camera_'+data.serial+'", enable = 0, state = 0';
     connection.query(addCamera, function(err){
       if(err) throw err;
-      io.emit('newCameraConnectionRes',userID);
+      io.emit('newCameraConnectionRes',data.userID);
     });
   });
 

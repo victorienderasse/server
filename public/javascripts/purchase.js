@@ -2,7 +2,6 @@
  * Created by Victorien on 22-04-17.
  */
 
-var userID = 1;
 var total = 0.0;
 var myProduct = [];
 var orderID;

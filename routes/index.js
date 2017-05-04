@@ -119,7 +119,11 @@ router.get('/contact', function(req,res){
 });
 
 router.get('/purchase', function(req,res){
-  res.render('purchase', {});
+  if(!req.session.userID){
+    res.redirect('/');
+  }else{
+    res.render('purchase', {});
+  }
 });
 
 router.use(function(req,res,next){
