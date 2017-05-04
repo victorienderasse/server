@@ -17,6 +17,7 @@ var session = require('express-session');
 
 const port = 3000;
 const serverURL = 'http://192.168.1.51:3000';
+const serverUser = 'pi';
 const app = express();
 
 const server = http.createServer(app);
@@ -83,7 +84,7 @@ io.sockets.on('connection', function(socket){
         if(rows[0].socketID == null || rows[0].socketID == '' || rows[0].socketID == 'undefined'){
           console.log('first connection');
           //First connection -> Create camera folder
-          const createFolder = 'mkdir -p /home/victorien/TFE/source/server/public/cameras/camera'+rows[0].cameraID+'/videos /home/victorien/TFE/source/server/public/cameras/camera'+rows[0].cameraID+'/live';
+          const createFolder = 'mkdir -p /home/'+serverUser+'/TFE/source/server/public/cameras/camera'+rows[0].cameraID+'/videos /home/'+serverUser+'/TFE/source/server/public/cameras/camera'+rows[0].cameraID+'/live';
           exec(createFolder, function(error,stdout, stderr){
             if (err){
               throw err;
