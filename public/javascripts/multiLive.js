@@ -23,7 +23,7 @@ socket.on('getCameraUPRes', function(tbCamera){
     console.log('sendCamera event');
     if(tbCamera.length>0){
         displayCamera(tbCamera);
-        //startStream(tbCamera);
+        startStream(tbCamera);
     }else{
         displayMessage({title:'Alerte', message:'Aucune caméra disponible.'});
     }
