@@ -593,7 +593,7 @@ io.sockets.on('connection', function(socket){
 
 
   socket.on('getLiveRecordingDone', function(cameraID){
-    console.log('getLiveRecordingDone');
+    console.log('getLiveRecordingDone camera'+cameraID);
 
     getInfoCamera(cameraID, function(camera){
       if(camera.state == 2){
