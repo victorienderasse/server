@@ -653,9 +653,7 @@ io.sockets.on('connection', function(socket){
     console.log('stopMultiLive event');
     const getCamera = 'SELECT * FROM camera WHERE userID = '+userID;
     connection.query(getCamera, function(err,rows){
-      if(err){
-        throw err;
-      }
+      if(err)throw err;
       if(rows.length>0){
         for(var i =0;i<rows.length;i++){
 
@@ -666,7 +664,7 @@ io.sockets.on('connection', function(socket){
             if(rows[i].state == 4){
               sendToCamera(camera.cameraID,'getLiveRecording',{cameraID:camera.cameraID, name: camera.name});
             }else{
-              sendToCamera(rcamera.cameraID,'killProcess',null);
+              sendToCamera(camera.cameraID,'killProcess',null);
             }
             setState(camera.cameraID,0);
 
