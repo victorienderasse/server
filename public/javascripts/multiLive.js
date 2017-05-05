@@ -8,6 +8,8 @@ $(function(){
         //redirectURL(serverURL+'/display');
         if(document.getElementById('multiLive').firstChild){
             socket.emit('stopMultiLive',userID);
+        }else{
+            redirectURL(serverURL+'/display');
         }
     });
 });

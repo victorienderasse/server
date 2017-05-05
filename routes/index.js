@@ -122,7 +122,7 @@ router.get('/purchase', function(req,res){
   if(!req.session.userID){
     res.redirect('/');
   }else{
-    res.render('purchase', {});
+    res.render('purchase', {userID:req.session.userID});
   }
 });
 
