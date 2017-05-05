@@ -66,58 +66,78 @@ io.sockets.on('connection', function(socket){
   
   socket.on('client', function (data) {
     console.log('client connected');
-
   });
 
   
   socket.on('camera', function (serial) {
+    /*
+    Paramètre:
+    - serial: Le numéra de série de la caméra venant juste de se connecter au serveur
+
+    Valeur de retour si succès:
+    - cameraID: L'ID de la caméra en question
+    - enable: L'état de la caméra en question
+
+    Description:
+    - Recherche de la caméra en question sur base du serial.
+    - Si socketID est NULL (1e connexion de la caméra au serveur)
+      - Création des dossiers et sous-dossiers
+      - MàJ du champ 'socketID' de la caméra en DB
+      - MàJ de l'UI
+    - Si socketID non NULL (la caméra s'est déjà connecté au serveur auparavant)
+      - MàJ du champ 'socketID' en DB
+      - MàJ de l'UI
+     */
     console.log('camera connecté');
     //check camera exist
     const getSerial = 'SELECT * FROM camera WHERE serial = "'+serial+'"';
     connection.query(getSerial , function(err, rows){
-      if(err){
-        throw err;
-      }
+      if(err)throw err;
       if(rows.length > 0) {
         console.log('camera exist');
         const setSocketID = 'UPDATE camera SET socketID = "'+socket.id+'", enable = 1 WHERE cameraID = '+rows[0].cameraID;
         if(rows[0].socketID == null || rows[0].socketID == '' || rows[0].socketID == 'undefined'){
           console.log('first connection');
-          //First connection -> Create camera folder
           const createFolder = 'mkdir -p /home/'+serverUser+'/TFE/source/server/public/cameras/camera'+rows[0].cameraID+'/videos /home/'+serverUser+'/TFE/source/server/public/cameras/camera'+rows[0].cameraID+'/live';
           exec(createFolder, function(error,stdout, stderr){
-            if (err){
-              throw err;
-            }
+            if (err)throw err;
           });
           connection.query(setSocketID, function(err){
-            if (err){
-              throw err;
-            }
-            console.log('setCameraUp');
+            if (err)throw err;
             io.emit('updateCameraEnable', {cameraID:rows[0].cameraID, enable:true});
           });
         }else{
           console.log('not first connection');
           //Camera already added -> update socketID
           connection.query(setSocketID, function(err){
-            if (err){
-              throw err;
-            }
-            console.log('setCameraUp');
+            if (err)throw err;
             io.emit('updateCameraEnable', {cameraID:rows[0].cameraID, enable:true});
           });
         }
       }else{
-        console.log('Error ! No camera found. Please add it on admin interface first');
+        console.log('ERROR: camera not in DB');
       }
     });
   });
 
   
   socket.on('getCamera', function(userID){
+    /*
+    Paramètre:
+    - userID: ID de l'utilisateur
+
+    Valeur de retour si succès:
+    - cameras: tableau de caméra appartenant à l'utilisateur
+    - sharedCameras: tableau de caméras partagés avec cet utilisateur
+
+    Description:
+    - Concerne l'interface display
+    - Récupération des caméras de l'utilisateur en DB
+    - Récupération des caméras partagé avec cet utilisateur en DB
+    - Envoie des caméras et caméras partagés à l'utilisateur
+     */
     console.log('getCamera event -> userID : '+userID);
-    var sendCamera = 'SELECT * FROM camera WHERE userID = '+userID;
+    const sendCamera = 'SELECT * FROM camera WHERE userID = '+userID;
     connection.query(sendCamera, function (err,cameras) {
       if (err) throw err;
       const getSharedCamera = 'SELECT camera.cameraID, camera.state, camera.enable, camera.name  FROM sharedCamera INNER JOIN camera ON sharedCamera.cameraID = camera.cameraID WHERE sharedCamera.userID = '+userID;
@@ -130,6 +150,20 @@ io.sockets.on('connection', function(socket){
 
 
   socket.on('getCameraUP', function(userID){
+    /*
+    Paramètre:
+    - UserID: ID de l'utilisateur
+
+    Valeur de retour si succès:
+    - cameras: Tableau de caméras appartenant à l'utilisateur et partagé avec cet utilisateur
+
+    Description:
+    - Concerne l'interface multiLive
+    - Récupération des caméras allumée et inactive (enable=1 et state=0) de l'utilisateur
+    - Récupération des caméras partagés allumés et inactive partagé avec cet utilisateur
+    - Fusion des 2 tableaux
+    - Envoie des caméras à l'utilisateur
+     */
     console.log('getCameraUP event');
     var getCameraUP = 'SELECT * FROM camera WHERE userID = '+userID+' AND enable = 1 AND state = 0';
     connection.query(getCameraUP, function(err, cameras){
@@ -147,12 +181,21 @@ io.sockets.on('connection', function(socket){
 
   
   socket.on('disconnect', function(){
+    /*
+    Valeur de retour si succès:
+    - cameraID: L'ID de la caméra concernée
+    - enable: L'état de la caméra concernée
+
+    Description:
+    - Quand un client se déconecte du serveur
+    - Si c'est une caméra
+      - MàJ de l'état de la caméra (enable = 0, state = 0)
+      - MàJ de l'UI
+     */
     console.log('disconnected');
-    //check client or camera disconnected
-    var disconnection = 'SELECT cameraID FROM camera WHERE socketID = "'+ socket.id+'"';
-    connection.query(disconnection, function(err, rows){
+    var disconnect = 'SELECT cameraID FROM camera WHERE socketID = "'+ socket.id+'"';
+    connection.query(disconnect, function(err, rows){
       if(rows.length > 0){
-        //camera disconnected -> set enable to false and state to unused
         var disable = 'UPDATE camera SET enable = 0, state = 0 WHERE cameraID = '+rows[0].cameraID;
         connection.query(disable, function (err) {
           if(err)throw err;
@@ -165,26 +208,44 @@ io.sockets.on('connection', function(socket){
 
   socket.on('setTimer', function(data) {
     /*
-    -> Check si d'autre record sont actif
-    -> Si ce n'est pas le cas, on ajoute les données
-    -> Si c'est le cas, on check qu'ils ne se chevauchent pas avant d'ajouter les données
+    Paramètres:
+    - Data: Les informations concernant la planifications
+      - begin_hour: Heure de début
+      - begin_minute: Minute de début
+      - end_hour: Heure de fin
+      - end_minute: Minute de fin
+      - frequency: Jour de début
+      - frequencyEnd: Jour de fin
+      - cameraID: ID de la caméra concernée
+      - type: le type de planification (detetion de mouvements ou enregistrement continu)
+      - once: La planification s'exécute une seule fois ou de manière cyclique
+
+    Valeurs de retour si succès:
+    - data: Les mêmes informations concernant la planification
+
+    Description:
+    - On récupère les possible planifications actives pour cette caméra
+    - Si planifications actives il y a
+      - On vérifie que la nouvelle planification ne chevauche aucune autre planifications (avec checkTimer())
+      - Si chevauchage il y a
+        - Message d'erreur à l'utilisateur
+      - Si pas
+        - Message de succès à l'utilisateur
+        - Appel de la fonction addRecord() pour l'ajout des données en DB et la suite
+    - S'il n'y a aucune planifications active pour cette caméra
+        - Appel de la fonction addRecord() pour l'ajout des données en DB et la suite
      */
     console.log('SetTimer event');
-    //update record
     const checkRecordEnable = 'SELECT * FROM record WHERE cameraID = '+data.cameraID+' AND state = 1';
     connection.query(checkRecordEnable, function(err,rows){
-      if(err){
-        throw err;
-      }
+      if(err)throw err;
       if (rows.length > 0){
-
         var timer = {
           begin: (parseInt(data.begin_hour)*60)+parseInt(data.begin_minute),
           end: (parseInt(data.end_hour)*60)+parseInt(data.end_minute),
           frequency: data.frequency,
           frequencyEnd: data.frequencyEnd
         };
-
         checkTimer({timer1:rows,timer2:timer}, function(check){
           if(check == 'OK'){
             console.log('Check Timer OK');
@@ -195,7 +256,6 @@ io.sockets.on('connection', function(socket){
             socket.emit('message',{title: 'Alerte', message: 'Erreur record',action:null});
           }
         });
-
       }else{
         addRecord(data);
       }
@@ -204,13 +264,23 @@ io.sockets.on('connection', function(socket){
 
   
   socket.on('changeCameraName', function(data){
+    /*
+    Paramètres:
+    - data: Informations concernant le nouveau nom de la caméra
+      - cameraID: ID de la caméra concernée
+      - name: Le nouveau nom de la caméra
+
+    Valeurs de retour:
+    - Message de succès à l'utilisateur
+
+    Description:
+    -
+     */
     console.log('changeCameraName event');
     const changeName = 'UPDATE camera SET name = "'+data.name+'" WHERE cameraID = '+data.cameraID;
     connection.query(changeName, function(err){
-      if(err){
-        throw err;
-      }
-      socket.emit('message', {title: 'Bravo', message: 'Le nom de votre caméra a été mis à jour !', action: 'resetMessage'});
+      if(err)throw err;
+      socket.emit('displayMessage', {title: 'Bravo', message: 'Le nom de votre caméra a été mis à jour !'});
     });
   });
 

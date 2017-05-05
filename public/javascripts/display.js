@@ -1075,12 +1075,16 @@ function setName(cameraID){
     -> send request to server
      */
     var getName = prompt('Nouveau nom : ');
-    if (getName != '' && getName != null){
-        var nameH3 = document.getElementById('camera'+cameraID+'-nameH3');
-        var name = document.createTextNode(getName);
-        name.id = 'camera'+cameraID+'-name';
-        nameH3.replaceChild(name, nameH3.firstChild);
-        socket.emit('changeCameraName', {cameraID: cameraID, name: getName});
+    if(getName.length>12){
+        displayMessage({title:'Alerte', message:'Le nom de la caméra ne peut excéder 12 caractères'});
+    }else{
+        if (getName != '' && getName != null){
+            var nameH3 = document.getElementById('camera'+cameraID+'-nameH3');
+            var name = document.createTextNode(getName);
+            name.id = 'camera'+cameraID+'-name';
+            nameH3.replaceChild(name, nameH3.firstChild);
+            socket.emit('changeCameraName', {cameraID: cameraID, name: getName});
+        }
     }
 }
 
