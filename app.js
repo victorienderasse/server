@@ -652,11 +652,11 @@ io.sockets.on('connection', function(socket){
   socket.on('stopMultiLive', function(userID){
     console.log('stopMultiLive event');
     var ind;
-    const getCamera = 'SELECT * FROM camera WHERE userID = '+userID+' AND enable = 1';
+    const getCamera = 'SELECT * FROM camera WHERE userID = '+userID+' AND enable = 1 AND state != 0';
     connection.query(getCamera, function(err,rows){
       if(err)throw err;
       console.log(rows.length+' cameras');
-      const getSharedCameras = 'SELECT camera.state, camera.enable, camera.cameraID, camera.name FROM sharedCamera INNER JOIN camera ON sharedCamera.cameraID = camera.cameraID WHERE camera.enable = 1 AND camera.state = 2 AND camera AND sharedCamera.userID = '+userID;
+      const getSharedCameras = 'SELECT camera.state, camera.enable, camera.cameraID, camera.name FROM sharedCamera INNER JOIN camera ON sharedCamera.cameraID = camera.cameraID WHERE camera.enable = 1 AND camera.state != 0 AND sharedCamera.userID = '+userID;
       connection.query(getSharedCameras, function(err, sharedCameras){
         if(err)throw err;
         console.log(sharedCameras.length+' sharedCameras');
