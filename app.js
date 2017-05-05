@@ -652,31 +652,35 @@ io.sockets.on('connection', function(socket){
   socket.on('stopMultiLive', function(userID){
     console.log('stopMultiLive event');
     var ind;
-    const getCamera = 'SELECT * FROM camera WHERE userID = '+userID;
+    const getCamera = 'SELECT * FROM camera WHERE userID = '+userID+' AND enable = 1';
     connection.query(getCamera, function(err,rows){
       if(err)throw err;
-      if(rows.length>0){
-        for(var i =0;i<rows.length;i++){
-          ind = i;
-          setRecordUnpaused(rows[i].cameraID);
-
-          getInfoCamera(rows[i].cameraID, function(camera){
-
-
-            if(rows[ind].state == 4){
-              sendToCamera(camera.cameraID,'getLiveRecording',{cameraID:camera.cameraID, name: camera.name});
-            }else{
-              sendToCamera(camera.cameraID,'killProcess',null);
-            }
-            setState(camera.cameraID,0);
-
-          });
-
+      console.log(rows.length+' cameras');
+      const getSharedCameras = 'SELECT camera.state, camera.enable, camera.cameraID, camera.name FROM sharedCamera INNER JOIN camera ON sharedCamera.cameraID = camera.cameraID WHERE camera.enable = 1 AND camera.state = 2 AND camera AND sharedCamera.userID = '+userID;
+      connection.query(getSharedCameras, function(err, sharedCameras){
+        if(err)throw err;
+        console.log(sharedCameras.length+' sharedCameras');
+        for(var j=0;j<sharedCameras.length;j++){
+          rows.push(sharedCameras[j]);
         }
-      }else{
-        console.log('User has no camera up');
-      }
-
+        console.log('total cameras: '+rows.length);
+        if(rows.length>0){
+          for(var i =0;i<rows.length;i++){
+            ind = i;
+            getInfoCamera(rows[i].cameraID, function(camera){
+              if(rows[ind].state == 4){
+                sendToCamera(camera.cameraID,'getLiveRecording',{cameraID:camera.cameraID, name: camera.name});
+              }else{
+                sendToCamera(camera.cameraID,'killProcess',null);
+              }
+              setState(camera.cameraID,0);
+            });
+            setRecordUnpaused(rows[i].cameraID);
+          }
+        }else{
+          console.log('User has no camera up');
+        }
+      });
     });
   });
 
