@@ -1075,6 +1075,7 @@ function setName(cameraID){
     -> send request to server
      */
     var getName = prompt('Nouveau nom : ');
+    console.log(getName.length);
     if(getName.length>12){
         displayMessage({title:'Alerte', message:'Le nom de la caméra ne peut excéder 12 caractères'});
     }else{
