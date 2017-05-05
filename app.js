@@ -680,6 +680,7 @@ io.sockets.on('connection', function(socket){
         }else{
           console.log('User has no camera up');
         }
+        socket.emit('redirectURL',serverURL+'/display');
       });
     });
   });
@@ -1034,6 +1035,7 @@ io.sockets.on('connection', function(socket){
 
   function sendToCamera(cameraID, event, data){
     console.log('sendToCamera function');
+    console.log('cameraID: '+cameraID+', event: '+event+', data: '+data);
     getInfoCamera(cameraID, function(camera){
       io.to(camera.socketID).emit(event,data);
     });

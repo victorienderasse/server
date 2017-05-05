@@ -13,6 +13,10 @@ socket.on('displayMessage', function(data){
    displayMessage(data); 
 });
 
+socket.on('redirectURL',function(url){
+  redirectURL(url);  
+});
+
 function redirectURL(url){
     console.log('redirectURL function');
     window.location = url;
