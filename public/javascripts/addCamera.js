@@ -13,11 +13,11 @@ $(function(){
     
     $('#reboot').click(function(){
         socket.emit('reboot',cameraID);
-        redirectURL(serverURL+'/user?userID='+userID);
+        redirectURL(serverURL+'/user');
     });
     
     $('#noReboot').click(function(){
-        redirectURL(serverURL+'/user?userID='+userID);
+        redirectURL(serverURL+'/user');
     });
     
 });
@@ -56,7 +56,7 @@ socket.on('newCameraConnectionRes', function(userID){
         $('#connectionOK').show('slow');
     });
     setTimeout(function(){
-        redirectURL(serverURL+'/display?userID='+userID);
+        redirectURL(serverURL+'/display');
     },5000);
 });
 

@@ -134,7 +134,7 @@ io.sockets.on('connection', function(socket){
     var getCameraUP = 'SELECT * FROM camera WHERE userID = '+userID+' AND enable = 1 AND state = 0';
     connection.query(getCameraUP, function(err, cameras){
       if(err)throw err;
-      const getSharedCamera = 'SELECT camera.name, camera.cameraID, camera.enable, camera.state FROM sharedCamera INNER JOIN camera on sharedCamera.cameraID = camera.cameraID WHERE sharedCamera.userID = '+userID;
+      const getSharedCamera = 'SELECT camera.name, camera.cameraID, camera.enable, camera.state FROM sharedCamera INNER JOIN camera on sharedCamera.cameraID = camera.cameraID WHERE camera.enable = 1 AND camera.state = 0 AND sharedCamera.userID = '+userID;
       connection.query(getSharedCamera, function(err,sharedCameras){
         if(err)throw err;
         for(var i=0;i<sharedCameras.length;i++){
