@@ -1080,7 +1080,6 @@ function setName(cameraID){
         displayMessage({title:'Alerte', message:'Le nom de la caméra ne peut excéder 12 caractères'});
     }else{
         if (getName != '' && getName != null){
-            getName[0] = getName[0].toUpperCase();
             var nameH3 = document.getElementById('camera'+cameraID+'-nameH3');
             var name = document.createTextNode(getName);
             name.id = 'camera'+cameraID+'-name';

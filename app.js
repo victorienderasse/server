@@ -65,18 +65,24 @@ io.sockets.on('connection', function(socket){
   //EVENTS---------------------------------------------------------------------------------------------
   
   socket.on('client', function (data) {
+    /*
+    "Un client vient de se connecter"
+     */
     console.log('client connected');
   });
 
   
   socket.on('camera', function (serial) {
     /*
+    "Une caméra vient de se connecter"
+
     Paramètre:
     - serial: Le numéra de série de la caméra venant juste de se connecter au serveur
 
-    Valeur de retour si succès:
-    - cameraID: L'ID de la caméra en question
-    - enable: L'état de la caméra en question
+    Evènement renvoyé:
+    - 'updateCameraEnable': Permet la MàJ de l'UI
+      - cameraID: L'ID de la caméra en question
+      - enable: L'état de la caméra en question
 
     Description:
     - Recherche de la caméra en question sur base du serial.
@@ -123,12 +129,15 @@ io.sockets.on('connection', function(socket){
   
   socket.on('getCamera', function(userID){
     /*
+    "On veut récupérer les caméras de l'utilisateur pour l'interface Display"
+
     Paramètre:
     - userID: ID de l'utilisateur
 
-    Valeur de retour si succès:
-    - cameras: tableau de caméra appartenant à l'utilisateur
-    - sharedCameras: tableau de caméras partagés avec cet utilisateur
+    Evènement renvoyé:
+    - 'sendCamera': Permet l'affichage des caméras dans l'interface 'display'
+      - cameras: tableau de caméra appartenant à l'utilisateur
+      - sharedCameras: tableau de caméras partagés avec cet utilisateur
 
     Description:
     - Concerne l'interface display
@@ -151,11 +160,14 @@ io.sockets.on('connection', function(socket){
 
   socket.on('getCameraUP', function(userID){
     /*
+    "On veut récupérer les caméras de l'utilisateur pour l'interface MultiLive"
+
     Paramètre:
     - UserID: ID de l'utilisateur
 
-    Valeur de retour si succès:
-    - cameras: Tableau de caméras appartenant à l'utilisateur et partagé avec cet utilisateur
+    Evènement renvoyé:
+    - 'getCameraUPRes': Permet l'affichage des caméras dans l'interface 'multiLive'
+      - cameras: Tableau de caméras appartenant à l'utilisateur et partagé avec cet utilisateur
 
     Description:
     - Concerne l'interface multiLive
@@ -182,9 +194,12 @@ io.sockets.on('connection', function(socket){
   
   socket.on('disconnect', function(){
     /*
-    Valeur de retour si succès:
-    - cameraID: L'ID de la caméra concernée
-    - enable: L'état de la caméra concernée
+    "Un client vient de se déconnecter"
+
+    évènement renvoyé:
+    - 'updateCameraEnable': Permet la MàJ de l'UI
+      - cameraID: ID de la caméra concernée
+      - enable: état de la caméra concernée
 
     Description:
     - Quand un client se déconecte du serveur
@@ -208,6 +223,8 @@ io.sockets.on('connection', function(socket){
 
   socket.on('setTimer', function(data) {
     /*
+    "Un client veut créer une nouvelle planification"
+
     Paramètres:
     - Data: Les informations concernant la planifications
       - begin_hour: Heure de début
@@ -220,8 +237,10 @@ io.sockets.on('connection', function(socket){
       - type: le type de planification (detetion de mouvements ou enregistrement continu)
       - once: La planification s'exécute une seule fois ou de manière cyclique
 
-    Valeurs de retour si succès:
-    - data: Les mêmes informations concernant la planification
+    Evènement renvoyé:
+    - 'displayMessage': Permet d'afficher un message à l'utilisateur
+      - title: titre du message
+      - message: Le message en question
 
     Description:
     - On récupère les possible planifications actives pour cette caméra
@@ -249,11 +268,11 @@ io.sockets.on('connection', function(socket){
         checkTimer({timer1:rows,timer2:timer}, function(check){
           if(check == 'OK'){
             console.log('Check Timer OK');
-            socket.emit('message',{title: 'Bravo', message: 'Record success',action:null});
+            socket.emit('displayMessage',{title: 'Bravo', message: 'Record success'});
             addRecord(data);
           }else{
             console.log('NOK');
-            socket.emit('message',{title: 'Alerte', message: 'Erreur record',action:null});
+            socket.emit('displayMessage',{title: 'Alerte', message: 'Erreur record'});
           }
         });
       }else{
@@ -265,16 +284,20 @@ io.sockets.on('connection', function(socket){
   
   socket.on('changeCameraName', function(data){
     /*
+    "Le client veut renommer une de ses caméras"
+
     Paramètres:
     - data: Informations concernant le nouveau nom de la caméra
       - cameraID: ID de la caméra concernée
       - name: Le nouveau nom de la caméra
 
-    Valeurs de retour:
-    - Message de succès à l'utilisateur
+    Evènement renvoyé:
+    - 'displayMessage': Permet d'afficher un message à l'utilisateur
+      - title: titre du message
+      - message: Le message en question
 
     Description:
-    -
+    -MàJ du champ 'name' de la caméra concernée en DB
      */
     console.log('changeCameraName event');
     const changeName = 'UPDATE camera SET name = "'+data.name+'" WHERE cameraID = '+data.cameraID;
@@ -286,88 +309,134 @@ io.sockets.on('connection', function(socket){
 
   
   socket.on('getRecords', function(cameraID){
+    /*
+    "Le client veut récupérer les planifications d'une de ses caméras"
+
+    Paramètre:
+    - cameraID: ID de la caméra concernée
+
+    Evènement renvoyé:
+    - 'sendRecords': Permet l'affichage des planifications de la caméra concernée
+      - records: Tableau de planifications de la caméra concernée
+
+    Description:
+    - Récupération de toutes les planifications de la caméra en DB
+    - Envoie de ces planifications à l'utilisateur
+     */
     console.log('getRecords event');
-    
     const getRecords = 'SELECT * FROM record WHERE cameraID = '+cameraID;
-    connection.query(getRecords, function(err, rows){
-      if(err){
-        throw err;
-      }
-      socket.emit('sendRecords', rows);
+    connection.query(getRecords, function(err, records){
+      if(err)throw err;
+      socket.emit('sendRecords', records);
     });
   });
 
   
   socket.on('deleteRecord', function(recordID){
     /*
-    -> delete record from DB
-    -> if state = 1, delete record from Cron
+    "Le client supprime une planification d'une de ses caméras"
+
+    Paramètre:
+    - recordID: ID de la planification
+
+    Evènement renvoyé:
+    - 'deleteRecord': Permet la suppression d'une planification dans la table cron de la caméra
+      - recordID: ID de la planification
+
+    Description:
+    - Récupération de toutes les information de la planification en DB
+    - Si la planification est active
+      - On demande à la caméra de la supprimer de sa table cron
+    - Suppression de la planification en DB
      */
     console.log('deleteRecord event');
-
     getInfoRecord(recordID, function(record){
       if(record.state == 1){
         sendToCamera(record.cameraID,'deleteRecord',recordID);
       }
-
       const deleteRecord = 'DELETE FROM record WHERE recordID = '+recordID;
       connection.query(deleteRecord, function(err){
-        if(err){
-          throw err;
-        }
+        if(err)throw err;
       });
-
     });
-
   });
 
   
   socket.on('applyRecord', function(recordID){
+    /*
+    "Le client active une planification d'une de ses caméra"
+
+    Paramètre:
+    - RecordID: ID de la planification
+
+    Evènement renvoyé:
+    - 'displayMessage': Affiche un message à l'utilisateur
+      - title: titre du message
+      - message: Le message en question
+
+    Description:
+    - On récupère les informations de la planification
+    - On récupère les autres planifications active de la caméra
+    - Si plusieurs planifications actives
+      - On regarde Si l'une des planification actives n'est pas celle en paramètre
+      - Si c'est le cas il s'agit d'une désactivation de planification
+        - Appel de la fonction disableRecord()
+      - Si pas, il s'agit d'une activation de planification
+        - On vérifie qu'il n'y a pas de chevauchage
+        - On appel la fonction changeRecord()
+    - Si aucune planification active, c'est une activation de planification
+      - Appel de la fonction changeRecord()
+     */
     console.log('applyRecord event');
-
-        getInfoRecord(recordID, function(record){
-
-          const getRecordsEnable = 'SELECT * FROM record WHERE state = 1 AND cameraID = '+record.cameraID;
-          connection.query(getRecordsEnable, function(err,rows){
-            if(err){
-              throw err;
+    getInfoRecord(recordID, function(record){
+      const getRecordsEnable = 'SELECT * FROM record WHERE state = 1 AND cameraID = '+record.cameraID;
+      connection.query(getRecordsEnable, function(err,rows){
+        if(err)throw err;
+        if(rows.length>0){
+          var same = false;
+          for(var i=0;i<rows.length;i++){
+            if(parseInt(rows[i].recordID) == recordID){
+              same = true;
+              break;
             }
-            if(rows.length>0){
-              var same = false;
-              for(var i=0;i<rows.length;i++){
-                if(parseInt(rows[i].recordID) == recordID){
-                  same = true;
-                  break;
-                }
-              }
-
-              if(same){
-                console.log('disable record');
-                disableRecord(recordID);
+          }
+          if(same){
+            console.log('disable record');
+            disableRecord(recordID);
+          }else{
+            console.log('apply record');
+            checkTimer({timer1:rows,timer2:record},function(check){
+              if(check == 'OK'){
+                changeRecord(recordID);
               }else{
-                console.log('apply record');
-                checkTimer({timer1:rows,timer2:record},function(check){
-                  if(check == 'OK'){
-                    changeRecord(recordID);
-                  }else{
-                    socket.emit('message',{title:'Alerte',message:'Erreur record chevauchage',action:null});
-                  }
-                });
+                socket.emit('displayMessage',{title:'Alerte',message:'Erreur record chevauchage',action:null});
               }
-            }else{
-              changeRecord(recordID);
-            }
-          });
-
-        });
-
+            });
+          }
+        }else{
+          changeRecord(recordID);
+        }
+      });
+    });
   });
 
   
   socket.on('getReplays',function(cameraID){
     /*
-    -> get filename in directory
-    -> send it to client
+    "Le client veut récupérer les enregistrements d'une de ses caméras"
+
+    Paramètre:
+    - cameraID: ID de la caméra
+
+    Evènement renvoyé:
+    - 'setReplay': Envoie les replays à l'utilisateur
+      - tbReplay: Tableau contenant le nom des replay trier par ordre décroissant des dates
+      - cameraID: ID de la caméra
+
+    Description
+    - Récupération du nom des fichiers dans le dossier correspondant à la caméra
+    - On trie le tableau par ordre décroissant des dates
+    - Envoie du tableau trié des replays à l'utilisateur
      */
     console.log('getReplays event');
     var dir = './public/cameras/camera'+cameraID+'/videos/';
@@ -392,25 +461,45 @@ io.sockets.on('connection', function(socket){
   
   socket.on('startDetection', function(cameraID){
     /*
-    -> Set enabled record on pause state
-    -> set state of camera to 1 (motion detection)
-    -> send request to camera to start process
+    "Le client veut démarrer une session de détection de mouvement d'une de ses caméra"
+
+    Paramètre:
+    - cameraID: ID de la caméra
+
+    Evènement renvoyé
+    - 'startDetection': Demande à la caméra de démarrer une sessionde détection de mouvement
+      - cameraName: le nom de la caméra (afin de créer le nom du fichier)
+      - cameraID: ID de la caméra
+
+    Description
+    - On met les planifications de la caméra actives à l'état 2 (en pause)
+    - On place la caméra à l'état 1 (mode détection de mouvement)
+    - On récupère le nom de la caméra
+    - On envoie la requête à la caméra afin qu'elle démarre la session de détection de mouvement
      */
     console.log('startDetection event');
-
     setRecordPaused(cameraID);
     setState(cameraID, 1);
     getInfoCamera(cameraID, function(camera){
-      sendToCamera(cameraID,'startDetection',{cameraName: camera.name, cameraID: cameraID, resolution: camera.resolution, fps: camera.fps, brightness: camera.brightness, contrast: camera.contrast});
+      sendToCamera(cameraID,'startDetection',{cameraName: camera.name, cameraID: cameraID});
     });
   });
 
 
   socket.on('stopDetection', function(cameraID){
     /*
-    -> Set enable paused record
-    -> set state of camera to 0 (unused)
-    -> send request to camera to stop process
+    "Le client veut stopper une session de détection de mouvement d'une de ses caméra"
+
+    Paramètre:
+    - cameraID: ID de la caméra
+
+    Evènement renvoyé:
+    - 'killProcess': Demande à la caméra d'arrêter le processus python en cours d'exécution
+
+    Description:
+    - On remet les planifications de la caméra qui étaient en pause à l'état 1 (actif)
+    - On replace la caméra à l'état 0 (libre)
+    - On demande à la caméra de stopper le processus python en cours
      */
     console.log('stopDetection');
     setRecordUnpaused(cameraID);
@@ -421,49 +510,81 @@ io.sockets.on('connection', function(socket){
   
   socket.on('startStream', function(cameraID){
     /*
-    -> Set camera state to 2 (live)
-    -> Set enable record on pause
-    -> send request to camera
+    "Le client veut démarrer une session live d'une de ses caméras"
+
+    Paramètre:
+    - cameraID: ID de la caméra
+
+    Evènement renvoyé:
+    - 'startStream': demande à la caméra de démarrer une session live
+      - cameraID: ID de la caméra
+      - name: nom de la caméra
+
+    Description:
+    - On met les planifications de la caméra active à l'état 2 (en pause)
+    - On place la caméra à l'état 2 (mode live)
+    - On demande à la caméra de démarrer une session live
      */
     console.log('startStream event ');
     setState(cameraID, 2);
-
     setRecordPaused(cameraID);
-
     getInfoCamera(cameraID, function(camera){
-      sendToCamera(cameraID,'startStream', {cameraID: cameraID, name: camera.name, resolution: camera.resolution, fps: camera.fps, brightness: camera.brightness, contrast: camera.contrast});
+      sendToCamera(cameraID,'startStream', {cameraID: cameraID, name: camera.name});
     });
-
   });
 
 
   socket.on('stopStream', function(cameraID){
     /*
-    -> enable paused records
-    -> Check state of camera
-    -> if state = 4 : Close while recording, ask camera to send video
-    -> if state = 2 : just stop the stream
-    -> set state of camera to 0 (unused)
+    "Le client veut stopper une session live d'une de ses caméras"
+
+    Paramètre:
+    - cameraID: ID de la caméra
+
+    Evènement renvoyé:
+    - 'getLiveRecording': Demande à la caméra d'envoyer l'enregistrement live
+      - cameraID: ID de la caméra
+      - name: nom de la caméra
+    - 'killProcess': Demande à la caméra d'arrêter le processus python en cours d'exécution
+
+    Description:
+    - On met les planifications de la caméra qui était en pause à l'état 1 (actif
+    - On vérifie l'état de la caméra
+    - Si la caméra est à l'état 4 (mode live recording):
+      - On MàJ le bouton record de la caméra afin que le client ne lance pas un enregistrement trop vite
+      - On demande à la caméra d'envoyer l'enregistrement fait pendant le live
+    - Si la caméra est à l'état 2 (mode live);
+      - On de mande à la caméra de stopper le processus python en cours d'exécution
+    - On met la caméra à l'état 0 (libre)
      */
     console.log('stopStream');
-
     setRecordUnpaused(cameraID);
-
     getInfoCamera(cameraID, function(camera){
       if(camera.state == 4){
-        setState(cameraID,0);
         socket.emit('updateLiveRecordingBtn',cameraID);
         sendToCamera(cameraID,'getLiveRecording',{cameraID: cameraID, name: camera.name});
       }else{
-        setState(cameraID,0);
         sendToCamera(cameraID,'killProcess',null);
       }
+      setState(cameraID,0);
     });
-
   });
 
   
   socket.on('killProcess', function(cameraID){
+    /*
+    "Le client veut mettre fin au processus python en cours d'exécution sur une de ses caméra"
+
+    Paramètre:
+    - cameraID: ID de la caméra
+
+    Evènement renvoyé:
+    - 'killProcess': Demande à la caméra d'arrêter le processus python en cours d'exécution
+
+    Description:
+    - On met l'état de la caméra à 0 (libre)
+    - On envoie la requête à la caméra afin qu'il stop le processus python en cours d'exécution
+     */
     console.log('killProcess event');
     setState(cameraID, 0);
     sendToCamera(cameraID, 'killProcess', null);
@@ -471,6 +592,31 @@ io.sockets.on('connection', function(socket){
 
 
   socket.on('signin', function(data){
+    /*
+    "Le client veut s'inscrire"
+
+    Paramètres:
+    data: Information d'inscription
+      - name: le nom de l'utilisateur
+      - email: l'email de l'utilisateur
+      - phone: le numéro de téléphone de l'utilisateur
+      - password: Le mot de passe de l'utilisateur
+
+    Evènement renvoyé:
+    - 'signinRes': Renvoie à l'utilisateur la conclusion du serveur après analyse des données d'inscription
+      - userID: ID de l'utilisateur
+      - emailExist: Boolean précisant si l'email donnée existe ou non
+
+    Description:
+    - On vérifie que l'email donnée n'existe pas en DB
+    - Si il existe:
+      - Envoie d'une réponse négative à l'utilisateur
+    - S'il n'existe pas:
+      - On hash le mot de passe avec un sel
+      - On crée un nouvel utilisateur en DB sur base des informations d'inscription
+      - On récupère l'ID de l'utilisateur nouvellement créé
+      - On renvoie une réponse positive à l'utilisateur
+     */
     const emailExist = 'SELECT email, userID FROM user WHERE email = "'+data.email+'"';
     connection.query(emailExist, function(err,rows){
       if(err)throw err;
@@ -493,6 +639,33 @@ io.sockets.on('connection', function(socket){
 
   
   socket.on('login', function(data){
+    /*
+    "Le client veut se connecter"
+
+    Paramètre:
+    - data: Information de connexion de l'utilisateur
+      - email: L'email de l'utilisateur
+      - password: le mot de passe de l'utilisateur
+
+    Evènement renvoyé:
+    - 'loginRes': Renvoie une réponse positive ou négative à l'utilisateur en fonction des résultat obtenue par le serveur après analyse des données de connexions
+      - userID: ID de l'utilisateur
+      - email: L'email de l'utilisateur
+      - password: le mot de passe de l'utilisateur
+      - emailExist: Indique si l'email existe bien en DB ou non
+      - passwordWrong: Indique si le mot de passe est correct ou non
+
+    Description:
+    - On vérifie si l'email existe dans le DB
+    - Si ce n'est pas le cas:
+      - On envoie une réponse négative à l'utilisateur
+    - Si c'est le cas:
+      - On vérifie que le mot de passe données correspont bien avec le mot de passe en DB
+      - Si c'est correct:
+        - On envoie une réponse positive à l'utilisateur
+      - Si c'est incorrect:
+        - On envoie une réponse négative à l'utilisateur
+     */
     console.log('login event');
     const emailExist = 'SELECT * FROM user WHERE email = "'+data.email+'"';
     connection.query(emailExist, function(err,rows){
@@ -509,34 +682,11 @@ io.sockets.on('connection', function(socket){
     });
   });
 
-
-  socket.on('addCamera', function(data){
-    console.log('add screen event');
-    const checkCode = 'SELECT * FROM camera WHERE code = "'+data.code+'"';
-    connection.query(checkCode, function(err,rows){
-      if (err){
-        throw err;
-      }
-      if (rows.length > 0){
-        const addScreenToClient = 'UPDATE camera SET userID = '+data.userID+', code = 0 WHERE code = "'+data.code+'"';
-        connection.query(addScreenToClient, function(err){
-          if (err){
-            throw err;
-          }
-          socket.emit('message', {title: 'Bravo', message: 'La caméra a correctement été ajouté ! La page devrait se rafraichir d\'ici quelques seconde..', action: ''});
-          setTimeout(function(){
-            socket.emit('redirect', serverURL+'/display?userID='+data.userID);
-          }, 5000);
-        });
-      }else{
-        console.log('No camera found');
-        socket.emit('message',{title: 'Alerte', message: 'Le code indiqué est érroné', action: ''});
-      }
-    });
-  });
-
   
   socket.on('checkAdminPassword', function(data){
+    /*
+    à voir si je laisse ...
+     */
     console.log('checkAdminPassword event');
     const checkAdminPassword = "SELECT * FROM user WHERE userID = 1";
     connection.query(checkAdminPassword, function(err,rows){
@@ -557,6 +707,9 @@ io.sockets.on('connection', function(socket){
 
   
   socket.on('addCameraAdmin', function(data){
+    /*
+    Pareil
+     */
     console.log('AddCameraAdmin event');
     const checkSerial = 'SELECT * FROM camera WHERE serial = "'+data.serial+'" AND code = "'+data.cameraCode+'"';
     connection.query(checkSerial, function(err,rows){
@@ -579,11 +732,40 @@ io.sockets.on('connection', function(socket){
 
   
   socket.on('motionDetectionStart', function(cameraID){
+    /*
+    "Une planification à démarrer une session de détection de mouvement"
+
+    Paramètre:
+    - cameraID: ID de la caméra
+
+    Description:
+    - Cette fonction est appelé lorsqu'une planification de session de détection de mouvement démarre
+    - On met l'état de la caméra à 1 (mode détection de mouvement)
+    */
     setState(cameraID,1);
   });
 
   
   socket.on('motionDetectionStop', function(data){
+    /*
+    "Une planification a stoppé une session de détection de mouvement"
+
+    Paramètre:
+    - data:
+      - cameraID: ID de la caméra
+      - once: Permet de savoir si la planification doit être retiré ou non
+      - recordID: ID de la planification
+
+    Evènement renvoyé:
+    - 'deleteRecord': Permet de supprimer une planification dans la table cron de la caméra
+      - recordID: ID de la planification
+
+    Description:
+    - On met l'état de la caméra à 0 (libre)
+    - Si 'once' est vrai, ça veut dire que la planification ne doit pas réiterer l'opération
+      - On met l'état de la planification à 0 (inactive)
+      - On demande à la caméra de supprimer la planification dans sa table cron
+     */
     setState(data.cameraID, 0);
     if(data.once){
       setRecordState(data.recordID,0);
@@ -593,12 +775,28 @@ io.sockets.on('connection', function(socket){
 
   
   socket.on('motionDetected', function(data){
+    /*
+    "Un mouvement a été détecter lors d'une session de détection de mouvement"
+
+    Paramètre:
+    - data:
+      - cameraID: ID de la caméra
+      - stimestr: Date et Heure à laquelle le mouvement a été détecté
+      - file: nom du fichier
+
+
+     */
     console.log('MotionDetected event');
+
+    var timeDetect = data.timestr.slice(0,11)+' '+data.timestr(12,17)+':00';
+    const addInfoDetection= 'INSERT INTO detection SET cameraID = '+data.cameraID+', time ="'+timeDetect+'", file = "'+data.file+'"';
+    connection.query(addInfoDetection, function(err){
+      if(err)throw err;
+    });
+
     const getInfoClient = 'SELECT user.userID, user.name, user.phone, user.email, camera.name AS cameraName FROM user INNER JOIN camera ON camera.userID=user.userID WHERE cameraID = '+data.cameraID;
     connection.query(getInfoClient, function(err,rows){
-      if(err){
-        throw err;
-      }
+      if(err)throw err;
       if(rows.length > 0){
         //Send SMS
         client.messages.create({
