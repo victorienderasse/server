@@ -186,6 +186,10 @@ function sortBy(Obj){
     while(filesReplay.firstChild){
         filesReplay.removeChild(filesReplay.firstChild);
     }
+    var player = document.getElementById('player-replay-div');
+    while(player.firstChild){
+        player.removeChild(player.firstChild);
+    }
     if(Obj == 'name'){
         myTbReplay.sort(compareName);
     }else{
