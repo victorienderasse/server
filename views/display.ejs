@@ -201,15 +201,23 @@
             <div id="modal-body-replay" class="" style="text-align:center;">
                 <div id="table-replay-div" class="col-lg-5">
                     <div class="form-group">
-                        <label for="sortBy">Trier par </label>
-                        <select name="sortBy" id="sortBy" class="form-control">
-                            <option value="name">Nom</option>
-                            <option value="type">Type</option>
-                            <option value="date">Date</option>
-                        </select>
-                        <p>Filtrer:</p>
-                        <label for="detection">Détection de mouvement</label>
-                        <input type="checkbox" name="detection" id="detection" value="det" class="form-control">
+                        <div class="col-lg-5">
+                            <label for="sortBy">Trier par </label>
+                            <select name="sortBy" id="sortBy" class="form-control">
+                                <option value="name">Nom</option>
+                                <option value="type">Type</option>
+                                <option value="date">Date</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-offset-1 col-lg-5">
+                            <p>Filtrer:</p>
+                            <input type="checkbox" name="detection" id="detection" value="det">
+                            <label for="detection">Détection de mouvement</label>
+                            <input type="checkbox" name="record" id="record" value="rec">
+                            <label for="record">Enregistrement</label>
+                            <input type="checkbox" name="live" id="live" value="live">
+                            <label for="live">Live</label>
+                        </div>
                     </div>
                     <div>
                         <button>Filtrer </button>

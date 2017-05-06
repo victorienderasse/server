@@ -910,16 +910,18 @@ function displayReplay(filter){
 
         if(myTbReplay[i].type == 'det'){
             if(!filter.det){
+                console.log('type detection : break');
                 break;
             }
         }
         if(myTbReplay[i].type == 'rec'){
-            if(!filter.det){
+            if(!filter.rec){
+                console.log('type record : ok');
                 break;
             }
         }
         if(myTbReplay[i].type == 'live'){
-            if(!filter.det){
+            if(!filter.live){
                 break;
             }
         }
