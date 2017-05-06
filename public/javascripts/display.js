@@ -169,7 +169,7 @@ socket.on('setReplays',function(data){
             }
         }
 
-        myDate = tbReplay[i].substr(wd-4,-19);
+        myDate = myName.substr(wd-4,-19);
         var myReplay = {
             type: myType,
             name: myName,
