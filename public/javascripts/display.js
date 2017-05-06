@@ -251,7 +251,7 @@ function displayReplay(){
     video.setAttribute('controls',true);
     video.setAttribute('width','500px');
     var source = document.createElement('source');
-    source.setAttribute('src','../cameras/camera'+cameraIDReplay+'/videos/'+myTbReplay[i].name);
+    source.setAttribute('src','../cameras/camera'+cameraIDReplay+'/videos/'+myTbReplay[0].name);
     source.setAttribute('type','video/mp4');
     video.appendChild(source);
     document.getElementById('player-replay-div').appendChild(video);
