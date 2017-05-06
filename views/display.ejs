@@ -201,9 +201,12 @@
             <div id="modal-body-replay" class="" style="text-align:center;">
                 <div id="table-replay-div" class="col-lg-5">
                     <div>
-                        <button onclick="sortBy('name');">Name</button>
-                        <button onclick="sortBy('type');">type</button>
-                        <button onclick="sortBy('date');">date</button>
+                        <label for="sortBy">Trier par </label>
+                        <select name="sortBy" id="sortBy">
+                            <option value="name">Nom</option>
+                            <option value="type">Type</option>
+                            <option value="date">Date</option>
+                        </select>
                     </div>
                     <div id="files-replay" class="form group"></div>
                 </div>

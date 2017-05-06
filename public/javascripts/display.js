@@ -181,7 +181,7 @@ socket.on('setReplays',function(data){
 });
 
 
-function sortBy(Obj){
+document.getElementById('sortBy').addEventListener('change',function(){
     var filesReplay = document.getElementById('files-replay');
     while(filesReplay.firstChild){
         filesReplay.removeChild(filesReplay.firstChild);
@@ -190,6 +190,7 @@ function sortBy(Obj){
     while(player.firstChild){
         player.removeChild(player.firstChild);
     }
+    var Obj = $('#sortBy').val();
     if(Obj == 'name'){
         myTbReplay.sort(compareName);
     }else{
@@ -200,8 +201,7 @@ function sortBy(Obj){
         }
     }
     displayReplay();
-}
-
+});
 
 function compareName(a,b){
     if(a.name < b.name)
