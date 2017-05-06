@@ -96,7 +96,19 @@ document.getElementById('sortBy').addEventListener('change',function(){
             myTbReplay.sort(compareDate);
         }
     }
-    displayReplay(null);
+
+    var det,rec,live = false;
+    if($('#detectionFilterReplay').checked){
+        det = true;
+    }
+    if($('#recordFilterReplay').checked){
+        rec = true;
+    }
+    if($('#liveFilterReplay').checked){
+        live = true;
+    }
+
+    displayReplay({det:det,rec:rec,live:live});
 });
 
 
@@ -222,7 +234,7 @@ socket.on('setReplays',function(data){
     }
     console.log('tbReplay[2].date: '+myTbReplay[2].date);
     console.log('tbReplay[2].type: '+myTbReplay[2].type);
-    displayReplay({det:false,rec:true,live:false});
+    displayReplay({det:true,rec:true,live:true});
 });
 
 
