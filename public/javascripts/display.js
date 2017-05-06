@@ -5,7 +5,7 @@
 
 //var userID = document.getElementById('userID').innerHTML;
 
-var myTbReplay;
+var myTbReplay = [];
 
 //Ask camera to server
 socket.emit('getCamera',userID);
