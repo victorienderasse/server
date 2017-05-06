@@ -167,7 +167,7 @@ socket.on('setReplays',function(data){
                 myType = 'live';
             }
         }
-        myDate = myName.substr(wd-22,wd-3);
+        myDate = myName.substr(wd-22,19);
         var myReplay = {
             type: myType,
             name: myName,
