@@ -911,18 +911,18 @@ function displayReplay(filter){
         if(myTbReplay[i].type == 'det'){
             if(!filter.det){
                 console.log('type detection : break');
-                break;
+                continue;
             }
         }
         if(myTbReplay[i].type == 'rec'){
             if(!filter.rec){
                 console.log('type record : ok');
-                break;
+                continue;
             }
         }
         if(myTbReplay[i].type == 'live'){
             if(!filter.live){
-                break;
+                continue;
             }
         }
 
