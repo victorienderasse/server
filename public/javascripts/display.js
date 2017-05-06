@@ -39,6 +39,28 @@ $(function(){
         redirectURL(serverURL+'/logout');
     });
 
+    $('#detectionFilterReplay, #recordFilterReplay, #liveFilterReplay').change(function(){
+        var filesReplay = document.getElementById('files-replay');
+        while(filesReplay.firstChild){
+            filesReplay.removeChild(filesReplay.firstChild);
+        }
+        var player = document.getElementById('player-replay-div');
+        while(player.firstChild){
+            player.removeChild(player.firstChild);
+        }
+        var det,rec,live = false;
+        if($('#detectionFilterReplay').checked){
+            det = true;
+        }
+        if($('#recordFilterReplay').checked){
+            rec = true;
+        }
+        if($('#liveFilterReplay').checked){
+            live = true;
+        }
+        displayReplay({det:det,rec:rec,live:live});
+    });
+
 });
 
 
