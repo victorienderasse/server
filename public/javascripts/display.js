@@ -5,6 +5,8 @@
 
 //var userID = document.getElementById('userID').innerHTML;
 
+var myTbReplay;
+
 //Ask camera to server
 socket.emit('getCamera',userID);
 
@@ -151,8 +153,27 @@ socket.on('setReplays',function(data){
     console.log('setReplay');
     var table = document.getElementById('table-replay');
 
-    for(var i=0;i<data.tbReplay.length;i++){
 
+    for(var i=0;i<data.tbReplay.length;i++){
+        var myType,myDate;
+        var wd = tbReplay[i].length;
+        if(tbReplay[i].include('Detection')){
+            myType = 'det';
+        }else{
+            if(tbReplay[i].include('record')){
+                myType = 'rec';
+            }else{
+                myType = 'live';
+            }
+        }
+
+        myDate = tbReplay[i].substr(wd-4,-19);
+        var myReplay = {
+            type: myType,
+            name: tbReplay[i],
+            date: myDate
+        };
+        myTbReplay.push(myReplay);
         //ROW
         var row = document.createElement('div');
 
@@ -225,6 +246,8 @@ socket.on('setReplays',function(data){
     source.setAttribute('type','video/mp4');
     video.appendChild(source);
     document.getElementById('player-replay-div').appendChild(video);
+
+    console.log('tbReplay[2]. type: '+myTbReplay[2].type);
 });
 
 
