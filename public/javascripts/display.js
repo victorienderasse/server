@@ -74,7 +74,7 @@ document.getElementById('sortBy').addEventListener('change',function(){
             myTbReplay.sort(compareDate);
         }
     }
-    displayReplay();
+    displayReplay(null);
 });
 
 
@@ -200,7 +200,7 @@ socket.on('setReplays',function(data){
     }
     console.log('tbReplay[2].date: '+myTbReplay[2].date);
     console.log('tbReplay[2].type: '+myTbReplay[2].type);
-    displayReplay();
+    displayReplay({det:false,rec:true,live:false});
 });
 
 
@@ -904,13 +904,24 @@ function runReplay(cameraID){
 }
 
 
-function displayReplay(filtre){
-
-    filtre = 'det';
+function displayReplay(filter){
+    
     for(var i=0;i<myTbReplay.length;i++){
 
-        if(myTbReplay[i].type != 'det'){
-            break;
+        if(myTbReplay[i].type == 'det'){
+            if(!filter.det){
+                break;
+            }
+        }
+        if(myTbReplay[i].type == 'rec'){
+            if(!filter.det){
+                break;
+            }
+        }
+        if(myTbReplay[i].type == 'live'){
+            if(!filter.det){
+                break;
+            }
         }
 
         //ROW
