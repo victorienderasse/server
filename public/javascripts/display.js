@@ -181,6 +181,47 @@ socket.on('setReplays',function(data){
 });
 
 
+function sortBy(Obj){
+    var filesReplay = document.getElementById('files-replay');
+    while(filesReplay.firstChild){
+        filesReplay.removeChild(filesReplay.firstChild);
+    }
+    if(obj == 'name'){
+        myTbReplay.sort(compareName);
+    }else{
+        if(obj == 'type'){
+            myTbReplay.sort(compareType);
+        }else{
+            myTbReplay.sort(compareDate);
+        }
+    }
+    displayReplay();
+}
+
+
+function compareName(a,b){
+    if(a.name < b.name)
+        return -1;
+    if(a.name > b.name)
+        return 1;
+    return 0;
+}
+function compareType(a,b){
+    if(a.type < b.type)
+        return -1;
+    if(a.type > b.type)
+        return 1;
+    return 0;
+}
+function compareDate(a,b){
+    if(a.date < b.date)
+        return -1;
+    if(a.date > b.date)
+        return 1;
+    return 0;
+}
+
+
 function displayReplay(){
 
 
