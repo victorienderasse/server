@@ -152,11 +152,12 @@ socket.on('setReplays',function(data){
     -> set first video ready on player
      */
     console.log('setReplay');
+    myTbReplay = [];
     cameraIDReplay = data.cameraID;
     for(var i=0;i<data.tbReplay.length;i++){
         var myType,myDate;
         var myName = data.tbReplay[i].toString();
-        var wd = data.tbReplay[i].length;
+        var wd = myName.length;
         if(myName.includes('Detection')){
             myType = 'det';
         }else{
@@ -174,7 +175,8 @@ socket.on('setReplays',function(data){
         };
         myTbReplay.push(myReplay);
     }
-    console.log('tbReplay[2]. type: '+myTbReplay[2].date);
+    console.log('tbReplay[2].date: '+myTbReplay[2].date);
+    console.log('tbReplay[2].type: '+myTbReplay[2].type);
     displayReplay();
 });
 
