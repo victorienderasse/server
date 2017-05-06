@@ -186,10 +186,10 @@ function sortBy(Obj){
     while(filesReplay.firstChild){
         filesReplay.removeChild(filesReplay.firstChild);
     }
-    if(obj == 'name'){
+    if(Obj == 'name'){
         myTbReplay.sort(compareName);
     }else{
-        if(obj == 'type'){
+        if(Obj == 'type'){
             myTbReplay.sort(compareType);
         }else{
             myTbReplay.sort(compareDate);
