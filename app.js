@@ -788,7 +788,7 @@ io.sockets.on('connection', function(socket){
      */
     console.log('MotionDetected event');
 
-    var timeDetect = data.timestr.slice(0,11)+' '+data.timestr(12,17)+':00';
+    //var timeDetect = data.timestr.slice(0,11)+' '+data.timestr(12,17)+':00';
     const addInfoDetection= 'INSERT INTO detection SET cameraID = '+data.cameraID+', time = NOW(), file = "'+data.file+'"';
     connection.query(addInfoDetection, function(err){
       if(err)throw err;
