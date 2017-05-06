@@ -905,7 +905,7 @@ function runReplay(cameraID){
 
 
 function displayReplay(filter){
-    
+    var first = true;
     for(var i=0;i<myTbReplay.length;i++){
 
         if(myTbReplay[i].type == 'det'){
@@ -933,7 +933,8 @@ function displayReplay(filter){
         //REPLAY
         var replay = document.createElement('div');
         replay.id = 'replay'+i;
-        if(i==0){
+        if(first){
+            first = false;
             replay.className = 'replaySelected';
         }else{
             replay.className = 'replay';
