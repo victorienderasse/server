@@ -156,11 +156,11 @@ socket.on('setReplays',function(data){
 
     for(var i=0;i<data.tbReplay.length;i++){
         var myType,myDate;
-        var wd = tbReplay[i].length;
-        if(tbReplay[i].include('Detection')){
+        var wd = data.tbReplay[i].length;
+        if(data.tbReplay[i].include('Detection')){
             myType = 'det';
         }else{
-            if(tbReplay[i].include('record')){
+            if(data.tbReplay[i].include('record')){
                 myType = 'rec';
             }else{
                 myType = 'live';
