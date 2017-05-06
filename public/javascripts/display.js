@@ -55,6 +55,29 @@ document.getElementById('frequency').addEventListener('change',function(){
 });
 
 
+document.getElementById('sortBy').addEventListener('change',function(){
+    var filesReplay = document.getElementById('files-replay');
+    while(filesReplay.firstChild){
+        filesReplay.removeChild(filesReplay.firstChild);
+    }
+    var player = document.getElementById('player-replay-div');
+    while(player.firstChild){
+        player.removeChild(player.firstChild);
+    }
+    var Obj = $('#sortBy').val();
+    if(Obj == 'name'){
+        myTbReplay.sort(compareName);
+    }else{
+        if(Obj == 'type'){
+            myTbReplay.sort(compareType);
+        }else{
+            myTbReplay.sort(compareDate);
+        }
+    }
+    displayReplay();
+});
+
+
 
 //EVENTS-----------------------------------------------------------------------------------------------------------------
 
@@ -179,130 +202,6 @@ socket.on('setReplays',function(data){
     console.log('tbReplay[2].type: '+myTbReplay[2].type);
     displayReplay();
 });
-
-
-document.getElementById('sortBy').addEventListener('change',function(){
-    var filesReplay = document.getElementById('files-replay');
-    while(filesReplay.firstChild){
-        filesReplay.removeChild(filesReplay.firstChild);
-    }
-    var player = document.getElementById('player-replay-div');
-    while(player.firstChild){
-        player.removeChild(player.firstChild);
-    }
-    var Obj = $('#sortBy').val();
-    if(Obj == 'name'){
-        myTbReplay.sort(compareName);
-    }else{
-        if(Obj == 'type'){
-            myTbReplay.sort(compareType);
-        }else{
-            myTbReplay.sort(compareDate);
-        }
-    }
-    displayReplay();
-});
-
-function compareName(a,b){
-    if(a.name < b.name)
-        return -1;
-    if(a.name > b.name)
-        return 1;
-    return 0;
-}
-function compareType(a,b){
-    if(a.type < b.type)
-        return -1;
-    if(a.type > b.type)
-        return 1;
-    return 0;
-}
-function compareDate(a,b){
-    if(a.date < b.date)
-        return -1;
-    if(a.date > b.date)
-        return 1;
-    return 0;
-}
-
-
-function displayReplay(){
-
-
-    for(var i=0;i<myTbReplay.length;i++){
-
-        //ROW
-        var row = document.createElement('div');
-        row.className = 'row';
-
-        //REPLAY
-        var replay = document.createElement('div');
-        replay.id = 'replay'+i;
-        if(i==0){
-            replay.className = 'replaySelected';
-        }else{
-            replay.className = 'replay';
-        }
-
-        //BTN
-        var btnDiv = document.createElement('div');
-        btnDiv.setAttribute('style','margin-top:5px;');
-        btnDiv.className = 'col-lg-4';
-
-        //NAME
-        var nameDiv = document.createElement('div');
-        nameDiv.className = 'col-lg-8';
-        nameDiv.title = 'Cliquer pour voir la vidéo';
-        nameDiv.setAttribute('onclick','playReplay({cameraID:'+cameraIDReplay+',replayID:'+i+'});');
-        var name = document.createElement('span');
-        name.id = 'name-replay'+i;
-        name.setAttribute('style','font-weight: bold; width:100%; height:100%;');
-        var txt = document.createTextNode(myTbReplay[i].name);
-
-        name.appendChild(txt);
-        nameDiv.appendChild(name);
-        replay.appendChild(nameDiv);
-
-        //EDIT
-        var editBtn = document.createElement('button');
-        editBtn.className = 'btn';
-        editBtn.setAttribute('style','border:0;background-color:#fff;');
-        editBtn.title = 'Cliquer pour renommer le fichier';
-        editBtn.setAttribute('onclick','editReplay({cameraID: '+cameraIDReplay+', replayID: '+i+'});');
-        var editIcon = document.createElement('span');
-        editIcon.className = 'glyphicon glyphicon-edit';
-
-        editBtn.appendChild(editIcon);
-        btnDiv.appendChild(editBtn);
-
-        //REMOVE
-        var removeBtn = document.createElement('button');
-        removeBtn.className = 'btn';
-        removeBtn.setAttribute('style','border:0;background-color:#fff;');
-        removeBtn.title = 'Cliquer pour supprimer le fichier';
-        removeBtn.setAttribute('onclick','removeReplay({cameraID: '+cameraIDReplay+', replayID: '+i+'});');
-        var removeIcon = document.createElement('span');
-        removeIcon.className = 'glyphicon glyphicon-remove-circle';
-
-        removeBtn.appendChild(removeIcon);
-        btnDiv.appendChild(removeBtn);
-
-        replay.appendChild(btnDiv);
-        row.appendChild(replay);
-
-        document.getElementById('files-replay').appendChild(row);
-
-    }
-
-    var video = document.createElement('video');
-    video.setAttribute('controls',true);
-    video.setAttribute('width','500px');
-    var source = document.createElement('source');
-    source.setAttribute('src','../cameras/camera'+cameraIDReplay+'/videos/'+myTbReplay[0].name);
-    source.setAttribute('type','video/mp4');
-    video.appendChild(source);
-    document.getElementById('player-replay-div').appendChild(video);
-}
 
 
 socket.on('updateStream', function(cameraID){
@@ -1005,6 +904,89 @@ function runReplay(cameraID){
 }
 
 
+function displayReplay(filtre){
+
+    filtre = 'det';
+    for(var i=0;i<myTbReplay.length;i++){
+
+        if(myTbReplay[i].type != 'det'){
+            break;
+        }
+
+        //ROW
+        var row = document.createElement('div');
+        row.className = 'row';
+
+        //REPLAY
+        var replay = document.createElement('div');
+        replay.id = 'replay'+i;
+        if(i==0){
+            replay.className = 'replaySelected';
+        }else{
+            replay.className = 'replay';
+        }
+
+        //BTN
+        var btnDiv = document.createElement('div');
+        btnDiv.setAttribute('style','margin-top:5px;');
+        btnDiv.className = 'col-lg-4';
+
+        //NAME
+        var nameDiv = document.createElement('div');
+        nameDiv.className = 'col-lg-8';
+        nameDiv.title = 'Cliquer pour voir la vidéo';
+        nameDiv.setAttribute('onclick','playReplay({cameraID:'+cameraIDReplay+',replayID:'+i+'});');
+        var name = document.createElement('span');
+        name.id = 'name-replay'+i;
+        name.setAttribute('style','font-weight: bold; width:100%; height:100%;');
+        var txt = document.createTextNode(myTbReplay[i].name);
+
+        name.appendChild(txt);
+        nameDiv.appendChild(name);
+        replay.appendChild(nameDiv);
+
+        //EDIT
+        var editBtn = document.createElement('button');
+        editBtn.className = 'btn';
+        editBtn.setAttribute('style','border:0;background-color:#fff;');
+        editBtn.title = 'Cliquer pour renommer le fichier';
+        editBtn.setAttribute('onclick','editReplay({cameraID: '+cameraIDReplay+', replayID: '+i+'});');
+        var editIcon = document.createElement('span');
+        editIcon.className = 'glyphicon glyphicon-edit';
+
+        editBtn.appendChild(editIcon);
+        btnDiv.appendChild(editBtn);
+
+        //REMOVE
+        var removeBtn = document.createElement('button');
+        removeBtn.className = 'btn';
+        removeBtn.setAttribute('style','border:0;background-color:#fff;');
+        removeBtn.title = 'Cliquer pour supprimer le fichier';
+        removeBtn.setAttribute('onclick','removeReplay({cameraID: '+cameraIDReplay+', replayID: '+i+'});');
+        var removeIcon = document.createElement('span');
+        removeIcon.className = 'glyphicon glyphicon-remove-circle';
+
+        removeBtn.appendChild(removeIcon);
+        btnDiv.appendChild(removeBtn);
+
+        replay.appendChild(btnDiv);
+        row.appendChild(replay);
+
+        document.getElementById('files-replay').appendChild(row);
+
+    }
+
+    var video = document.createElement('video');
+    video.setAttribute('controls',true);
+    video.setAttribute('width','500px');
+    var source = document.createElement('source');
+    source.setAttribute('src','../cameras/camera'+cameraIDReplay+'/videos/'+myTbReplay[0].name);
+    source.setAttribute('type','video/mp4');
+    video.appendChild(source);
+    document.getElementById('player-replay-div').appendChild(video);
+}
+
+
 function addReplay(replay_id){
     console.log('addReplay function');
     var opt = document.createElement('option');
@@ -1395,6 +1377,33 @@ function displayCameraState(data){
                 live.disabled = false;
         }
     }
+}
+
+
+function compareName(a,b){
+    if(a.name < b.name)
+        return -1;
+    if(a.name > b.name)
+        return 1;
+    return 0;
+}
+
+
+function compareType(a,b){
+    if(a.type < b.type)
+        return -1;
+    if(a.type > b.type)
+        return 1;
+    return 0;
+}
+
+
+function compareDate(a,b){
+    if(a.date < b.date)
+        return -1;
+    if(a.date > b.date)
+        return 1;
+    return 0;
 }
 
 
