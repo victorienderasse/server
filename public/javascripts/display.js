@@ -106,6 +106,8 @@ document.getElementById('sortBy').addEventListener('change',function(){
     if($('#detectionFilterReplay').checked){
         console.log('det : true');
         det = true;
+    }else{
+        console.log('det : false');
     }
     if($('#recordFilterReplay').checked){
         console.log('rec : true');
@@ -951,13 +953,11 @@ function displayReplay(filter){
 
         if(myTbReplay[i].type == 'det'){
             if(!filter.det){
-                console.log('type detection : break');
                 continue;
             }
         }
         if(myTbReplay[i].type == 'rec'){
             if(!filter.rec){
-                console.log('type record : ok');
                 continue;
             }
         }
