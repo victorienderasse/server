@@ -103,17 +103,17 @@ document.getElementById('sortBy').addEventListener('change',function(){
     }
 
     var det,rec,live = false;
-    if($('#detectionFilterReplay').checked){
+    if($('#detectionFilterReplay')[0].checked){
         console.log('det : true');
         det = true;
     }else{
         console.log('det : false');
     }
-    if($('#recordFilterReplay').checked){
+    if($('#recordFilterReplay')[0].checked){
         console.log('rec : true');
         rec = true;
     }
-    if($('#liveFilterReplay').checked){
+    if($('#liveFilterReplay')[0].checked){
         console.log('live : true');
         live = true;
     }
