@@ -50,15 +50,15 @@ $(function(){
             player.removeChild(player.firstChild);
         }
         var det,rec,live = false;
-        if($('#detectionFilterReplay').checked){
+        if($('#detectionFilterReplay').attr('checked')){
             console.log('det true;');
             det = true;
         }
-        if($('#recordFilterReplay').checked){
+        if($('#recordFilterReplay').attr('checked')){
             console.log('rec true;');
             rec = true;
         }
-        if($('#liveFilterReplay').checked){
+        if($('#liveFilterReplay').attr('checked')){
             console.log('live true;');
             live = true;
         }
