@@ -40,6 +40,7 @@ $(function(){
     });
 
     $('#detectionFilterReplay, #recordFilterReplay, #liveFilterReplay').change(function(){
+        console.log('checked box change');
         var filesReplay = document.getElementById('files-replay');
         while(filesReplay.firstChild){
             filesReplay.removeChild(filesReplay.firstChild);
@@ -50,12 +51,15 @@ $(function(){
         }
         var det,rec,live = false;
         if($('#detectionFilterReplay').checked){
+            console.log('det true;');
             det = true;
         }
         if($('#recordFilterReplay').checked){
+            console.log('rec true;');
             rec = true;
         }
         if($('#liveFilterReplay').checked){
+            console.log('live true;');
             live = true;
         }
         displayReplay({det:det,rec:rec,live:live});
@@ -78,6 +82,7 @@ document.getElementById('frequency').addEventListener('change',function(){
 
 
 document.getElementById('sortBy').addEventListener('change',function(){
+    console.log('sortBy function');
     var filesReplay = document.getElementById('files-replay');
     while(filesReplay.firstChild){
         filesReplay.removeChild(filesReplay.firstChild);
@@ -99,12 +104,15 @@ document.getElementById('sortBy').addEventListener('change',function(){
 
     var det,rec,live = false;
     if($('#detectionFilterReplay').checked){
+        console.log('det : true');
         det = true;
     }
     if($('#recordFilterReplay').checked){
+        console.log('rec : true');
         rec = true;
     }
     if($('#liveFilterReplay').checked){
+        console.log('live : true');
         live = true;
     }
 
@@ -232,8 +240,6 @@ socket.on('setReplays',function(data){
         };
         myTbReplay.push(myReplay);
     }
-    console.log('tbReplay[2].date: '+myTbReplay[2].date);
-    console.log('tbReplay[2].type: '+myTbReplay[2].type);
     displayReplay({det:true,rec:true,live:true});
 });
 
@@ -940,6 +946,7 @@ function runReplay(cameraID){
 
 function displayReplay(filter){
     var first = true;
+    var nbCamera = 0;
     for(var i=0;i<myTbReplay.length;i++){
 
         if(myTbReplay[i].type == 'det'){
@@ -959,6 +966,8 @@ function displayReplay(filter){
                 continue;
             }
         }
+
+        nbCamera = nbCamera + 1;
 
         //ROW
         var row = document.createElement('div');
@@ -1027,10 +1036,12 @@ function displayReplay(filter){
     var video = document.createElement('video');
     video.setAttribute('controls',true);
     video.setAttribute('width','500px');
-    var source = document.createElement('source');
-    source.setAttribute('src','../cameras/camera'+cameraIDReplay+'/videos/'+myTbReplay[0].name);
-    source.setAttribute('type','video/mp4');
-    video.appendChild(source);
+    if(nbCamera>0){
+        var source = document.createElement('source');
+        source.setAttribute('src','../cameras/camera'+cameraIDReplay+'/videos/'+myTbReplay[0].name);
+        source.setAttribute('type','video/mp4');
+        video.appendChild(source);
+    }
     document.getElementById('player-replay-div').appendChild(video);
 }
 
