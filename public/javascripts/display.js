@@ -1044,10 +1044,13 @@ function displayReplay(filter){
     video.setAttribute('controls',true);
     video.setAttribute('width','500px');
     if(nbReplay>0){
+        console.log('nbReplay > 0 -> '+nbReplay);
         var source = document.createElement('source');
         source.setAttribute('src','../cameras/camera'+cameraIDReplay+'/videos/'+myTbReplay[0].name);
         source.setAttribute('type','video/mp4');
         video.appendChild(source);
+    }else{
+        console.log('nbReplay = 0 -> '+nbReplay);
     }
     document.getElementById('player-replay-div').appendChild(video);
 }
