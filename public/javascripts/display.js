@@ -1043,7 +1043,7 @@ function displayReplay(filter){
     var video = document.createElement('video');
     video.setAttribute('controls',true);
     video.setAttribute('width','500px');
-    if(nbCamera>0){
+    if(nbReplay>0){
         var source = document.createElement('source');
         source.setAttribute('src','../cameras/camera'+cameraIDReplay+'/videos/'+myTbReplay[0].name);
         source.setAttribute('type','video/mp4');
