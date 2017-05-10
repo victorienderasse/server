@@ -954,7 +954,7 @@ function runReplay(cameraID){
 
 function displayReplay(filter){
     var first = true;
-    var nbCamera = 0;
+    var nbReplay = 0;
     for(var i=0;i<myTbReplay.length;i++){
 
         if(myTbReplay[i].type == 'det'){
@@ -973,7 +973,8 @@ function displayReplay(filter){
             }
         }
 
-        nbCamera = nbCamera + 1;
+        nbReplay = nbReplay + 1;
+        console.log('new replay: '+nbReplay);
 
         //ROW
         var row = document.createElement('div');
