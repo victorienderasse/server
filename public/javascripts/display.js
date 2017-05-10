@@ -243,7 +243,7 @@ socket.on('setReplays',function(data){
 });
 
 
-socket.on('getReplaysRes', function(replays){
+socket.on('getReplaysRes', function(data){
     myTbReplay = [];
     cameraIDReplay = data.cameraID;
     myTbReplay = data.replays;
