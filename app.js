@@ -250,13 +250,13 @@ io.sockets.on('connection', function(socket){
         - Message d'erreur à l'utilisateur
       - Si pas
         - Message de succès à l'utilisateur
-        - Appel de la fonction addRecord() pour l'ajout des données en DB et la suite
+        - Appel de la fonction addPlanning() pour l'ajout des données en DB et la suite
     - S'il n'y a aucune planifications active pour cette caméra
-        - Appel de la fonction addRecord() pour l'ajout des données en DB et la suite
+        - Appel de la fonction addPlanning() pour l'ajout des données en DB et la suite
      */
     console.log('SetTimer event');
-    const checkRecordEnable = 'SELECT * FROM record WHERE cameraID = '+data.cameraID+' AND state = 1';
-    connection.query(checkRecordEnable, function(err,rows){
+    const checkPlanningEnable = 'SELECT * FROM planning WHERE cameraID = '+data.cameraID+' AND state = 1';
+    connection.query(checkPlanningEnable, function(err,rows){
       if(err)throw err;
       if (rows.length > 0){
         var timer = {
@@ -268,15 +268,15 @@ io.sockets.on('connection', function(socket){
         checkTimer({timer1:rows,timer2:timer}, function(check){
           if(check == 'OK'){
             console.log('Check Timer OK');
-            socket.emit('displayMessage',{title: 'Bravo', message: 'Record success'});
-            addRecord(data);
+            socket.emit('displayMessage',{title: 'Bravo', message: 'Planning success'});
+            addPlanning(data);
           }else{
             console.log('NOK');
-            socket.emit('displayMessage',{title: 'Alerte', message: 'Erreur record'});
+            socket.emit('displayMessage',{title: 'Alerte', message: 'Erreur Planning'});
           }
         });
       }else{
-        addRecord(data);
+        addPlanning(data);
       }
     });
   });
@@ -308,7 +308,7 @@ io.sockets.on('connection', function(socket){
   });
 
   
-  socket.on('getRecords', function(cameraID){
+  socket.on('getPlanning', function(cameraID){
     /*
     "Le client veut récupérer les planifications d'une de ses caméras"
 
@@ -316,32 +316,32 @@ io.sockets.on('connection', function(socket){
     - cameraID: ID de la caméra concernée
 
     Evènement renvoyé:
-    - 'sendRecords': Permet l'affichage des planifications de la caméra concernée
-      - records: Tableau de planifications de la caméra concernée
+    - 'sendPlannings': Permet l'affichage des planifications de la caméra concernée
+      - Plannings: Tableau de planifications de la caméra concernée
 
     Description:
     - Récupération de toutes les planifications de la caméra en DB
     - Envoie de ces planifications à l'utilisateur
      */
-    console.log('getRecords event');
-    const getRecords = 'SELECT * FROM record WHERE cameraID = '+cameraID;
-    connection.query(getRecords, function(err, records){
+    console.log('getPlanning event');
+    const getPlanning = 'SELECT * FROM planning WHERE cameraID = '+cameraID;
+    connection.query(getPlanning, function(err, planning){
       if(err)throw err;
-      socket.emit('sendRecords', records);
+      socket.emit('sendPlanning', planning);
     });
   });
 
   
-  socket.on('deleteRecord', function(recordID){
+  socket.on('deletePlanning', function(planningID){
     /*
     "Le client supprime une planification d'une de ses caméras"
 
     Paramètre:
-    - recordID: ID de la planification
+    - PlanningID: ID de la planification
 
     Evènement renvoyé:
-    - 'deleteRecord': Permet la suppression d'une planification dans la table cron de la caméra
-      - recordID: ID de la planification
+    - 'deletePlanning': Permet la suppression d'une planification dans la table cron de la caméra
+      - PlanningID: ID de la planification
 
     Description:
     - Récupération de toutes les information de la planification en DB
@@ -349,25 +349,25 @@ io.sockets.on('connection', function(socket){
       - On demande à la caméra de la supprimer de sa table cron
     - Suppression de la planification en DB
      */
-    console.log('deleteRecord event');
-    getInfoRecord(recordID, function(record){
-      if(record.state == 1){
-        sendToCamera(record.cameraID,'deleteRecord',recordID);
+    console.log('deletePlanning event');
+    getInfoPlanning(planningID, function(planning){
+      if(planning.state == 1){
+        sendToCamera(planning.cameraID,'deletePlanning',planningID);
       }
-      const deleteRecord = 'DELETE FROM record WHERE recordID = '+recordID;
-      connection.query(deleteRecord, function(err){
+      const deletePlanning = 'DELETE FROM planning WHERE planningID = '+planningID;
+      connection.query(deletePlanning, function(err){
         if(err)throw err;
       });
     });
   });
 
   
-  socket.on('applyRecord', function(recordID){
+  socket.on('applyPlanning', function(planningID){
     /*
     "Le client active une planification d'une de ses caméra"
 
     Paramètre:
-    - RecordID: ID de la planification
+    - PlanningID: ID de la planification
 
     Evènement renvoyé:
     - 'displayMessage': Affiche un message à l'utilisateur
@@ -380,41 +380,41 @@ io.sockets.on('connection', function(socket){
     - Si plusieurs planifications actives
       - On regarde Si l'une des planification actives n'est pas celle en paramètre
       - Si c'est le cas il s'agit d'une désactivation de planification
-        - Appel de la fonction disableRecord()
+        - Appel de la fonction disablePlanning()
       - Si pas, il s'agit d'une activation de planification
         - On vérifie qu'il n'y a pas de chevauchage
-        - On appel la fonction changeRecord()
+        - On appel la fonction changePlanning()
     - Si aucune planification active, c'est une activation de planification
-      - Appel de la fonction changeRecord()
+      - Appel de la fonction changePlanning()
      */
-    console.log('applyRecord event');
-    getInfoRecord(recordID, function(record){
-      const getRecordsEnable = 'SELECT * FROM record WHERE state = 1 AND cameraID = '+record.cameraID;
-      connection.query(getRecordsEnable, function(err,rows){
+    console.log('applyPlanning event');
+    getInfoPlanning(planningID, function(planning){
+      const getPlanningEnable = 'SELECT * FROM planning WHERE state = 1 AND cameraID = '+planning.cameraID;
+      connection.query(getPlanningEnable, function(err,rows){
         if(err)throw err;
         if(rows.length>0){
           var same = false;
           for(var i=0;i<rows.length;i++){
-            if(parseInt(rows[i].recordID) == recordID){
+            if(parseInt(rows[i].planningID) == planningID){
               same = true;
               break;
             }
           }
           if(same){
-            console.log('disable record');
-            disableRecord(recordID);
+            console.log('disable planning');
+            disablePlanning(planningID);
           }else{
-            console.log('apply record');
-            checkTimer({timer1:rows,timer2:record},function(check){
+            console.log('apply planning');
+            checkTimer({timer1:rows,timer2:planning},function(check){
               if(check == 'OK'){
-                changeRecord(recordID);
+                changePlanning(planningID);
               }else{
-                socket.emit('displayMessage',{title:'Alerte',message:'Erreur record chevauchage',action:null});
+                socket.emit('displayMessage',{title:'Alerte',message:'Erreur planning chevauchage',action:null});
               }
             });
           }
         }else{
-          changeRecord(recordID);
+          changePlanning(planningID);
         }
       });
     });
@@ -438,6 +438,14 @@ io.sockets.on('connection', function(socket){
     - On trie le tableau par ordre décroissant des dates
     - Envoie du tableau trié des replays à l'utilisateur
      */
+    
+    const getReplay = 'SELECT * FROM record WHERE cameraID = '+cameraID;
+    connection.query(getReplay, function(err,replays){
+      if(err)throw err;
+      socket.emit('getReplaysRes', {replays: replays, cameraID: cameraID});
+    });
+    
+    /*
     console.log('getReplays event');
     var dir = './public/cameras/camera'+cameraID+'/videos/';
     fs.readdir(dir, function(err, files){
@@ -456,6 +464,7 @@ io.sockets.on('connection', function(socket){
           });
       socket.emit('setReplays',{tbReplay: files, cameraID: cameraID});
     });
+    */
   });
 
   
@@ -478,7 +487,7 @@ io.sockets.on('connection', function(socket){
     - On envoie la requête à la caméra afin qu'elle démarre la session de détection de mouvement
      */
     console.log('startDetection event');
-    setRecordPaused(cameraID);
+    setPlanningPaused(cameraID);
     setState(cameraID, 1);
     getInfoCamera(cameraID, function(camera){
       sendToCamera(cameraID,'startDetection',{cameraName: camera.name, cameraID: cameraID});
@@ -502,7 +511,7 @@ io.sockets.on('connection', function(socket){
     - On demande à la caméra de stopper le processus python en cours
      */
     console.log('stopDetection');
-    setRecordUnpaused(cameraID);
+    setPlanningUnpaused(cameraID);
     setState(cameraID,0);
     sendToCamera(cameraID,'killProcess',null);
   });
@@ -527,7 +536,7 @@ io.sockets.on('connection', function(socket){
      */
     console.log('startStream event ');
     setState(cameraID, 2);
-    setRecordPaused(cameraID);
+    setPlanningPaused(cameraID);
     getInfoCamera(cameraID, function(camera){
       sendToCamera(cameraID,'startStream', {cameraID: cameraID, name: camera.name});
     });
@@ -558,7 +567,7 @@ io.sockets.on('connection', function(socket){
     - On met la caméra à l'état 0 (libre)
      */
     console.log('stopStream');
-    setRecordUnpaused(cameraID);
+    setPlanningUnpaused(cameraID);
     getInfoCamera(cameraID, function(camera){
       if(camera.state == 4){
         socket.emit('updateLiveRecordingBtn',cameraID);
@@ -754,11 +763,11 @@ io.sockets.on('connection', function(socket){
     - data:
       - cameraID: ID de la caméra
       - once: Permet de savoir si la planification doit être retiré ou non
-      - recordID: ID de la planification
+      - PlanningID: ID de la planification
 
     Evènement renvoyé:
-    - 'deleteRecord': Permet de supprimer une planification dans la table cron de la caméra
-      - recordID: ID de la planification
+    - 'deletePlanning': Permet de supprimer une planification dans la table cron de la caméra
+      - PlanningID: ID de la planification
 
     Description:
     - On met l'état de la caméra à 0 (libre)
@@ -768,8 +777,8 @@ io.sockets.on('connection', function(socket){
      */
     setState(data.cameraID, 0);
     if(data.once){
-      setRecordState(data.recordID,0);
-      sendToCamera(data.cameraID,'deleteRecord',data.recordID);
+      setPlanningState(data.planningID,0);
+      sendToCamera(data.cameraID,'deletePlanning',data.planningID);
     }
   });
 
@@ -815,6 +824,12 @@ io.sockets.on('connection', function(socket){
       }
     });
   });
+
+
+  socket.on('motionDetectedSend', function(data){
+    console.log('motionDetectedSend event');
+    addRecord(data);
+  });
   
 
   socket.on('recordStart', function(cameraID){
@@ -824,10 +839,11 @@ io.sockets.on('connection', function(socket){
 
   socket.on('recordStop', function(data){
     console.log('recordStop event');
+    addRecord(data);
     setState(data.cameraID,0);
     if(data.once){
-      setRecordState(data.recordID, 0);
-      sendToCamera(data.cameraID,'deleteRecord',data.recordID);
+      setPlanningState(data.planningID, 0);
+      sendToCamera(data.cameraID,'deletePlanning',data.planningID);
     }
   });
 
@@ -843,7 +859,7 @@ io.sockets.on('connection', function(socket){
     setState(cameraID,4);
 
     getInfoCamera(cameraID, function(camera){
-      sendToCamera(cameraID, 'startLiveRecording', {cameraID: cameraID, name: camera.name, resolution: camera.resolution, fps: camera.fps, brightness: camera.brightness, contrast: camera.contrast});
+      sendToCamera(cameraID, 'startLiveRecording', {cameraID: cameraID, name: camera.name});
     });
 
   });
@@ -860,15 +876,14 @@ io.sockets.on('connection', function(socket){
   });
 
 
-  socket.on('getLiveRecordingDone', function(cameraID){
-    console.log('getLiveRecordingDone camera'+cameraID);
-
-    getInfoCamera(cameraID, function(camera){
+  socket.on('getLiveRecordingDone', function(data){
+    console.log('getLiveRecordingDone camera'+data.cameraID);
+    addRecord(data);
+    getInfoCamera(data.cameraID, function(camera){
       if(camera.state == 2){
-        sendToCamera(cameraID, 'startStream', {cameraID: cameraID, name: camera.name});
+        sendToCamera(cameraID, 'startStream', {cameraID: data.cameraID, name: camera.name});
       }
     });
-
     io.emit('getLiveRecordingDone',cameraID);
   });
 
@@ -1023,9 +1038,6 @@ io.sockets.on('connection', function(socket){
         socket.emit('getInfoUserRes',{user:user,cameras:cameras});
       });
     });
-    
-    
-    
     const getInfo = 'SELECT user.name as userName, user.email, user.phone, camera.name as cameraName, camera.cameraID, camera.serial, camera.enable, camera.state FROM user INNER JOIN camera ON camera.userID = user.userID WHERE user.userID = '+userID;
     connection.query(getInfo, function(err,rows){
       if(err) throw err;
@@ -1177,8 +1189,8 @@ io.sockets.on('connection', function(socket){
 //FUNCTIONS----------------------------------------------------------------------------------------------
 
 
-  function addRecord(data){
-    console.log('addRecord function');
+  function addPlanning(data){
+    console.log('addPlanning function');
     const begin = parseInt(data.begin_hour*60)+parseInt(data.begin_minute);
     const end = parseInt(data.end_hour*60)+parseInt(data.end_minute);
     var Once;
@@ -1187,20 +1199,15 @@ io.sockets.on('connection', function(socket){
     }else{
       Once = 0;
     }
-    //add new record
-    const addRecord = 'INSERT INTO record SET cameraID = '+data.cameraID+', begin = '+begin+', end = '+end+', frequency = "'+data.frequency+'", frequencyEnd = "'+data.frequencyEnd+'", state = 1, type = "'+data.type+'", once = '+Once;
-    connection.query(addRecord, function(err){
-      if(err){
-        throw err;
-      }
-      const getRecordID = 'SELECT recordID FROM record ORDER BY recordID DESC LIMIT 1';
-      connection.query(getRecordID, function(err,rows){
-        if(err){
-          throw err;
-        }
+    //add new Planing
+    const addPlanning = 'INSERT INTO planning SET cameraID = '+data.cameraID+', begin = '+begin+', end = '+end+', frequency = "'+data.frequency+'", frequencyEnd = "'+data.frequencyEnd+'", state = 1, type = "'+data.type+'", once = '+Once;
+    connection.query(addPlanning, function(err){
+      if(err)throw err;
+      const getPlanningID = 'SELECT planningID FROM planning WHERE ORDER BY planningID DESC LIMIT 1';
+      connection.query(getPlanningID, function(err,rows){
+        if(err)throw err;
         getInfoCamera(data.cameraID, function(camera){
           if(camera != null){
-
             arg = {
               begin_hour: data.begin_hour,
               begin_minute: data.begin_minute,
@@ -1212,11 +1219,9 @@ io.sockets.on('connection', function(socket){
               cameraID: camera.cameraID,
               type: data.type,
               once: data.once,
-              recordID: rows[0].recordID
+              planningID: rows[0].planningID
             };
-
             sendToCamera(data.cameraID,'timer',arg);
-
           }
         });
       });
@@ -1224,78 +1229,68 @@ io.sockets.on('connection', function(socket){
   }
 
 
-  function changeRecord(recordID){
+  function changePlanning(planningID){
     /*
-    -> Update record color in UI
-    -> Set record state to 1 (enable)
-    -> get info record & info camera
-    -> send to camera to add record on cron table
+    -> Update Planning color in UI
+    -> Set planning state to 1 (enable)
+    -> get info planning & info camera
+    -> send to camera to add planning on cron table
      */
-    console.log('changeRecord function');
-    
-    socket.emit('updateRecordColor',{recordID: recordID, state: 1});
-
-    setRecordState(recordID,1);
-
-    getInfoRecord(recordID, function(record){
+    console.log('changePlanning function');
+    socket.emit('updatePlanningColor',{planningID: planningID, state: 1});
+    setPlanningState(planningID,1);
+    getInfoPlanning(planningID, function(planning){
       //because cameraName
-      getInfoCamera(record.cameraID, function(camera){
-
-        var begin_minute = record.begin % 60;
-        var begin_hour = (record.begin - begin_minute) / 60;
-        var end_minute = record.end % 60;
-        var end_hour = (record.end - end_minute) / 60;
-
+      getInfoCamera(planning.cameraID, function(camera){
+        var begin_minute = planning.begin % 60;
+        var begin_hour = (planning.begin - begin_minute) / 60;
+        var end_minute = planning.end % 60;
+        var end_hour = (planning.end - end_minute) / 60;
         var Once;
-        if(record.once == 0){
+        if(planning.once == 0){
           Once = false;
         }else{
           Once = true;
         }
-
         arg = {
           begin_hour: begin_hour,
           begin_minute: begin_minute,
           end_hour: end_hour,
           end_minute: end_minute,
-          frequency: record.frequency,
-          frequencyEnd: record.frequencyEnd,
+          frequency: planning.frequency,
+          frequencyEnd: planning.frequencyEnd,
           cameraName: camera.name,
-          cameraID: record.cameraID,
-          type: record.type,
+          cameraID: planning.cameraID,
+          type: planning.type,
           once: Once,
-          recordID: recordID,
+          planningID: planningID,
           resolution: camera.resolution,
           fps: camera.fps,
           brightness: camera.brightness,
           contrast: camera.contrast
         };
-
-        sendToCamera(record.cameraID,'timer',arg);
-
+        sendToCamera(planning.cameraID,'timer',arg);
       });
-
     });
-
   }
 
 
-  function disableRecord(recordID){
+  function disablePlanning(planningID){
     /*
-    -> Change record color on UI
-    -> Set record state to 0 (disable)
-    -> get cameraID of record
+    -> Change planning color on UI
+    -> Set planning state to 0 (disable)
+    -> get cameraID of planning
     -> get socketID of the camera
-    -> send deleteRecord to camera
+    -> send deleteplanning to camera
      */
-    console.log('disableRecord function');
+    console.log('disablePlanning function');
 
-    socket.emit('updateRecordColor',{recordID: recordID,state:0});
+    socket.emit('updatePlanningColor',{planningID: planningID,state:0});
     
-    setRecordState(recordID,0);
+    setPlanningState(planningID,0);
 
-    getInfoRecord(recordID, function(record){
-        sendToCamera(record.cameraID,'deleteRecord',recordID);
+    getInfoPlanning(planningID, function(planning){
+        sendToCamera(planning.cameraID,'deletePlanning',planningID);
     });
     
   }
@@ -1328,18 +1323,16 @@ io.sockets.on('connection', function(socket){
   }
 
 
-  function setRecordState(recordID, state){
-    console.log('setRecordState function - state = '+state);
+  function setPlanningState(planningID, state){
+    console.log('setPlanningState function - state = '+state);
     /*
     State 0 : Disable
     State 1 : Enable
     State 2 : Pause
      */
-    const setRecordState = 'UPDATE record SET state = '+state+' WHERE recordID = '+recordID;
-    connection.query(setRecordState, function(err){
-      if(err){
-        throw err;
-      }
+    const setPlanningState = 'UPDATE planning SET state = '+state+' WHERE planningID = '+planningID;
+    connection.query(setPlanningState, function(err){
+      if(err)throw err;
     });
   }
   
@@ -1376,17 +1369,15 @@ io.sockets.on('connection', function(socket){
   }
 
 
-  function getInfoRecord(recordID, callback){
+  function getInfoPlanning(planningID, callback){
 
-    const getInfoRecord = 'SELECT * FROM record WHERE recordID = '+recordID;
-    connection.query(getInfoRecord, function(err,rows){
-      if(err){
-        throw err;
-      }
+    const getInfoPlanning = 'SELECT * FROM planning WHERE planningID = '+planningID;
+    connection.query(getInfoPlanning, function(err,rows){
+      if(err)throw err;
       if(rows.length>0){
         callback(rows[0]);
       }else{
-        console.log('error getInfoRecord function');
+        console.log('error getInfoPlanning function');
       }
     });
   }
@@ -1394,7 +1385,7 @@ io.sockets.on('connection', function(socket){
 
   function checkTimer(data, callback){
     /*
-    -> Check the record get over another record
+    -> Check the planning get over another planning
      */
 
     console.log('checkTimer');
@@ -1407,7 +1398,7 @@ io.sockets.on('connection', function(socket){
     //Check chevauche ?
 
     for(var i=0;i<timer1.length;i++){
-      console.log('check record '+i);
+      console.log('check planning '+i);
 
       if(timer2.frequency != '*' && timer1[i].frequency != '*'){
 
@@ -1555,7 +1546,7 @@ io.sockets.on('connection', function(socket){
 
         }
       }
-      console.log('end record '+i);
+      console.log('end planning '+i);
     }
 
     console.log('end loop');
@@ -1568,79 +1559,59 @@ io.sockets.on('connection', function(socket){
   }
 
 
-  function setRecordPaused(cameraID){
+  function setPlanningPaused(cameraID){
     /*
-    -> Get tb of all record enable
-    -> set all enable record on pause
+    -> Get tb of all planning enable
+    -> set all enable planning on pause
     -> update UI
-    -> send to camera to delete enable record on cron table
+    -> send to camera to delete enable planning on cron table
      */
-    console.log('setRecordPaused function');
-    const getEnableRecord = 'SELECT * FROM record WHERE state = 1 AND cameraID = '+cameraID;
-    connection.query(getEnableRecord, function(err,rows){
-      if(err){
-        throw err;
-      }
-
+    console.log('setPlanningPaused function');
+    const getEnablePlanning = 'SELECT * FROM planning WHERE state = 1 AND cameraID = '+cameraID;
+    connection.query(getEnablePlanning, function(err,rows){
+      if(err)throw err;
       if(rows.length>0){
-        const setRecordPaused = 'UPDATE record SET state = 2 WHERE state = 1 AND cameraID = '+cameraID;
-        connection.query(setRecordPaused, function(err){
-          if(err){
-            throw err;
-          }
+        const setPlanningPaused = 'UPDATE planning SET state = 2 WHERE state = 1 AND cameraID = '+cameraID;
+        connection.query(setPlanningPaused, function(err){
+          if(err)throw err;
         });
-
         for(var i = 0;i<rows.length;i++){
-          socket.emit('updateRecordColor',{recordID: rows[i].recordID, state: 2});
-          sendToCamera(cameraID,'deleteRecord',rows[i].recordID);
+          socket.emit('updatePlanningColor',{planningID: rows[i].planningID, state: 2});
+          sendToCamera(cameraID,'deletePlanning',rows[i].planningID);
         }
       }
-
     });
-
-
   }
 
 
-  function setRecordUnpaused(cameraID){
+  function setPlanningUnpaused(cameraID){
     /*
-    -> get all record on pause
-    -> set paused record on enable
+    -> get all planning on pause
+    -> set paused planning on enable
     -> update UI
-    -> add record on cron table
+    -> add planning on cron table
      */
-    console.log('setRecordUnpaused function');
-    const getPausedRecord = 'SELECT * FROM record WHERE state = 2 AND cameraID = '+cameraID;
-    connection.query(getPausedRecord, function(err,rows){
-      if(err){
-        throw err;
-      }
-
+    console.log('setPlanningUnpaused function');
+    const getPausedPlanning = 'SELECT * FROM planning WHERE state = 2 AND cameraID = '+cameraID;
+    connection.query(getPausedPlanning, function(err,rows){
+      if(err)throw err;
       if(rows.length>0){
-        const setRecordEnable = 'UPDATE record SET state = 1 WHERE state = 2 AND cameraID = '+cameraID;
-        connection.query(setRecordEnable, function(err){
-          if(err){
-            throw err;
-          }
+        const setPlanningEnable = 'UPDATE planning SET state = 1 WHERE state = 2 AND cameraID = '+cameraID;
+        connection.query(setPlanningEnable, function(err){
+          if(err)throw err;
         });
-
-
         getInfoCamera(cameraID, function(camera){
-
           for(var i=0;i<rows.length;i++){
-
             var begin_minute = rows[i].begin % 60;
             var begin_hour = (rows[i].begin - begin_minute) / 60;
             var end_minute = rows[i].end % 60;
             var end_hour = (rows[i].end - end_minute) / 60;
-
             var Once;
             if(rows[i].once == 1){
               Once = true;
             }else{
               Once = false;
             }
-
             arg = {
               begin_hour: begin_hour,
               begin_minute: begin_minute,
@@ -1652,17 +1623,10 @@ io.sockets.on('connection', function(socket){
               cameraID: rows[i].cameraID,
               type: rows[i].type,
               once: Once,
-              recordID: rows[i].recordID,
-              resolution: camera.resolution,
-              fps: camera.fps,
-              brightness: camera.brightness,
-              contrast: camera.contrast
+              planningID: rows[i].planningID
             };
-
             sendToCamera(cameraID,'timer',arg);
-
-            socket.emit('updateRecordColor',{recordID:rows[i].recordID,state:1});
-
+            socket.emit('updatePlanningColor',{planningID:rows[i].planningID,state:1});
           }
         });
       }
@@ -1675,6 +1639,15 @@ io.sockets.on('connection', function(socket){
     var password = passHash.generate(data.password);
     const updateUser = 'UPDATE user SET name = "'+data.name+'", email = "'+data.email+'", password = "'+password+'", phone = "'+data.phone+'" WHERE userID = '+data.userID;
     connection.query(updateUser, function (err){
+      if(err)throw err;
+    });
+  }
+
+
+  function addRecord(data){
+    console.log('add record function');
+    const addRecord = 'INSERT INTO record SET cameraID = '+data.cameraID+', name = '+data.fileName+', type = '+data.type;
+    connection.query(addRecord, function(err){
       if(err)throw err;
     });
   }

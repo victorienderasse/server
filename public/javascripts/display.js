@@ -173,9 +173,9 @@ socket.on('sendCamera', function(data){
 });
 
 
-socket.on('sendRecords', function(tbRecord){
-    console.log('sendRecords event');
-    displayRecords(tbRecord);
+socket.on('sendPlanning', function(tbPlanning){
+    console.log('sendPlanning event');
+    displayPlanning(tbPlanning);
 });
 
 
@@ -191,25 +191,22 @@ socket.on('redirect', function(url){
 });
 
 
-socket.on('updateRecordColor', function(data){
-    console.log('setOldRecord event');
-    
-    var record = document.getElementById('record-'+data.recordID);
-    
-    if(record != 'undefined' && record != null){
+socket.on('updatePlanningColor', function(data){
+    console.log('setOldPlanning event');
+    var planning = document.getElementById('planning-'+data.planningID);
+    if(planning != 'undefined' && planning != null){
         switch(data.state){
             case 0:
-                record.setAttribute('style','background-color:#FFFFFF');
+                planning.setAttribute('style','background-color:#FFFFFF');
                 break;
             case 1:
-                record.setAttribute('style','background-color:#B9E9C4');
+                planning.setAttribute('style','background-color:#B9E9C4');
                 break;
             case 2:
-                record.setAttribute('style','background-color:#E1E099');
+                planning.setAttribute('style','background-color:#E1E099');
                 break;
         }
     }
-    
 });
 
 
@@ -243,6 +240,15 @@ socket.on('setReplays',function(data){
         myTbReplay.push(myReplay);
     }
     displayReplay({det:true,rec:true,live:true});
+});
+
+
+socket.on('getReplaysRes', function(replays){
+    myTbReplay = [];
+    cameraIDReplay = data.cameraID;
+    myTbReplay = data.replays;
+    myTbReplay.sort(compareDate);
+    displayReplay({det:true, rec:true, live:true});
 });
 
 
@@ -716,7 +722,7 @@ function runTimer(cameraID){
     /*
     -> update timer-confirm-btn
     -> update timer modal title
-    -> remove old record
+    -> remove old planning
     -> empty timer form
      */
     console.log('runTimer function');
@@ -728,14 +734,14 @@ function runTimer(cameraID){
     var timerBtn = document.getElementById('timer-confirm-btn');
     timerBtn.setAttribute('onclick','applyTimer('+cameraID+');');
 
-    var tbRecord = document.getElementById('timer-records-tbody');
-    while(tbRecord.firstChild){
-        tbRecord.removeChild(tbRecord.firstChild);
+    var tbPlanning = document.getElementById('timer-planning-tbody');
+    while(tbPlanning.firstChild){
+        tbPlanning.removeChild(tbPlanning.firstChild);
     }
 
     emptyTimerForm();
 
-    socket.emit('getRecords', cameraID);
+    socket.emit('getPlanning', cameraID);
 }
 
 
@@ -778,17 +784,17 @@ function applyTimer(cameraID){
 }
 
 
-function displayRecords(tbRecord){
-    console.log('displayRecord function');
-    var tb = document.getElementById('timer-records-tbody');
+function displayPlanning(tbPlanning){
+    console.log('displayPlanning function');
+    var tb = document.getElementById('timer-planning-tbody');
     while(tb.firstChild){
         tb.removeChild(tb.firstChild);
     }
 
 
-    for(var i=0;i<tbRecord.length;i++){
+    for(var i=0;i<tbPlanning.length;i++){
         //Create elements
-        var record = document.createElement('tr');
+        var planning = document.createElement('tr');
         var beginTD = document.createElement('td');
         var endTD = document.createElement('td');
         var frequencyTD = document.createElement('td');
@@ -798,7 +804,7 @@ function displayRecords(tbRecord){
         var remove = document.createElement('td');
 
         var frequency, frequencyEnd;
-        switch(tbRecord[i].frequency){
+        switch(tbPlanning[i].frequency){
             case '1':
                 frequency = document.createTextNode('Lundi');
                 break;
@@ -824,7 +830,7 @@ function displayRecords(tbRecord){
                 frequency = document.createTextNode('Tous les jours');
                 break;
         }
-        switch(tbRecord[i].frequencyEnd){
+        switch(tbPlanning[i].frequencyEnd){
             case '1':
                 frequencyEnd = document.createTextNode('Lundi');
                 break;
@@ -851,8 +857,8 @@ function displayRecords(tbRecord){
                 break;
         }
 
-        var beginMinute = (tbRecord[i].begin % 60);
-        var beginHour = ((tbRecord[i].begin - beginMinute) / 60);
+        var beginMinute = (tbPlanning[i].begin % 60);
+        var beginHour = ((tbPlanning[i].begin - beginMinute) / 60);
         if(beginMinute < 10){
             beginMinute = '0'+beginMinute;
         }
@@ -860,8 +866,8 @@ function displayRecords(tbRecord){
             beginHour = '0'+beginHour;
         }
         var begin = document.createTextNode(beginHour+':'+beginMinute);
-        var endMinute = (tbRecord[i].end % 60);
-        var endHour = ((tbRecord[i].end - endMinute) / 60);
+        var endMinute = (tbPlanning[i].end % 60);
+        var endHour = ((tbPlanning[i].end - endMinute) / 60);
         if(endMinute < 10){
             endMinute = '0'+endMinute;
         }
@@ -869,28 +875,28 @@ function displayRecords(tbRecord){
             endHour = '0'+endHour;
         }
         var end = document.createTextNode(endHour+':'+endMinute);
-        var type = document.createTextNode(tbRecord[i].type);
+        var type = document.createTextNode(tbPlanning[i].type);
         var applyBtn = document.createElement('button');
         var applyBtnIcon = document.createElement('span');
         var removeBtn = document.createElement('button');
         var removeBtnIcon = document.createElement('span');
 
         //Add Attributes
-        record.id = 'record-'+tbRecord[i].recordID;
-        applyBtn.id = 'record-'+tbRecord[i].recordID+'-apply';
+        planning.id = 'planning-'+tbPlanning[i].planningID;
+        applyBtn.id = 'planning-'+tbPlanning[i].planningID+'-apply';
         applyBtn.title = 'Cliquer pour activer la planification';
-        applyBtn.setAttribute('onclick','applyRecord('+ tbRecord[i].recordID +');');
-        removeBtn.id = 'record-'+tbRecord[i].recordID+'-remove';
+        applyBtn.setAttribute('onclick','applyPlanning('+ tbPlanning[i].planningID +');');
+        removeBtn.id = 'planning-'+tbPlanning[i].planningID+'-remove';
         removeBtn.title = 'Cliquer pour supprimer la planification';
-        removeBtn.setAttribute('onclick', 'deleteRecord('+ tbRecord[i].recordID +');');
+        removeBtn.setAttribute('onclick', 'deletePlanning('+ tbPlanning[i].planningID +');');
         applyBtn.className = 'btn btn-primary';
         removeBtn.className = 'close';
-        applyBtnIcon.id = 'record-'+tbRecord[i].recordID+'-apply-icon';
+        applyBtnIcon.id = 'planning-'+tbPlanning[i].planningID+'-apply-icon';
         applyBtnIcon.className = 'glyphicon glyphicon-ok';
         removeBtnIcon.className = 'glyphicon glyphicon-remove';
 
-        if(tbRecord[i].state == 1){
-            record.setAttribute('style','background-color:#B9E9C4;');
+        if(tbPlanning[i].state == 1){
+            planning.setAttribute('style','background-color:#B9E9C4;');
             //applyBtn.disabled = true;
         }
 
@@ -906,14 +912,14 @@ function displayRecords(tbRecord){
         typeTD.appendChild(type);
         apply.appendChild(applyBtn);
         remove.appendChild(removeBtn);
-        record.appendChild(frequencyTD);
-        record.appendChild(beginTD);
-        record.appendChild(frequencyEndTD);
-        record.appendChild(endTD);
-        record.appendChild(typeTD);
-        record.appendChild(apply);
-        record.appendChild(remove);
-        tb.appendChild(record);
+        planning.appendChild(frequencyTD);
+        planning.appendChild(beginTD);
+        planning.appendChild(frequencyEndTD);
+        planning.appendChild(endTD);
+        planning.appendChild(typeTD);
+        planning.appendChild(apply);
+        planning.appendChild(remove);
+        tb.appendChild(planning);
     }
 }
 
@@ -1215,17 +1221,17 @@ function setTimer(){
 }
 
 
-function applyRecord(recordID){
-    console.log('applyRecord function');
-    socket.emit('applyRecord',recordID);
+function applyPlanning(planningID){
+    console.log('applyPlanning function');
+    socket.emit('applyPlanning',planningID);
 }
 
 
-function deleteRecord(recordID){
-    console.log('deleteRecord function');
-    socket.emit('deleteRecord',recordID);
-    var record = document.getElementById('record-'+recordID);
-    document.getElementById('timer-records-tbody').removeChild(record);
+function deletePlanning(planningID){
+    console.log('deletePlanning function');
+    socket.emit('deletePlanning',planningID);
+    var planning = document.getElementById('planning-'+planningID);
+    document.getElementById('timer-planning-tbody').removeChild(planning);
 }
 
 
@@ -1243,14 +1249,14 @@ function emptyTimerForm(){
 }
 
 
-function stopRecording(cameraID, recordID){
+function stopRecording(cameraID, planningID){
     console.log('stopRecording function');
     document.getElementById('screen-'+data.cameraID+'-notif-check').disabled = false;
     document.getElementById('screen-'+data.cameraID+'-live-link').disabled = false;
-    document.getElementById('record-'+data.recordID+'-apply').className = 'btn btn-primary';
-    document.getElementById('record-'+data.recordID+'-apply').title = 'Click to apply this record';
-    document.getElementById('record-'+data.recordID+'-apply').setAttribute('onclick','applyRecord('+data.recordID+');');
-    document.getElementById('record-'+data.recordID+'-apply-icon').className = 'glyphicon glyphicon-ok';
+    document.getElementById('planning-'+data.planningID+'-apply').className = 'btn btn-primary';
+    document.getElementById('planning-'+data.planningID+'-apply').title = 'Click to apply this planning';
+    document.getElementById('planning-'+data.planningID+'-apply').setAttribute('onclick','applyPlanning('+data.planningID+');');
+    document.getElementById('planning-'+data.planningID+'-apply-icon').className = 'glyphicon glyphicon-ok';
     socket.emit('killProcess',cameraID);
 }
 
