@@ -1046,6 +1046,8 @@ function displayReplay(filter){
     if(nbReplay>0){
         console.log('nbReplay > 0 -> '+nbReplay);
         var source = document.createElement('source');
+        console.log('cameraID : '+cameraIDReplay);
+        console.log('myTbReplay[0].name = '+myTbReplay[0].name);
         source.setAttribute('src','../cameras/camera'+cameraIDReplay+'/videos/'+myTbReplay[0].name);
         source.setAttribute('type','video/mp4');
         video.appendChild(source);
