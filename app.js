@@ -1617,7 +1617,7 @@ io.sockets.on('connection', function(socket){
 
   function addRecord(data){
     console.log('add record function');
-    const addRecord = 'INSERT INTO record SET cameraID = '+data.cameraID+', name = '+data.fileName+', type = '+data.type;
+    const addRecord = 'INSERT INTO record SET cameraID = '+data.cameraID+', name = "'+data.fileName+'", type = "'+data.type+'", date = NOW()';
     connection.query(addRecord, function(err){
       if(err)throw err;
     });
