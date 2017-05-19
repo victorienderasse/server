@@ -444,27 +444,6 @@ io.sockets.on('connection', function(socket){
       if(err)throw err;
       socket.emit('getReplaysRes', {replays: replays, cameraID: cameraID});
     });
-    
-    /*
-    console.log('getReplays event');
-    var dir = './public/cameras/camera'+cameraID+'/videos/';
-    fs.readdir(dir, function(err, files){
-      if(err) throw err;
-      files = files.map(function(fileName){
-        return{
-          name: fileName,
-          time: fs.statSync(dir + '/' + fileName).mtime.getTime()
-        };
-      })
-          .sort(function(a,b){
-            return b.time - a.time;
-          })
-          .map(function(v){
-            return v.name;
-          });
-      socket.emit('setReplays',{tbReplay: files, cameraID: cameraID});
-    });
-    */
   });
 
   
@@ -797,12 +776,6 @@ io.sockets.on('connection', function(socket){
      */
     console.log('MotionDetected event');
 
-    //var timeDetect = data.timestr.slice(0,11)+' '+data.timestr(12,17)+':00';
-    const addInfoDetection= 'INSERT INTO detection SET cameraID = '+data.cameraID+', time = NOW(), file = "'+data.file+'"';
-    connection.query(addInfoDetection, function(err){
-      if(err)throw err;
-    });
-
     const getInfoClient = 'SELECT user.userID, user.name, user.phone, user.email, camera.name AS cameraName FROM user INNER JOIN camera ON camera.userID=user.userID WHERE cameraID = '+data.cameraID;
     connection.query(getInfoClient, function(err,rows){
       if(err)throw err;
@@ -911,9 +884,7 @@ io.sockets.on('connection', function(socket){
         const cmd = 'mv ./public/cameras/camera'+data.cameraID+'/videos/'+data.oldName+' ./public/cameras/camera'+data.cameraID+'/videos/'+data.newName;
         console.log(cmd);
         exec(cmd,function(err){
-          if(err){
-            throw err;
-          }
+          if(err) throw err;
         });
       }
     });
