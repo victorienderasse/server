@@ -14,7 +14,7 @@ $(function(){
     var heightIntro = window.innerHeight;
     var heightImg = heightIntro - 50;
     //var widthImg = widthIntro - 17;
-    var widthImg = widthIntro - 500;
+    var widthImg = widthIntro - 17;
     $('#intro').attr('style','width:'+widthImg+'px; height:'+heightImg+'px;margin-top:50px; background-image: url("/public/images/DSCN9891.JPG"); background-repeat: no-repeat; background-size: '+widthImg+'px '+heightImg+'px;');
 
     var heightDiv = (heightIntro)*0.66;
