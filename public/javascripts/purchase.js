@@ -130,7 +130,7 @@ function displayProduct(tbProduct){
         var imageDiv = document.createElement('div');
         imageDiv.id = 'image-div-product'+tbProduct[i].productID;
         var image = document.createElement('img');
-        image.src = '../images/logo.png';
+        image.src = '../images/product'+i+'.jpg';
         image.setAttribute('style','width:250px; height:150px;');
 
         imageDiv.appendChild(image);

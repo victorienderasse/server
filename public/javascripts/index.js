@@ -19,7 +19,7 @@ $(function(){
 
     var heightDiv = (heightIntro)*0.66;
     $('#live, #planification').attr('style','width:'+widthIntro+'px; height:'+heightDiv+'px;');
-    $('#detection').attr('style','width:'+widthIntro+'px; height:'+heightDiv+'px; background-color:#BCE5F0;')
+    $('#detection').attr('style','width:'+widthIntro+'px; height:'+heightDiv+'px; background-color:#BCE5F0;');
 
     var widthFooter = widthIntro;
     $('footer').attr('style','background-color:#333; color:#fff; width:'+widthFooter+'px;height:400px;');

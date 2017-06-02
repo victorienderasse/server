@@ -772,6 +772,10 @@ io.sockets.on('connection', function(socket){
       - stimestr: Date et Heure à laquelle le mouvement a été détecté
       - file: nom du fichier
 
+    Description
+    - On récupère les informations de l'utilisateur et de la caméra
+    - On envoie un SMS au client
+
 
      */
     console.log('MotionDetected event');
@@ -800,17 +804,48 @@ io.sockets.on('connection', function(socket){
 
 
   socket.on('motionDetectedSend', function(data){
+    /*
+    "L'enregistrement démarrer via un mouvement détecté vient d'être envoyé au serveur"
+
+    Paramètre
+    - data
+
+    Description
+    - On fait appel à la fonction addRecord() permettant d'ajouter les informations de l'enregistrement en DB
+     */
     console.log('motionDetectedSend event');
     addRecord(data);
   });
   
 
   socket.on('recordStart', function(cameraID){
+    /*
+    "Une planification d'enregistrement continu vient de démarrer"
+
+    Paramètre
+    - CameraID: L'ID de la caméra
+
+    Description
+    - On modifie l'état de la caméra à 3 (mode enregistrement continu
+     */
     setState(cameraID,3);
   });
 
 
   socket.on('recordStop', function(data){
+    /*
+    "Une planification d'enregistrement continue vient de se terminer"
+
+    Paramètre
+    - Data
+
+    Description
+    - On appel la fonction addRecord() afin d'enregistrer les informations de l'enregistrement en DB
+    - on modifie l'état de la caméra à 0 (mode libre)
+    - Si la planification ne doit s'exécuter qu'une seule fois
+      - On change l'état de la planification à 0 (mode inactif)
+      - On envoie une requête à la caméra afin que celle-ci supprime la planification dans sa table Cron.
+     */
     console.log('recordStop event');
     addRecord(data);
     setState(data.cameraID,0);
@@ -822,12 +857,32 @@ io.sockets.on('connection', function(socket){
 
 
   socket.on('streamSend', function(cameraID){
+    /*
+    "Une nouvelle image du Strem vient d'être envoyeé au serveur"
+
+    Paramètre
+    - cameraID: L'id de la caméra
+
+    Description
+    - On envoie une requête en Broadcast (car on ne sait pas quel utilisateur à démarrer le Live) afin de mettre à jour le lecteur
+     */
     console.log('streamSend');
     io.emit('updateStream', cameraID);
   });
 
 
   socket.on('startLiveRecording', function(cameraID){
+    /*
+    "On démarre le live recording"
+
+    Paramètre
+    - cameraID: L'ID de la caméra
+
+    Description
+    - On modifie l'état de la caméra à 4 (mode live recording)
+    - On récupère les informations de la caméra en DB
+    - On envoie la requête à la caméra
+     */
     console.log('startLiveRecording');
     setState(cameraID,4);
 
@@ -839,6 +894,17 @@ io.sockets.on('connection', function(socket){
 
 
   socket.on('stopLiveRecording', function(cameraID){
+    /*
+    "On stop le live recording"
+
+    Paramètre
+    - cameraID: l'ID de la caméra
+
+    Description
+    - On modifie l'état de la caméra à 2 (mode live) car le live n'est pas coupé pour autant
+    - On récupère les informations de la caméra
+    - On envoie la requête à la caméra afin qu'elle envoie l'enregistrement
+     */
     console.log('stopLiveRecording');
     setState(cameraID,2);
 
@@ -850,6 +916,18 @@ io.sockets.on('connection', function(socket){
 
 
   socket.on('getLiveRecordingDone', function(data){
+    /*
+    "On vient de recevoir l'enregistrement du live recording"
+
+    Paramètre
+    - Les informations de l'enregistrement
+
+    Description
+    - On ajoute les informations de l'enregistrement en DB
+    - On récupère les informations de la caméra
+    - Si l'état de la caméra est à 2 (elle est en mode live)
+      - On envoie une requête à la caméra afin qu'elle redémarre le live
+     */
     console.log('getLiveRecordingDone camera'+data.cameraID);
     addRecord(data);
     getInfoCamera(data.cameraID, function(camera){
