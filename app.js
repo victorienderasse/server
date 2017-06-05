@@ -1252,7 +1252,7 @@ io.sockets.on('connection', function(socket){
     const addPlanning = 'INSERT INTO planning SET cameraID = '+data.cameraID+', begin = '+begin+', end = '+end+', frequency = "'+data.frequency+'", frequencyEnd = "'+data.frequencyEnd+'", state = 1, type = "'+data.type+'", once = '+Once;
     connection.query(addPlanning, function(err){
       if(err)throw err;
-      const getPlanningID = 'SELECT planningID FROM planning WHERE ORDER BY planningID DESC LIMIT 1';
+      const getPlanningID = 'SELECT planningID FROM planning ORDER BY planningID DESC LIMIT 1';
       connection.query(getPlanningID, function(err,rows){
         if(err)throw err;
         getInfoCamera(data.cameraID, function(camera){
