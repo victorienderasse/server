@@ -1069,7 +1069,7 @@ io.sockets.on('connection', function(socket){
     console.log('serial: '+data.serial);
     console.log('userID: '+data.userID);
     console.log('newCameraConnection event');
-    const addCamera = 'INSERT INTO camera SET userID = '+data.userID+', serial = "'+data.serial+'", name = "camera_'+data.serial+'", enable = 0, state = 0';
+    const addCamera = 'INSERT INTO camera SET userID = '+data.userID+', serial = "'+data.serial+'", name = "Caméra", enable = 0, state = 0';
     connection.query(addCamera, function(err){
       if(err) throw err;
       io.emit('newCameraConnectionRes',data.userID);
