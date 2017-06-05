@@ -16,8 +16,8 @@ const twilio = require('twilio');
 var session = require('express-session');
 
 const port = 3000;
-const serverURL = 'http://192.168.1.51:3000';
-const serverUser = 'pi';
+const serverURL = 'http://victorienderasse.be:3000';
+const serverUser = 'victorien';
 const app = express();
 
 const server = http.createServer(app);
