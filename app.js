@@ -932,10 +932,10 @@ io.sockets.on('connection', function(socket){
     addRecord(data);
     getInfoCamera(data.cameraID, function(camera){
       if(camera.state == 2){
-        sendToCamera(cameraID, 'startStream', {cameraID: data.cameraID, name: camera.name});
+        sendToCamera(data.cameraID, 'startStream', {cameraID: data.cameraID, name: camera.name});
       }
     });
-    io.emit('getLiveRecordingDone',cameraID);
+    io.emit('getLiveRecordingDone',data.cameraID);
   });
 
   
