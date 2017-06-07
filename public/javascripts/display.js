@@ -1097,6 +1097,7 @@ function runLive(cameraID){
     var img = document.createElement('img');
     img.id = 'live-stream-camera'+cameraID;
     img.setAttribute('style','width=850px; height=500px;');
+    img.src='../images/loading.gif';
     liveDiv.appendChild(img);
 
     socket.emit('startStream',cameraID);
