@@ -78,10 +78,14 @@ document.getElementById('dataBtn').addEventListener('click', function(){
     var password = form.password.value;
     
     if(ssid != '' && password != ''){
-        socket.emit('setQRCode', {userID: userID, ssid: ssid, password: password});
-        $('#data').hide('slow', function(){
-            $('#loading').show('slow');
-        });
+        if(password.length > 7) {
+            socket.emit('setQRCode', {userID: userID, ssid: ssid, password: password});
+            $('#data').hide('slow', function () {
+                $('#loading').show('slow');
+            });
+        }else{
+            displayMessage({title:'Alerte',message:'Le mot de passe doit contenir au moins 8 caractères',action:'resetMessage'});
+        }
     }else{
         displayMessage({title:'Alerte',message:'Veuillez remplir tous les champs',action:'resetMessage'});
     }

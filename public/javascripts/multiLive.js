@@ -67,7 +67,7 @@ function displayCamera(tbCamera){
 
             var img = document.createElement('img');
             img.id = 'player'+tbCamera[i].cameraID;
-            img.src = '../images/zelda1.png';
+            img.src = '../images/loading.gif';
             img.className = 'img-multiLive';
 
             var imgDiv = document.createElement('div');

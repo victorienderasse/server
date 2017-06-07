@@ -1007,7 +1007,7 @@ io.sockets.on('connection', function(socket){
               }
               setState(camera.cameraID,0);
             });
-            setRecordUnpaused(rows[i].cameraID);
+            setPlanningUnpaused(rows[i].cameraID);
           }
         }else{
           console.log('User has no camera up');
