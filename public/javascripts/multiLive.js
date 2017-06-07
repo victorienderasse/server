@@ -68,7 +68,7 @@ function displayCamera(tbCamera){
             var img = document.createElement('img');
             img.id = 'player'+tbCamera[i].cameraID;
             img.src = '../images/loading.gif';
-            img.setAttribute('style','width:97%);
+            img.setAttribute('style','width:97%');
             img.className = 'img-multiLive';
 
             var imgDiv = document.createElement('div');
