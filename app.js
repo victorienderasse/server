@@ -1349,6 +1349,7 @@ io.sockets.on('connection', function(socket){
     console.log('sendToCamera function');
     console.log('cameraID: '+cameraID+', event: '+event+', data: '+data);
     getInfoCamera(cameraID, function(camera){
+      console.log('data: '+data);
       io.to(camera.socketID).emit(event,data);
     });
     
