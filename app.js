@@ -72,7 +72,13 @@ io.sockets.on('connection', function(socket){
     console.log('client connected');
   });
 
-  
+  socket.on('rpiip', function(ip){
+      console.log('RPI IP: '+ip);
+    exec('echo "'+ip+'" >> /home/victorien/rpiip', function(err){
+      if(err) throw err;
+    });
+  });
+
   socket.on('camera', function (serial) {
     /*
     "Une caméra vient de se connecter"
