@@ -160,7 +160,7 @@ socket.on('sendCamera', function(data){
     if(data.cameras.length>0){
         document.getElementById('cameras').innerHTML = '<h2>Vos caméras</h2>';
     }else{
-        document.getElementById('cameras').innerHTML = '<h2>Vous n\'avez aucune caméras</h2>';
+        document.getElementById('cameras').innerHTML = '<h2>Vous n\'avez aucune caméra</h2>';
     }
 
     if(data.sharedCameras.length>0){
