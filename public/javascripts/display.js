@@ -1354,7 +1354,6 @@ function removeReplay(data){
     replay.parentNode.removeChild(replay);
     //document.getElementById('files-replay').removeChild(replay);
     //Table.removeChild(document.getElementById('table-replay-tr'+data.replayID));
-    myTbReplay.remove(data.replayID);
 
     socket.emit('removeReplay',{cameraID: data.cameraID, name: name, recordID: data.recordID});
 }
