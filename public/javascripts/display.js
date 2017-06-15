@@ -1340,7 +1340,7 @@ function editReplay(data){
             newName = newName + '.mp4';
         }
 
-        socket.emit('editReplay', {cameraID: data.cameraID, oldName: name, newName: newName, replayID: data.replayID});
+        socket.emit('editReplay', {cameraID: data.cameraID, oldName: name, newName: newName, replayID: data.recordID});
     }
 }
 
