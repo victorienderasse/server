@@ -795,7 +795,7 @@ io.sockets.on('connection', function(socket){
         client.messages.create({
           to: "'"+rows[0].phone+"'",
           from: '+32460205305',
-          body: 'Bonjour '+rows[0].name+' ! Votre caméra "'+rows[0].cameraName+'" vient tout juste de détecter un mouvement à la date : '+data.timestr+'. Un enregistrement à été démarré. Vous serez en mesure de le visionner d\'ici quelques secondes sur le site web. Bisous !'
+          body: 'Bonjour '+rows[0].name+' ! Votre caméra "'+rows[0].cameraName+'" vient tout juste de détecter un mouvement à la date : '+data.timestr+'. Un enregistrement à été démarré. Vous serez en mesure de le visionner d\'ici quelques secondes sur le site web. Merci pour votre confiance !'
         }, function(error){
           if(error){
             console.log('Error send SMS');
