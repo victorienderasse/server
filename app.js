@@ -972,6 +972,7 @@ io.sockets.on('connection', function(socket){
           if(err) throw err;
         });
         const editRecord = 'UPDATE record SET name = "'+data.newName+'" WHERE recordID = '+data.replayID;
+        console.log(editRecord);
         connection.query(editRecord, function(err){
           if(err) throw err;
         })
