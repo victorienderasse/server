@@ -998,7 +998,7 @@ function displayReplay(filter){
         removeBtn.className = 'btn';
         removeBtn.setAttribute('style','border:0;background-color:#fff;');
         removeBtn.title = 'Cliquer pour supprimer le fichier';
-        removeBtn.setAttribute('onclick','removeReplay({cameraID: '+cameraIDReplay+', replayID: '+i+'});');
+        removeBtn.setAttribute('onclick','removeReplay({cameraID: '+cameraIDReplay+', replayID: '+i+', recordID: '+myTbReplay[i].recordID+'});');
         var removeIcon = document.createElement('span');
         removeIcon.className = 'glyphicon glyphicon-remove-circle';
 
@@ -1340,7 +1340,7 @@ function editReplay(data){
             newName = newName + '.mp4';
         }
 
-        socket.emit('editReplay', {cameraID: data.cameraID, oldName: name, newName: newName, replayID: data.recordID});
+        socket.emit('editReplay', {cameraID: data.cameraID, oldName: name, newName: newName, replayID: data.replayID, recordID: data.recordID});
     }
 }
 
@@ -1356,7 +1356,7 @@ function removeReplay(data){
     //Table.removeChild(document.getElementById('table-replay-tr'+data.replayID));
     myTbReplay.remove(data.replayID);
 
-    socket.emit('removeReplay',{cameraID: data.cameraID, name: name, replayID: data.replayID});
+    socket.emit('removeReplay',{cameraID: data.cameraID, name: name, recordID: data.recordID});
 }
 
 

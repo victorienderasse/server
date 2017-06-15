@@ -971,7 +971,7 @@ io.sockets.on('connection', function(socket){
         exec(cmd,function(err){
           if(err) throw err;
         });
-        const editRecord = 'UPDATE record SET name = "'+data.newName+'" WHERE recordID = '+data.replayID;
+        const editRecord = 'UPDATE record SET name = "'+data.newName+'" WHERE recordID = '+data.recordID;
         console.log(editRecord);
         connection.query(editRecord, function(err){
           if(err) throw err;
@@ -988,7 +988,7 @@ io.sockets.on('connection', function(socket){
     exec(cmd,function(err){
       if(err) throw err;
     });
-    const rmReplay = 'DELETE FROM record WHERE recordID = '+data.replayID;
+    const rmReplay = 'DELETE FROM record WHERE recordID = '+data.recordID;
     connection.query(rmReplay, function(err){
       if(err) throw err;
     })
