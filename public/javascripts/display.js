@@ -984,7 +984,7 @@ function displayReplay(filter){
         editBtn.className = 'btn';
         editBtn.setAttribute('style','border:0;background-color:#fff;');
         editBtn.title = 'Cliquer pour renommer le fichier';
-        editBtn.setAttribute('onclick','editReplay({cameraID: '+cameraIDReplay+', replayID: '+i+'});');
+        editBtn.setAttribute('onclick','editReplay({cameraID: '+cameraIDReplay+', replayID: '+i+', recordID: '+myTbReplay[i].replayID+'});');
         var editIcon = document.createElement('span');
         editIcon.className = 'glyphicon glyphicon-edit';
 
