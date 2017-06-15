@@ -971,6 +971,10 @@ io.sockets.on('connection', function(socket){
         exec(cmd,function(err){
           if(err) throw err;
         });
+        const editRecord = 'UPDATE record SET name = "'+data.newName+'" WHERE recordID = '+data.replayID;
+        connection.query(editRecord, function(err){
+          if(err) throw err;
+        })
       }
     });
   });
@@ -981,10 +985,12 @@ io.sockets.on('connection', function(socket){
     const cmd = 'rm ./public/cameras/camera'+data.cameraID+'/videos/'+data.name;
     console.log(cmd);
     exec(cmd,function(err){
-      if(err){
-        throw err;
-      }
+      if(err) throw err;
     });
+    const rmReplay = 'DELETE FROM record WHERE recordID = '+data.replayID;
+    connection.query(rmReplay, function(err){
+      if(err) throw err;
+    })
   });
 
 

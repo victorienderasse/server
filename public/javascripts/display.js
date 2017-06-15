@@ -3,7 +3,6 @@
  */
 
 
-//var userID = document.getElementById('userID').innerHTML;
 
 var myTbReplay = [];
 var cameraIDReplay;
@@ -207,39 +206,6 @@ socket.on('updatePlanningColor', function(data){
                 break;
         }
     }
-});
-
-
-socket.on('setReplays',function(data){
-    /*
-    -> create elements
-    -> set first video ready on player
-     */
-    console.log('setReplay');
-    myTbReplay = [];
-    cameraIDReplay = data.cameraID;
-    for(var i=0;i<data.tbReplay.length;i++){
-        var myType,myDate;
-        var myName = data.tbReplay[i].toString();
-        var wd = myName.length;
-        if(myName.includes('Detection')){
-            myType = 'det';
-        }else{
-            if(myName.includes('record')){
-                myType = 'rec';
-            }else{
-                myType = 'live';
-            }
-        }
-        myDate = myName.substr(wd-23,19);
-        var myReplay = {
-            type: myType,
-            name: myName,
-            date: myDate
-        };
-        myTbReplay.push(myReplay);
-    }
-    displayReplay({det:true,rec:true,live:true});
 });
 
 
@@ -590,6 +556,10 @@ function displayCamera(data){
 
 
 function displayScreens(tbScreen){
+    /*
+    Old version
+     */
+
     console.log('displayScreens function');
 
     var tbCamera = document.getElementById('tbody-camera');
@@ -1382,8 +1352,9 @@ function removeReplay(data){
     replay.parentNode.removeChild(replay);
     //document.getElementById('files-replay').removeChild(replay);
     //Table.removeChild(document.getElementById('table-replay-tr'+data.replayID));
+    myTbReplay.remove(data.replayID);
 
-    socket.emit('removeReplay',{cameraID: data.cameraID, name: name});
+    socket.emit('removeReplay',{cameraID: data.cameraID, name: name, replayID: data.replayID});
 }
 
 
