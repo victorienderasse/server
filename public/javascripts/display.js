@@ -215,6 +215,8 @@ socket.on('getReplaysRes', function(data){
     myTbReplay = data.replays;
     myTbReplay.sort(compareDate);
     displayReplay({det:true, rec:true, live:true});
+    console.log('recordID :'+myTbReplay[0].recordID);
+    console.log(myTbReplay[0]);
 });
 
 
